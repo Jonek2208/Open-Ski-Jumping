@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		float moveHorizontal = Input.GetAxis("Horizontal");

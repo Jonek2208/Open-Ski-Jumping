@@ -22,12 +22,14 @@ public class CharacterUpright : MonoBehaviour
 	{
 		if(keepUpright)
 		{
-			rigidbody.AddForceAtPosition(new Vector3(0, uprightForce + additionalUpwardForce, 0), transform.position + transform.TransformPoint(new Vector3(0, uprightOffset, 0)), ForceMode.Force);
-			rigidbody.AddForceAtPosition(new Vector3(0, -uprightForce, 0), transform.position + transform.TransformPoint(new Vector3(0, -uprightOffset, 0)), ForceMode.Force);
+			rigidbody.AddForceAtPosition(new Vector3(0, (uprightForce + additionalUpwardForce), 0), 
+				transform.position + transform.TransformPoint(new Vector3(0, uprightOffset, 0)), ForceMode.Force);
+			rigidbody.AddForceAtPosition(new Vector3(0, -uprightForce, 0),
+				transform.position + transform.TransformPoint(new Vector3(0, -uprightOffset, 0)), ForceMode.Force);
 		}
 		if(dampenAngularForce > 0)
 		{
-			rigidbody.angularVelocity *= (1- Time.deltaTime * dampenAngularForce);
+			rigidbody.angularVelocity *= (1 - Time.deltaTime * dampenAngularForce);
 		}
 
 	}
