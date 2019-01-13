@@ -41,6 +41,7 @@ public class JumperController : MonoBehaviour
     public float forceChange;
 
 
+    //This should be loaded from file
     float[,] tab = new float[,]
             {
             {0.0f,  -3.2f,    0.0f,   0.0f},
@@ -294,17 +295,14 @@ public class JumperController : MonoBehaviour
         {
             animator.SetFloat("Landing", 1);
             
-        }
-        
-        
+        }        
     }
 
     public void Crash()
     {
+        //Na plecy i na brzuch
         //State = ;
-    animator.SetBool("JumperCrash", true);
-        
-       
+        animator.SetBool("JumperCrash", true);  
     }
 
     public void Brake()

@@ -383,6 +383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361752672}
+  - component: {fileID: 361752673}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -403,6 +404,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361752673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 361752671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964c8bd0607c646a4bb3bc876d4b9bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedText: {fileID: 0}
+  distText: {fileID: 0}
+  hintText: {fileID: 0}
+  windText: {fileID: 0}
+  gateText: {fileID: 0}
+  gateBtnText: {fileID: 0}
+  recordText: {fileID: 0}
+  paramText: {fileID: 0}
+  gateSlider: {fileID: 0}
+  debugSlider: {fileID: 0}
+  windSlider: {fileID: 0}
+  smoothInput: {fileID: 0}
+  sensInput: {fileID: 0}
+  rotInput: {fileID: 0}
+  modeToggle: {fileID: 0}
+  options: {fileID: 0}
+  jumperObject: {fileID: 0}
+  camerasController: {fileID: 0}
+  gateController: {fileID: 0}
 --- !u!1 &411076596 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100066, guid: 0ad6419bb31574cfabc41b08a29182fe,
@@ -803,7 +834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &639384768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1126,7 +1157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &959868923
 Transform:
   m_ObjectHideFlags: 0
@@ -1152,7 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfc91766997a461e8770de2f7bd014a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oldMode: 0
+  oldMode: 1
   distCollider: {fileID: 0}
   jumpSpeed: 2.2
   jumperAngle: 0
@@ -1160,7 +1191,7 @@ MonoBehaviour:
   angle: 0
   drag: 0.001
   lift: 0.001
-  rotCoef: 1
+  rotCoef: -1
   smoothCoef: 0.1
   sensCoef: 0.1
   windDir: {x: 0, y: 0}
