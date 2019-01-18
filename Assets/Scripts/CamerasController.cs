@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class CamerasController : MonoBehaviour
 {
-    public Camera backCamera;
-    public Camera sideCamera;
+    
+    public Camera[] cameras;
 
-    void Start()
+    public void EnableCamera(int id)
     {
+        foreach(Camera cam in cameras)
+        {
+            cam.enabled = false;
+           
+        }
 
-    }
-
-    public void EnableBackCamera()
-    {
-        backCamera.enabled = true;
-        sideCamera.enabled = false;
-        PlayerPrefs.SetInt("camera", 0);
-    }
-
-    public void EnableSideCamera()
-    {
-        backCamera.enabled = false;
-        sideCamera.enabled = true;
-        PlayerPrefs.SetInt("camera", 1);
+        cameras[id].enabled = true;
+        Debug.Log(cameras[id].ToString());
+        PlayerPrefs.SetInt("camera", id);
     }
 }

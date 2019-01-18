@@ -31,5 +31,4 @@ public class GateController : MonoBehaviour
         gateObject.transform.position = firstGate + gateDiff * (currentGate - 1);
         jumperObject.transform.position = jumperOffset + firstGate + gateDiff * (currentGate - 1);
     }
-
 }

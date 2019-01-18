@@ -40,7 +40,11 @@ public class JumperController : MonoBehaviour
     public float dirChange;
     public float forceChange;
 
+    public GameObject modelObject;
 
+    bool button0, button1;
+
+    public ManagerScript managerScript;
     //This should be loaded from file
     float[,] tab = new float[,]
             {
@@ -106,12 +110,12 @@ public class JumperController : MonoBehaviour
         }
         if (!Landed && other.tag == "LandingArea")
         {
-            if (State != 3)
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
             {
                 Crash();
             }
             Landed = true;
-            DistanceMeasurement(distCollider.transform.position);
+            Debug.Log(managerScript.Distance(distCollider.transform.position));
         }
         if (other.tag == "Outrun")
         {
@@ -151,9 +155,22 @@ public class JumperController : MonoBehaviour
                 //print("[" + i + "]" + tab[i, 2] + ", " + tab[i, 3]);
             }
         }
+        ResetValues();
 
     }
 
+    public void ResetValues()
+    {
+        State = 0;
+        Landed = false;
+        rb.isKinematic = true;
+        modelObject.GetComponent<Transform>().localPosition = new Vector3();
+        jumperAngle = 1;
+        animator.SetBool("JumperCrash", false);
+        button0 = button1 = false;
+    }
+
+    
     void Update()
     {
         animator.SetInteger("JumperState", State);
@@ -161,12 +178,14 @@ public class JumperController : MonoBehaviour
         {
             Gate();
         }
-        else if (State == 1 && Input.GetKeyDown(KeyCode.Space))
+        else if (State == 1 && Input.GetMouseButtonDown(0))
         {
             Jump();
         }
-        else if ((State == 2 || State == 3) && Input.GetKeyDown(KeyCode.Space))
+        else if ((State == 2 || State == 3) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))) 
         {
+            button0 |= Input.GetMouseButtonDown(0);
+            button1 |= Input.GetMouseButtonDown(1);
             Land();
         }
         if (State == 2)
@@ -175,26 +194,36 @@ public class JumperController : MonoBehaviour
             //double pitchMoment = 0.5f;
             if (oldMode)
             {
-                jumperAngle = Input.GetAxis("Vertical");
+                jumperAngle += Time.deltaTime*Input.GetAxis("Mouse Y")*2;
+                jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
             }
             else
             {
-                jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
-                jumperAngle += Input.GetAxis("Vertical") * sensCoef;
+                jumperAngle += Time.deltaTime*Input.GetAxis("Mouse Y")*2;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
+                // jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
+                // jumperAngle += Input.GetAxis("Moues Y") * sensCoef;
+                // jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
             }
 
             //rb.AddTorque(0.0f, 0.0f, (float)pitchMoment);
-
-            Vector3 torque = new Vector3(0.0f, 0.0f, -jumperAngle * rotCoef/* * 70.0f*/);
-            rb.AddRelativeTorque(torque);
+            if(oldMode)
+            {
+                
+            }
+            else
+            {
+                Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef/* * 70.0f*/);
+                rb.AddRelativeTorque(torque);
+            }
+            
             animator.SetFloat("JumperAngle", jumperAngle);
-            Debug.Log("angle: " + angle + " jumperAngle: " + jumperAngle);
+            // Debug.Log("angle: " + angle + " jumperAngle: " + jumperAngle);
         }
-        if ((Landed && State != 3 && !land) || (State == 2 && (angle < -10.0f || angle > 80.0f) && animator.GetCurrentAnimatorStateInfo(0).IsName("Flight")))
-        {
-            //Crash();
-        }
+        // if ((Landed && State != 3 && !land) || (State == 2 && (angle < -10.0f || angle > 80.0f) && animator.GetCurrentAnimatorStateInfo(0).IsName("Flight")))
+        // {
+        //     // Crash();
+        // }
     }
 
     void FixedUpdate()
@@ -208,11 +237,16 @@ public class JumperController : MonoBehaviour
         //windForce = Mathf.Clamp(windForce, 0.0f, 4.0f);
 
         Vector3 vel = rb.velocity + rb.velocity.normalized * windForce;
-        Debug.Log(vel);
+        // Debug.Log(vel);
         Vector3 liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
         double tmp = rb.rotation.eulerAngles.z;
         if (tmp > 180) tmp -= 360;
+        
         angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + tmp;
+        if(oldMode)
+        {
+            angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + jumperAngle*10;
+        }
         if (-15.0f <= angle && angle <= 50)
         {
             lift = 0.000933d + 0.00023314d * angle - 0.00000008201d * angle * angle - 0.0000001233d * angle * angle * angle + 0.00000000169d * angle * angle * angle * angle;
@@ -246,6 +280,7 @@ public class JumperController : MonoBehaviour
     {
         State = 2;
 
+        Debug.Log(OnInrun);
         if (OnInrun)
         {
             Vector3 jumpDirection = rb.velocity.normalized;
@@ -281,21 +316,11 @@ public class JumperController : MonoBehaviour
         //Debug.Log(Distance);
     }
     
-    bool land = false;
     public void Land()
     {
-        //TODO
-        if(land == false)
-        {
-            animator.SetFloat("Landing", 0);
-            land = true;
-            State = 3;
-        }
-        else
-        {
-            animator.SetFloat("Landing", 1);
-            
-        }        
+        State = 3;
+        animator.SetFloat("Landing", 1);
+        if(button0 && button1) animator.SetFloat("Landing", 0);   
     }
 
     public void Crash()
