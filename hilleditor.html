@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Open Ski Jumping</title>
+    <meta name="author" content="Jonek2208">
+
+    <meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
+        crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">Main</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="WebGL/index.html">Play WebGL version</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="hilleditor.html">Ski Jumping Hill Editor</a>
+        </li>
+        <!-- <li class="nav-item">
+      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li> -->
+    </ul>
+    <div class="jumbotron">
+        <h1 class="display-4">Hill Editor</h1>
+        <p class="lead">Some usefull links</p>
+        <hr class="my-4">
+        <p>At this moment hill editor isn't the best I've could imagine, but I am working on it. But actually it can
+            provide a lot of fun with creating own hills. Here are my some tips for using hill editor.</p>
+        <p>First of all you can just simpy type in values from real hills. <a href="https://www.fis-ski.com/DB/ski-jumping/homologations.html">Ski
+                jumping hills certificates.</a> There is a little problem, because there are 3 types of profiles:
+            ICR1992, ICR1996 and
+            ICR2008. It isn't mentioned anywhere in hill certificate, but you can recognize proper hill type very easy.
+            There is a simple algorithm for recognize type of hill's profile.</p>
+
+        <div class="card w-50">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h4>How to determine hill profile type?</h4>
+                </li>
+                <li class="list-group-item">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h5>Can you find R<sub>L</sub> value on hill certificate?</h5>
+                        </li>
+                        <li class="list-group-item">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h6><span class="badge badge-success">YES</span> Can you find R<sub>2L</sub>
+                                        value on hill certificate?</h6>
+                                </li>
+                                <li class="list-group-item">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span class="badge badge-success">YES</span>
+                                            It is ICR2008 hill profile type.
+                                        </li>
+                                        <li class="list-group-item">
+                                            <span class="badge badge-danger">NO</span>
+                                            It is ICR1996 hill profile type.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6><span class="badge badge-danger">NO</span> It is ICR1992
+                                        hill
+                                        profile type.</h6>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Hill parameters</h2>
+            <figure class="figure">
+                <img src="hillprofile.png" class="rounded mx-auto d-block w-75" alt="Ski jumping hill parameters">
+            </figure>
+
+            <h4>Below there is an explanation of hill parameters.</h4>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Editor</th>
+                        <th scope="col">Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-primary">
+                        <td></td>
+                        <td></td>
+                        <td>Some usefull parameters, that doesn't appear in hill editor, but are used in other parameters description</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td></td>
+                        <td>Highest start gate</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td></td>
+                        <td>Lowest start gate</td>
+                    </tr>
+                    <tr>
+                        <td>E<sub>1</sub></td>
+                        <td></td>
+                        <td>End of the staight part of the inrun / beginning of the transition curve</td>
+                    </tr>
+                    <tr>
+                        <td>E<sub>2</sub></td>
+                        <td></td>
+                        <td>beginning of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>T</td>
+                        <td></td>
+                        <td>Edge of the take-off table</td>
+                    </tr>
+
+                    <tr>
+                        <td>P</td>
+                        <td></td>
+                        <td>End of the knoll / beginning of the landing area</td>
+                    </tr>
+                    <tr>
+                        <td>K</td>
+                        <td></td>
+                        <td>Construcion point</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td></td>
+                        <td>End of the of the landing area / beginning of the transition curve</td>
+                    </tr>
+                    <tr>
+                        <td>U</td>
+                        <td></td>
+                        <td>End of the hill (fall line)</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td></td>
+                        <td></td>
+                        <td>Parameters from hill editor</td>
+                    </tr>
+                    <tr>
+                        <td>w</td>
+                        <td>w</td>
+                        <td>Just the K point of the hill</td>
+                    </tr>
+                    <tr>
+                        <td>h/n</td>
+                        <td>h/n</td>
+                        <td>h is vertical distance between T point (edge of the take-off table) and K point and n is
+                            horizontal distance between this two points. h/n is just h divided by n, which is some kind
+                            of steepness ratio of the hill.</td>
+                    </tr>
+                    <tr>
+                        <td>&gamma;</td>
+                        <td>gamma</td>
+                        <td>Angle of the inrun</td>
+                    </tr>
+                    <tr>
+                        <td>&alpha;</td>
+                        <td>alpha</td>
+                        <td>Angle of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>e</td>
+                        <td>e</td>
+                        <td>Lenght of the inrun from highest start gate to the beginning of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>e<sub>s</sub></td>
+                        <td>es</td>
+                        <td>Distance between lowest and highest start gate.</td>
+                    </tr>
+                    <tr>
+                        <td>t</td>
+                        <td>t</td>
+                        <td>Lenght of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>r<sub>1</sub></td>
+                        <td>r1</td>
+                        <td>Radius of the transition curve at the beginning of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>&beta;<sub>P</sub></td>
+                        <td>beta P</td>
+                        <td>Angle at the end of the knoll / beginning of the landing area (blue line on hills)</td>
+                    </tr>
+                    <tr>
+                        <td>&beta;</td>
+                        <td>beta K</td>
+                        <td>Angle at K Point</td>
+                    </tr>
+                    <tr>
+                        <td>&beta;<sub>L</sub></td>
+                        <td>beta L</td>
+                        <td>Angle at end of the landing area (angle at HS)</td>
+                    </tr>
+                    <tr>
+                        <td>s</td>
+                        <td>s</td>
+                        <td>Height of the take-off table</td>
+                    </tr>
+                    <tr>
+                        <td>l<sub>1</sub></td>
+                        <td>l1</td>
+                        <td>Lenght of the curve between beginning of the landing area and K point (important when hill
+                            has ICR1992 profile type otherwise it doesn't really matter)</td>
+                    </tr>
+                    <tr>
+                        <td>l<sub>2</sub></td>
+                        <td>l2</td>
+                        <td>Lenght of the curve between K Point and HS (important)</td>
+                    </tr>
+                    <tr>
+                        <td>r<sub>L</sub></td>
+                        <td>rL</td>
+                        <td>Radius of the landing area curve (if hill profile type if ICR1992, then you can write here
+                            anthing)</td>
+                    </tr>
+                    <tr>
+                        <td>r<sub>2L</sub></td>
+                        <td>r2L</td>
+                        <td>Radius of the transition curve from L to U at L(if hill profile type if ICR1992 or ICR1996,
+                            then you can write here anthing)</td>
+                    </tr>
+                    <tr>
+                        <td>r<sub>2</sub></td>
+                        <td>r2</td>
+                        <td>Radius of the transition curve from L to U at U</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <p></p>
+        <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+    </div>
+
+
+
+
+</body>
+
+</html>
