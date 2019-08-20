@@ -21,8 +21,9 @@ namespace HillDataSerialization
 	public class ProfileData
 	{
 		public string name;
+		public float terrainSteepness;
 		public Hill.ProfileType type;
-
+	
 		public int gates;
 		public float w;
 		public float hn;
@@ -41,6 +42,16 @@ namespace HillDataSerialization
         public float rL;
 		public float r2L;
 		public float r2;
+
+		public float a;
+		public float rA;
+		public float betaA;
+		public float b1;
+		public float b2;
+		public float bK;
+		public float bU;
+		public float d;
+		public float q;
 	}
 
 	[System.Serializable]

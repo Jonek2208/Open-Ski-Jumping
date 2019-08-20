@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour
         {
             offset = jumperObject.GetComponent<Transform>().position - position;
             float offsetMagnitude = offset.magnitude;
+            
             Quaternion rotation = new Quaternion();
             // Vector3 offset2 = offset - (fixedZoom ? (offsetMagnitude - zoom) / offsetMagnitude : zoom) * offset;
             rotation.eulerAngles = new Vector3(Mathf.Rad2Deg * Mathf.Atan2(-offset.y, Mathf.Sqrt(offset.x * offset.x + offset.z * offset.z)), Mathf.Rad2Deg * Mathf.Atan2(offset.x, offset.z), 0 * Mathf.Rad2Deg * Mathf.Atan2(offset.z, offset.y));
@@ -38,7 +39,7 @@ public class CameraController : MonoBehaviour
             GetComponent<Transform>().position = jumperObject.GetComponent<Transform>().position + offset;
         }
 
-
+        // if(GetComponent<Camera>().enabled) Debug.Log("offsetMagnitude: " + (float)(jumperObject.GetComponent<Transform>().position - GetComponent<Transform>().position).magnitude);
 
     }
 }

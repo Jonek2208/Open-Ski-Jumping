@@ -21,18 +21,21 @@ public class GameController : MonoBehaviour
     // public InputField sensInput;
     // public InputField rotInput;
     // public Toggle modeToggle;
-    // public GameObject options;
-    public GameObject jumperObject;
-    public GameObject gateObject;
-    private JumperController jumperController;
+    // // public GameObject options;
+    // public GameObject jumperObject;
+    // public GameObject gateObject;
+    // private JumperController jumperController;
     public CamerasController camerasController;
 
     public MeshScript meshScript;
+    public JudgesController judgesController;
+
+    public MouseScript mouseScript;
     // public GateController gateController;
 
     void Start()
     {
-        jumperController = jumperObject.GetComponent<JumperController>();
+        // jumperController = jumperObject.GetComponent<JumperController>();
         // speedText.text = "";
         // distText.text = "";
         // hintText.text = "Press 'Space' to start the jump";
@@ -91,38 +94,62 @@ public class GameController : MonoBehaviour
         // GateButtonClick();
         // WindSlider();
         // ChangeControls();
+        // judgesController.NewJump();
+    }
+
+    int reversedCam = 0;
+    int currentCam = 0;
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     void Update()
     {
-        // for(int i = 0; i < 12; i++)
-        // {
-        //     if (Input.GetKeyDown(KeyCode.F1 + i))
-        //     {
-        //         camerasController.EnableCamera(i);
-        //     }
-        // }
+        KeyCode [] keys = {KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12};
+        for(int i = 0; i < keys.Length; i++)
+        {
+            if (Input.GetKeyDown(keys[i]))
+            {
+                camerasController.EnableCamera(2*i+reversedCam);
+                currentCam = i;
+            }
+        }
 
-        if(Input.GetKeyDown(KeyCode.F1)) camerasController.EnableCamera(0);
-        else if(Input.GetKeyDown(KeyCode.F2)) camerasController.EnableCamera(1);
-        else if(Input.GetKeyDown(KeyCode.F3)) camerasController.EnableCamera(2);
-        else if(Input.GetKeyDown(KeyCode.F4)) camerasController.EnableCamera(3);
-        else if(Input.GetKeyDown(KeyCode.F5)) camerasController.EnableCamera(4);
-        else if(Input.GetKeyDown(KeyCode.F6)) camerasController.EnableCamera(5);
-        else if(Input.GetKeyDown(KeyCode.F7)) camerasController.EnableCamera(6);
+        // if (Input.GetKeyDown(KeyCode.F1)) 
+        // {
+        //     camerasController.EnableCamera(0 + reversedCam);
+        // }
+        // else if (Input.GetKeyDown(KeyCode.F2)) camerasController.EnableCamera(2 + reversedCam);
+        // else if (Input.GetKeyDown(KeyCode.F3)) camerasController.EnableCamera(4 + reversedCam);
+        // else if (Input.GetKeyDown(KeyCode.F4)) camerasController.EnableCamera(6 + reversedCam);
+        // else if (Input.GetKeyDown(KeyCode.F5)) camerasController.EnableCamera(8 + reversedCam);
+        // else if (Input.GetKeyDown(KeyCode.F6)) camerasController.EnableCamera(10 + reversedCam);
+        // else if (Input.GetKeyDown(KeyCode.F7)) camerasController.EnableCamera(12 + reversedCam);
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            jumperController.ResetValues();
-            jumperObject.GetComponent<Transform>().position = meshScript.jumperPosition;
-            gateObject.GetComponent<Transform>().position = meshScript.jumperPosition;
-            Debug.Log(meshScript.jumperRotation);
-            jumperObject.GetComponent<Transform>().rotation = meshScript.jumperRotation;
+            judgesController.NewJump();
+            mouseScript.UnlockCursor();
+            // jumperController.ResetValues();
+            // jumperObject.GetComponent<Transform>().position = meshScript.jumperPosition;
+            // gateObject.GetComponent<Transform>().position = meshScript.jumperPosition;
+            // Debug.Log(meshScript.jumperRotation);
+            // jumperObject.GetComponent<Transform>().rotation = meshScript.jumperRotation;
+            // jumperController.ResetValues();
+            // jumperController.ResetValues();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            reversedCam = 1 - reversedCam;
+            camerasController.EnableCamera(2*currentCam+reversedCam);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene(0);
+            LoadMainMenu();
         }
         // paramText.text = "angle: " + (float)jumperController.angle + "\njumperAngle: " + jumperController.jumperAngle;
 

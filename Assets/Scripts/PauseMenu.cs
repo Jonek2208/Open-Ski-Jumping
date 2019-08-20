@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
 
     // void Start()
     // {
-        
+
     // }
 
     // public void Resume()
@@ -34,5 +34,42 @@ public class PauseMenu : MonoBehaviour
     public void LoadEditor()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void LoadCompetition()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void LoadCompetition2()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+    /* Temporary */
+    public void Zakopane()
+    {
+        SceneManager.LoadScene("Scenes/Hills/Zakopane");
+    }
+
+    public void Wisla()
+    {
+        SceneManager.LoadScene("Scenes/Hills/Zakopane");
+    }
+
+    public void Vikersund()
+    {
+        SceneManager.LoadScene("Scenes/Hills/Vikersund");
+    }
+
+    public void Falun()
+    {
+        SceneManager.LoadScene("Scenes/Hills/Falun");
+    }
+
+    /******************* */
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

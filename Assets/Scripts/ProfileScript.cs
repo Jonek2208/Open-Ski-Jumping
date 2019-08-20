@@ -30,7 +30,9 @@ namespace HillProfile
         public float dI, cI, fI; //ICR2008 Inrun
         public float tauR, aO, bO, cO; //ICR2008 Landing Area
 
-        public Vector2 A, B, C1, C2, CL, E1, E2, T, F, P, K, L, U;
+        public float a, rA, betaA, betaAR; //Outrun
+
+        public Vector2 A, B, C1, C2, CL, CV, E1, E2, T, F, P, K, L, U, V, X;
 
         public Hill() { }
 
@@ -63,6 +65,77 @@ namespace HillProfile
             rL = _rL;
             r2L = _r2L;
             r2 = _r2;
+            a = 100f;
+            betaA = 0f;
+            betaAR = 0f;
+        }
+        public Hill(ProfileType _type, int _gates, float _w, float _hn, float _gamma, float _alpha, float _e, float _es, float _t, float _r1,
+        float _betaP, float _betaK, float _betaL, float _s, float _l1, float _l2, float _rL, float _r2L, float _r2, float _a, float _rA, float _betaA)
+        {
+            type = _type;
+            gates = _gates;
+            w = _w;
+            hn = _hn;
+            gamma = _gamma;
+            alpha = _alpha;
+            gammaR = Mathf.Deg2Rad * gamma;
+            alphaR = Mathf.Deg2Rad * alpha;
+            e = _e;
+            es = _es;
+            t = _t;
+            r1 = _r1;
+            betaP = _betaP;
+            beta0 = betaP / 6.0f;
+            betaK = _betaK;
+            betaL = _betaL;
+            beta0R = Mathf.Deg2Rad * beta0;
+            betaPR = Mathf.Deg2Rad * betaP;
+            betaKR = Mathf.Deg2Rad * betaK;
+            betaLR = Mathf.Deg2Rad * betaL;
+            s = _s;
+            l1 = _l1;
+            l2 = _l2;
+            rL = _rL;
+            r2L = _r2L;
+            r2 = _r2;
+            a = _a;
+            rA = _rA;
+            betaA = _betaA;
+            betaAR = Mathf.Deg2Rad * betaA;
+        }
+
+        public Hill(ProfileData profileData)
+        {
+            type = profileData.type;
+            gates = profileData.gates;
+            w = profileData.w;
+            hn = profileData.hn;
+            gamma = profileData.gamma;
+            alpha = profileData.alpha;
+            gammaR = Mathf.Deg2Rad * gamma;
+            alphaR = Mathf.Deg2Rad * alpha;
+            e = profileData.e;
+            es = profileData.es;
+            t = profileData.t;
+            r1 = profileData.r1;
+            betaP = profileData.betaP;
+            beta0 = betaP / 6.0f;
+            betaK = profileData.betaK;
+            betaL = profileData.betaL;
+            beta0R = Mathf.Deg2Rad * beta0;
+            betaPR = Mathf.Deg2Rad * betaP;
+            betaKR = Mathf.Deg2Rad * betaK;
+            betaLR = Mathf.Deg2Rad * betaL;
+            s = profileData.s;
+            l1 = profileData.l1;
+            l2 = profileData.l2;
+            rL = profileData.rL;
+            r2L = profileData.r2L;
+            r2 = profileData.r2;
+            a = profileData.a;
+            rA = profileData.rA;
+            betaA = profileData.betaA;
+            betaAR = Mathf.Deg2Rad * betaA;
         }
 
         public void Calculate()
@@ -76,7 +149,6 @@ namespace HillProfile
             }
             //Inrun 
             E2 = new Vector2(-t * Mathf.Cos(alphaR), t * Mathf.Sin(alphaR));
-            float l;
 
             if (type == ProfileType.ICR1992 || type == ProfileType.ICR1996)
             {
@@ -142,6 +214,19 @@ namespace HillProfile
                     U = new Vector2(C2.x, C2.y - r2);
                 }
             }
+
+            if (betaA > 0)
+            {
+                CV = U + new Vector2(0, rA);
+                V = CV - rA * new Vector2(-Mathf.Sin(betaAR), Mathf.Cos(betaAR));
+                float len = a - betaAR * rA;
+                X = V + len * new Vector2(Mathf.Cos(betaAR), Mathf.Sin(betaAR));
+            }
+            else
+            {
+                V = U;
+                X = U + new Vector2(a, 0);
+            }
         }
 
         public float Inrun(float x)
@@ -185,7 +270,7 @@ namespace HillProfile
                 }
                 return -Mathf.Sqrt(rL * rL - (x - CL.x) * (x - CL.x)) + CL.y;
             }
-            else
+            else if (L.x <= x && x <= U.x)
             {
                 if (type == ProfileType.ICR2008)
                 {
@@ -199,6 +284,14 @@ namespace HillProfile
                     return -Mathf.Sqrt(r2 * r2 - (x - C2.x) * (x - C2.x)) + C2.y;
                 }
             }
+            else if (U.x < x && x < V.x)
+            {
+                return -Mathf.Sqrt(rA * rA - (x - CV.x) * (x - CV.x)) + CV.y;
+            }
+            else
+            {
+                return V.y + Mathf.Sin(betaAR) * (x - V.x);
+            }
         }
         public Vector2[] LandingAreaPoints(int accuracy)
         {
@@ -209,7 +302,7 @@ namespace HillProfile
 
             Vector2 curr = F, last = F;
 
-            for (int i = 0; i < accuracy * U.x; i++)
+            for (int i = 0; i < accuracy * (X.x); i++)
             {
                 curr = new Vector2((float)i / (float)accuracy, LandingArea((float)i / (float)accuracy));
 
@@ -247,14 +340,16 @@ namespace HillProfile
             points.Add(T);
 
             float delta = E1.x - E2.x;
-            int segments = (int)(gamma - alpha);
+            int segments = (int)(l);
 
             for (int i = 0; i <= segments; i++)
             {
                 points.Add(new Vector2(i * delta / segments + E2.x, Inrun(i * delta / segments + E2.x)));
             }
 
-            points.Add(B);
+            // points.Add(B);
+            int tmp = (int)(A - E1).magnitude;
+            for (int i = 1; i < tmp; i++) points.Add(E1 + (A - E1) * (float)i / (float)tmp);
             points.Add(A);
 
             Vector2[] res = new Vector2[points.Count];

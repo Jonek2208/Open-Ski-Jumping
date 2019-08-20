@@ -6,6 +6,8 @@ public class JumperController : MonoBehaviour
 {
     private Animator animator;
     private Rigidbody rb;
+    public GameObject rSki, lSki;
+    public GameObject rSkiClone, lSkiClone;
     public int State { get; private set; }
     public float Distance { get; private set; }
     public bool Landed { get; private set; }
@@ -14,7 +16,13 @@ public class JumperController : MonoBehaviour
 
     [Header("Colliders")]
 
-    public Collider distCollider;
+    public SphereCollider distCollider1;
+    public SphereCollider distCollider2;
+    public Collider bodyCollider;
+
+    public Collider rSkiCollider;
+    public Collider lSkiCollider;
+
 
     [Space]
 
@@ -48,6 +56,7 @@ public class JumperController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("RAKAKAN");
         //    print(distCollider.transform.position);
         if (other.tag == "Inrun")
         {
@@ -60,11 +69,8 @@ public class JumperController : MonoBehaviour
                 Crash();
             }
             Landed = true;
-            Debug.Log(managerScript.Distance(distCollider.transform.position));
-        }
-        if (other.tag == "Outrun")
-        {
-            Brake();
+            animator.SetFloat("DownForce", 1f);
+            managerScript.Distance((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
         }
 
     }
@@ -74,9 +80,30 @@ public class JumperController : MonoBehaviour
         if (other.tag == "Inrun")
         {
             OnInrun = false;
+            managerScript.Speed(rb.velocity.magnitude);
         }
     }
 
+    void OnCollisionEnter(Collision other)
+    {
+        if (!Landed && other.collider.tag == "LandingArea")
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+            {
+                Crash();
+                Landed = true;
+                managerScript.Distance((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
+            }
+            
+            
+            
+            if (rb.transform.position.x > managerScript.currentHill.U.x)
+            {
+                Brake();
+            }
+
+        }
+    }
 
     void Start()
     {
@@ -91,15 +118,6 @@ public class JumperController : MonoBehaviour
         //windDir.Set(0.0f, 0.0f);
         //windForce = 0.0f;
 
-        //preprocessing
-        {
-            for (int i = 1; i < tab.Length / 4; i++)
-            {
-                tab[i, 2] = Mathf.Sqrt((tab[i - 1, 0] - tab[i, 0]) * (tab[i - 1, 0] - tab[i, 0]) + (tab[i - 1, 1] - tab[i, 1]) * (tab[i - 1, 1] - tab[i, 1]));
-                tab[i, 3] = tab[i - 1, 3] + tab[i, 2];
-                //print("[" + i + "]" + tab[i, 2] + ", " + tab[i, 3]);
-            }
-        }
         ResetValues();
 
     }
@@ -107,15 +125,21 @@ public class JumperController : MonoBehaviour
     public void ResetValues()
     {
         State = 0;
+        animator.SetBool("JumperCrash", false);
+        animator.SetInteger("JumperState", State);
+        animator.SetFloat("DownForce", 0f);
         Landed = false;
         rb.isKinematic = true;
         modelObject.GetComponent<Transform>().localPosition = new Vector3();
         jumperAngle = 1;
-        animator.SetBool("JumperCrash", false);
         button0 = button1 = false;
+        rSkiClone.SetActive(false);
+        lSkiClone.SetActive(false);
+        rSki.SetActive(true);
+        lSki.SetActive(true);
     }
 
-    
+
     void Update()
     {
         animator.SetInteger("JumperState", State);
@@ -127,7 +151,7 @@ public class JumperController : MonoBehaviour
         {
             Jump();
         }
-        else if ((State == 2 || State == 3) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))) 
+        else if ((State == 2 || State == 3) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
         {
             button0 |= Input.GetMouseButtonDown(0);
             button1 |= Input.GetMouseButtonDown(1);
@@ -139,12 +163,12 @@ public class JumperController : MonoBehaviour
             //double pitchMoment = 0.5f;
             if (oldMode)
             {
-                jumperAngle += Time.deltaTime*Input.GetAxis("Mouse Y")*2;
+                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * 2;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
             }
             else
             {
-                jumperAngle += Time.deltaTime*Input.GetAxis("Mouse Y")*2;
+                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * 2;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
                 // jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
                 // jumperAngle += Input.GetAxis("Moues Y") * sensCoef;
@@ -152,18 +176,22 @@ public class JumperController : MonoBehaviour
             }
 
             //rb.AddTorque(0.0f, 0.0f, (float)pitchMoment);
-            if(oldMode)
+            if (oldMode)
             {
-                
+
             }
             else
             {
                 Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef/* * 70.0f*/);
                 rb.AddRelativeTorque(torque);
             }
-            
+
             animator.SetFloat("JumperAngle", jumperAngle);
             // Debug.Log("angle: " + angle + " jumperAngle: " + jumperAngle);
+        }
+        if (rb.transform.position.x > managerScript.currentHill.U.x)
+        {
+            Brake();
         }
         // if ((Landed && State != 3 && !land) || (State == 2 && (angle < -10.0f || angle > 80.0f) && animator.GetCurrentAnimatorStateInfo(0).IsName("Flight")))
         // {
@@ -186,11 +214,11 @@ public class JumperController : MonoBehaviour
         Vector3 liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
         double tmp = rb.rotation.eulerAngles.z;
         if (tmp > 180) tmp -= 360;
-        
+
         angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + tmp;
-        if(oldMode)
+        if (oldMode)
         {
-            angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + jumperAngle*10;
+            angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + jumperAngle * 10;
         }
         if (-15.0f <= angle && angle <= 50)
         {
@@ -209,8 +237,10 @@ public class JumperController : MonoBehaviour
         }
         if (State == 4)
         {
-            Vector3 brakeVec = Vector3.left * brakeForce;
-            rb.AddForce(brakeVec);
+            Vector3 brakeVec = Vector3.left;
+            float distToEnd = managerScript.currentHill.U.x + 100 - rb.position.x;
+
+            rb.AddForce(brakeVec * rb.mass * rb.velocity.x / 2);
         }
     }
 
@@ -244,35 +274,31 @@ public class JumperController : MonoBehaviour
 
     public void DistanceMeasurement(Vector3 position)
     {
-        //Distance = position.magnitude/1.005f;
-        int it = 0;
-        Debug.Log("distance: " + Distance);
-
-        //Debug.Log(it + " " + position.x + " " + tab[it, 0]);
-        while (it < tab.Length / 4 && position.x > tab[it, 0])
-        {
-            //Debug.Log(it + " " + position.x + " " + tab[it, 0]);
-            it++;
-        }
-        it--;
-        Vector2 last = new Vector2(position.x - tab[it, 0], position.y - tab[it, 1]);
-        //Debug.Log(tab[it, 3] + " " + last.magnitude);
-        Distance = tab[it, 3] + last.magnitude;
-        //Debug.Log(Distance);
     }
-    
+
     public void Land()
     {
         State = 3;
         animator.SetFloat("Landing", 1);
-        if(button0 && button1) animator.SetFloat("Landing", 0);   
+        if (button0 && button1) animator.SetFloat("Landing", 0);
     }
 
     public void Crash()
     {
         //Na plecy i na brzuch
         //State = ;
-        animator.SetBool("JumperCrash", true);  
+        animator.SetBool("JumperCrash", true);
+        rSkiClone.SetActive(true);
+        lSkiClone.SetActive(true);
+        rSki.SetActive(false);
+        lSki.SetActive(false);
+        lSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
+        lSkiClone.GetComponent<Transform>().position = lSki.GetComponent<Transform>().position;
+        lSkiClone.GetComponent<Transform>().rotation = lSki.GetComponent<Transform>().rotation;
+
+        rSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
+        rSkiClone.GetComponent<Transform>().position = rSki.GetComponent<Transform>().position;
+        rSkiClone.GetComponent<Transform>().rotation = rSki.GetComponent<Transform>().rotation;
     }
 
     public void Brake()
