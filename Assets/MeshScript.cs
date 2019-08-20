@@ -26,14 +26,15 @@ public class MeshScript : MonoBehaviour
 
     private void Start()
     {
-        float[,] tab = terrain1.terrainData.GetHeights(200, 200, 10, 10);
-        foreach(var it in tab)
-        {
-            Debug.Log(it);
-        }
+        float[,] tab = new float[513, 513];
+        for (int i = 0; i < 513; i++)
+            for (int j = 0; j < 513; j++)
+            {
+                tab[i, j] = 0;
+            }
 
-        Debug.Log(terrain1.terrainData.heightmapHeight + " " + terrain1.terrainData.heightmapWidth);
-        Debug.Log(terrain1.terrainData.heightmapScale);
+        terrain1.terrainData.SetHeights(0, 0, tab);
+        // Debug.Log(terrain1.terrainData.size);
     }
 
     public void GenerateMesh(Hill hill, int gates)
@@ -212,6 +213,44 @@ public class MeshScript : MonoBehaviour
         terrain.GetComponent<MeshFilter>().mesh = terrainMesh;
         terrain.GetComponent<MeshRenderer>().material = terrainMaterial;
 
+        Vector3 center = terrain1.GetComponent<Transform>().position;
+        Debug.Log(center);
+        Debug.Log(terrain1.terrainData.size);
+        float[,] tab = new float[terrain1.terrainData.heightmapResolution, terrain1.terrainData.heightmapResolution];
+        for (int i = 0; i < terrain1.terrainData.heightmapResolution; i++)
+        {
+            for (int j = 0; j < terrain1.terrainData.heightmapResolution; j++)
+            {
+                float x = (float)(j) / terrain1.terrainData.heightmapResolution * (terrain1.terrainData.size.x) + center.x;
+                float z = (float)(i) / terrain1.terrainData.heightmapResolution * (terrain1.terrainData.size.z) + center.z;
+
+                float y = 0;
+
+                if (x < hill.T.x)
+                {
+                    y = hill.Inrun(x);
+                }
+                else if (hill.T.x <= x && x <= hill.U.x)
+                {
+                    y = hill.LandingArea(x);
+                }
+                else if (x > hill.U.x)
+                {
+                    y = hill.U.y;
+                }
+
+                if ((z < -20 || 20 < z) && (hill.T.x <= x) || (z < -4 || 4 < z) && (hill.A.x <= x && x <= hill.T.x) || (x < hill.A.x)) y += (Mathf.Abs(z) <= 50 ? 2*Mathf.Abs(z) : 100) *(Mathf.PerlinNoise(x / 100.0f, z / 100.0f) - 0.5f);
+                y = (y - center.y - 2) / terrain1.terrainData.size.y;
+
+
+                if (i == 200 && j == 200) Debug.Log(x + " " + y);
+                // Debug.Log(x + " " + y);
+
+                tab[i, j] = Mathf.Clamp(y, 0, 1);
+            }
+        }
+
+        terrain1.terrainData.SetHeights(0, 0, tab);
     }
 
     public void SaveMesh()
