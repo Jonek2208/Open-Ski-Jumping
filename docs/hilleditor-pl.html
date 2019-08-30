@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="pl">
 
 <head>
 
@@ -29,62 +29,64 @@
             <a target="_blank" class="nav-link" href="WebGL/index.html">Play WebGL version</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="hilleditor.html">Ski Jumping Hill Editor</a>
+            <a class="nav-link" href="hilleditor.html">Ski Jumping Hill Editor</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="hilleditor-pl.html">Edytor skoczni</a>
+            <a class="nav-link active" href="hilleditor-pl.html">Edytor skoczni</a>
         </li>
         <!-- <li class="nav-item">
       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
     </li> -->
     </ul>
     <div class="jumbotron">
-        <h1 class="display-4">Hill Editor</h1>
-        <p class="lead">Some useful links</p>
+        <h1 class="display-4">Edytor Skoczni</h1>
+        <p class="lead">Przydatne strony internetowe:</p>
         <hr class="my-4">
-        <p>At this moment hill editor isn't the best I've could imagine. I am working on it, to make it more
-            user-friendly. However actually it can
-            provide a lot of fun with creating own hills. Here are my some tips for using hill editor.</p>
-        <p>First of all you can just simpy type in this values from ceftificates of real hills. <a
-                href="https://www.fis-ski.com/DB/ski-jumping/homologations.html">Ski
-                jumping hills certificates.</a> Unfortunately, there is a little problem, because there are 3 types of
-            profiles:
-            ICR1992, ICR1996 and
-            ICR2008. It isn't mentioned anywhere in hill certificate, but you can recognize proper hill type very easy.
-            There is a simple algorithm for recognize type of hill's profile.</p>
+        <p>W tym momencie edytor skoczni nie jest może wzorem bycia user-friendly, ale da się go używać. Poniżej kilka
+            moich dotyczących jego używania.</p>
+        <p>Oczywiście można wygenerować prawdziwe skocznie narciarskie, certyfikaty prawie wszystkich skoczni
+            homologowanych przez FIS można znależć tutaj: <a
+                href="https://www.fis-ski.com/DB/ski-jumping/homologations.html">certyfikaty skoczni narciarskich</a>.
+            Jednakże tutaj pojawia się pewien problem,
+            gdyż istnieją 3 rodzaje profilów skoczni:
+            ICR1992, ICR1996 oraz
+            ICR2008. Niestety w certyfikacie nie znajdziemy informacji, jakiego typu jest to skocznia. Istnieje jednak
+            prosty sposób, który działa w większości przypadków.
+            W większości, bo czasem można znaleźć straszne dziwadła, szczególnie po "zmianie" rozmiaru skoczni na części
+            obiektów. Podobnie jest ze skoczniami mamucimi.
+            Mam nadzieję, że w przyszłości wszystkie homologowane skocznie będą w grze i nikt nie będzie musiał
+            przepisywać tych wszystkich śmiesznych liczb ;)</p>
 
         <div class="card w-50">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <h4>How to determine hill profile type?</h4>
+                    <h4>Jak ustalić typ profilu dla skoczni?</h4>
                 </li>
                 <li class="list-group-item">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <h5>Can you find R<sub>L</sub> value on hill certificate?</h5>
+                            <h5>Czy na cerfytikacie jest wpisana wartość R<sub>L</sub>?</h5>
                         </li>
                         <li class="list-group-item">
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    <h6><span class="badge badge-success">YES</span> Can you find R<sub>2L</sub>
-                                        value on hill certificate?</h6>
+                                    <h6><span class="badge badge-success">TAK</span> Czy R<sub>2L</sub>
+                                        też jest wpisane?</h6>
                                 </li>
                                 <li class="list-group-item">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <span class="badge badge-success">YES</span>
-                                            It is ICR2008 hill profile type.
+                                            <span class="badge badge-success">TAK</span>
+                                            ICR2008
                                         </li>
                                         <li class="list-group-item">
                                             <span class="badge badge-danger">NO</span>
-                                            It is ICR1996 hill profile type.
+                                            ICR1996
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="list-group-item">
-                                    <h6><span class="badge badge-danger">NO</span> It is ICR1992
-                                        hill
-                                        profile type.</h6>
+                                    <h6><span class="badge badge-danger">NO</span>ICR1992</h6>
                                 </li>
                             </ul>
                         </li>
@@ -94,167 +96,179 @@
         </div>
 
         <div>
-            <h2>Hill parameters</h2>
+            <h2>Parametry skoczni</h2>
             <figure class="figure">
-                <img src="hillprofile.png" class="rounded mx-auto d-block w-75" alt="Ski jumping hill parameters">
+                <img src="hillprofile.png" class="rounded mx-auto d-block w-75" alt="parametry skoczni">
             </figure>
 
-            <h4>Below there is an explanation of hill parameters.</h4>
+            <h4>Poniżej krótkie objaśnienie tych wszystkich dziwnych literek w edytorze (oznaczających różne parametry
+                skoczni)</h4>
             <table class="table table-sm">
                 <thead>
                     <tr>
-                        <th scope="col">Image</th>
-                        <th scope="col">Editor</th>
-                        <th scope="col">Explanation</th>
+                        <th scope="col">Na obrazku</th>
+                        <th scope="col">W edytorze</th>
+                        <th scope="col">Objaśnienie</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="table-primary">
                         <td></td>
                         <td></td>
-                        <td>Some usefull parameters, that doesn't appear in hill editor, but are used in other
-                            parameters description</td>
+                        <td>Parametry, które nie występują w edytorze, ponieważ można je obliczyć za pomocą innych</td>
                     </tr>
                     <tr>
                         <td>A</td>
                         <td></td>
-                        <td>Highest start gate</td>
+                        <td>Najwyższa belka startowa</td>
                     </tr>
                     <tr>
                         <td>B</td>
                         <td></td>
-                        <td>Lowest start gate</td>
+                        <td>Najniższa belka startowa</td>
                     </tr>
                     <tr>
                         <td>E<sub>1</sub></td>
                         <td></td>
-                        <td>End of the staight part of the inrun / beginning of the transition curve</td>
+                        <td>Koniec prostej części najazdu / początek zakrzywionej części najazdu</td>
                     </tr>
                     <tr>
                         <td>E<sub>2</sub></td>
                         <td></td>
-                        <td>beginning of the take-off table</td>
+                        <td>Początek progu</td>
                     </tr>
                     <tr>
                         <td>T</td>
                         <td></td>
-                        <td>Edge of the take-off table</td>
+                        <td>Koniec progu</td>
                     </tr>
 
                     <tr>
                         <td>P</td>
                         <td></td>
-                        <td>End of the knoll / beginning of the landing area</td>
+                        <td>Koniec buli / początek strefy lądowania - niebieska linia na zeskoku (tak, ta linia jednak
+                            coś oznacza)</td>
                     </tr>
                     <tr>
                         <td>K</td>
                         <td></td>
-                        <td>Construcion point</td>
+                        <td>Punkt konstrukcyjny - czerwona linia na zeskoku</td>
                     </tr>
                     <tr>
                         <td>L</td>
                         <td></td>
-                        <td>End of the of the landing area / beginning of the transition curve</td>
+                        <td>Koniec strefy lądowania / początek wypłaszczenia - druga czerwona linia na zeskoku</td>
                     </tr>
                     <tr>
                         <td>U</td>
                         <td></td>
-                        <td>End of the hill (fall line)</td>
+                        <td>Koniec skoczni - linia za którą można się wywrócić, a sędziowie nie odejmą punktów</td>
                     </tr>
                     <tr class="table-primary">
                         <td></td>
                         <td></td>
-                        <td>Parameters from hill editor</td>
+                        <td>Parametry, które występują w edytorze</td>
                     </tr>
                     <tr>
                         <td>w</td>
                         <td>w</td>
-                        <td>Just the K point of the hill</td>
+                        <td>To jest to na co się potocznie mówi punkt K, ale punkt K jak sama nazwa mówi to punkt, a
+                            wartość w mówi, jaką odległość uzyska skoczek, jeśli wyląduje na punkcie K.</td>
                     </tr>
                     <tr>
                         <td>h/n</td>
                         <td>h/n</td>
-                        <td>h is vertical distance between T point (edge of the take-off table) and K point and n is
-                            horizontal distance between this two points. h/n is just h divided by n, which is some kind
-                            of steepness ratio of the hill.</td>
+                        <td>Jeśli skoczek wyląduje na punkcie K, to h mówi ile przeleciał w pionie w dół, a n ile w
+                            poziomie.
+                            h/n to po prostu h podzielone przez n. Jest to jeden z ważniejszych parametrów skoczni, bo
+                            mówi o tym czy skocznia jest płaska, czy stroma (nachylenie skoczni to zupełnie osobna
+                            sprawa). Przy zabawie w edytorze polecam się nim pobawić.</td>
                     </tr>
                     <tr>
                         <td>&gamma;</td>
                         <td>gamma</td>
-                        <td>Angle of the inrun</td>
+                        <td>Nachylenie tej prostej części rozbiegu. Zalecane wartości to od 30 do 36, chyba że chcecie
+                            żeby skoczek sobie poszybował, to wtedy ustawcie 80 stopni nachylenia i wybijcie się w 2/3
+                            rozbiegu.</td>
                     </tr>
                     <tr>
                         <td>&alpha;</td>
                         <td>alpha</td>
-                        <td>Angle of the take-off table</td>
+                        <td>Nachylenie progu</td>
                     </tr>
                     <tr>
                         <td>e</td>
                         <td>e</td>
-                        <td>Lenght of the inrun from highest start gate to the beginning of the take-off table</td>
+                        <td>Długość najazdu pomiędzy najwyższą belką startową, a początkiem progu</td>
                     </tr>
                     <tr>
                         <td>e<sub>s</sub></td>
                         <td>es</td>
-                        <td>Distance between lowest and highest start gate.</td>
+                        <td>odległość pomiędzy najwyższą, a najniższą belką startową</td>
                     </tr>
                     <tr>
                         <td>t</td>
                         <td>t</td>
-                        <td>Lenght of the take-off table</td>
+                        <td>Długość progu</td>
                     </tr>
                     <tr>
                         <td>r<sub>1</sub></td>
                         <td>r1</td>
-                        <td>Radius of the transition curve at the beginning of the take-off table</td>
+                        <td>Promień krzywej przejściowej najazdu. Jak ktoś nie wie, co to jest, to polecam pozmieniać to
+                            i wtedy raczej szybko zauważycie, o co chodzi.</td>
                     </tr>
                     <tr>
                         <td>&beta;<sub>P</sub></td>
                         <td>beta P</td>
-                        <td>Angle at the end of the knoll / beginning of the landing area (blue line on hills)</td>
+                        <td>Nachylenie zeskoku z punkcie P, czyli tam, gdzie jest niebieska linia</td>
                     </tr>
                     <tr>
                         <td>&beta;</td>
                         <td>beta K</td>
-                        <td>Angle at K Point</td>
+                        <td>Nachylenie zeskoku w punkcie K</td>
                     </tr>
                     <tr>
                         <td>&beta;<sub>L</sub></td>
                         <td>beta L</td>
-                        <td>Angle at end of the landing area (angle at HS)</td>
+                        <td>Nachylenie zeskoku w punkcie L, czyli tam gdzie HS</td>
                     </tr>
                     <tr>
                         <td>s</td>
                         <td>s</td>
-                        <td>Height of the take-off table</td>
+                        <td>Wysokość progu, wg obecnych przepisów nie powinien być wyższy niż w/40, np. 120/40 = 3,
+                            90/40 = 2.25, 200/40 = 5, itd. Są jednak skocznie, które nie spełniają tej normy, jak się
+                            pewnie domyślacie są to skocznie o starym profilu, na przykład te w Courchevel </td>
                     </tr>
                     <tr>
                         <td>l<sub>1</sub></td>
                         <td>l1</td>
-                        <td>Lenght of the curve between beginning of the landing area and K point (important when hill
-                            has ICR1992 profile type otherwise it doesn't really matter)</td>
+                        <td>Długość zeskoku pomiędzy punktem P, a punktem K. Bardzo ważne w przypadku skoczni o typie
+                            profilu ICR1992.</td>
                     </tr>
                     <tr>
                         <td>l<sub>2</sub></td>
                         <td>l2</td>
-                        <td>Lenght of the curve between K Point and HS (important)</td>
+                        <td>Długość zeskoku pomiędzy punktem K, a punktem oznaczającym HS (od tego, co tam wpiszecie
+                            będzie zależało, gdzie pojawi się linia HS</td>
                     </tr>
                     <tr>
                         <td>r<sub>L</sub></td>
                         <td>rL</td>
-                        <td>Radius of the landing area curve (if hill profile type if ICR1992, then you can write here
-                            anthing)</td>
+                        <td>Promień krzywej przejściowej z punktu P do punktu L, jeśli skocznia ma profil typu ICR1992,
+                            to nie ma znaczenia, co tam wpiszecie, ale wtedy znacznia nabiera co wpiszecie w parametrze
+                            powyżej.</td>
                     </tr>
                     <tr>
                         <td>r<sub>2L</sub></td>
                         <td>r2L</td>
-                        <td>Radius of the transition curve from L to U at L(if hill profile type if ICR1992 or ICR1996,
-                            then you can write here anthing)</td>
+                        <td>Promień krzywej przejściowej z punktu L do punktu U mierzony w punkcie L, jeśli skocznia ma
+                            profil typu ICR1992 lub ICR1996,
+                            to nie ma znaczenia, co tam wpiszecie)</td>
                     </tr>
                     <tr>
                         <td>r<sub>2</sub></td>
                         <td>r2</td>
-                        <td>Radius of the transition curve from L to U at U</td>
+                        <td>Promień krzywej przejściowej z punktu L do punktu U mierzony w punkcie U</td>
                     </tr>
 
                 </tbody>
