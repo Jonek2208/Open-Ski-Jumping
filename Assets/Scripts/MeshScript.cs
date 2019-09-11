@@ -170,12 +170,11 @@ public class MeshScript : MonoBehaviour
         hill = _hill;
         CalculateHill();
 
-        inrunConstruction.mesh = new Mesh();
-
         GenerateInrun();
+        GenerateInrunTrack();
+        GenerateLandingAreaCollider();
         GenerateLandingArea();
 
-        // GenerateOutrun();
         GenerateGateStairs(ref gateStairsL, 0, generateGateStairsL);
         GenerateGateStairs(ref gateStairsR, 1, generateGateStairsR);
         int stepsCount = Mathf.RoundToInt((hill.A.y - hill.T.y) / inrunStairsStepHeigth);
@@ -184,6 +183,7 @@ public class MeshScript : MonoBehaviour
         GenerateInrunStairs(ref inrunStairsR, 1, generateInrunStairsR, stepsCount);
         GenerateGuardrail(ref landingAreaGuardrailL, 0, generateLandingAreaGuardrailL, 1);
         GenerateGuardrail(ref landingAreaGuardrailR, 1, generateLandingAreaGuardrailR, 1);
+        GenerateInrunConstruction();
 
         // inrunConstruction.GetComponent<MeshCollider>().sharedMesh = inrunConstructionMesh;
 
@@ -348,7 +348,7 @@ public class MeshScript : MonoBehaviour
             // Debug.Log("GENERATING TERRAIN");
             GetTerrain();
             // Transform hillTransform = GetComponent<Transform>().transform;
-            const float offset = 400f;
+            const float offset = 300f;
             const float inrunFlatLength = 5f;
             //Terrain
             foreach (var terr in terrains)
@@ -469,7 +469,9 @@ public class MeshScript : MonoBehaviour
         // }
 
         // terrain2.terrainData.SetHeights(0, 0, tab);
-        SaveMesh(inrun.gObj, "Inrun");
+        SaveMesh(inrun.gObj, "Inrun", true);
+        SaveMesh(inrun.gObj, "InrunTrack");
+        SaveMesh(landingArea.gObj, "LandingAreaCollider", true);
         SaveMesh(landingArea.gObj, "LandingArea");
         SaveMesh(gateStairsL.gObj, "GateStairsL");
         SaveMesh(gateStairsR.gObj, "GateStairsR");
@@ -477,6 +479,7 @@ public class MeshScript : MonoBehaviour
         SaveMesh(inrunStairsR.gObj, "InrunStairsR");
         SaveMesh(landingAreaGuardrailL.gObj, "LandingAreaGuardrailL");
         SaveMesh(landingAreaGuardrailR.gObj, "LandingAreaGuardrailR");
+        SaveMesh(inrunConstruction.gObj, "InrunConstruction");
 
         SetGate(hill, 1);
 
@@ -523,7 +526,6 @@ public class MeshScript : MonoBehaviour
         mesh.triangles = triangles;
         mesh.uv = uvs;
         mesh.RecalculateNormals();
-
 
         gameObject.GetComponent<MeshFilter>().mesh = mesh;
         gameObject.GetComponent<MeshRenderer>().material = material;
@@ -582,6 +584,7 @@ public class MeshScript : MonoBehaviour
         }
 
         ObjectUpdate(ref inrun.gObj, ref mesh, ref inrun.materials[0], ref vertices, ref triangles, ref uvs, true);
+        // inrun.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     public void GenerateInrunConstruction()
@@ -591,181 +594,173 @@ public class MeshScript : MonoBehaviour
         List<Vector2> uvsList = new List<Vector2>();
         List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
 
+        const float width = 5f;
+        int x = 0;
+        float[] len = new float[inrunPoints.Length];
+        for (int i = 1; i < inrunPoints.Length; i++)
+        {
+            len[i] = len[i - 1] + (inrunPoints[i] - inrunPoints[i - 1]).magnitude;
+        }
 
         for (int i = 0; i < inrunPoints.Length; i++)
         {
             verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y, -2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, inrunPoints[i].y));
             verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y, 2));
-            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - 2 - (float)((inrunPoints.Length - i + 1) * (inrunPoints.Length - i + 1)) / inrunPoints.Length / inrunPoints.Length * 20.0f, -2));
-            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - 2 - (float)((inrunPoints.Length - i + 1) * (inrunPoints.Length - i + 1)) / inrunPoints.Length / inrunPoints.Length * 20.0f, 2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, inrunPoints[i].y));
+            // verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - 2 - (float)((inrunPoints.Length - i + 1) * (inrunPoints.Length - i + 1)) / inrunPoints.Length / inrunPoints.Length * 20.0f, -2));
+            // uvsList.Add(new Vector2(i, 0));
+            // verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - 2 - (float)((inrunPoints.Length - i + 1) * (inrunPoints.Length - i + 1)) / inrunPoints.Length / inrunPoints.Length * 20.0f, 2));
+            // uvsList.Add(new Vector2(i, 8));
+            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - width, -2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, inrunPoints[i].y - width));
+            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - width, 2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, inrunPoints[i].y - width));
 
-            uvsList.Add(new Vector2(i, 2));
-            uvsList.Add(new Vector2(i, 6));
-            uvsList.Add(new Vector2(i, 0));
-            uvsList.Add(new Vector2(i, 8));
+            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - width, -2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, -2));
+            verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y - width, 2));
+            uvsList.Add(new Vector2(inrunPoints[i].x, 2));
+            if (i > 0)
+            {
+                x = verticesList.Count;
+                facesList.Add(Tuple.Create(x - 6, x - 12, x - 4, x - 10));
+                facesList.Add(Tuple.Create(x - 11, x - 5, x - 9, x - 3));
+                facesList.Add(Tuple.Create(x - 1, x - 2, x - 7, x - 8));
+            }
+        }
+        // take-off table
+        verticesList.Add(new Vector3(0, 0, -2));
+        uvsList.Add(new Vector2(-2, 0));
+        verticesList.Add(new Vector3(0, 0, 2));
+        uvsList.Add(new Vector2(2, 0));
+        verticesList.Add(new Vector3(0, -width, -2));
+        uvsList.Add(new Vector2(-2, -width));
+        verticesList.Add(new Vector3(0, -width, 2));
+        uvsList.Add(new Vector2(2, -width));
+        //top of the hill
+        verticesList.Add(new Vector3(hill.A.x, hill.A.y, -2));
+        uvsList.Add(new Vector2(-2, 0));
+        verticesList.Add(new Vector3(hill.A.x, hill.A.y, 2));
+        uvsList.Add(new Vector2(2, 0));
+        verticesList.Add(new Vector3(hill.A.x, hill.A.y - width, -2));
+        uvsList.Add(new Vector2(-2, -width));
+        verticesList.Add(new Vector3(hill.A.x, hill.A.y - width, 2));
+        uvsList.Add(new Vector2(2, -width));
+        x = verticesList.Count;
+        facesList.Add(Tuple.Create(x - 8, x - 7, x - 6, x - 5));
+        facesList.Add(Tuple.Create(x - 3, x - 4, x - 1, x - 2));
+
+        Vector3[] vertices = verticesList.ToArray();
+        Vector2[] uvs = uvsList.ToArray();
+        int[] triangles = FacesToTriangles(ref facesList);
+        // Debug.Log("RAKAKANO: " + verticesList.Count + " " + uvsList.Count + " " + triangles.Length);
+        ObjectUpdate(ref inrunConstruction.gObj, ref mesh, ref inrunConstruction.materials[0], ref vertices, ref triangles, ref uvs, false);
+    }
+
+    public void GenerateInrunTrack()
+    {
+        Mesh mesh = new Mesh();
+        List<Vector3> verticesList = new List<Vector3>();
+        List<Vector2> uvsList = new List<Vector2>();
+        List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
+
+        float[] len = new float[inrunPoints.Length];
+
+        for (int i = 1; i < inrunPoints.Length; i++)
+        {
+            len[i] = len[i - 1] + (inrunPoints[i] - inrunPoints[i - 1]).magnitude;
         }
 
-        int[] segment = { 0, 2, 6, 0, 6, 4, 2, 7, 6, 2, 3, 7, 1, 5, 7, 1, 7, 3 };
-
-        int[] inrunConstructionTriangles = new int[(inrunPoints.Length - 1) * segment.Length + 12];
-
-        for (int i = 0; i < inrunPoints.Length - 1; i++)
+        // float[] inrunTrackVals = new float[] { 0.27f, 0.225f, 0.09f, 0.035f, 0.036f, 0.001f };
+        Vector2[] inrunTrackVals = new Vector2[] { new Vector2(profileData.b1 / 2, 0), new Vector2(0.27f, 0), new Vector2(0.27f, 0.05f), new Vector2(0.225f, 0.05f), new Vector2(0.225f, 0.001f), new Vector2(0.09f, 0.001f), new Vector2(0.09f, 0.05f) };
+        Vector2 midPoint = new Vector2(0, 0.05f);
+        float[] suff = new float[inrunTrackVals.Length];
+        suff[inrunTrackVals.Length - 1] = (inrunTrackVals[inrunTrackVals.Length - 1] - midPoint).magnitude;
+        for (int i = inrunTrackVals.Length - 2; i >= 0; i--)
         {
-            for (int j = 0; j < segment.Length; j++)
+            suff[i] = (inrunTrackVals[i] - inrunTrackVals[i + 1]).magnitude + suff[i + 1];
+        }
+
+        for (int i = 0; i < inrunPoints.Length; i++)
+        {
+            for (int j = 0; j < inrunTrackVals.Length; j++)
             {
-                inrunConstructionTriangles[segment.Length * i + j] = 4 * i + segment[j];
+                verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y + inrunTrackVals[j].y, -inrunTrackVals[j].x));
+                uvsList.Add(new Vector2(len[i], -suff[j]));
+                if (j > 0)
+                {
+                    verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y + inrunTrackVals[j].y, -inrunTrackVals[j].x));
+                    uvsList.Add(new Vector2(len[i], -suff[j]));
+                }
+            }
+            for (int j = inrunTrackVals.Length - 1; j >= 0; j--)
+            {
+                verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y + inrunTrackVals[j].y, inrunTrackVals[j].x));
+                uvsList.Add(new Vector2(len[i], suff[j]));
+                if (j > 0)
+                {
+                    verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y + inrunTrackVals[j].y, inrunTrackVals[j].x));
+                    uvsList.Add(new Vector2(len[i], suff[j]));
+                }
+            }
+
+            if (i > 0)
+            {
+                int x = verticesList.Count;
+                int y = 2 * inrunTrackVals.Length - 1;
+                for (int j = 0; j < y; j++)
+                {
+                    facesList.Add(Tuple.Create(x - 2 * j - 2, x - 2 * j - 1, x - 2 * j - 2 - 2 * y, x - 2 * j - 1 - 2 * y));
+                }
             }
         }
 
-        int[] caps = { 0, 1, 3, 0, 3, 2, 0, 2, 3, 0, 3, 1 };
 
-        for (int i = 0; i < 6; i++)
-        {
-            inrunConstructionTriangles[segment.Length * (inrunPoints.Length - 1) + i] = caps[i];
-        }
-        for (int i = 6; i < 12; i++)
-        {
-            inrunConstructionTriangles[segment.Length * (inrunPoints.Length - 1) + i] = 4 * (inrunPoints.Length - 1) + caps[i];
-        }
-
-        // Debug.Log(inrunConstructionTriangles);
-        Vector3[] vertices = new Vector3[inrunPoints.Length * 4];
-        Vector2[] uvs = new Vector2[inrunPoints.Length * 4];
+        Vector3[] vertices = verticesList.ToArray();
+        Vector2[] uvs = uvsList.ToArray();
         int[] triangles = FacesToTriangles(ref facesList);
-        ObjectUpdate(ref inrunConstruction.gObj, ref mesh, ref inrunConstruction.materials[0], ref vertices, ref triangles, ref uvs, true);
+
+        ObjectUpdate(ref inrun.gObj, ref mesh, ref inrun.materials[0], ref vertices, ref triangles, ref uvs, false);
     }
 
-    // public void GenerateInrunTrack()
-    // {
-    //     Mesh mesh = new Mesh();
+    public void GenerateLandingAreaCollider()
+    {
+        Mesh mesh = new Mesh();
+        List<Vector3> verticesList = new List<Vector3>();
+        List<Vector2> uvsList = new List<Vector2>();
+        // 0 - green, 1 - white, 2 - blue, 3 - red
+        List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
 
-    //     Vector3[] vertices = new Vector3[inrunPoints.Length * 2];
-    //     Vector2[] uvs = new Vector2[inrunPoints.Length * 2];
-    //     int[] triangles = new int[(inrunPoints.Length - 1) * 6];
+        float[] b = new float[landingAreaPoints.Length];
 
-    //     float[] len = new float[inrunPoints.Length];
+        for (int i = 0; i < landingAreaPoints.Length; i++)
+        {
+            b[i] = landingAreaPoints[i].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) :
+                landingAreaPoints[i].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
+        }
 
-    //     for (int i = 1; i < inrunPoints.Length; i++)
-    //     {
-    //         len[i] = len[i - 1] + (inrunPoints[i] - inrunPoints[i - 1]).magnitude;
-    //     }
+        // vertices, uvs & triangles
+        for (int i = 0; i < landingAreaPoints.Length; i++)
+        {
+            verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, -b[i]));
+            uvsList.Add(new Vector2(i, -b[i]));
 
-    //     for (int i = 0; i < inrunPoints.Length; i++)
-    //     {
-    //         vertices[2 * i] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, -profileData.b1 / 2);
-    //         vertices[2 * i + 1] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, profileData.b1 / 2);
+            verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, b[i]));
+            uvsList.Add(new Vector2(i, b[i]));
 
-    //         uvs[2 * i] = new Vector2(len[i] / inrun.materialData.dim.x, (inrun.materialData.dim.y - profileData.b1) / 2 / inrun.materialData.dim.y);
-    //         uvs[2 * i + 1] = new Vector2(len[i] / inrun.materialData.dim.x, (inrun.materialData.dim.y - (inrun.materialData.dim.y - profileData.b1) / 2) / inrun.materialData.dim.y);
-    //     }
+            if (i > 0)
+            {
+                int x = verticesList.Count;
+                facesList.Add(Tuple.Create(x - 4, x - 3, x - 2, x - 1));
+            }
+        }
 
-    //     for (int i = 0; i < inrunPoints.Length - 1; i++)
-    //     {
-    //         triangles[6 * i + 0] = 2 * i + 0;
-    //         triangles[6 * i + 1] = 2 * i + 3;
-    //         triangles[6 * i + 2] = 2 * i + 1;
-    //         triangles[6 * i + 3] = 2 * i + 0;
-    //         triangles[6 * i + 4] = 2 * i + 2;
-    //         triangles[6 * i + 5] = 2 * i + 3;
-    //     }
-
-    //     ObjectUpdate(ref inrun.gObj, ref mesh, ref inrun.materialData.material, ref vertices, ref triangles, ref uvs, true);
-    // }
-
-    // public void GenerateLandingAreaMesh()
-    // {
-    //     const int maxSL = 2;
-
-    //     Mesh mesh = new Mesh();
-    //     List<Vector3> verticesList = new List<Vector3>();
-    //     List<Vector2> uvsList = new List<Vector2>();
-    //     List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
-    //     List<int> trianglesList = new List<int>();
-
-    //     int[,] lines = new int[landingAreaPoints.Length, 3];
-    //     int[] linesMask = new int[landingAreaPoints.Length];
-
-
-    //     List<float> b = new List<float>();
-    //     List<float> d = new List<float>();
-    //     List<Vector2> pts = new List<Vector2>();
-    //     List<int> sideLines = new List<int>();
-
-    //     for (int i = 0; i < landingAreaPoints.Length - 1; i++)
-    //     {
-    //         float b0 = landingAreaPoints[i].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) :
-    //             landingAreaPoints[i].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
-
-    //         // |--|--------|--|--|---/
-    //         // 0  1        2  0  1
-
-
-    //         // level 0
-    //         d.Add(i);
-    //         b.Add(b0);
-    //         pts.Add(landingAreaPoints[i]);
-
-    //         sideLines.Add(lines[i, 0]);
-
-    //         // break after last point
-    //         if (i == landingAreaPoints.Length - 1) break;
-
-    //         float b1 = landingAreaPoints[i + 1].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i + 1].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) :
-    //             landingAreaPoints[i + 1].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i + 1].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
-
-
-
-    //     }
-
-    //     // for (int i = 0; i < pts.Count; i++)
-    //     // {
-    //     //     Debug.Log(pts[i] + " " + b[i] + " " + d[i] + " " + sideLines[i]);
-    //     // }
-
-    //     // vertices, uvs & triangles
-    //     for (int i = 0; i < pts.Count; i++)
-    //     {
-    //         verticesList.Add(new Vector3(pts[i].x, pts[i].y, -b[i]));
-    //         uvsList.Add(new Vector2(d[i], -b[i]));
-    //         verticesList.Add(new Vector3(pts[i].x, pts[i].y, b[i]));
-    //         uvsList.Add(new Vector2(d[i], b[i]));
-
-
-    //         if (i > 0)
-    //         {
-    //             int x = verticesList.Count;
-
-    //             int cnt0 = 2, cnt1 = 2;
-    //             for (int j = 0; j < maxSL; j++)
-    //             {
-    //                 if (((1 << j) & sideLines[i - 1]) != 0) cnt0 += 2;
-    //                 if (((1 << j) & sideLines[i]) != 0) cnt1 += 2;
-    //             }
-
-    //             int it0 = 0, it1 = 0, l0 = 0, l1 = 0;
-
-    //             for (int j = 0; j < maxSL; j++)
-    //             {
-    //                 if (((1 << j) & sideLines[i - 1]) != 0) it0++;
-    //                 if (((1 << j) & sideLines[i]) != 0) it1++;
-
-    //                 if (((1 << j) & sideLines[i - 1] & sideLines[i]) != 0)
-    //                 {
-    //                     facesList.Add(Tuple.Create((x - cnt0 - cnt1) + l0, (x - cnt0 - cnt1) + it0, (x - cnt1) + l1, (x - cnt1) + it1));
-    //                     facesList.Add(Tuple.Create((x - cnt1 - 1) - it0, (x - cnt1 - 1) - l0, (x - 1) - it1, (x - 1) - l1));
-    //                     l0 = it0; l1 = it1;
-    //                 }
-    //             }
-
-    //             facesList.Add(Tuple.Create((x - cnt0 - cnt1) + l0, (x - cnt1 - 1) - l0, (x - cnt1) + l1, (x - 1) - l1));
-    //         }
-    //     }
-    //     Vector3[] vertices = verticesList.ToArray();
-    //     Vector2[] uvs = uvsList.ToArray();
-    //     int[] triangles = FacesToTriangles(ref facesList);
-
-    //     ObjectUpdate(ref landingArea.gObj, ref mesh, ref landingArea.materialData.material, ref vertices, ref triangles, ref uvs, true);
-    // }
+        mesh.vertices = verticesList.ToArray();
+        mesh.triangles = FacesToTriangles(ref facesList);
+        mesh.uv = uvsList.ToArray();
+        landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
     public void GenerateLandingArea()
     {
         const float lineWidth = 0.2f;
@@ -786,33 +781,51 @@ public class MeshScript : MonoBehaviour
         int[,] lineColor = new int[landingAreaPoints.Length, 3];
         int[] linesMask = new int[landingAreaPoints.Length];
 
-        // sidelines from P to L
         int pLen = Mathf.RoundToInt(hill.w - hill.l1), kLen = Mathf.RoundToInt(hill.w), lLen = Mathf.RoundToInt(hill.w + hill.l2);
-        for (int i = 3 * (pLen - 1) + 2; i <= 3 * lLen + 1; i++) lines[(i / 3), i % 3] |= (1 << 0);
-        for (int i = 3 * kLen; i <= 3 * lLen + 1; i++) lineColor[(i / 3), i % 3] = 1;
+
+        // U point line
+        int uLen = 0;
+        while ((landingAreaPoints[uLen + 1] - hill.U).magnitude < (landingAreaPoints[uLen] - hill.U).magnitude) uLen++;
+
+        // white lines
+        foreach (var line in igelitLines)
+        {
+            linesMask[line - 1] |= (1 << 1);
+            lines[line - 1, 2] |= (1 << 1);
+            lines[line, 0] |= (1 << 1);
+            lineColor[line, 0] |= (1 << 1);
+        }
 
         // P point line
         linesMask[pLen - 1] |= (1 << 1);
         linesMask[pLen] |= (1 << 0);
         lineColor[pLen, 0] |= (1 << 1);
         lineColor[pLen, 1] |= (1 << 1);
+        lines[pLen - 1, 2] = lines[pLen, 0] = lines[pLen, 1] = 0;
         // K point line
         linesMask[kLen - 1] |= (1 << 1);
         linesMask[kLen] |= (1 << 0);
         lineColor[kLen, 0] |= (1 << 1);
         lineColor[kLen, 1] |= (1 << 1);
+        lines[kLen - 1, 2] = lines[kLen, 0] = lines[kLen, 1] = 0;
         // L point line
         linesMask[lLen - 1] |= (1 << 1);
         linesMask[lLen] |= (1 << 0);
         lineColor[lLen, 0] |= (1 << 1);
         lineColor[lLen, 1] |= (1 << 1);
+        lines[lLen - 1, 2] = lines[lLen, 0] = lines[lLen, 1] = 0;
+        // U point line
+        Debug.Log("uLen:" + uLen);
+        linesMask[uLen - 1] |= (1 << 1);
+        // linesMask[uLen] |= (1 << 0);
+        lineColor[uLen, 0] |= (1 << 1);
+        // lineColor[uLen, 1] |= (1 << 1);
+        lines[uLen - 1, 2] = lines[uLen, 0] = lines[uLen, 1] = 0;
 
-        foreach (var line in igelitLines)
-        {
-            linesMask[line - 1] |= (1 << 1);
-            lines[line - 1, 2] |= (1 << 1);
-            lines[line, 0] |= (1 << 1);
-        }
+        // sidelines from P to L
+        for (int i = 3 * (pLen - 1) + 2; i <= 3 * lLen + 1; i++) lines[(i / 3), i % 3] |= (1 << 0);
+        for (int i = 3 * kLen; i <= 3 * lLen + 1; i++) lineColor[(i / 3), i % 3] |= (1 << 0);
+
 
         List<float> b = new List<float>();
         List<float> d = new List<float>();
@@ -911,7 +924,7 @@ public class MeshScript : MonoBehaviour
                     if (((1 << j) & sideLines[i]) != 0) cnt1 += 2;
                 }
 
-                int it0 = 0, it1 = 0, l0 = 0, l1 = 0, jj = 0, listId = 0;
+                int it0 = 0, it1 = 0, l0 = 0, l1 = 0, jj = -1, listId = 0;
 
                 for (int j = 0; j < maxSL; j++)
                 {
@@ -930,8 +943,13 @@ public class MeshScript : MonoBehaviour
                 }
 
                 listId = 0;
-                if (jj == 1) listId = 1;
-                else if (jj == 0 && (colorList[i] & (1 << 1)) != 0) listId = 2 + (colorList[i] & 1);
+                if ((colorList[i] & (1 << 1)) != 0)
+                {
+                    if (jj == 0) listId = 2 + (colorList[i] & 1);
+                    else listId = 1;
+                }
+                // if (jj == 1 && (colorList[i] & (1 << 1)) != 0) listId = 1;
+                // else if (jj == 0 && (colorList[i] & (1 << 1)) != 0) listId = 2 + (colorList[i] & 1);
 
                 facesList[listId].Add(Tuple.Create((x - cnt0 - cnt1) + l0, (x - cnt1 - 1) - l0, (x - cnt1) + l1, (x - 1) - l1));
             }
@@ -950,7 +968,7 @@ public class MeshScript : MonoBehaviour
         mesh.RecalculateNormals();
         landingArea.gObj.GetComponent<MeshFilter>().mesh = mesh;
         landingArea.gObj.GetComponent<MeshRenderer>().materials = landingArea.materials;
-        landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
+        // landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     public void GenerateGateStairs(ref ModelData gateStairs, int side, bool generate)
@@ -1100,26 +1118,26 @@ public class MeshScript : MonoBehaviour
         List<Vector2> uvsList = new List<Vector2>();
         List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
 
+        const float toTerrain = 2f;
         if (generate)
         {
-            // Debug.Log("RAKAKANO");
             for (int i = 0; i < landingAreaPoints.Length; i++)
             {
-                verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y - 1, sgn * (b[i] + width) - width));
+                verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y - toTerrain, sgn * (b[i] + width) - width));
                 uvsList.Add(new Vector2(i, 0));
 
                 verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + height, sgn * (b[i] + width) - width));
-                uvsList.Add(new Vector2(i, height + 1));
+                uvsList.Add(new Vector2(i, height + toTerrain));
                 verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + height, sgn * (b[i] + width) - width));
-                uvsList.Add(new Vector2(i, height + 1));
+                uvsList.Add(new Vector2(i, height + toTerrain));
 
                 verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + height, sgn * (b[i] + width) + width));
-                uvsList.Add(new Vector2(i, height + width + 1));
+                uvsList.Add(new Vector2(i, height + width + toTerrain));
                 verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + height, sgn * (b[i] + width) + width));
-                uvsList.Add(new Vector2(i, height + width + 1));
+                uvsList.Add(new Vector2(i, height + width + toTerrain));
 
-                verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y - 1, sgn * (b[i] + width) + width));
-                uvsList.Add(new Vector2(i, height + width + height + 1 + 1));
+                verticesList.Add(new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y - toTerrain, sgn * (b[i] + width) + width));
+                uvsList.Add(new Vector2(i, height + width + height + toTerrain + toTerrain));
 
                 if (i > 0)
                 {
@@ -1172,17 +1190,31 @@ public class MeshScript : MonoBehaviour
 
 
 
-    public void SaveMesh(GameObject gObj, string name)
+    public void SaveMesh(GameObject gObj, string name, bool isCollider = false)
     {
 #if UNITY_EDITOR
         string saveName = profileData.name + "_" + name;
-        MeshFilter mf = gObj.GetComponent<MeshFilter>();
-        if (mf)
+        if (isCollider)
         {
-            string savePath = "Assets/" + saveName + ".asset";
-            Debug.Log("Saved Mesh to:" + savePath);
-            AssetDatabase.CreateAsset(mf.mesh, savePath);
+            MeshCollider mc = gObj.GetComponent<MeshCollider>();
+            if (mc)
+            {
+                string savePath = "Assets/" + saveName + ".asset";
+                Debug.Log("Saved Mesh to:" + savePath);
+                AssetDatabase.CreateAsset(mc.sharedMesh, savePath);
+            }
         }
+        else
+        {
+            MeshFilter mf = gObj.GetComponent<MeshFilter>();
+            if (mf)
+            {
+                string savePath = "Assets/" + saveName + ".asset";
+                Debug.Log("Saved Mesh to:" + savePath);
+                AssetDatabase.CreateAsset(mf.mesh, savePath);
+            }
+        }
+
 #endif
     }
 }

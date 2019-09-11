@@ -54,7 +54,7 @@ public class ManagerScript : MonoBehaviour
     public JudgesController judgesController;
     public JumperController2 jumperController;
 
-    public AudioSource audioSource;
+    // public AudioSource audioSource;
 
     public AllData allData;
     public List<ProfileData> hills;

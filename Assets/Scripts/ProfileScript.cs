@@ -323,14 +323,7 @@ namespace HillProfile
                 last = curr;
             }
 
-            Vector2[] res = new Vector2[points.Count];
-            int it = 0;
-            foreach (Vector2 pt in points)
-            {
-                res[it++] = pt;
-            }
-
-            return res;
+            return points.ToArray();
         }
 
         public Vector2[] InrunPoints()
@@ -339,28 +332,17 @@ namespace HillProfile
 
             points.Add(T);
 
+            //add points between E2 and E1 (inclusive)
             float delta = E1.x - E2.x;
             int segments = (int)(l);
-
             for (int i = 0; i <= segments; i++)
             {
                 points.Add(new Vector2(i * delta / segments + E2.x, Inrun(i * delta / segments + E2.x)));
             }
 
-            // points.Add(B);
-            int tmp = (int)(A - E1).magnitude;
-            for (int i = 1; i < tmp; i++) points.Add(E1 + (A - E1) * (float)i / (float)tmp);
+            points.Add(B);
             points.Add(A);
-
-            Vector2[] res = new Vector2[points.Count];
-            int it = 0;
-
-            foreach (Vector2 pt in points)
-            {
-                res[it++] = pt;
-            }
-
-            return res;
+            return points.ToArray();
         }
 
         public Vector2 GatePoint(int nr)
