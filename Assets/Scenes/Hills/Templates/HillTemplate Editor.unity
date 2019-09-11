@@ -917,6 +917,7 @@ Transform:
   - {fileID: 550156054}
   - {fileID: 1968245915}
   - {fileID: 779918685}
+  - {fileID: 1331877543}
   m_Father: {fileID: 1434176818}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5002,6 +5003,10 @@ MonoBehaviour:
   inrunConstruction:
     gObj: {fileID: 0}
     mesh: {fileID: 131926295}
+    materials: []
+  digitsMarks:
+    gObj: {fileID: 0}
+    mesh: {fileID: 0}
     materials: []
   lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
     type: 3}
@@ -10320,7 +10325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 779918685}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Wind Net
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11691,7 +11696,7 @@ MonoBehaviour:
     bU: 14.85
     d: 38
     q: 50
-  generateTerrain: 1
+  generateTerrain: 0
   generateGateStairsL: 0
   generateGateStairsR: 1
   generateInrunStairsL: 1
@@ -11765,6 +11770,11 @@ MonoBehaviour:
     mesh: {fileID: 1169039105}
     materials:
     - {fileID: 2100000, guid: 2e3dfd6cfab469a27abc06943be86e60, type: 2}
+  digitsMarks:
+    gObj: {fileID: 1331877542}
+    mesh: {fileID: 0}
+    materials:
+    - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
   lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
     type: 3}
   inrunLampPrefab: {fileID: 4174168713265214395, guid: fd4c947576ce6d103b4b7c5492ca43d2,
@@ -19214,6 +19224,84 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324304692}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1331877542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331877543}
+  - component: {fileID: 1331877545}
+  - component: {fileID: 1331877544}
+  m_Layer: 0
+  m_Name: Marks Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1331877543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331877542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 87897531}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1331877544
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331877542}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1331877545
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331877542}
+  m_Mesh: {fileID: 4300000, guid: dda8ac9545376db57b7a606b17290b44, type: 2}
 --- !u!1 &1348053581
 GameObject:
   m_ObjectHideFlags: 0
@@ -26297,7 +26385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1687973948
 Transform:
   m_ObjectHideFlags: 0

@@ -113,6 +113,7 @@ public class MeshScript : MonoBehaviour
     [Header("Hill construction")]
     public GameObject startGate;
     public ModelData inrunConstruction;
+    public ModelData digitsMarks;
     public GameObject lampPrefab;
     public GameObject inrunLampPrefab;
 
@@ -184,164 +185,7 @@ public class MeshScript : MonoBehaviour
         GenerateGuardrail(ref landingAreaGuardrailL, 0, generateLandingAreaGuardrailL, 1);
         GenerateGuardrail(ref landingAreaGuardrailR, 1, generateLandingAreaGuardrailR, 1);
         GenerateInrunConstruction();
-
-        // inrunConstruction.GetComponent<MeshCollider>().sharedMesh = inrunConstructionMesh;
-
-        //Gate
-
-
-        /*
-                //Barriers
-                Vector3[] vertices3 = new Vector3[2 * 4 * (landingAreaPoints.Length + inrunPoints.Length)];
-                // Vector2[] uv3 = new Vector2[2 * landingAreaPoints.Length];
-                int[] triangles3 = new int[(landingAreaPoints.Length + inrunPoints.Length + 2) * 4 * 3 * 2 * 3];
-
-                for (int i = 0; i < inrunPoints.Length; i++)
-                {
-                    // if (reverseGateStairs)
-                    // {
-                    //     if (inrunPoints[i].x >= hill.B.x)
-                    //     {
-                    //         vertices3[8 * i + 4] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, profileData.b1 / 2);
-                    //         vertices3[8 * i + 5] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, profileData.b1 / 2);
-                    //         vertices3[8 * i + 6] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, profileData.b1 / 2);
-                    //         vertices3[8 * i + 7] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, profileData.b1 / 2);
-                    //     }
-
-                    //     vertices3[8 * i + 0] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, -profileData.b1 / 2);
-                    //     vertices3[8 * i + 1] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, -(profileData.b1 / 2 - 0.2f));
-                    //     vertices3[8 * i + 2] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, -(profileData.b1 / 2));
-                    //     vertices3[8 * i + 3] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, -profileData.b1 / 2);
-
-                    // }
-                    // else
-                    // {
-                    if (inrunPoints[i].x >= hill.B.x)
-                    {
-                        vertices3[8 * i + 0] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, -profileData.b1 / 2);
-                        vertices3[8 * i + 1] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, -(profileData.b1 / 2 - 0.2f));
-                        vertices3[8 * i + 2] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, -(profileData.b1 / 2));
-                        vertices3[8 * i + 3] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, -profileData.b1 / 2);
-                    }
-
-                    vertices3[8 * i + 4] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, profileData.b1 / 2);
-                    vertices3[8 * i + 5] = new Vector3(inrunPoints[i].x, inrunPoints[i].y, profileData.b1 / 2);
-                    vertices3[8 * i + 6] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, profileData.b1 / 2);
-                    vertices3[8 * i + 7] = new Vector3(inrunPoints[i].x, inrunPoints[i].y + 0.5f, profileData.b1 / 2);
-                    // }
-
-                }
-
-                for (int i = 0; i < landingAreaPoints.Length; i++)
-                {
-                    float b = landingAreaPoints[i].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) : landingAreaPoints[i].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
-                    vertices3[8 * (i + inrunPoints.Length) + 0] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, -b);
-                    vertices3[8 * (i + inrunPoints.Length) + 1] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, -(b - 0.2f));
-                    vertices3[8 * (i + inrunPoints.Length) + 2] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 1, -(b - 0.2f));
-                    vertices3[8 * (i + inrunPoints.Length) + 3] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 1, -b);
-                    vertices3[8 * (i + inrunPoints.Length) + 4] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, b - 0.2f);
-                    vertices3[8 * (i + inrunPoints.Length) + 5] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y, b);
-                    vertices3[8 * (i + inrunPoints.Length) + 6] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 1, b);
-                    vertices3[8 * (i + inrunPoints.Length) + 7] = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 1, b - 0.2f);
-
-
-                }
-
-
-                int[] inrBarSeg = { 0, 11, 3, 0, 8, 11, 3, 10, 2, 3, 11, 10, 2, 10, 9, 2, 9, 1 };
-                int[] lanBarSeg = { 0, 3, 11, 0, 11, 8, 3, 2, 10, 3, 10, 11, 2, 9, 10, 2, 1, 9 };
-
-                for (int i = 0; i < inrunPoints.Length - 1; i++)
-                {
-                    if (inrunPoints[i + 1].x >= hill.B.x)
-                    {
-                        for (int j = 0; j < inrBarSeg.Length; j++)
-                        {
-                            triangles3[2 * inrBarSeg.Length * i + j] = 8 * i + inrBarSeg[j];
-                        }
-                    }
-
-                    for (int j = 0; j < inrBarSeg.Length; j++)
-                    {
-                        triangles3[2 * inrBarSeg.Length * i + inrBarSeg.Length + j] = 8 * i + inrBarSeg[j] + 4;
-                    }
-                }
-
-                for (int i = 0; i < landingAreaPoints.Length - 1; i++)
-                {
-                    for (int j = 0; j < lanBarSeg.Length; j++)
-                    {
-                        triangles3[2 * lanBarSeg.Length * (i + inrunPoints.Length - 1) + j] = 8 * (i + inrunPoints.Length) + lanBarSeg[j];
-                    }
-                    for (int j = 0; j < lanBarSeg.Length; j++)
-                    {
-                        triangles3[2 * lanBarSeg.Length * (i + inrunPoints.Length - 1) + lanBarSeg.Length + j] = 8 * (i + inrunPoints.Length) + lanBarSeg[j] + 4;
-                    }
-                }
-
-                // int[] inrBarcaps = { 0, 1, 3, 0, 3, 2, 0, 2, 3, 0, 3, 1 };
-
-                // for (int i = 0; i < 6; i++)
-                // {
-                //     inrunConstructionTriangles[segment.Length * (inrunPoints.Length - 1) + i] = caps[i];
-                // }
-                // for (int i = 6; i < 12; i++)
-                // {
-                //     inrunConstructionTriangles[segment.Length * (inrunPoints.Length - 1) + i] = 4 * (inrunPoints.Length - 1) + caps[i];
-                // }
-                // for (int i = 0; i < landingAreaPoints.Length - 1; i++)
-                // {
-                //     triangles3[18 * i + 0] = 4 * i + 0;
-                //     triangles3[18 * i + 1] = 4 * i + 4;
-                //     triangles3[18 * i + 2] = 4 * i + 1;
-                //     triangles3[18 * i + 3] = 4 * i + 1;
-                //     triangles3[18 * i + 4] = 4 * i + 4;
-                //     triangles3[18 * i + 5] = 4 * i + 5;
-                //     triangles3[18 * i + 6] = 4 * i + 1;
-                //     triangles3[18 * i + 7] = 4 * i + 5;
-                //     triangles3[18 * i + 8] = 4 * i + 2;
-                //     triangles3[18 * i + 9] = 4 * i + 2;
-                //     triangles3[18 * i + 10] = 4 * i + 5;
-                //     triangles3[18 * i + 11] = 4 * i + 6;
-                //     triangles3[18 * i + 12] = 4 * i + 2;
-                //     triangles3[18 * i + 13] = 4 * i + 6;
-                //     triangles3[18 * i + 14] = 4 * i + 3;
-                //     triangles3[18 * i + 15] = 4 * i + 3;
-                //     triangles3[18 * i + 16] = 4 * i + 6;
-                //     triangles3[18 * i + 17] = 4 * i + 7;
-                // }
-
-
-
-                // for (int i = 0; i < inrunPoints.Length; i++)
-                // {
-                //     vertices3[4 * (i + landingAreaPoints.Length)] = new Vector3(inrunPoints[i].x, inrunPoints[i].y - hill.s, -100);
-                //     vertices3[4 * (i + landingAreaPoints.Length) + 1] = new Vector3(inrunPoints[i].x, inrunPoints[i].y - hill.s, -2);
-                //     vertices3[4 * (i + landingAreaPoints.Length) + 2] = new Vector3(inrunPoints[i].x, inrunPoints[i].y - hill.s, 2);
-                //     vertices3[4 * (i + landingAreaPoints.Length) + 3] = new Vector3(inrunPoints[i].x, inrunPoints[i].y - hill.s, 100);
-                // }
-
-                // for (int i = 0; i < inrunPoints.Length - 1; i++)
-                // {
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1)] = 4 * (i + landingAreaPoints.Length);
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 1] = 4 * (i + landingAreaPoints.Length) + 5;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 2] = 4 * (i + landingAreaPoints.Length) + 1;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 3] = 4 * (i + landingAreaPoints.Length);
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 4] = 4 * (i + landingAreaPoints.Length) + 4;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 5] = 4 * (i + landingAreaPoints.Length) + 5;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 6] = 4 * (i + landingAreaPoints.Length) + 2;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 7] = 4 * (i + landingAreaPoints.Length) + 7;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 8] = 4 * (i + landingAreaPoints.Length) + 3;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 9] = 4 * (i + landingAreaPoints.Length) + 2;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 10] = 4 * (i + landingAreaPoints.Length) + 6;
-                //     triangles3[12 * (i + landingAreaPoints.Length - 1) + 11] = 4 * (i + landingAreaPoints.Length) + 7;
-                // }
-
-                terrainMesh.vertices = vertices3;
-                terrainMesh.triangles = triangles3;
-                terrain.GetComponent<MeshFilter>().mesh = terrainMesh;
-                terrain.GetComponent<MeshRenderer>().material = terrainMaterial.material;
-        */
+        GenerateMarks();
 
         if (generateTerrain)
         {
@@ -480,6 +324,7 @@ public class MeshScript : MonoBehaviour
         SaveMesh(landingAreaGuardrailL.gObj, "LandingAreaGuardrailL");
         SaveMesh(landingAreaGuardrailR.gObj, "LandingAreaGuardrailR");
         SaveMesh(inrunConstruction.gObj, "InrunConstruction");
+        SaveMesh(digitsMarks.gObj, "DigitsMarks");
 
         SetGate(hill, 1);
 
@@ -1100,6 +945,51 @@ public class MeshScript : MonoBehaviour
         Vector2[] uvs = uvsList.ToArray();
         int[] triangles = FacesToTriangles(ref facesList);
         ObjectUpdate(ref inrunStairs.gObj, ref mesh, ref inrunStairs.materials[0], ref vertices, ref triangles, ref uvs, false);
+    }
+
+    public void GenerateMarks()
+    {
+        Mesh mesh = new Mesh();
+        List<Vector3> verticesList = new List<Vector3>();
+        List<Vector2> uvsList = new List<Vector2>();
+        List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
+        float[] b = new float[landingAreaPoints.Length];
+
+        for (int i = 0; i < landingAreaPoints.Length; i++)
+        {
+            b[i] = landingAreaPoints[i].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) :
+              landingAreaPoints[i].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
+        }
+        Vector2[] pts = { new Vector2(0, 1), new Vector2(0.25f, 1), new Vector2(0.5f, 1), new Vector2(0.75f, 1),
+            new Vector2(0, 0.75f), new Vector2(0.25f, 0.75f), new Vector2(0.5f, 0.75f), new Vector2(0.75f, 0.75f), new Vector2(0, 0.5f), new Vector2(0.25f, 0.5f) };
+        float sx = 0.15f, sy = 0.25f;
+
+        for (int i = 1; i < landingAreaPoints.Length; i++)
+        {
+            Vector3 pos = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 0.3f, b[i] - 0.02f);
+            string num = i.ToString();
+            for (int j = 0; j < num.Length; j++)
+            {
+                int dig = num[j] - '0';
+                // Debug.Log(i + " " + dig);
+                float t0 = sx * (j - 1 + num.Length / 2.0f);
+                verticesList.Add(pos + new Vector3(t0, sy, 0));
+                uvsList.Add(pts[dig] + new Vector2(0.05f, 0));
+                verticesList.Add(pos + new Vector3(t0 + sx, sy, 0));
+                uvsList.Add(pts[dig] + new Vector2(0.20f, 0));
+                verticesList.Add(pos + new Vector3(t0, 0, 0));
+                uvsList.Add(pts[dig] + new Vector2(0.05f, -0.25f));
+                verticesList.Add(pos + new Vector3(t0 + sx, 0, 0));
+                uvsList.Add(pts[dig] + new Vector2(0.20f, -0.25f));
+                int x = verticesList.Count;
+                facesList.Add(Tuple.Create(x - 4, x - 3, x - 2, x - 1));
+            }
+        }
+
+        Vector3[] vertices = verticesList.ToArray();
+        int[] triangles = FacesToTriangles(ref facesList);
+        Vector2[] uvs = uvsList.ToArray();
+        ObjectUpdate(ref digitsMarks.gObj, ref mesh, ref digitsMarks.materials[0], ref vertices, ref triangles, ref uvs, false);
     }
 
     public void GenerateGuardrail(ref ModelData guardrail, int side, bool generate, float height)
