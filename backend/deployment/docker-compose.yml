@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    build:
+      context: ../
+      dockerfile: ./Dockerfile
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    links:
+      - postgres:postgres
+    volumes:
+      - ..:/app
+      - web-static:/app/public
+    environment:
+      DJANGO_SETTINGS_MODULE: backend.settings.production
+      POSTGRES_HOST: postgres
+    env_file:
+      - ../.local-env
+      - ../.env
+    command: bash -c "python manage.py migrate && gunicorn -b 0:8000 backend.wsgi"
+
+  nginx:
+    restart: always
+    image: nginx:1.17.3
+    ports:
+      - "80:80"
+    volumes:
+      - web-static:/www/static
+      - ./docker-nginx/sites-enabled:/etc/nginx/conf.d
+    links:
+      - web:web
+    depends_on:
+      - web
+
+  postgres:
+    restart: always
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    env_file:
+      - ../.local-env
+      - ../.env
+
+volumes:
+  web-static:
+  pgdata:
+#  redisdata:

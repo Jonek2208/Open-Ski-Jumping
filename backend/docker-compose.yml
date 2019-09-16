@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    build: .
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    links:
+      - postgres:postgres
+    volumes:
+      - .:/app
+    environment:
+      POSTGRES_HOST: postgres
+    env_file:
+      - .local-env
+    command: bash -c "python manage.py migrate && python manage.py runserver 0:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    restart: always
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .local-env
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdata:
