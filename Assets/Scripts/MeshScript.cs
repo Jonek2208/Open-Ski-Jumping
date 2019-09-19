@@ -517,9 +517,9 @@ public class MeshScript : MonoBehaviour
             len[i] = len[i - 1] + (inrunPoints[i] - inrunPoints[i - 1]).magnitude;
         }
 
-        // float[] inrunTrackVals = new float[] { 0.27f, 0.225f, 0.09f, 0.035f, 0.036f, 0.001f };
-        Vector2[] inrunTrackVals = new Vector2[] { new Vector2(profileData.b1 / 2, 0), new Vector2(0.27f, 0), new Vector2(0.27f, 0.05f), new Vector2(0.225f, 0.05f), new Vector2(0.225f, 0.001f), new Vector2(0.09f, 0.001f), new Vector2(0.09f, 0.05f) };
-        Vector2 midPoint = new Vector2(0, 0.05f);
+        // float[] inrunTrackVals = new float[] { 0.27f, 0.225f, 0.09f, 0.035f, 0.035f, 0.000f };
+        Vector2[] inrunTrackVals = new Vector2[] { new Vector2(profileData.b1 / 2, 0), new Vector2(0.27f, 0), new Vector2(0.27f, 0.035f), new Vector2(0.225f, 0.035f), new Vector2(0.225f, 0f), new Vector2(0.09f, 0f), new Vector2(0.09f, 0.035f) };
+        Vector2 midPoint = new Vector2(0, 0.035f);
         float[] suff = new float[inrunTrackVals.Length];
         suff[inrunTrackVals.Length - 1] = (inrunTrackVals[inrunTrackVals.Length - 1] - midPoint).magnitude;
         for (int i = inrunTrackVals.Length - 2; i >= 0; i--)
@@ -631,6 +631,10 @@ public class MeshScript : MonoBehaviour
         // U point line
         int uLen = 0;
         while ((landingAreaPoints[uLen + 1] - hill.U).magnitude < (landingAreaPoints[uLen] - hill.U).magnitude) uLen++;
+
+        igelitLines.Clear();
+
+        for (int i = Mathf.Max(0, (pLen / 5) * 5 - 10); i <= lLen + 10; i += 5) igelitLines.Add(i);
 
         // white lines
         foreach (var line in igelitLines)

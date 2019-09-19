@@ -248,6 +248,7 @@ public class ManagerScript : MonoBehaviour
             currentHill = new Hill(tmp);
             Debug.Log(tmp.w);
         }
+        
         nameInput.text = tmp.name;
         typeDropdown.value = (int)(tmp.type);
         gatesInput.text = tmp.gates.ToString();
@@ -295,6 +296,15 @@ public class ManagerScript : MonoBehaviour
         res.rL = hill.rL;
         res.r2L = hill.r2L;
         res.r2 = hill.r2;
+
+        res.a = 100;
+        res.rA = 0;
+        res.betaA = 0;
+        res.b1 = 2.5f;
+        res.b2 = 10;
+        res.bK = 20;
+        res.bU = 25;
+
         return res;
     }
 
@@ -332,8 +342,8 @@ public class ManagerScript : MonoBehaviour
         // PlayerPrefs.SetString("Hills3", dataAsJson);
 
         /*****   Standalone  *****/
-            string filePath = Path.Combine(Application.streamingAssetsPath, dataFileName);
-            File.WriteAllText(filePath, dataAsJson);
+        string filePath = Path.Combine(Application.streamingAssetsPath, dataFileName);
+        File.WriteAllText(filePath, dataAsJson);
     }
 
 
