@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadEditor()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
     }
 
     public void LoadCompetition()
