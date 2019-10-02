@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using HillProfile;
-using HillDataSerialization;
 
 
 [System.Serializable]
@@ -125,7 +124,7 @@ public class TournamentManager : MonoBehaviour
         tournamentData.countriesList = jumpersManager.countries;
         tournamentData.hillsList = hillsList;
         tournamentData.resultList = new List<float>();
-        for(int i = 0; i < tournamentData.jumpersList.Count; i++) tournamentData.resultList.Add(0);
+        for (int i = 0; i < tournamentData.jumpersList.Count; i++) tournamentData.resultList.Add(0);
         string dataAsJson = JsonUtility.ToJson(tournamentData);
         PlayerPrefs.SetString("TournamentData", dataAsJson);
         Debug.Log(dataAsJson);

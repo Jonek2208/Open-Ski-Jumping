@@ -6,7 +6,7 @@ using UnityEditor;
 using HillProfile;
 
 [System.Serializable]
-public struct HillModel
+public class HillModel
 {
     public GameObject inrun;
     public GameObject landingArea;
@@ -47,17 +47,12 @@ public class ModelData
     public Material[] materials;
 }
 
-public enum TerrainBase
-{
-    currentTerrain,
-    PerlinNoise,
-    flat
-};
+public enum TerrainBase { currentTerrain, PerlinNoise, flat };
 
 public class MeshScript : MonoBehaviour
 {
     [Header("Hill data")]
-    public HillDataSerialization.ProfileData profileData;
+    public HillProfile.ProfileData profileData;
 
     public Hill hill;
 
@@ -162,6 +157,7 @@ public class MeshScript : MonoBehaviour
 
     public void SetGate(Hill hill, int nr)
     {
+        Debug.Log(hill.w + " " + (hill.w + hill.l2));
         jumperPosition = new Vector3(hill.GatePoint(nr).x, hill.GatePoint(nr).y, 0);
         jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
     }
@@ -328,12 +324,12 @@ public class MeshScript : MonoBehaviour
 
         SetGate(hill, 1);
 
-        lineRenderers[0].SetPosition(0, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w)].x, landingAreaPoints[Mathf.RoundToInt(hill.w)].y, -7));
-        lineRenderers[0].SetPosition(1, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w)].x, landingAreaPoints[Mathf.RoundToInt(hill.w)].y, 7));
-        lineRenderers[1].SetPosition(0, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].x, landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].y, -10));
-        lineRenderers[1].SetPosition(1, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].x, landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].y, 10));
-        lineRenderers[2].SetPosition(0, new Vector3(hill.U.x, hill.U.y, -12));
-        lineRenderers[2].SetPosition(1, new Vector3(hill.U.x, hill.U.y, 12));
+        // lineRenderers[0].SetPosition(0, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w)].x, landingAreaPoints[Mathf.RoundToInt(hill.w)].y, -7));
+        // lineRenderers[0].SetPosition(1, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w)].x, landingAreaPoints[Mathf.RoundToInt(hill.w)].y, 7));
+        // lineRenderers[1].SetPosition(0, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].x, landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].y, -10));
+        // lineRenderers[1].SetPosition(1, new Vector3(landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].x, landingAreaPoints[Mathf.RoundToInt(hill.w + hill.l2)].y, 10));
+        // lineRenderers[2].SetPosition(0, new Vector3(hill.U.x, hill.U.y, -12));
+        // lineRenderers[2].SetPosition(1, new Vector3(hill.U.x, hill.U.y, 12));
 
         DestroyLamps();
         if (time == 0)

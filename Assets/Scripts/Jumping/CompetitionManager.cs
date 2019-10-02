@@ -2,99 +2,99 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+using CompetitionClasses;
 
 public class CompetitionManager : MonoBehaviour
 {
     public ManagerScript managerScript;
     public JumpUIManager jumpUIManager;
-    public bool blocked;
-    public bool tournament;
-    public bool hillFromEditor;
-    public List<JumperData> jumpers;
-    public Country[] countries;
     public JudgesController judges;
-
-    public float[] results;
-    public bool[] jumped;
-
-    public bool finished;
-    public int round;
-    public int bib = 0;
-
-    private TournamentData tournamentData;
-    public void LoadData()
+    public Calendar calendar;
+    public CalendarResults calendarResults;
+    public CompetitionClasses.Event currentEvent;
+    const string savesPath = "competition_saves.json";
+    public List<int> competitorsList;
+    public List<int> startList;
+    private void LoadData()
     {
-        string dataAsJson = PlayerPrefs.GetString("competitorsData");
-        CompetitorsData loadedData = JsonUtility.FromJson<CompetitorsData>(dataAsJson);
-        jumpers = loadedData.jumpersList;
-        countries = loadedData.countriesList;
+        string filePath = Path.Combine(Application.streamingAssetsPath, savesPath);
+        if (File.Exists(filePath))
+        {
+            string dataAsJson = File.ReadAllText(filePath);
+            calendarResults = JsonConvert.DeserializeObject<CalendarResults>(dataAsJson);
+        }
+    }
 
-
-        dataAsJson = PlayerPrefs.GetString("TournamentData");
-        tournamentData = JsonUtility.FromJson<TournamentData>(dataAsJson);
-        Debug.Log("#HILLS: " + tournamentData.hillsList.Count);
-        Debug.Log("#JUMPERS: " + tournamentData.resultList.Count);
-
+    private void SaveData()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, savesPath);
+        string dataAsJson = JsonConvert.SerializeObject(calendarResults);
+        File.WriteAllText(filePath, dataAsJson);
     }
 
     public void CompetitionInit()
     {
-        jumped = new bool[jumpers.Count];
-        bib = 0;
-        if (round == 0)
-        {
-            results = new float[jumpers.Count];
-            round = 0;
-        }
-        else if (round == 2)
-        {
-            finished = true;
-            
-            for (int i = 0; i < jumpers.Count; i++)
-            {
-                results[i] += tournamentData.resultList[i];
-            }
-        }
-        else if (round >= 4)
-        {
-            for (int i = 0; i < jumpers.Count; i++)
-            {
-                tournamentData.resultList[i] = results[i];
-            }
+        calendar = calendarResults.calendar;
+        calendarResults.eventResults[calendarResults.eventIt] = new EventResults();
+        CompetitionClasses.Event currentEvent = calendarResults.calendar.events[calendarResults.eventIt];
 
-            string dataAsJson = JsonUtility.ToJson(tournamentData);
-            PlayerPrefs.SetString("TournamentData", dataAsJson);
-
-            int it = PlayerPrefs.GetInt("HillCodeIt")+1;
-
-            if (it < tournamentData.hillsList.Count)
-            {
-                PlayerPrefs.SetInt("HillCodeIt", it);
-                PlayerPrefs.SetInt("HillCode", tournamentData.hillsList[it]);
-                SceneManager.LoadScene(3);
-            }
-            else
-            {
-                SceneManager.LoadScene(0, LoadSceneMode.Additive);
-            }
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (!blocked)
+        switch (currentEvent.qualRankType)
         {
-            finished = false;
-            LoadData();
-            CompetitionInit();
+            case RankType.None:
+                competitorsList = new List<int>();
+                for (int i = 0; i < calendar.competitors.Count; i++) { competitorsList.Add(i); }
+                break;
+            case RankType.Event:
+                CompetitionClasses.EventResults qualRankEvent = calendarResults.eventResults[currentEvent.qualRankId];
+                if (currentEvent.inLimitType == LimitType.None)
+                {
+                    for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
+                    {
+                        competitorsList.Add(qualRankEvent.competitorsList[qualRankEvent.finalResults[i].Item1]);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < currentEvent.inLimit; i++)
+                    {
+                        competitorsList.Add(qualRankEvent.competitorsList[qualRankEvent.finalResults[i].Item1]);
+                    }
+                    if (currentEvent.inLimitType == LimitType.Normal)
+                    {
+                        for (int i = currentEvent.inLimit; i < qualRankEvent.competitorsList.Count; i++)
+                        {
+                            if (qualRankEvent.finalResults[i].Item2 >= qualRankEvent.finalResults[currentEvent.inLimit].Item2)
+                            {
+                                competitorsList.Add(qualRankEvent.competitorsList[qualRankEvent.finalResults[i].Item1]);
+                            }
+                            else
+                            { break; }
+                        }
+                    }
+                }
+                break;
+            case RankType.Classification:
+                CompetitionClasses.ClassificationResults qualRankClassification = calendarResults.classificationResults[currentEvent.qualRankId];
+                for (int i = 0; i < qualRankClassification.totalResults.Count; i++)
+                {
+                    competitorsList.Add(qualRankClassification.totalResults[i].Item1);
+                }
+                break;
         }
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        switch (currentEvent.inLimitType)
+        {
+            case LimitType.None:
+                break;
+            case LimitType.Normal:
+                break;
+            case LimitType.Exact:
+                break;
+        }
 
     }
 }

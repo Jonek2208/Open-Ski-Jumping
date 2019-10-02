@@ -1,10 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HillDataSerialization;
 
 namespace HillProfile
 {
+    public enum ProfileType { ICR1992, ICR1996, ICR2008 };
+    [System.Serializable]
+    public class HillData
+    {
+        public Vector2[] inrunCoords;
+        public Vector2[] landingAreaCords;
+
+        public Vector2[] linesCoords;
+        public Vector2[] outrunCoords;
+    }
+
+
+    [System.Serializable]
+    public class ProfileData
+    {
+        public string name;
+        public float terrainSteepness;
+        public Hill.ProfileType type;
+
+        public int gates;
+        public float w;
+        public float hn;
+        public float gamma;
+        public float alpha;
+        public float e;
+        public float es;
+        public float t;
+        public float r1;
+        public float betaP;
+        public float betaK;
+        public float betaL;
+        public float s;
+        public float l1;
+        public float l2;
+        public float rL;
+        public float r2L;
+        public float r2;
+
+        public float a;
+        public float rA;
+        public float betaA;
+        public float b1;
+        public float b2;
+        public float bK;
+        public float bU;
+        public float d;
+        public float q;
+    }
+
+    [System.Serializable]
+
+    public class AllData
+    {
+        public List<ProfileData> profileData;
+    }
     public class Hill
     {
         public enum ProfileType { ICR1992, ICR1996, ICR2008 };
@@ -184,7 +238,7 @@ namespace HillProfile
             else
             {
                 P = K - new Vector2(Mathf.Sin(betaPR) - Mathf.Sin(betaKR), Mathf.Cos(betaPR) - Mathf.Cos(betaKR)) * rL;
-                L = new Vector2(K.x + rL * (Mathf.Sin(betaKR) - Mathf.Sin(betaLR)), K.y - rL * (Mathf.Cos(betaLR) - Mathf.Cos(betaKR)));
+                L = K + new Vector2(Mathf.Sin(betaKR) - Mathf.Sin(betaLR), Mathf.Cos(betaKR) - Mathf.Cos(betaLR)) * rL;
             }
 
             u = -P.y + F.y - P.x * Mathf.Tan(beta0R);
@@ -353,85 +407,6 @@ namespace HillProfile
         public HillData GenerateHillData()
         {
             return new HillData();
-        }
-    }
-
-    public class ProfileScript : MonoBehaviour
-    {
-        void Start()
-        {
-            // ProfileData pd = new ProfileData();
-            // pd.type = ProfileType.ICR1996;
-            // pd.w = 120;
-            // pd.hn = 0.575f;
-            // string json = JsonUtility.ToJson(pd);
-            // Debug.Log(json);
-
-            // ProfileData pd0 = JsonUtility.FromJson<ProfileData>(json);
-            // Debug.Log(pd0.type + " " + pd0.w + " " + pd0.hn);
-            // Debug.Log("Oberstdorf HS137");
-            // Hill oberstdorf = new Hill(Hill.ProfileType.ICR1996, 120, 0.575f, 35, 11, 99, 23, 6.5f, 115, 37.43f, 35.5f, 32.4f, 3.38f, 11.15f, 17.42f, 321, 100, 100);
-            // oberstdorf.Calculate();
-            // Debug.Log(oberstdorf.A);
-            // Debug.Log(oberstdorf.B);
-            // Debug.Log(oberstdorf.E1);
-            // Debug.Log(oberstdorf.E2);
-            // Debug.Log(oberstdorf.T);
-            // Debug.Log(oberstdorf.C1);
-            // Debug.Log(oberstdorf.F);
-            // Debug.Log(oberstdorf.P);
-            // Debug.Log(oberstdorf.K);
-            // Debug.Log(oberstdorf.L);
-            // Debug.Log(oberstdorf.CL);
-            // Debug.Log(oberstdorf.C2);
-            // Debug.Log(oberstdorf.U);
-
-            // for (int i = (int)(oberstdorf.A.x); i <= 0; i++)
-            // {
-            //     Debug.Log(new Vector2(i, oberstdorf.Inrun(i)));
-            // }
-
-            // Vector2[] tab = oberstdorf.LandingAreaPoints(1000);
-            // for(int i = 0; i < tab.Length; i++) Debug.Log(i + " " + tab[i]);
-
-            // for(int i = 0; i < (int) (oberstdorf.U.x); i++)
-            // {
-            // 	Debug.Log(new Vector2(i, oberstdorf.LandingArea(i)));
-            // }
-
-            // Debug.Log("Zakopane HS140");
-            // Hill zakopane = new Hill(Hill.ProfileType.ICR2008, 125, 0.575f, 35, 11, 98.7f, 22, 6.5f, 90, 37.05f, 34.3f, 31.4f, 3.13f, 16, 15, 310, 168, 99.3f);
-            // zakopane.Calculate();
-            // Debug.Log(zakopane.A);
-            // Debug.Log(zakopane.B);
-            // Debug.Log(zakopane.E1);
-            // Debug.Log(zakopane.E2);
-            // Debug.Log(zakopane.T);
-            // Debug.Log(zakopane.C1);
-            // Debug.Log(zakopane.F);
-            // Debug.Log(zakopane.P);
-            // Debug.Log(zakopane.K);
-            // Debug.Log(zakopane.L);
-            // Debug.Log(zakopane.CL);
-            // Debug.Log(zakopane.C2);
-            // Debug.Log(zakopane.U);
-
-            // Debug.Log("Hakuba HS131");
-            // Hill hakuba = new Hill(Hill.ProfileType.ICR1992, 120, 0.575f, 35, 11, 95.2f, 20.5f, 6.5f, 107, 37.5f, 37.5f, 37.5f, 3, 30, 11, 0, 0, 126f);
-            // hakuba.Calculate();
-            // Debug.Log(hakuba.A);
-            // Debug.Log(hakuba.B);
-            // Debug.Log(hakuba.E1);
-            // Debug.Log(hakuba.E2);
-            // Debug.Log(hakuba.T);
-            // Debug.Log(hakuba.C1);
-            // Debug.Log(hakuba.F);
-            // Debug.Log(hakuba.P);
-            // Debug.Log(hakuba.K);
-            // Debug.Log(hakuba.L);
-            // Debug.Log(hakuba.CL);
-            // Debug.Log(hakuba.C2);
-            // Debug.Log(hakuba.U);
         }
     }
 }

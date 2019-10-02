@@ -9,6 +9,12 @@ public class ButtonScript : MonoBehaviour
     public TournamentManager tournamentManager;
     public int index;
 
+
+    void Start()
+    {
+
+    }
+
     public void JumperClick()
     {
         jumpersManager.JumperButtonClick(index);

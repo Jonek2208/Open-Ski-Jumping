@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using HillProfile;
-using HillDataSerialization;
 
 public class HillsManager : MonoBehaviour
 {

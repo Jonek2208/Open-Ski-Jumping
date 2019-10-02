@@ -15,7 +15,7 @@ public class JudgesController : MonoBehaviour
     public Hill hill;
     public MeshScript meshScript;
     public JumpUIManager jumpUIManager;
-    public CompetitionManager competitionManager;
+    // public CompetitionManager competitionManager;
     public JumperController2 jumperController;
     public GameObject gateObject;
     public Vector3 jumperPosition;
@@ -129,12 +129,7 @@ public class JudgesController : MonoBehaviour
         total -= stylePoints[lo] + stylePoints[hi];
         total += (hill.w >= 165 ? 120 : 60) + (dist - hill.w) * PtsPerMeter(hill.w);
         total = Mathf.Max(0, total);
-        if (!inEditor)
-        {
-            competitionManager.jumped[competitionManager.bib] = true;
-            competitionManager.results[competitionManager.bib] += total;
-        }
-        
+
         jumpUIManager.SetPoints(stylePoints, lo, hi, total);
     }
 
@@ -158,7 +153,7 @@ public class JudgesController : MonoBehaviour
     public void HillInit()
     {
         hill = new Hill(meshScript.profileData);
-        Debug.Log(hill.w);
+        // Debug.Log(hill.w);
         hill.Calculate();
     }
 
@@ -203,58 +198,19 @@ public class JudgesController : MonoBehaviour
 
     public void NewJump()
     {
-        if (!inEditor)
-        {
-            Debug.Log("JUMPED?: " + competitionManager.jumped[competitionManager.bib]);
-            if (competitionManager.finished || competitionManager.jumped[competitionManager.bib] && (competitionManager.bib == competitionManager.results.Length - 1))
-            {
-                showResults = true;
-                jumpUIManager.HideResults();
-                jumpUIManager.ShowResults(competitionManager.jumpers, competitionManager.countries, competitionManager.results);
-                competitionManager.round++;
-                competitionManager.CompetitionInit();
-            }
-            else
-            {
 
-                while (competitionManager.bib < competitionManager.results.Length && competitionManager.jumped[competitionManager.bib])
-                {
-                    competitionManager.bib++;
-                }
-                if (showResults)
-                {
-                    jumpUIManager.HideResults();
-                    showResults = false;
-                }
+        state = JumpState.Gate;
+        jumperController.ResetValues();
+        jumperController.GetComponent<Transform>().position = jumperPosition;
+        gateObject.GetComponent<Transform>().position = jumperPosition;
+        jumperController.GetComponent<Transform>().rotation = jumperRotation;
 
-                Debug.Log(competitionManager.jumpers[competitionManager.bib].name + " " + competitionManager.jumpers[competitionManager.bib].surname);
-                state = JumpState.Gate;
-                jumperController.ResetValues();
-                jumperController.GetComponent<Transform>().position = jumperPosition;
-                gateObject.GetComponent<Transform>().position = jumperPosition;
-                jumperController.GetComponent<Transform>().rotation = jumperRotation;
+        fl0 = fl1 = 0;
+        dx0 = dx1 = dx2 = 0;
+        deductions[0] = deductions[1] = deductions[2] = 0;
 
-                fl0 = fl1 = 0;
-                dx0 = dx1 = dx2 = 0;
-                deductions[0] = deductions[1] = deductions[2] = 0;
-            }
-            jumpUIManager.UIReset();
-            jumpUIManager.ShowJumperInfo(competitionManager.jumpers[competitionManager.bib].name, competitionManager.jumpers[competitionManager.bib].surname, competitionManager.countries[competitionManager.jumpers[competitionManager.bib].countryCode].alpha3);
-        }
-        else
-        {
-            state = JumpState.Gate;
-            jumperController.ResetValues();
-            jumperController.GetComponent<Transform>().position = jumperPosition;
-            gateObject.GetComponent<Transform>().position = jumperPosition;
-            jumperController.GetComponent<Transform>().rotation = jumperRotation;
+        jumpUIManager.UIReset();
 
-            fl0 = fl1 = 0;
-            dx0 = dx1 = dx2 = 0;
-            deductions[0] = deductions[1] = deductions[2] = 0;
-
-            jumpUIManager.UIReset();
-        }
     }
 
     public void SetWind(float val)
