@@ -24,6 +24,7 @@ public class CalendarCreatorScript : MonoBehaviour
 
     List<Competitor> allCompetitors;
     List<Classification> classifications;
+
     public void CreateCompetitorsList()
     {
 

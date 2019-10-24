@@ -86,6 +86,8 @@ namespace HillProfile
 
         public float a, rA, betaA, betaAR; //Outrun
 
+        public float b1, b2, bK, bU;
+
         public Vector2 A, B, C1, C2, CL, CV, E1, E2, T, F, P, K, L, U, V, X;
 
         public Hill() { }
@@ -190,6 +192,10 @@ namespace HillProfile
             rA = profileData.rA;
             betaA = profileData.betaA;
             betaAR = Mathf.Deg2Rad * betaA;
+            b1 = profileData.b1;
+            b2 = profileData.b2;
+            bK = profileData.bK;
+            bU = profileData.bU;
         }
 
         public void Calculate()

@@ -157,7 +157,6 @@ public class MeshScript : MonoBehaviour
 
     public void SetGate(Hill hill, int nr)
     {
-        Debug.Log(hill.w + " " + (hill.w + hill.l2));
         jumperPosition = new Vector3(hill.GatePoint(nr).x, hill.GatePoint(nr).y, 0);
         jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
     }
@@ -660,7 +659,7 @@ public class MeshScript : MonoBehaviour
         lineColor[lLen, 1] |= (1 << 1);
         lines[lLen - 1, 2] = lines[lLen, 0] = lines[lLen, 1] = 0;
         // U point line
-        Debug.Log("uLen:" + uLen);
+        // Debug.Log("uLen:" + uLen);
         linesMask[uLen - 1] |= (1 << 1);
         // linesMask[uLen] |= (1 << 0);
         lineColor[uLen, 0] |= (1 << 1);
@@ -879,7 +878,7 @@ public class MeshScript : MonoBehaviour
 
             float width = 1f;
             float heightDiff = hill.A.y - hill.T.y;
-            Debug.Log(heightDiff);
+            // Debug.Log(heightDiff);
             float stepHeight = heightDiff / stepsNumber;
             float offset = ((side == 1) ? (width + profileData.b1) : 0);
             int it = 0;

@@ -63,8 +63,8 @@ namespace CompetitionClasses
     public class EventResults
     {
         public List<Tuple<int, List<float>>> roundResults;
-        public List<Tuple<int, float>> totalResults;
-        public List<Tuple<int, float>> finalResults;
+        public List<Tuple<float, int>> totalResults;
+        public List<Tuple<float, int>> finalResults;
         public List<int> competitorsList;
 
         public EventResults() { }
@@ -77,7 +77,7 @@ namespace CompetitionClasses
     public class ClassificationResults
     {
         public List<Tuple<int, List<float>>> eventResults;
-        public List<Tuple<int, float>> totalResults;
+        public List<Tuple<float, int>> totalResults;
     }
 
     public class Results
