@@ -171,14 +171,14 @@ public class MeshScript : MonoBehaviour
         GenerateLandingAreaCollider();
         GenerateLandingArea();
 
-        GenerateGateStairs(ref gateStairsL, 0, generateGateStairsL);
-        GenerateGateStairs(ref gateStairsR, 1, generateGateStairsR);
+        GenerateGateStairs(gateStairsL, 0, generateGateStairsL);
+        GenerateGateStairs(gateStairsR, 1, generateGateStairsR);
         int stepsCount = Mathf.RoundToInt((hill.A.y - hill.T.y) / inrunStairsStepHeigth);
         inrunStairsStepHeigth = (hill.A.y - hill.T.y) / stepsCount;
-        GenerateInrunStairs(ref inrunStairsL, 0, generateInrunStairsL, stepsCount);
-        GenerateInrunStairs(ref inrunStairsR, 1, generateInrunStairsR, stepsCount);
-        GenerateGuardrail(ref landingAreaGuardrailL, 0, generateLandingAreaGuardrailL, 1);
-        GenerateGuardrail(ref landingAreaGuardrailR, 1, generateLandingAreaGuardrailR, 1);
+        GenerateInrunStairs(inrunStairsL, 0, generateInrunStairsL, stepsCount);
+        GenerateInrunStairs(inrunStairsR, 1, generateInrunStairsR, stepsCount);
+        GenerateGuardrail(landingAreaGuardrailL, 0, generateLandingAreaGuardrailL, 1);
+        GenerateGuardrail(landingAreaGuardrailR, 1, generateLandingAreaGuardrailR, 1);
         GenerateInrunConstruction();
         GenerateMarks();
 
@@ -360,7 +360,7 @@ public class MeshScript : MonoBehaviour
         landingAreaPoints = hill.LandingAreaPoints(1000);
     }
 
-    public void ObjectUpdate(ref GameObject gameObject, ref Mesh mesh, ref Material material, ref Vector3[] vertices, ref int[] triangles, ref Vector2[] uvs, bool hasCollider)
+    public void ObjectUpdate(GameObject gameObject, Mesh mesh, Material material, Vector3[] vertices, int[] triangles, Vector2[] uvs, bool hasCollider)
     {
         mesh.vertices = vertices;
         mesh.triangles = triangles;
@@ -375,7 +375,7 @@ public class MeshScript : MonoBehaviour
         }
     }
 
-    public int[] FacesToTriangles(ref List<Tuple<int, int, int, int>> facesList)
+    public int[] FacesToTriangles(List<Tuple<int, int, int, int>> facesList)
     {
         List<int> triangles = new List<int>();
         foreach (var face in facesList)
@@ -423,7 +423,7 @@ public class MeshScript : MonoBehaviour
             triangles[6 * i + 5] = 2 * i + 3;
         }
 
-        ObjectUpdate(ref inrun.gObj, ref mesh, ref inrun.materials[0], ref vertices, ref triangles, ref uvs, true);
+        ObjectUpdate(inrun.gObj, mesh, inrun.materials[0], vertices, triangles, uvs, true);
         // inrun.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
@@ -493,9 +493,9 @@ public class MeshScript : MonoBehaviour
 
         Vector3[] vertices = verticesList.ToArray();
         Vector2[] uvs = uvsList.ToArray();
-        int[] triangles = FacesToTriangles(ref facesList);
+        int[] triangles = FacesToTriangles(facesList);
         // Debug.Log("RAKAKANO: " + verticesList.Count + " " + uvsList.Count + " " + triangles.Length);
-        ObjectUpdate(ref inrunConstruction.gObj, ref mesh, ref inrunConstruction.materials[0], ref vertices, ref triangles, ref uvs, false);
+        ObjectUpdate(inrunConstruction.gObj, mesh, inrunConstruction.materials[0], vertices, triangles, uvs, false);
     }
 
     public void GenerateInrunTrack()
@@ -559,9 +559,9 @@ public class MeshScript : MonoBehaviour
 
         Vector3[] vertices = verticesList.ToArray();
         Vector2[] uvs = uvsList.ToArray();
-        int[] triangles = FacesToTriangles(ref facesList);
+        int[] triangles = FacesToTriangles(facesList);
 
-        ObjectUpdate(ref inrun.gObj, ref mesh, ref inrun.materials[0], ref vertices, ref triangles, ref uvs, false);
+        ObjectUpdate(inrun.gObj, mesh, inrun.materials[0], vertices, triangles, uvs, false);
     }
 
     public void GenerateLandingAreaCollider()
@@ -597,7 +597,7 @@ public class MeshScript : MonoBehaviour
         }
 
         mesh.vertices = verticesList.ToArray();
-        mesh.triangles = FacesToTriangles(ref facesList);
+        mesh.triangles = FacesToTriangles(facesList);
         mesh.uv = uvsList.ToArray();
         landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
@@ -605,7 +605,7 @@ public class MeshScript : MonoBehaviour
     {
         const float lineWidth = 0.2f;
         const float sideLineWidth = 0.5f;
-        const float whiteLineWidth = 3f;
+        const float whiteLineWidth = 1f;
         const int maxSL = 2;
 
         Mesh mesh = new Mesh();
@@ -629,7 +629,7 @@ public class MeshScript : MonoBehaviour
 
         igelitLines.Clear();
 
-        for (int i = Mathf.Max(0, (pLen / 5) * 5 - 10); i <= lLen + 10; i += 5) igelitLines.Add(i);
+        for (int i = Mathf.Max(5, (pLen / 5) * 5 - 10); i <= Mathf.Min(20, lLen + 5); i += 5) igelitLines.Add(i);
 
         // white lines
         foreach (var line in igelitLines)
@@ -805,7 +805,7 @@ public class MeshScript : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            mesh.SetTriangles(FacesToTriangles(ref facesList[i]), i);
+            mesh.SetTriangles(FacesToTriangles(facesList[i]), i);
             // Debug.Log("Submesh: " + i + " size: " + facesList[i].Count);
         }
 
@@ -815,55 +815,59 @@ public class MeshScript : MonoBehaviour
         // landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    public void GenerateGateStairs(ref ModelData gateStairs, int side, bool generate)
+    public void GenerateGateStairs(ModelData gateStairs, int side, bool generate)
     {
         /* 0 - Left, 1 - Right */
         Mesh mesh = new Mesh();
-        Vector3[] vertices = new Vector3[4 * (hill.gates + 2)];
-        Vector2[] uvs = new Vector2[4 * (hill.gates + 2)];
-        int[] triangles = new int[6 * (2 * (hill.gates + 2) - 1)];
+        List<Vector3> verticesList = new List<Vector3>();
+        List<Vector2> uvsList = new List<Vector2>();
+        List<int> trianglesList = new List<int>();
+
+        List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
+
+
         if (generate)
         {
             float width = 4f;
             float offset = ((side == 1) ? (width + profileData.b1) : 0);
 
-            for (int i = 0; i < hill.gates + 2; i++)
+            for (int i = 0; i < hill.gates + 1; i++)
             {
                 Vector2 pos = hill.B + (hill.A - hill.B) * ((float)(i) / (float)(hill.gates - 1));
                 Vector2 pos0 = hill.B + (hill.A - hill.B) * ((float)(i - 1) / (float)(hill.gates - 1));
-                vertices[4 * i + 0] = new Vector3(pos0.x, pos.y, -(profileData.b1 / 2 + width) + offset);
-                vertices[4 * i + 1] = new Vector3(pos0.x, pos.y, -profileData.b1 / 2 + offset);
-                vertices[4 * i + 2] = new Vector3(pos.x, pos.y, -(profileData.b1 / 2 + width) + offset);
-                vertices[4 * i + 3] = new Vector3(pos.x, pos.y, -profileData.b1 / 2 + offset);
-                uvs[4 * i] = new Vector2(i, 0);
-                uvs[4 * i + 1] = new Vector2(i, 1);
-            }
 
-            for (int i = 0; i < hill.gates + 1; i++)
-            {
-                triangles[6 * i + 0] = 4 * i + 0;
-                triangles[6 * i + 1] = 4 * i + 3;
-                triangles[6 * i + 2] = 4 * i + 1;
-                triangles[6 * i + 3] = 4 * i + 0;
-                triangles[6 * i + 4] = 4 * i + 2;
-                triangles[6 * i + 5] = 4 * i + 3;
-            }
+                verticesList.Add(new Vector3(pos0.x, pos0.y, -(profileData.b1 / 2 + width) + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos0 - hill.B).y, 0));
+                verticesList.Add(new Vector3(pos0.x, pos0.y, -profileData.b1 / 2 + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos0 - hill.B).y, 1));
+                verticesList.Add(new Vector3(pos0.x, pos.y, -(profileData.b1 / 2 + width) + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos - hill.B).y, 0));
+                verticesList.Add(new Vector3(pos0.x, pos.y, -profileData.b1 / 2 + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos - hill.B).y, 1));
 
-            for (int i = 0; i < hill.gates; i++)
-            {
-                triangles[6 * (i + hill.gates + 1) + 0] = 4 * i + 2;
-                triangles[6 * (i + hill.gates + 1) + 1] = 4 * i + 5;
-                triangles[6 * (i + hill.gates + 1) + 2] = 4 * i + 3;
-                triangles[6 * (i + hill.gates + 1) + 3] = 4 * i + 2;
-                triangles[6 * (i + hill.gates + 1) + 4] = 4 * i + 4;
-                triangles[6 * (i + hill.gates + 1) + 5] = 4 * i + 5;
+                verticesList.Add(new Vector3(pos0.x, pos.y, -(profileData.b1 / 2 + width) + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos - hill.B).y, 0));
+                verticesList.Add(new Vector3(pos0.x, pos.y, -profileData.b1 / 2 + offset));
+                uvsList.Add(new Vector2((pos0 - hill.B).x + (pos - hill.B).y, 1));
+                verticesList.Add(new Vector3(pos.x, pos.y, -(profileData.b1 / 2 + width) + offset));
+                uvsList.Add(new Vector2((pos - hill.B).x + (pos - hill.B).y, 0));
+                verticesList.Add(new Vector3(pos.x, pos.y, -profileData.b1 / 2 + offset));
+                uvsList.Add(new Vector2((pos - hill.B).x + (pos - hill.B).y, 1));
+
+                int x = verticesList.Count;
+                facesList.Add(Tuple.Create(x - 2, x - 1, x - 4, x - 3));
+                facesList.Add(Tuple.Create(x - 6, x - 5, x - 8, x - 7));
             }
         }
 
-        ObjectUpdate(ref gateStairs.gObj, ref mesh, ref gateStairs.materials[0], ref vertices, ref triangles, ref uvs, false);
+        Vector3[] vertices = verticesList.ToArray(); ;
+        Vector2[] uvs = uvsList.ToArray();
+        int[] triangles = FacesToTriangles(facesList);
+
+        ObjectUpdate(gateStairs.gObj, mesh, gateStairs.materials[0], vertices, triangles, uvs, false);
     }
 
-    public void GenerateInrunStairs(ref ModelData inrunStairs, int side, bool generate, int stepsNumber)
+    public void GenerateInrunStairs(ModelData inrunStairs, int side, bool generate, int stepsNumber)
     {
         /* 0 - Left, 1 - Right */
         Mesh mesh = new Mesh();
@@ -942,8 +946,8 @@ public class MeshScript : MonoBehaviour
 
         Vector3[] vertices = verticesList.ToArray(); ;
         Vector2[] uvs = uvsList.ToArray();
-        int[] triangles = FacesToTriangles(ref facesList);
-        ObjectUpdate(ref inrunStairs.gObj, ref mesh, ref inrunStairs.materials[0], ref vertices, ref triangles, ref uvs, false);
+        int[] triangles = FacesToTriangles(facesList);
+        ObjectUpdate(inrunStairs.gObj, mesh, inrunStairs.materials[0], vertices, triangles, uvs, false);
     }
 
     public void GenerateMarks()
@@ -954,7 +958,15 @@ public class MeshScript : MonoBehaviour
         List<Tuple<int, int, int, int>> facesList = new List<Tuple<int, int, int, int>>();
         float[] b = new float[landingAreaPoints.Length];
 
-        for (int i = 0; i < landingAreaPoints.Length; i++)
+        int pLen = Mathf.RoundToInt(hill.w - hill.l1), kLen = Mathf.RoundToInt(hill.w), lLen = Mathf.RoundToInt(hill.w + hill.l2);
+        int uLen = 0;
+        while ((landingAreaPoints[uLen + 1] - hill.U).magnitude < (landingAreaPoints[uLen] - hill.U).magnitude) uLen++;
+
+        int mn = kLen / 2;
+        int mx = Mathf.Min(uLen, lLen + 5);
+
+
+        for (int i = mn; i <= mx; i++)
         {
             b[i] = landingAreaPoints[i].x <= hill.K.x ? (profileData.b2 / 2) + landingAreaPoints[i].x / hill.K.x * ((profileData.bK - profileData.b2) / 2) :
               landingAreaPoints[i].x >= hill.U.x ? (profileData.bU / 2) : (profileData.bK / 2) + (landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.bU - profileData.bK) / 2);
@@ -963,7 +975,7 @@ public class MeshScript : MonoBehaviour
             new Vector2(0, 0.75f), new Vector2(0.25f, 0.75f), new Vector2(0.5f, 0.75f), new Vector2(0.75f, 0.75f), new Vector2(0, 0.5f), new Vector2(0.25f, 0.5f) };
         float sx = 0.15f, sy = 0.25f;
 
-        for (int i = 1; i < landingAreaPoints.Length; i++)
+        for (int i = mn; i < mx; i++)
         {
             Vector3 pos = new Vector3(landingAreaPoints[i].x, landingAreaPoints[i].y + 0.3f, b[i] - 0.02f);
             string num = i.ToString();
@@ -986,12 +998,12 @@ public class MeshScript : MonoBehaviour
         }
 
         Vector3[] vertices = verticesList.ToArray();
-        int[] triangles = FacesToTriangles(ref facesList);
+        int[] triangles = FacesToTriangles(facesList);
         Vector2[] uvs = uvsList.ToArray();
-        ObjectUpdate(ref digitsMarks.gObj, ref mesh, ref digitsMarks.materials[0], ref vertices, ref triangles, ref uvs, false);
+        ObjectUpdate(digitsMarks.gObj, mesh, digitsMarks.materials[0], vertices, triangles, uvs, false);
     }
 
-    public void GenerateGuardrail(ref ModelData guardrail, int side, bool generate, float height)
+    public void GenerateGuardrail(ModelData guardrail, int side, bool generate, float height)
     {
 
         float width = 0.1f;
@@ -1048,9 +1060,9 @@ public class MeshScript : MonoBehaviour
         //     Debug.Log("verticesList[" + i + "] = " + verticesList[i]);
         // }
         Vector3[] vertices = verticesList.ToArray();
-        int[] triangles = FacesToTriangles(ref facesList);
+        int[] triangles = FacesToTriangles(facesList);
         Vector2[] uvs = uvsList.ToArray();
-        ObjectUpdate(ref guardrail.gObj, ref mesh, ref guardrail.materials[0], ref vertices, ref triangles, ref uvs, false);
+        ObjectUpdate(guardrail.gObj, mesh, guardrail.materials[0], vertices, triangles, uvs, false);
     }
     public void DestroyLamps()
     {
