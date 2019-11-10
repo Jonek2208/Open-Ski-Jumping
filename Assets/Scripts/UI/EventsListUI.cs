@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using CompetitionClasses;
 
 public class EventsListUI : ListDisplay
 {
     public TMPro.TMP_Dropdown hillsDropdown;
+
+    public TMPro.TMP_Dropdown eventPresetDropdown;
     public TMPro.TMP_Dropdown eventTypeDropdown;
     public TMPro.TMP_Dropdown inLimitTypeDropdown;
     public TMPro.TMP_Dropdown qualRankTypeDropdown;
@@ -136,6 +135,7 @@ public class EventsListUI : ListDisplay
         eventTypeDropdown.value = (int)eventsList[index].eventType;
         inLimitTypeDropdown.value = (int)eventsList[index].inLimitType;
         inLimitInput.text = eventsList[index].inLimit.ToString();
+        eventPresetDropdown.value = (int)eventsList[index].eventPreset;
 
         if (!GetComponent<ClassificationsListUI>().updated)
         {
@@ -163,6 +163,7 @@ public class EventsListUI : ListDisplay
         CompetitionClasses.Event e = new CompetitionClasses.Event("New Event", 0, CompetitionClasses.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
         eventsList.Add(e);
         AddListElement(NewListElement(e));
+        Save();
     }
 
     public void Save()
@@ -186,6 +187,28 @@ public class EventsListUI : ListDisplay
 
         eventsList[currentIndex].qualRankType = (CompetitionClasses.RankType)qualRankTypeDropdown.value;
         eventsList[currentIndex].qualRankId = qualRankEventDropdown.value;
+        eventsList[currentIndex].eventPreset = (CompetitionClasses.EventPreset)eventPresetDropdown.value;
+
+        eventsList[currentIndex].roundInfos = new List<RoundInfo>();
+        switch (eventsList[currentIndex].eventPreset)
+        {
+            case EventPreset.Individual2Rounds:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                break;
+            case EventPreset.Individual4Rounds:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                break;
+            case EventPreset.Qualification:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 5));
+                break;
+            case EventPreset.QualificationFlying:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 4));
+                break;
+        }
 
         SetValue(elementsList[currentIndex], eventsList[currentIndex]);
     }

@@ -18,7 +18,7 @@ public class ScrollViewElemScript : MonoBehaviour
     {
         if (val)
         {
-            calendarCreatorScript.UpdateClassificationsPanel(index);
+            // calendarCreatorScript.UpdateClassificationsPanel(index);
         }
     }
 }

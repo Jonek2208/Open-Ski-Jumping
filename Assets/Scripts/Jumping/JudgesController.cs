@@ -15,7 +15,8 @@ public class JudgesController : MonoBehaviour
     public Hill hill;
     public MeshScript meshScript;
     public JumpUIManager jumpUIManager;
-    // public CompetitionManager competitionManager;
+    public MouseScript mouseScript;
+    public CompetitionManager competitionManager;
     public JumperController2 jumperController;
     public GameObject gateObject;
     public Vector3 jumperPosition;
@@ -33,7 +34,15 @@ public class JudgesController : MonoBehaviour
 
     void Start()
     {
-        HillInit();
+        if (inEditor)
+        {
+            PrepareHill();
+        }
+    }
+
+    public void PrepareHill(ProfileData pd = null)
+    {
+        HillInit(pd);
         jumpUIManager.UIReset();
         jumpUIManager.SetGateSliderRange(hill.gates);
         jumpUIManager.SetGateSlider(1);
@@ -129,8 +138,9 @@ public class JudgesController : MonoBehaviour
         total -= stylePoints[lo] + stylePoints[hi];
         total += (hill.w >= 165 ? 120 : 60) + (dist - hill.w) * PtsPerMeter(hill.w);
         total = Mathf.Max(0, total);
-
-        jumpUIManager.SetPoints(stylePoints, lo, hi, total);
+        var res = competitionManager.AddJump(new CompetitionClasses.Jump(dist, stylePoints, 0, 0, 0, 0));
+        jumpUIManager.SetPoints(stylePoints, lo, hi, res.Item2, res.Item1);
+        mouseScript.UnlockCursor();
     }
 
     public void FlightStability(float jumperAngle)
@@ -150,11 +160,31 @@ public class JudgesController : MonoBehaviour
     }
 
 
-    public void HillInit()
+    public void HillInit(ProfileData pd = null)
     {
+        if (pd == null)
+        {
+            pd = meshScript.profileData;
+        }
         hill = new Hill(meshScript.profileData);
+        jumpUIManager.SetHillNameText(pd.name);
         // Debug.Log(hill.w);
         hill.Calculate();
+
+        float ptsPerMeter = 1.2f, kPointPts = (hill.w < 165 ? 60f : 120f);
+        if (hill.w < 25) ptsPerMeter = 4.8f;
+        else if (hill.w < 30) ptsPerMeter = 4.4f;
+        else if (hill.w < 35) ptsPerMeter = 4.0f;
+        else if (hill.w < 40) ptsPerMeter = 3.6f;
+        else if (hill.w < 50) ptsPerMeter = 3.2f;
+        else if (hill.w < 60) ptsPerMeter = 2.8f;
+        else if (hill.w < 70) ptsPerMeter = 2.4f;
+        else if (hill.w < 80) ptsPerMeter = 2.2f;
+        else if (hill.w < 100) ptsPerMeter = 2.0f;
+        else if (hill.w < 165) ptsPerMeter = 1.8f;
+        else ptsPerMeter = 1.2f;
+
+        competitionManager.hillInfo = new CompetitionClasses.HillInfo(hill.w, hill.w + hill.l2, ptsPerMeter, kPointPts);
     }
 
     public float Distance(Vector2[] landingAreaPoints, Vector3 contact)
@@ -198,7 +228,6 @@ public class JudgesController : MonoBehaviour
 
     public void NewJump()
     {
-
         state = JumpState.Gate;
         jumperController.ResetValues();
         jumperController.GetComponent<Transform>().position = jumperPosition;
@@ -210,12 +239,11 @@ public class JudgesController : MonoBehaviour
         deductions[0] = deductions[1] = deductions[2] = 0;
 
         jumpUIManager.UIReset();
-
+        // competitionManager.NextJump();
     }
 
     public void SetWind(float val)
     {
         jumperController.windForce = val;
     }
-
 }

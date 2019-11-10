@@ -605,7 +605,7 @@ public class MeshScript : MonoBehaviour
     {
         const float lineWidth = 0.2f;
         const float sideLineWidth = 0.5f;
-        const float whiteLineWidth = 1f;
+        const float whiteLineWidth = 3f;
         const int maxSL = 2;
 
         Mesh mesh = new Mesh();
@@ -629,7 +629,7 @@ public class MeshScript : MonoBehaviour
 
         igelitLines.Clear();
 
-        for (int i = Mathf.Max(5, (pLen / 5) * 5 - 10); i <= Mathf.Min(20, lLen + 5); i += 5) igelitLines.Add(i);
+        for (int i = Mathf.Max(5, (pLen / 5) * 5 - 10); i <= lLen + 5; i += 5) igelitLines.Add(i);
 
         // white lines
         foreach (var line in igelitLines)

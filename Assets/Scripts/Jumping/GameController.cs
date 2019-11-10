@@ -25,11 +25,10 @@ public class GameController : MonoBehaviour
     // public GameObject jumperObject;
     // public GameObject gateObject;
     // private JumperController jumperController;
+    public CompetitionManager competitionManager;
     public CamerasController camerasController;
-
     public MeshScript meshScript;
     public JudgesController judgesController;
-
     public MouseScript mouseScript;
     // public GateController gateController;
 
@@ -107,12 +106,12 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        KeyCode [] keys = {KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12};
-        for(int i = 0; i < keys.Length; i++)
+        KeyCode[] keys = { KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6/*, KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12*/};
+        for (int i = 0; i < keys.Length; i++)
         {
             if (Input.GetKeyDown(keys[i]))
             {
-                camerasController.EnableCamera(2*i+reversedCam);
+                camerasController.EnableCamera(2 * i + reversedCam);
                 currentCam = i;
             }
         }
@@ -130,7 +129,8 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            judgesController.NewJump();
+            competitionManager.NextJump();
+            // judgesController.NewJump();
             mouseScript.UnlockCursor();
             // jumperController.ResetValues();
             // jumperObject.GetComponent<Transform>().position = meshScript.jumperPosition;
@@ -144,11 +144,12 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             reversedCam = 1 - reversedCam;
-            camerasController.EnableCamera(2*currentCam+reversedCam);
+            camerasController.EnableCamera(2 * currentCam + reversedCam);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            mouseScript.UnlockCursor();
             LoadMainMenu();
         }
         // paramText.text = "angle: " + (float)jumperController.angle + "\njumperAngle: " + jumperController.jumperAngle;

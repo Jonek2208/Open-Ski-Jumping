@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
+using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using CompetitionClasses;
 
@@ -13,21 +12,18 @@ public class CalendarCreatorScript : MonoBehaviour
 {
     const string competitorsFileName = "competitors.json";
     const string countryDataFileName = "country_data.json";
+    const string savesPath = "competition_saves.json";
     public GameObject jumpersContentObject;
     public GameObject jumperPrefab;
     public SpriteAtlas flagsSprite;
-    public TMPro.TMP_InputField classificationNameInput;
-    public TMPro.TMP_Dropdown classificationDropdown1;
-    public TMPro.TMP_Dropdown classificationDropdown2;
-    public GameObject classificationsContentObject;
-    public GameObject classificationPrefab;
 
     List<Competitor> allCompetitors;
-    List<Classification> classifications;
-
+    List<GameObject> competitorsObjList;
+    ClassificationsListUI classificationsListUI;
+    EventsListUI eventsListUI;
     public void CreateCompetitorsList()
     {
-
+        competitorsObjList = new List<GameObject>();
         Dictionary<string, int> countriesDict = new Dictionary<string, int>();
 
         string filePath = Path.Combine(Application.streamingAssetsPath, countryDataFileName);
@@ -64,36 +60,57 @@ public class CalendarCreatorScript : MonoBehaviour
                 tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = c.lastName.ToUpper() + " " + c.firstName;
                 tmp.GetComponentsInChildren<Image>()[3].sprite = flagsSprite.GetSprite("flags_responsive_uncompressed_" + countriesDict[c.countryCode].ToString());
                 tmp.transform.SetParent(jumpersContentObject.transform);
+                competitorsObjList.Add(tmp);
             }
         }
     }
-
-    public void OnAddClassificationButton()
+    public void OnFinish()
     {
-        int dropdown1val = classificationDropdown1.value;
-        int dropdown2val = classificationDropdown2.value;
-        ClassificationType ct = (ClassificationType)(2 * dropdown1val + dropdown2val);
-        classifications.Add(new Classification(classificationNameInput.text, ct));
+        CalendarResults calendarResults = new CalendarResults();
+        calendarResults.calendar = new Calendar();
+        for (int i = 0; i < allCompetitors.Count; i++)
+        {
+            if (competitorsObjList[i].GetComponentInChildren<Toggle>().isOn)
+            {
+                calendarResults.calendar.competitors.Add(allCompetitors[i]);
+            }
+        }
 
-        GameObject tmp = Instantiate(classificationPrefab);
-        tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = classificationNameInput.text;
-        tmp.transform.SetParent(classificationsContentObject.transform);
-        tmp.GetComponent<ScrollViewElemScript>().calendarCreatorScript = this;
-        tmp.GetComponent<ScrollViewElemScript>().index = classifications.Count - 1;
+        calendarResults.calendar.classifications = classificationsListUI.classificationsList;
+        calendarResults.calendar.events = eventsListUI.eventsList;
+        for (int i = 0; i < calendarResults.calendar.events.Count; i++)
+        {
+            foreach (var jt in calendarResults.calendar.events[i].classifications)
+            {
+                calendarResults.calendar.classifications[jt].events.Add(i);
+            }
+        }
 
-        tmp.GetComponent<Toggle>().group = classificationsContentObject.GetComponent<ToggleGroup>();
-    }
+        calendarResults.eventResults = new EventResults[calendarResults.calendar.events.Count];
+        calendarResults.classificationResults = new ClassificationResults[calendarResults.calendar.classifications.Count];
+        for (int i = 0; i < calendarResults.classificationResults.Length; i++)
+        {
+            calendarResults.classificationResults[i] = new ClassificationResults();
+            calendarResults.classificationResults[i].totalResults = new float[calendarResults.calendar.competitors.Count];
+            calendarResults.classificationResults[i].eventResults = new List<float>[calendarResults.calendar.competitors.Count];
+        }
+        calendarResults.eventIt = 0;
 
-    public void UpdateClassificationsPanel(int index)
-    {
-        classificationNameInput.text = classifications[index].name;
-        classificationDropdown1.value = (int)(classifications[index].classificationType) / 2;
-        classificationDropdown2.value = (int)(classifications[index].classificationType) % 2;
+        if (File.Exists(Path.Combine(Application.streamingAssetsPath, "data.json")))
+        {
+            calendarResults.hillProfiles = JsonConvert.DeserializeObject<HillProfile.AllData>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "data.json"))).profileData;
+        }
+
+        string filePath = Path.Combine(Application.streamingAssetsPath, savesPath);
+        string dataAsJson = JsonConvert.SerializeObject(calendarResults);
+        File.WriteAllText(filePath, dataAsJson);
+        SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
     }
 
     void Start()
     {
-        classifications = new List<Classification>();
         CreateCompetitorsList();
+        classificationsListUI = GetComponent<ClassificationsListUI>();
+        eventsListUI = GetComponent<EventsListUI>();
     }
 }
