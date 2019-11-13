@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 
-using CompetitionClasses;
+using Calendar;
 
 public class CompetitionManager : MonoBehaviour
 {
@@ -12,13 +12,9 @@ public class CompetitionManager : MonoBehaviour
     public JumpUIManager jumpUIManager;
     public JudgesController judges;
 
-    public Calendar calendar;
     public CalendarResults calendarResults;
-    public CompetitionClasses.Event currentEvent;
-    public CompetitionClasses.HillInfo hillInfo;
+
     const string savesPath = "competition_saves.json";
-    public List<int> competitorsList;
-    public List<int> startList;
     public bool showingResults;
     private void LoadData()
     {
@@ -39,169 +35,190 @@ public class CompetitionManager : MonoBehaviour
 
     public void CompetitionInit()
     {
-        judges.HillInit(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
-        competitorsList = new List<int>();
-        calendar = calendarResults.calendar;
+        judges.PrepareHill(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
+        // Debug.Log("HillId: " + calendarResults.calendar.events[calendarResults.eventIt].hillId);
+        // Debug.LogAssertion(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId] != null);
+        calendarResults.EventInit();
+        // competitorsList = new List<int>();
+        // calendar = calendarResults.calendar;
 
-        calendarResults.CurrentEventResults = new EventResults();
-        currentEvent = calendarResults.calendar.events[calendarResults.eventIt];
-        List<Tuple<float, int>> tempList = new List<Tuple<float, int>>();
+        // currentEvent = calendarResults.calendar.events[calendarResults.eventIt];
+        // List<Tuple<float, int>> tempList = new List<Tuple<float, int>>();
 
-        switch (currentEvent.qualRankType)
+        // switch (currentEvent.qualRankType)
+        // {
+        //     case RankType.None:
+        //         // Add all competitors
+        //         competitorsList = new List<int>();
+        //         for (int i = 0; i < calendar.competitors.Count; i++) { competitorsList.Add(i); }
+        //         break;
+        //     case RankType.Event:
+        //         // Add competitors from some event output rank
+        //         CompetitionClasses.EventResults qualRankEvent = calendarResults.eventResults[currentEvent.qualRankId];
+        //         for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
+        //         {
+        //             tempList.Add(Tuple.Create(qualRankEvent.finalResults[i].Item1, qualRankEvent.competitorsList[qualRankEvent.finalResults[i].Item2]));
+        //         }
+        //         break;
+        //     case RankType.Classification:
+        //         // Add competitors from some event output rank
+        //         CompetitionClasses.ClassificationResults qualRankClassification = calendarResults.classificationResults[currentEvent.qualRankId];
+        //         for (int i = 0; i < qualRankClassification.totalSortedResults.Count; i++)
+        //         {
+        //             tempList.Add(Tuple.Create(qualRankClassification.totalSortedResults[i].Item1, qualRankClassification.totalSortedResults[i].Item2));
+        //         }
+        //         break;
+        // }
+
+        // switch (currentEvent.inLimitType)
+        // {
+        //     case LimitType.None:
+        //         for (int i = 0; i < tempList.Count; i++)
+        //         {
+        //             competitorsList.Add(tempList[i].Item2);
+        //         }
+        //         break;
+        //     case LimitType.Normal:
+        //         for (int i = 0; i < tempList.Count; i++)
+        //         {
+        //             if (tempList[i].Item2 < tempList[currentEvent.inLimit - 1].Item2) { break; }
+        //             competitorsList.Add(tempList[i].Item2);
+        //         }
+        //         break;
+        //     case LimitType.Exact:
+        //         for (int i = 0; i < currentEvent.inLimit; i++)
+        //         {
+        //             competitorsList.Add(tempList[i].Item2);
+        //         }
+        //         break;
+        // }
+
+        // foreach (var item in competitorsList)
+        // {
+        //     Debug.Log(item);
+        // }
+
+        // calendarResults.CurrentEventResults = new EventResults(competitorsList);
+
+        // for (int i = 0; i < competitorsList.Count; i++)
+        // {
+        //     calendarResults.CurrentEventResults.roundResults[i] = new List<CompetitionClasses.Jump>();
+        // }
+
+        // List<Tuple<float, int>> ordArr = new List<Tuple<float, int>>();
+        // for (int i = 0; i < competitorsList.Count; i++)
+        // {
+        //     float key = i;
+        //     if (currentEvent.ordRankType == CompetitionClasses.RankType.Event)
+        //     {
+        //         key = calendarResults.eventResults[currentEvent.ordRankId].totalResults[competitorsList[i]];
+        //     }
+        //     else if (currentEvent.ordRankType == CompetitionClasses.RankType.Classification)
+        //     {
+        //         key = calendarResults.classificationResults[currentEvent.ordRankId].totalResults[competitorsList[i]];
+        //     }
+
+        //     ordArr.Add(Tuple.Create(key, i));
+        // }
+
+        // ordArr.Sort();
+        // startList = new List<int>();
+        // foreach (var item in ordArr)
+        // {
+        //     startList.Add(item.Item2);
+        //     Debug.Log(calendarResults.calendar.competitors[competitorsList[item.Item2]].lastName);
+        // }
+        // calendarResults.roundIt = 0;
+        foreach (var it in calendarResults.CurrentEventResults.finalResults.Keys)
         {
-            case RankType.None:
-                // Add all competitors
-                competitorsList = new List<int>();
-                for (int i = 0; i < calendar.competitors.Count; i++) { competitorsList.Add(i); }
-                break;
-            case RankType.Event:
-                // Add competitors from some event output rank
-                CompetitionClasses.EventResults qualRankEvent = calendarResults.eventResults[currentEvent.qualRankId];
-                for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
-                {
-                    tempList.Add(Tuple.Create(qualRankEvent.finalResults[i].Item1, qualRankEvent.competitorsList[qualRankEvent.finalResults[i].Item2]));
-                }
-                break;
-            case RankType.Classification:
-                // Add competitors from some event output rank
-                CompetitionClasses.ClassificationResults qualRankClassification = calendarResults.classificationResults[currentEvent.qualRankId];
-                for (int i = 0; i < qualRankClassification.totalSortedResults.Count; i++)
-                {
-                    tempList.Add(Tuple.Create(qualRankClassification.totalSortedResults[i].Item1, qualRankClassification.totalSortedResults[i].Item2));
-                }
-                break;
+            Debug.Log(it.Item1 + " " + calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[it.Item2]].lastName);
         }
-
-        switch (currentEvent.inLimitType)
-        {
-            case LimitType.None:
-                for (int i = 0; i < tempList.Count; i++)
-                {
-                    competitorsList.Add(tempList[i].Item2);
-                }
-                break;
-            case LimitType.Normal:
-                for (int i = 0; i < tempList.Count; i++)
-                {
-                    if (tempList[i].Item2 < tempList[currentEvent.inLimit - 1].Item2) { break; }
-                    competitorsList.Add(tempList[i].Item2);
-                }
-                break;
-            case LimitType.Exact:
-                for (int i = 0; i < currentEvent.inLimit; i++)
-                {
-                    competitorsList.Add(tempList[i].Item2);
-                }
-                break;
-        }
-
-        foreach (var item in competitorsList)
-        {
-            Debug.Log(item);
-        }
-
-        calendarResults.CurrentEventResults.roundResults = new List<float>[competitorsList.Count];
-        calendarResults.CurrentEventResults.totalResults = new float[competitorsList.Count];
-        calendarResults.CurrentEventResults.rank = new int[competitorsList.Count];
-        calendarResults.CurrentEventResults.lastRank = new int[competitorsList.Count];
-        calendarResults.CurrentEventResults.competitorsList = competitorsList;
-
-        for (int i = 0; i < competitorsList.Count; i++)
-        {
-            calendarResults.CurrentEventResults.roundResults[i] = new List<float>();
-        }
-
-        List<Tuple<float, int>> ordArr = new List<Tuple<float, int>>();
-        for (int i = 0; i < competitorsList.Count; i++)
-        {
-            float key = i;
-            if (currentEvent.ordRankType == CompetitionClasses.RankType.Event)
-            {
-                key = calendarResults.eventResults[currentEvent.ordRankId].totalResults[competitorsList[i]];
-            }
-            else if (currentEvent.ordRankType == CompetitionClasses.RankType.Classification)
-            {
-                key = calendarResults.classificationResults[currentEvent.ordRankId].totalResults[competitorsList[i]];
-            }
-
-            ordArr.Add(Tuple.Create(key, i));
-        }
-
-        ordArr.Sort();
-        startList = new List<int>();
-        foreach (var item in ordArr)
-        {
-            startList.Add(item.Item2);
-            Debug.Log(calendarResults.calendar.competitors[competitorsList[item.Item2]].lastName);
-        }
-        calendarResults.roundIt = 0;
-        calendarResults.jumpIt = -1;
+        RoundInit();
         NextJump();
     }
 
     public void RoundInit()
     {
-        startList = new List<int>();
-        for (int i = calendarResults.CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
+        calendarResults.RoundInit();
+        foreach (var item in calendarResults.CurrentStartList)
         {
-            startList.Add(calendarResults.CurrentEventResults.finalResults[i].Item2);
+            Debug.Log(calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[item]].lastName);
         }
-
-        int it = 0;
-        foreach (var item in startList)
-        {
-            Debug.Log(++it + " " + calendarResults.calendar.competitors[competitorsList[item]].lastName);
-        }
-
-        calendarResults.CurrentEventResults.finalResults.Clear();
         calendarResults.jumpIt = -1;
-        NextJump();
     }
 
     public bool NextJump()
     {
         calendarResults.jumpIt++;
-        // Debug.Log(calendarResults.jumpIt + " " + startList.Count);
-        if (calendarResults.jumpIt == startList.Count)
+        if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
+        {
+            Calendar.Competitor comp = calendarResults.CurrentCompetitor;
+            int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
+            if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
+            {
+                if (calendarResults.roundIt == 0)
+                {
+                    jumpUIManager.ShowJumperInfoNormal(comp, bib);
+                }
+                else
+                {
+                    jumpUIManager.ShowJumperInfoNormal(comp, bib,
+                    calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]],
+                    calendarResults.CurrentEventResults.lastRank[calendarResults.CurrentStartList[calendarResults.jumpIt]]);
+                }
+            }
+            else if (calendarResults.CurrentRoundInfo.roundType == RoundType.KO)
+            {
+                if (calendarResults.jumpIt % 2 == 0 && calendarResults.jumpIt == calendarResults.CurrentStartList.Count - 1)
+                {
+                    jumpUIManager.ShowJumperInfoKO(comp, bib);
+                }
+                else
+                {
+                    int cnt = calendarResults.jumpIt - calendarResults.jumpIt % 2;
+                    int id1 = calendarResults.CurrentStartList[cnt];
+                    int id2 = calendarResults.CurrentStartList[cnt + 1];
+                    Competitor comp1 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id1]];
+                    Competitor comp2 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id2]];
+                    int bib1 = calendarResults.CurrentEventResults.bibs[id1][calendarResults.roundIt];
+                    int bib2 = calendarResults.CurrentEventResults.bibs[id2][calendarResults.roundIt];
+
+                    if (calendarResults.jumpIt % 2 == 0)
+                    {
+                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2);
+                    }
+                    else
+                    {
+                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, (float)calendarResults.CurrentEventResults.totalResults[id1]);
+                    }
+                }
+            }
+
+
+            judges.NewJump();
+        }
+        else if (calendarResults.jumpIt == calendarResults.CurrentStartList.Count)
         {
             showingResults = true;
-            Debug.Log("SHOW RESULTS");
-            jumpUIManager.ShowResults(calendarResults);
-            return false;
+            jumpUIManager.ShowEventResults(calendarResults);
         }
-        if (calendarResults.jumpIt >= startList.Count)
+        else if (calendarResults.jumpIt >= calendarResults.CurrentStartList.Count)
         {
             calendarResults.jumpIt = 0;
-            Debug.Log("LAST JUMP OF THE ROUND");
             return NextRound();
         }
-        Debug.Log(calendarResults.jumpIt);
-        Debug.Log(startList[calendarResults.jumpIt]);
-        Debug.Log(competitorsList[startList[calendarResults.jumpIt]]);
 
-        CompetitionClasses.Competitor comp = calendarResults.calendar.competitors[competitorsList[startList[calendarResults.jumpIt]]];
-        if (calendarResults.roundIt == 0)
-        {
-            jumpUIManager.ShowJumperInfo(comp.firstName, comp.lastName, comp.countryCode);
-        }
-        else
-        {
-            jumpUIManager.ShowJumperInfo(comp.firstName, comp.lastName, comp.countryCode, true, calendarResults.CurrentEventResults.totalResults[startList[calendarResults.jumpIt]], calendarResults.CurrentEventResults.lastRank[startList[calendarResults.jumpIt]]);
-        }
-
-        judges.NewJump();
         return true;
     }
 
     public bool NextRound()
     {
-        RecalculateFinalResults();
+        calendarResults.RecalculateFinalResults();
         calendarResults.roundIt++;
         jumpUIManager.HideResults();
         showingResults = false;
-        if (calendarResults.roundIt >= currentEvent.roundInfos.Count)
+        if (calendarResults.roundIt >= calendarResults.CurrentEvent.roundInfos.Count)
         {
-            Debug.Log("LAST ROUND OF THE EVENT");
             calendarResults.roundIt = 0;
             return NextEvent();
         }
@@ -212,6 +229,7 @@ public class CompetitionManager : MonoBehaviour
 
     public bool NextEvent()
     {
+        calendarResults.UpdateClassifications();
         calendarResults.eventIt++;
         if (calendarResults.eventIt >= calendarResults.calendar.events.Count)
         {
@@ -223,68 +241,6 @@ public class CompetitionManager : MonoBehaviour
         return true;
     }
 
-    public void RecalculateFinalResults()
-    {
-        calendarResults.CurrentEventResults.lastRank = calendarResults.CurrentEventResults.rank;
-
-        switch (currentEvent.roundInfos[calendarResults.roundIt].outLimitType)
-        {
-            case LimitType.Normal:
-
-                float minPoints = calendarResults.CurrentEventResults.finalResults[Mathf.Min(calendarResults.CurrentEventResults.finalResults.Count - 1, currentEvent.roundInfos[calendarResults.roundIt].outLimit - 1)].Item1;
-                for (int i = calendarResults.CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
-                {
-                    if (calendarResults.CurrentEventResults.finalResults[i].Item1 < minPoints)
-                    {
-                        calendarResults.CurrentEventResults.finalResults.RemoveAt(i);
-                    }
-                }
-                break;
-            case LimitType.Exact:
-                int index = Mathf.Min(currentEvent.roundInfos[calendarResults.roundIt - 1].outLimit, calendarResults.CurrentEventResults.finalResults.Count - 1);
-                int count = calendarResults.CurrentEventResults.finalResults.Count - index;
-                calendarResults.CurrentEventResults.finalResults.RemoveRange(index, count);
-                break;
-        }
-
-        foreach (var item in calendarResults.CurrentEventResults.finalResults)
-        {
-            Debug.Log(item.Item1 + " " + item.Item2 + " " + calendarResults.calendar.competitors[competitorsList[item.Item2]].lastName);
-        }
-    }
-
-    public void ClassificationUpdate()
-    {
-        int[] individualPlacePoints = { 100, 80, 60, 50, 45, 40, 36, 32, 29, 26, 24, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-        int[] teamPlacePoints = { 400, 350, 300, 250, 200, 150, 100, 50 };
-        foreach (var it in calendarResults.calendar.events[calendarResults.eventIt].classifications)
-        {
-            switch (calendarResults.calendar.classifications[it].classificationType)
-            {
-                case ClassificationType.IndividualPlace:
-                    foreach (var jt in calendarResults.CurrentEventResults.finalResults)
-                    {
-                        float pts = 0;
-                        int rnk = calendarResults.CurrentEventResults.rank[jt.Item2];
-                        if (0 < rnk && rnk < 30) { pts = individualPlacePoints[rnk]; }
-                        calendarResults.classificationResults[it].AddResult(competitorsList[jt.Item2], pts);
-                    }
-                    break;
-                case ClassificationType.IndividualPoints:
-                    for (int i = 0; i < competitorsList.Count; i++)
-                    {
-                        float pts = calendarResults.CurrentEventResults.totalResults[i];
-                        calendarResults.classificationResults[it].AddResult(competitorsList[i], pts);
-                    }
-                    break;
-                case ClassificationType.TeamPlace:
-                    break;
-                case ClassificationType.TeamPoints:
-                    break;
-            }
-        }
-    }
-
     public void ShowClassificationsResults()
     {
         for (int i = 0; i < calendarResults.classificationResults.Length; i++)
@@ -292,7 +248,7 @@ public class CompetitionManager : MonoBehaviour
             Debug.Log(calendarResults.calendar.classifications[i].name);
             for (int j = 0; j < calendarResults.classificationResults[i].totalResults.Length; j++)
             {
-                Debug.Log(calendarResults.calendar.competitors[j].lastName + " " + calendarResults.classificationResults[i].totalResults[j]);
+                Debug.Log(calendarResults.calendar.competitors[j].lastName + " " + calendarResults.classificationResults[i].totalResults[j].ToString("#.0"));
             }
         }
     }
@@ -302,11 +258,11 @@ public class CompetitionManager : MonoBehaviour
         return 0;
     }
 
-    public Tuple<int, float> AddJump(CompetitionClasses.Jump jp)
+    public Tuple<int, decimal> AddJump(Calendar.JumpResult jmp)
     {
-        jp.distancePoints = hillInfo.DistancePoints(jp.distance);
-        jp.totalPoints = Mathf.Max(0f, jp.judgesTotalPoints + jp.distancePoints);
-        return Tuple.Create(calendarResults.CurrentEventResults.AddResult(startList[calendarResults.jumpIt], jp.totalPoints), calendarResults.CurrentEventResults.totalResults[(startList[calendarResults.jumpIt])]);
+        jmp.distancePoints = calendarResults.CurrentHillInfo.DistancePoints(jmp.distance);
+        jmp.totalPoints = Math.Max(0, jmp.judgesTotalPoints + jmp.distancePoints);
+        return Tuple.Create(calendarResults.CurrentEventResults.AddResult(calendarResults.CurrentStartList[calendarResults.jumpIt], jmp), calendarResults.CurrentEventResults.totalResults[(calendarResults.CurrentStartList[calendarResults.jumpIt])]);
     }
 
     void Start()
@@ -334,10 +290,10 @@ public class CompetitionManager : MonoBehaviour
         // calendarResults.classificationResults = new ClassificationResults[calendarResults.calendar.classifications.Count];
         calendarResults.eventIt = 0;
         CompetitionInit();
-        foreach (var item in startList)
-        {
-            Debug.Log(calendar.competitors[competitorsList[item]].lastName.ToUpper() + " " + calendar.competitors[competitorsList[item]].firstName);
-        }
+        // foreach (var item in calendarResults.CurrentStartList)
+        // {
+        //     Debug.Log(calendar.competitors[competitorsList[item]].lastName.ToUpper() + " " + calendar.competitors[competitorsList[item]].firstName);
+        // }
         // SaveData();
     }
 }

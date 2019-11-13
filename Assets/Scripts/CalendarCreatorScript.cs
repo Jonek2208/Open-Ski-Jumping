@@ -6,7 +6,7 @@ using UnityEngine.U2D;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 
-using CompetitionClasses;
+using Calendar;
 
 public class CalendarCreatorScript : MonoBehaviour
 {
@@ -67,7 +67,7 @@ public class CalendarCreatorScript : MonoBehaviour
     public void OnFinish()
     {
         CalendarResults calendarResults = new CalendarResults();
-        calendarResults.calendar = new Calendar();
+        calendarResults.calendar = new Calendar.Calendar();
         for (int i = 0; i < allCompetitors.Count; i++)
         {
             if (competitorsObjList[i].GetComponentInChildren<Toggle>().isOn)
@@ -91,14 +91,24 @@ public class CalendarCreatorScript : MonoBehaviour
         for (int i = 0; i < calendarResults.classificationResults.Length; i++)
         {
             calendarResults.classificationResults[i] = new ClassificationResults();
-            calendarResults.classificationResults[i].totalResults = new float[calendarResults.calendar.competitors.Count];
-            calendarResults.classificationResults[i].eventResults = new List<float>[calendarResults.calendar.competitors.Count];
+            calendarResults.classificationResults[i].totalResults = new decimal[calendarResults.calendar.competitors.Count];
+            calendarResults.classificationResults[i].eventResults = new List<decimal>[calendarResults.calendar.competitors.Count];
+            for (int j = 0; j < calendarResults.classificationResults[i].eventResults.Length; j++)
+            {
+                calendarResults.classificationResults[i].eventResults[j] = new List<decimal>();
+            }
         }
         calendarResults.eventIt = 0;
 
         if (File.Exists(Path.Combine(Application.streamingAssetsPath, "data.json")))
         {
             calendarResults.hillProfiles = JsonConvert.DeserializeObject<HillProfile.AllData>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "data.json"))).profileData;
+        }
+
+        calendarResults.calendar.hillInfos = new List<HillInfo>();
+        foreach (var item in calendarResults.hillProfiles)
+        {
+            calendarResults.calendar.hillInfos.Add(new HillInfo((decimal)item.w, (decimal)(item.w + item.l2)));
         }
 
         string filePath = Path.Combine(Application.streamingAssetsPath, savesPath);

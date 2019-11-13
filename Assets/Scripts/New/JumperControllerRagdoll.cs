@@ -295,7 +295,7 @@ public class JumperControllerRagdoll : MonoBehaviour
         if (landing == 0)
         {
             Debug.Log("RAKAKAN MALY CVEL");
-            judgesController.PointDeduction(1, 1f);
+            judgesController.PointDeduction(1, 1m);
             landing = -1;
         }
 

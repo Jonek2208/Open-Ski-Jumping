@@ -161,9 +161,10 @@ public class MeshScript : MonoBehaviour
         jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
     }
 
-    public void GenerateMesh(Hill _hill)
+    public void GenerateMesh()
     {
-        hill = _hill;
+        hill = new Hill(profileData);
+
         CalculateHill();
 
         GenerateInrun();

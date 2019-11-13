@@ -13,6 +13,7 @@ public class JudgesController : MonoBehaviour
     JumpState state;
 
     public Hill hill;
+    public ManagerScript managerScript;
     public MeshScript meshScript;
     public JumpUIManager jumpUIManager;
     public MouseScript mouseScript;
@@ -22,9 +23,9 @@ public class JudgesController : MonoBehaviour
     public Vector3 jumperPosition;
     public Quaternion jumperRotation;
 
-    private float[] deductions = { 0, 0, 0 };
-    private float[] maxDeductions = { 5, 5, 7 };
-    private float dist;
+    private decimal[] deductions = { 0, 0, 0 };
+    private decimal[] maxDeductions = { 5, 5, 7 };
+    private decimal dist;
 
     private float fl0, fl1;
     private float dx0, dx1, dx2;
@@ -42,6 +43,7 @@ public class JudgesController : MonoBehaviour
 
     public void PrepareHill(ProfileData pd = null)
     {
+        Debug.Log("INITIALIZING: " + pd.name);
         HillInit(pd);
         jumpUIManager.UIReset();
         jumpUIManager.SetGateSliderRange(hill.gates);
@@ -50,71 +52,71 @@ public class JudgesController : MonoBehaviour
         showResults = false;
     }
 
-    public void PointDeduction(int type, float val)
+    public void PointDeduction(int type, decimal val)
     {
         deductions[type] += val;
-        deductions[type] = Mathf.Min(deductions[type], maxDeductions[type]);
+        deductions[type] = System.Math.Min(deductions[type], maxDeductions[type]);
     }
 
-    private float[] GetJudgesPoints()
+    private decimal[] GetJudgesPoints()
     {
-        float model = 20 - (deductions[0] + deductions[1] + deductions[2]) + (int)(Random.Range(0, 2)) * 0.5f;
-        float bias = 0;
-        if (model < 11.0f)
+        decimal model = 20m - (deductions[0] + deductions[1] + deductions[2]) + (int)(Random.Range(0, 2)) * 0.5m;
+        decimal bias = 0;
+        if (model < 11.0m)
         {
-            bias = 2.5f;
+            bias = 2.5m;
         }
-        else if (model < 15.0f)
+        else if (model < 15.0m)
         {
-            bias = 2.0f;
+            bias = 2.0m;
         }
-        else if (model < 17.0f)
+        else if (model < 17.0m)
         {
-            bias = 1.5f;
+            bias = 1.5m;
         }
-        else if (model < 18.5f)
+        else if (model < 18.5m)
         {
-            bias = 1.0f;
+            bias = 1.0m;
         }
         else
         {
-            bias = 0.5f;
+            bias = 0.5m;
         }
         bias *= 2;
         bias += 1;
 
-        float[] points = { 0, 0, 0, 0, 0 };
+        decimal[] points = { 0, 0, 0, 0, 0 };
         for (int i = 0; i < 5; i++)
         {
-            points[i] = Mathf.Clamp(model + (int)(Random.Range(-bias, bias)) * 0.5f, 0, 20);
+            points[i] = (decimal)System.Math.Round(Mathf.Clamp((float)model + (int)(Random.Range(-(float)bias, (float)bias)) * 0.5f, 0f, 20f), 2);
         }
 
         return points;
     }
 
-    float PtsPerMeter(float k)
+    decimal PtsPerMeter(float k)
     {
-        if (k < 25) return 4.8f;
-        else if (k < 30) return 4.4f;
-        else if (k < 35) return 4.0f;
-        else if (k < 40) return 3.6f;
-        else if (k < 50) return 3.2f;
-        else if (k < 60) return 2.8f;
-        else if (k < 70) return 2.4f;
-        else if (k < 80) return 2.2f;
-        else if (k < 100) return 2.0f;
-        else if (k < 165) return 1.8f;
-        else return 1.2f;
+        if (k < 25) return 4.8m;
+        else if (k < 30) return 4.4m;
+        else if (k < 35) return 4.0m;
+        else if (k < 40) return 3.6m;
+        else if (k < 50) return 3.2m;
+        else if (k < 60) return 2.8m;
+        else if (k < 70) return 2.4m;
+        else if (k < 80) return 2.2m;
+        else if (k < 100) return 2.0m;
+        else if (k < 165) return 1.8m;
+        else return 1.2m;
     }
 
     public void Judge()
     {
-        float[] stylePoints = GetJudgesPoints();
+        decimal[] stylePoints = GetJudgesPoints();
         bool[] valid = new bool[5];
-        float minPts = 20, maxPts = 0;
+        decimal minPts = 20, maxPts = 0;
         int lo = 0, hi = 0;
 
-        float total = 0;
+        decimal total = 0;
 
         for (int i = 0; i < 5; i++)
         {
@@ -136,9 +138,9 @@ public class JudgesController : MonoBehaviour
         }
 
         total -= stylePoints[lo] + stylePoints[hi];
-        total += (hill.w >= 165 ? 120 : 60) + (dist - hill.w) * PtsPerMeter(hill.w);
-        total = Mathf.Max(0, total);
-        var res = competitionManager.AddJump(new CompetitionClasses.Jump(dist, stylePoints, 0, 0, 0, 0));
+        total += (hill.w >= 165 ? 120 : 60) + (dist - (decimal)hill.w) * PtsPerMeter(hill.w);
+        total = System.Math.Max(0, total);
+        var res = competitionManager.AddJump(new Calendar.JumpResult(dist, stylePoints, 0, 0, 0));
         jumpUIManager.SetPoints(stylePoints, lo, hi, res.Item2, res.Item1);
         mouseScript.UnlockCursor();
     }
@@ -152,13 +154,12 @@ public class JudgesController : MonoBehaviour
         float eps = 0.2f;
         if (Mathf.Abs(dx2 - dx1) > eps)
         {
-            PointDeduction(0, 0.5f);
+            PointDeduction(0, 0.5m);
         }
         fl0 = fl1;
         dx0 = dx1;
         dx1 = dx2;
     }
-
 
     public void HillInit(ProfileData pd = null)
     {
@@ -166,28 +167,19 @@ public class JudgesController : MonoBehaviour
         {
             pd = meshScript.profileData;
         }
-        hill = new Hill(meshScript.profileData);
+
+        // Temporary - until hillsdatabase & editor will be updated
+        pd.a = 100; pd.rA = 0; pd.betaA = 0; pd.b1 = 2.5f; pd.b2 = 10; pd.bK = 20; pd.bU = 25;
+
+        hill = new Hill(pd);
+
         jumpUIManager.SetHillNameText(pd.name);
-        // Debug.Log(hill.w);
         hill.Calculate();
-
-        float ptsPerMeter = 1.2f, kPointPts = (hill.w < 165 ? 60f : 120f);
-        if (hill.w < 25) ptsPerMeter = 4.8f;
-        else if (hill.w < 30) ptsPerMeter = 4.4f;
-        else if (hill.w < 35) ptsPerMeter = 4.0f;
-        else if (hill.w < 40) ptsPerMeter = 3.6f;
-        else if (hill.w < 50) ptsPerMeter = 3.2f;
-        else if (hill.w < 60) ptsPerMeter = 2.8f;
-        else if (hill.w < 70) ptsPerMeter = 2.4f;
-        else if (hill.w < 80) ptsPerMeter = 2.2f;
-        else if (hill.w < 100) ptsPerMeter = 2.0f;
-        else if (hill.w < 165) ptsPerMeter = 1.8f;
-        else ptsPerMeter = 1.2f;
-
-        competitionManager.hillInfo = new CompetitionClasses.HillInfo(hill.w, hill.w + hill.l2, ptsPerMeter, kPointPts);
+        meshScript.profileData = pd;
+        meshScript.GenerateMesh();
     }
 
-    public float Distance(Vector2[] landingAreaPoints, Vector3 contact)
+    public decimal Distance(Vector2[] landingAreaPoints, Vector3 contact)
     {
         for (int i = 0; i < landingAreaPoints.Length - 1; i++)
         {
@@ -197,7 +189,7 @@ public class JudgesController : MonoBehaviour
             {
                 if (diff1 >= diff2)
                 {
-                    return (float)(i) + 0.5f;
+                    return (decimal)(i) + 0.5m;
                 }
                 else
                 {
@@ -224,6 +216,7 @@ public class JudgesController : MonoBehaviour
     {
         jumperPosition = new Vector3(hill.GatePoint(gate).x, hill.GatePoint(gate).y, 0);
         jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
+        NewJump();
     }
 
     public void NewJump()
@@ -239,7 +232,6 @@ public class JudgesController : MonoBehaviour
         deductions[0] = deductions[1] = deductions[2] = 0;
 
         jumpUIManager.UIReset();
-        // competitionManager.NextJump();
     }
 
     public void SetWind(float val)

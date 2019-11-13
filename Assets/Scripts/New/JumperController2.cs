@@ -294,8 +294,8 @@ public class JumperController2 : MonoBehaviour
         }
         if (landing == 0)
         {
-            Debug.Log("RAKAKAN MALY CVEL");
-            judgesController.PointDeduction(1, 1f);
+            // Debug.Log("RAKAKAN MALY CVEL");
+            judgesController.PointDeduction(1, 1m);
             landing = -1;
         }
 

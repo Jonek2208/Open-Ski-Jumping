@@ -14,8 +14,7 @@ public class EditorScript : UnityEditor.Editor
         DrawDefaultInspector();
         if (GUILayout.Button("Generate"))
         {
-            meshScript.hill = new HillProfile.Hill(meshScript.profileData);
-            meshScript.GenerateMesh(meshScript.hill);
+            meshScript.GenerateMesh();
         }
     }
 }

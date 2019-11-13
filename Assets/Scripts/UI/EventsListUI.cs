@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 
-using CompetitionClasses;
+using Calendar;
 
 public class EventsListUI : ListDisplay
 {
@@ -24,13 +24,13 @@ public class EventsListUI : ListDisplay
     public GameObject classificationsToggleGroup;
     public GameObject classificationToggle;
 
-    public List<CompetitionClasses.Event> eventsList;
+    public List<Calendar.Event> eventsList;
     bool[] classificationsMask;
     List<GameObject> classificationToggles;
 
     public override void ListInit()
     {
-        eventsList = new List<CompetitionClasses.Event>();
+        eventsList = new List<Calendar.Event>();
 
         List<TMPro.TMP_Dropdown.OptionData> hillsList = new List<TMPro.TMP_Dropdown.OptionData>();
         string filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
@@ -46,14 +46,14 @@ public class EventsListUI : ListDisplay
 
         hillsDropdown.options = hillsList;
     }
-    public GameObject NewListElement(CompetitionClasses.Event e)
+    public GameObject NewListElement(Calendar.Event e)
     {
         GameObject tmp = Instantiate(elementPrefab);
         SetValue(tmp, e);
         return tmp;
     }
 
-    public void SetValue(GameObject tmp, CompetitionClasses.Event e)
+    public void SetValue(GameObject tmp, Calendar.Event e)
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = hillsDropdown.options[e.hillId].text;
     }
@@ -88,14 +88,14 @@ public class EventsListUI : ListDisplay
         ordRankEventDropdown.ClearOptions();
         List<string> tmp = new List<string>();
         Debug.Log(ordRankTypeDropdown.value);
-        if (ordRankTypeDropdown.value == (int)CompetitionClasses.RankType.Event)
+        if (ordRankTypeDropdown.value == (int)Calendar.RankType.Event)
         {
             for (int i = 0; i < eventsList.Count; i++)
             {
                 tmp.Add(hillsDropdown.options[eventsList[i].hillId].text);
             }
         }
-        else if (ordRankTypeDropdown.value == (int)CompetitionClasses.RankType.Classification)
+        else if (ordRankTypeDropdown.value == (int)Calendar.RankType.Classification)
         {
             for (int i = 0; i < GetComponent<ClassificationsListUI>().classificationsList.Count; i++)
             {
@@ -110,7 +110,7 @@ public class EventsListUI : ListDisplay
         qualRankEventDropdown.ClearOptions();
         List<string> tmp = new List<string>();
         Debug.Log(qualRankTypeDropdown.value);
-        if (qualRankTypeDropdown.value == (int)CompetitionClasses.RankType.Event)
+        if (qualRankTypeDropdown.value == (int)Calendar.RankType.Event)
         {
             for (int i = 0; i < eventsList.Count; i++)
             {
@@ -118,7 +118,7 @@ public class EventsListUI : ListDisplay
                 tmp.Add(hillsDropdown.options[eventsList[i].hillId].text);
             }
         }
-        else if (qualRankTypeDropdown.value == (int)CompetitionClasses.RankType.Classification)
+        else if (qualRankTypeDropdown.value == (int)Calendar.RankType.Classification)
         {
             for (int i = 0; i < GetComponent<ClassificationsListUI>().classificationsList.Count; i++)
             {
@@ -160,7 +160,7 @@ public class EventsListUI : ListDisplay
 
     public void Add()
     {
-        CompetitionClasses.Event e = new CompetitionClasses.Event("New Event", 0, CompetitionClasses.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
+        Calendar.Event e = new Calendar.Event("New Event", 0, Calendar.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
         eventsList.Add(e);
         AddListElement(NewListElement(e));
         Save();
@@ -169,7 +169,7 @@ public class EventsListUI : ListDisplay
     public void Save()
     {
         eventsList[currentIndex].hillId = hillsDropdown.value;
-        eventsList[currentIndex].eventType = (CompetitionClasses.EventType)eventTypeDropdown.value;
+        eventsList[currentIndex].eventType = (Calendar.EventType)eventTypeDropdown.value;
         eventsList[currentIndex].inLimitType = (LimitType)inLimitTypeDropdown.value;
         eventsList[currentIndex].inLimit = int.Parse(inLimitInput.text);
 
@@ -182,12 +182,12 @@ public class EventsListUI : ListDisplay
             }
         }
 
-        eventsList[currentIndex].ordRankType = (CompetitionClasses.RankType)ordRankTypeDropdown.value;
+        eventsList[currentIndex].ordRankType = (Calendar.RankType)ordRankTypeDropdown.value;
         eventsList[currentIndex].ordRankId = ordRankEventDropdown.value;
 
-        eventsList[currentIndex].qualRankType = (CompetitionClasses.RankType)qualRankTypeDropdown.value;
+        eventsList[currentIndex].qualRankType = (Calendar.RankType)qualRankTypeDropdown.value;
         eventsList[currentIndex].qualRankId = qualRankEventDropdown.value;
-        eventsList[currentIndex].eventPreset = (CompetitionClasses.EventPreset)eventPresetDropdown.value;
+        eventsList[currentIndex].eventPreset = (Calendar.EventPreset)eventPresetDropdown.value;
 
         eventsList[currentIndex].roundInfos = new List<RoundInfo>();
         switch (eventsList[currentIndex].eventPreset)
@@ -196,14 +196,21 @@ public class EventsListUI : ListDisplay
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
                 break;
+            case EventPreset.IndividualKO:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.KO, LimitType.Normal, 3, true));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                break;
             case EventPreset.Individual4Rounds:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
-                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
-                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1, false, true));
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
                 break;
             case EventPreset.Qualification:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 5));
+                break;
+            case EventPreset.QualificationKO:
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Exact, 5));
                 break;
             case EventPreset.QualificationFlying:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 4));

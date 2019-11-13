@@ -113,9 +113,9 @@ public class ManagerScript : MonoBehaviour
         // audioSource.Stop();
     }
 
-    public float Distance(Vector3 contact)
+    public decimal Distance(Vector3 contact)
     {
-        float dist = judgesController.Distance(landingAreaPoints, contact);
+        decimal dist = judgesController.Distance(landingAreaPoints, contact);
         distText.text = "Distance: " + dist;
         return dist;
     }
@@ -136,14 +136,11 @@ public class ManagerScript : MonoBehaviour
                 float.Parse(rLInput.text), float.Parse(r2LInput.text), float.Parse(r2Input.text));
             currentHill = hill;
         }
-        Debug.Log(currentHill.w);
-        meshGenerator.profileData = GetProfileData(currentHill, nameInput.text, terrainSlider.value);
-        Debug.Log(meshGenerator.profileData.w);
-        meshGenerator.GenerateMesh(currentHill);
+
+
+        judgesController.HillInit(GetProfileData(currentHill, nameInput.text, terrainSlider.value));
         currentHill.Calculate();
         landingAreaPoints = meshGenerator.landingAreaPoints;
-
-        judgesController.HillInit();
         judgesController.jumpUIManager.SetGateSliderRange(currentHill.gates);
         judgesController.NewJump();
     }
@@ -247,7 +244,7 @@ public class ManagerScript : MonoBehaviour
             currentHill = new Hill(tmp);
             Debug.Log(tmp.w);
         }
-        
+
         nameInput.text = tmp.name;
         typeDropdown.value = (int)(tmp.type);
         gatesInput.text = tmp.gates.ToString();
