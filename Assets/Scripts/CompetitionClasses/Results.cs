@@ -55,22 +55,23 @@ namespace Calendar
     {
         public List<JumpResult>[] roundResults;
         public decimal[] totalResults;
-        public SortedList<Tuple<decimal, int>, int> finalResults;
+        public SortedList<Tuple<int, decimal, int>, int> finalResults;
         public SortedList<Tuple<decimal, int, int>, int> allroundResults;
-        public SortedList<Tuple<decimal, int, int>, int> koFinalResults;
+        public SortedList<Tuple<decimal, int>, int> losersResults;
         public List<int> competitorsList;
         public List<int>[] startLists;
+        public int[] koState;
         public List<int>[] bibs;
-
         public int[] rank;
         public int[] lastRank;
-
+        public int maxLosers;
 
         public EventResults(List<int> _competitorsList, int roundsCount)
         {
             competitorsList = _competitorsList;
-            Comparison<Tuple<decimal, int>> comp = (x, y) => (x.Item1 == y.Item1 ? x.Item2.CompareTo(y.Item2) : y.Item1.CompareTo(x.Item1));
-            finalResults = new SortedList<Tuple<decimal, int>, int>(Comparer<Tuple<decimal, int>>.Create(comp));
+            Comparison<Tuple<int, decimal, int>> comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1));
+            Comparer<Tuple<int, decimal, int>> comparer = Comparer<Tuple<int, decimal, int>>.Create(comp);
+            finalResults = new SortedList<Tuple<int, decimal, int>, int>(comparer);
             roundResults = new List<JumpResult>[competitorsList.Count];
             totalResults = new decimal[competitorsList.Count];
             rank = new int[competitorsList.Count];
@@ -78,7 +79,7 @@ namespace Calendar
             lastRank = new int[competitorsList.Count];
             Comparison<Tuple<decimal, int, int>> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
             allroundResults = new SortedList<Tuple<decimal, int, int>, int>(Comparer<Tuple<decimal, int, int>>.Create(comp2));
-            koFinalResults = new SortedList<Tuple<decimal, int, int>, int>();
+            losersResults = new SortedList<Tuple<decimal, int>, int>();
             startLists = new List<int>[roundsCount];
             for (int i = 0; i < competitorsList.Count; i++)
             {
@@ -87,7 +88,7 @@ namespace Calendar
             }
         }
 
-        public int AddResult(int competitorId, JumpResult jmp)
+        public void AddResult(int competitorId, JumpResult jmp)
         {
             int round = roundResults[competitorId].Count;
             if (round > 0)
@@ -97,7 +98,7 @@ namespace Calendar
 
             roundResults[competitorId].Add(jmp);
             totalResults[competitorId] += jmp.totalPoints;
-            finalResults.Add(Tuple.Create(totalResults[competitorId], bibs[competitorId][roundResults[competitorId].Count - 1]), competitorId);
+
             allroundResults.Add(Tuple.Create(totalResults[competitorId], round, bibs[competitorId][round]), competitorId);
 
             // Update rank
@@ -113,7 +114,63 @@ namespace Calendar
                 }
             }
 
-            return rank[competitorId];
+        }
+
+        public int CompetitorRankKo(int competitorId)
+        {
+            var key = Tuple.Create(koState[competitorId], totalResults[competitorId], -1);
+            int lo = 0, hi = finalResults.Count;
+            while (lo < hi)
+            {
+                int index = lo + (hi - lo) / 2;
+                var el = finalResults.Keys[index];
+                if (finalResults.Comparer.Compare(el, key) >= 0) { hi = index; }
+                else { lo = index + 1; }
+            }
+            return hi + 1;
+        }
+        public void AddNormalResult(int competitorId)
+        {
+            finalResults.Add(Tuple.Create(0, totalResults[competitorId], bibs[competitorId][bibs[competitorId].Count - 1]), competitorId);
+        }
+        public void AddKoResult(int competitorId)
+        {
+            finalResults.Add(Tuple.Create(0, totalResults[competitorId], bibs[competitorId][bibs[competitorId].Count - 1]), competitorId);
+        }
+        public void AddKoResult(int competitorId1, int competitorId2)
+        {
+            finalResults.Remove(Tuple.Create(0, totalResults[competitorId1], bibs[competitorId1][bibs[competitorId1].Count - 1]));
+            int loserId = competitorId1, winnerId = competitorId2;
+            if (totalResults[competitorId1] > totalResults[competitorId2])
+            {
+                winnerId = competitorId1;
+                loserId = competitorId2;
+            }
+
+            int loserBib = bibs[loserId][bibs[loserId].Count - 1];
+            int winnerBib = bibs[winnerId][bibs[winnerId].Count - 1];
+
+            finalResults.Add(Tuple.Create(0, totalResults[winnerId], winnerBib), winnerId);
+
+            losersResults.Add(Tuple.Create(totalResults[loserId], loserBib), loserId);
+            int loserRank = losersResults.IndexOfKey(Tuple.Create(totalResults[loserId], loserBib));
+            if (loserRank < maxLosers)
+            {
+                if (losersResults.Count > maxLosers)
+                {
+                    var lastLoser = losersResults.Keys[maxLosers];
+                    int lastLoserId = losersResults.Values[maxLosers];
+                    koState[lastLoserId] = 1;
+                    finalResults.Remove(Tuple.Create(0, lastLoser.Item1, lastLoser.Item2));
+                    finalResults.Add(Tuple.Create(1, lastLoser.Item1, lastLoser.Item2), lastLoserId);
+                }
+                finalResults.Add(Tuple.Create(0, totalResults[loserId], loserBib), loserId);
+            }
+            else
+            {
+                koState[loserId] = 1;
+                finalResults.Add(Tuple.Create(1, totalResults[loserId], loserBib), loserId);
+            }
         }
     }
 
@@ -134,280 +191,6 @@ namespace Calendar
             eventResults[competitorId].Add(val);
             totalResults[competitorId] += val;
             totalSortedResults.Add(Tuple.Create(totalResults[competitorId], competitorId), competitorId);
-        }
-    }
-
-    public class CalendarResults
-    {
-        public Calendar calendar;
-        public List<HillProfile.ProfileData> hillProfiles;
-        public int eventIt;
-        public int roundIt;
-        public int jumpIt;
-
-        public EventResults[] eventResults;
-        public ClassificationResults[] classificationResults;
-
-        [JsonIgnore]
-        public Event CurrentEvent
-        {
-            get => calendar.events[eventIt];
-            set => calendar.events[eventIt] = value;
-        }
-        [JsonIgnore]
-        public EventResults CurrentEventResults
-        {
-            get => eventResults[eventIt];
-            set => eventResults[eventIt] = value;
-        }
-        [JsonIgnore]
-        public HillInfo CurrentHillInfo
-        {
-            get => calendar.hillInfos[calendar.events[eventIt].hillId];
-            set => calendar.hillInfos[calendar.events[eventIt].hillId] = value;
-        }
-        [JsonIgnore]
-        public RoundInfo CurrentRoundInfo
-        {
-            get => calendar.events[eventIt].roundInfos[roundIt];
-            set => calendar.events[eventIt].roundInfos[roundIt] = value;
-        }
-        [JsonIgnore]
-        public List<int> CurrentStartList
-        {
-            get => eventResults[eventIt].startLists[roundIt];
-            set => eventResults[eventIt].startLists[roundIt] = value;
-        }
-        [JsonIgnore]
-        public Competitor CurrentCompetitor
-        {
-            get => calendar.competitors[eventResults[eventIt].competitorsList[eventResults[eventIt].startLists[roundIt][jumpIt]]];
-        }
-
-        public void EventInit()
-        {
-            List<Tuple<decimal, int>> tempList = new List<Tuple<decimal, int>>();
-            List<int> competitorsList = new List<int>();
-
-            switch (CurrentEvent.qualRankType)
-            {
-                case RankType.None:
-                    // Add all competitors
-                    competitorsList = new List<int>();
-                    for (int i = 0; i < calendar.competitors.Count; i++) { tempList.Add(Tuple.Create(0m, i)); }
-                    break;
-                case RankType.Event:
-                    // Add competitors from some event output rank
-                    EventResults qualRankEvent = eventResults[CurrentEvent.qualRankId];
-                    for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
-                    {
-                        tempList.Add(Tuple.Create(qualRankEvent.finalResults.Keys[i].Item1, qualRankEvent.competitorsList[qualRankEvent.finalResults.Values[i]]));
-                    }
-                    break;
-                case RankType.Classification:
-                    // Add competitors from some event output rank
-                    ClassificationResults qualRankClassification = classificationResults[CurrentEvent.qualRankId];
-                    for (int i = 0; i < qualRankClassification.totalSortedResults.Count; i++)
-                    {
-                        tempList.Add(Tuple.Create(qualRankClassification.totalSortedResults.Keys[i].Item1, qualRankClassification.totalSortedResults.Values[i]));
-                    }
-                    break;
-            }
-
-            switch (CurrentEvent.inLimitType)
-            {
-                case LimitType.None:
-                    for (int i = 0; i < tempList.Count; i++)
-                    {
-                        competitorsList.Add(tempList[i].Item2);
-                    }
-                    break;
-                case LimitType.Normal:
-                    for (int i = 0; i < tempList.Count; i++)
-                    {
-                        if (tempList[i].Item1 < tempList[CurrentEvent.inLimit - 1].Item1) { break; }
-                        competitorsList.Add(tempList[i].Item2);
-                    }
-                    break;
-                case LimitType.Exact:
-                    for (int i = 0; i < CurrentEvent.inLimit; i++)
-                    {
-                        competitorsList.Add(tempList[i].Item2);
-                    }
-                    break;
-            }
-
-            CurrentEventResults = new EventResults(competitorsList, CurrentEvent.roundInfos.Count);
-
-            Dictionary<int, int> map = new Dictionary<int, int>();
-            int[] lut = new int[competitorsList.Count];
-            if (CurrentEvent.ordRankType == RankType.Event)
-            {
-                for (int i = 0; i < competitorsList.Count; i++)
-                {
-                    map[competitorsList[i]] = i;
-                }
-                for (int i = 0; i < competitorsList.Count; i++) { lut[i] = -1; }
-
-                for (int i = 0; i < eventResults[CurrentEvent.ordRankId].competitorsList.Count; i++)
-                {
-                    if (map.ContainsKey(eventResults[CurrentEvent.ordRankId].competitorsList[i]))
-                    {
-                        lut[map[eventResults[CurrentEvent.ordRankId].competitorsList[i]]] = i;
-                    }
-                }
-            }
-
-            List<Tuple<decimal, int>> ordArr = new List<Tuple<decimal, int>>();
-            for (int i = 0; i < competitorsList.Count; i++)
-            {
-                decimal key = i;
-                if (CurrentEvent.ordRankType == RankType.Event)
-                {
-                    if (lut[i] == -1)
-                    {
-                        key = 0;
-                    }
-                    else
-                    {
-                        key = eventResults[CurrentEvent.ordRankId].totalResults[lut[i]];
-                    }
-                }
-                else if (CurrentEvent.ordRankType == RankType.Classification)
-                {
-                    key = classificationResults[CurrentEvent.ordRankId].totalResults[competitorsList[i]];
-                }
-
-                CurrentEventResults.finalResults.Add(Tuple.Create(key, i), i);
-            }
-        }
-
-        public void RoundInit()
-        {
-            CurrentStartList = new List<int>();
-            Comparison<Tuple<decimal, int>> comp = null;
-            switch (CurrentRoundInfo.roundType)
-            {
-                case RoundType.Normal:
-                    for (int i = CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
-                    {
-                        CurrentStartList.Add(CurrentEventResults.finalResults.Values[i]);
-                    }
-
-                    jumpIt = 0;
-                    comp = (x, y) => (x.Item1 == y.Item1 ? y.Item2.CompareTo(x.Item2) : y.Item1.CompareTo(x.Item1));
-                    break;
-                case RoundType.KO:
-                    Comparison<Tuple<decimal, int>> comp2 = (x, y) => (y.Item1 == x.Item1 ? x.Item2.CompareTo(y.Item2) : y.Item1.CompareTo(x.Item1));;
-                    CurrentEventResults.koFinalResults = new SortedList<Tuple<decimal, int, int>, int>();
-
-                    int len = CurrentEventResults.finalResults.Count;
-                    for (int i = 0; i < len / 2; i++)
-                    {
-                        CurrentStartList.Add(CurrentEventResults.finalResults.Values[(len + 1) / 2 + i]);
-                        CurrentStartList.Add(CurrentEventResults.finalResults.Values[(len + 1) / 2 - i - 1]);
-                    }
-                    if (len % 2 == 1)
-                    {
-                        CurrentStartList.Add(CurrentEventResults.finalResults.Values[0]);
-                    }
-
-                    jumpIt = 0;
-                    comp = (x, y) => (y.Item1 == x.Item1 ? x.Item2.CompareTo(y.Item2) : y.Item1.CompareTo(x.Item1));
-                    break;
-            }
-            if (roundIt == 0 || CurrentRoundInfo.reassignBibs)
-            {
-                if (CurrentRoundInfo.reversedBibs)
-                {
-                    for (int i = 0; i < CurrentEventResults.finalResults.Count; i++)
-                    {
-                        CurrentEventResults.bibs[CurrentEventResults.finalResults.Values[i]].Add(i + 1);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < CurrentEventResults.finalResults.Count; i++)
-                    {
-                        CurrentEventResults.bibs[CurrentEventResults.finalResults.Values[CurrentEventResults.finalResults.Count - 1 - i]].Add(i + 1);
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < CurrentEventResults.finalResults.Count; i++)
-                {
-                    CurrentEventResults.bibs[CurrentEventResults.finalResults.Values[i]].Add(CurrentEventResults.bibs[CurrentEventResults.finalResults.Values[i]][roundIt - 1]);
-                }
-            }
-
-            CurrentEventResults.finalResults = new SortedList<Tuple<decimal, int>, int>(Comparer<Tuple<decimal, int>>.Create(comp));
-        }
-
-        public void RecalculateFinalResults()
-        {
-            for (int i = 0; i < CurrentEventResults.competitorsList.Count; i++) { CurrentEventResults.lastRank[i] = CurrentEventResults.rank[i]; }
-
-            switch (CurrentEvent.roundInfos[roundIt].outLimitType)
-            {
-                case LimitType.Normal:
-                    decimal minPoints = CurrentEventResults.finalResults.Keys[Math.Min(CurrentEventResults.finalResults.Count - 1, CurrentEvent.roundInfos[roundIt].outLimit - 1)].Item1;
-                    for (int i = CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
-                    {
-                        if (CurrentEventResults.finalResults.Keys[i].Item1 < minPoints)
-                        {
-                            CurrentEventResults.finalResults.RemoveAt(i);
-                        }
-                    }
-                    break;
-                case LimitType.Exact:
-                    int index = Math.Min(CurrentEvent.roundInfos[roundIt].outLimit, CurrentEventResults.finalResults.Count - 1);
-                    for (int i = CurrentEventResults.finalResults.Count - 1; i >= index; i--)
-                    {
-                        CurrentEventResults.finalResults.RemoveAt(i);
-                    }
-                    break;
-            }
-        }
-
-        // returns Tuple - (rank, total points)
-        public Tuple<int, decimal> AddJump(JumpResult jmp)
-        {
-            jmp.distancePoints = CurrentHillInfo.DistancePoints(jmp.distance);
-            jmp.totalPoints = Math.Max(0m, jmp.judgesTotalPoints + jmp.distancePoints);
-            return Tuple.Create(CurrentEventResults.AddResult(CurrentStartList[jumpIt], jmp), CurrentEventResults.totalResults[(CurrentStartList[jumpIt])]);
-        }
-
-        public void UpdateClassifications()
-        {
-            int[] individualPlacePoints = { 100, 80, 60, 50, 45, 40, 36, 32, 29, 26, 24, 22, 20, 18, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-            int[] teamPlacePoints = { 400, 350, 300, 250, 200, 150, 100, 50 };
-            foreach (var it in CurrentEvent.classifications)
-            {
-                switch (calendar.classifications[it].classificationType)
-                {
-                    case ClassificationType.IndividualPlace:
-                        foreach (var jt in CurrentEventResults.finalResults.Values)
-                        {
-                            decimal pts = 0;
-                            int rnk = CurrentEventResults.rank[jt];
-                            if (0 < rnk && rnk < 30) { pts = individualPlacePoints[rnk - 1]; }
-                            classificationResults[it].AddResult(CurrentEventResults.competitorsList[jt], pts);
-                        }
-                        break;
-                    case ClassificationType.IndividualPoints:
-                        for (int i = 0; i < CurrentEventResults.competitorsList.Count; i++)
-                        {
-                            decimal pts = CurrentEventResults.totalResults[i];
-                            classificationResults[it].AddResult(CurrentEventResults.competitorsList[i], pts);
-                        }
-                        break;
-                    case ClassificationType.TeamPlace:
-                        break;
-                    case ClassificationType.TeamPoints:
-                        break;
-                }
-            }
         }
     }
 }

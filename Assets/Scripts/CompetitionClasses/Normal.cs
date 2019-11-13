@@ -112,13 +112,13 @@ namespace Calendar
         public bool reversedBibs;
         public bool reassignBibs;
         public RoundInfo() { }
-        public RoundInfo(RoundType _roundType, LimitType _outlimitType, int _outLimit, bool _reversedBibs = false, bool _reassignBibs = false, bool _has95Rule = true)
+        public RoundInfo(RoundType _roundType, LimitType _outlimitType, int _outLimit, bool _reassignBibs = false, bool _has95Rule = true)
         {
             roundType = _roundType;
             outLimitType = _outlimitType;
             outLimit = _outLimit;
             has95Rule = _has95Rule;
-            reversedBibs = _reversedBibs;
+            reversedBibs = (roundType == RoundType.KO ? true : false);
             reassignBibs = _reassignBibs;
         }
     }

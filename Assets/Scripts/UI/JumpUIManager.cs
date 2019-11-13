@@ -56,16 +56,27 @@ public class JumpUIManager : MonoBehaviour
         distText.text = (int)val + "." + (int)(val * 10 % 10) + " m";
     }
 
-    public void SetPoints(decimal[] points, int lo, int hi, decimal total, int rank)
+    public void SetPoints(Calendar.JumpResult jmp, int rank, decimal total)
     {
         pointsPanel.SetActive(true);
         for (int i = 0; i < 5; i++)
         {
-            stylePtsText[i].text = "" + points[i].ToString("#.0");
+            stylePtsText[i].text = "" + jmp.judgesMarks[i].ToString("#.0");
+            if (!jmp.judgesMask[i]) { stylePtsText[i].fontStyle = TMPro.FontStyles.Strikethrough; }
         }
-        stylePtsText[lo].fontStyle = TMPro.FontStyles.Strikethrough;
-        stylePtsText[hi].fontStyle = TMPro.FontStyles.Strikethrough;
         currentJumperInfo.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total.ToString("#0.0") + "\t\t" + rank;
+    }
+
+    public void SetPoints(Calendar.JumpResult jmp, int rank1, decimal total1, int rank2, decimal total2)
+    {
+        pointsPanel.SetActive(true);
+        for (int i = 0; i < 5; i++)
+        {
+            stylePtsText[i].text = "" + jmp.judgesMarks[i].ToString("#.0");
+            if (!jmp.judgesMask[i]) { stylePtsText[i].fontStyle = TMPro.FontStyles.Strikethrough; }
+        }
+        currentJumperInfo.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total1.ToString("#0.0") + "\t\t" + rank1;
+        jumperResultBlue.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total2.ToString("#0.0") + "\t\t" + rank2;
     }
 
     public void UIReset()
@@ -153,7 +164,7 @@ public class JumpUIManager : MonoBehaviour
         currentJumperInfo = jumperResultBlue;
     }
 
-    public void ShowJumperInfoKO(Calendar.Competitor comp1, int bib1, Calendar.Competitor comp2, int bib2, float points1)
+    public void ShowJumperInfoKO(Calendar.Competitor comp1, int bib1, Calendar.Competitor comp2, int bib2, decimal points1)
     {
         DisableJumperResults();
         ShowJumperInfo(jumperResultBlue, comp1, bib1, points1.ToString("#0.0"));
@@ -171,11 +182,11 @@ public class JumpUIManager : MonoBehaviour
 
     public void ShowEventResults(Calendar.CalendarResults calendarResults)
     {
+        DisableJumperResults();
         resultsList = new List<GameObject>();
         int hillId = calendarResults.calendar.events[calendarResults.eventIt].hillId;
         resultsInfoText.text = calendarResults.hillProfiles[hillId].name + " " + calendarResults.calendar.events[calendarResults.eventIt].eventType.ToString() + "\n" + "Round #" + (calendarResults.roundIt + 1);
         resultsObject.SetActive(true);
-        jumperResult.SetActive(false);
 
         float width = resultPrefab.GetComponent<RectTransform>().rect.width + Mathf.Min(calendarResults.roundIt + 1, 4) * resultMetersPrefab.GetComponent<RectTransform>().rect.width + resultPointsPrefab.GetComponent<RectTransform>().rect.width;
         scrollViewObject.GetComponent<RectTransform>().sizeDelta = new Vector2(width, scrollViewObject.GetComponent<RectTransform>().sizeDelta.y);

@@ -197,20 +197,20 @@ public class EventsListUI : ListDisplay
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
                 break;
             case EventPreset.IndividualKO:
-                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.KO, LimitType.Normal, 3, true));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.KO, LimitType.Normal, 4));
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
                 break;
             case EventPreset.Individual4Rounds:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
-                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1, false, true));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1, true));
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
                 break;
             case EventPreset.Qualification:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 5));
                 break;
             case EventPreset.QualificationKO:
-                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Exact, 5));
+                eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Exact, 6));
                 break;
             case EventPreset.QualificationFlying:
                 eventsList[currentIndex].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 4));

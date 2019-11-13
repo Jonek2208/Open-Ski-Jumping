@@ -140,8 +140,12 @@ public class JudgesController : MonoBehaviour
         total -= stylePoints[lo] + stylePoints[hi];
         total += (hill.w >= 165 ? 120 : 60) + (dist - (decimal)hill.w) * PtsPerMeter(hill.w);
         total = System.Math.Max(0, total);
-        var res = competitionManager.AddJump(new Calendar.JumpResult(dist, stylePoints, 0, 0, 0));
-        jumpUIManager.SetPoints(stylePoints, lo, hi, res.Item2, res.Item1);
+        int rank1, rank2, cnt;
+        decimal pts1, pts2;
+        Calendar.JumpResult jmp = new Calendar.JumpResult(dist, stylePoints, 0, 0, 0);
+        cnt = competitionManager.calendarResults.AddJump(jmp, out rank1, out pts1, out rank2, out pts2);
+        if (cnt == 1) { jumpUIManager.SetPoints(jmp, rank1, pts1); }
+        else { jumpUIManager.SetPoints(jmp, rank1, pts1, rank2, pts2); }
         mouseScript.UnlockCursor();
     }
 

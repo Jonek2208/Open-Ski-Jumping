@@ -129,10 +129,10 @@ public class CompetitionManager : MonoBehaviour
         //     Debug.Log(calendarResults.calendar.competitors[competitorsList[item.Item2]].lastName);
         // }
         // calendarResults.roundIt = 0;
-        foreach (var it in calendarResults.CurrentEventResults.finalResults.Keys)
-        {
-            Debug.Log(it.Item1 + " " + calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[it.Item2]].lastName);
-        }
+        // foreach (var it in calendarResults.CurrentEventResults.finalResults.Keys)
+        // {
+        //     Debug.Log(it.Item1 + " " + calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[it.Item3]].lastName);
+        // }
         RoundInit();
         NextJump();
     }
@@ -189,7 +189,7 @@ public class CompetitionManager : MonoBehaviour
                     }
                     else
                     {
-                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, (float)calendarResults.CurrentEventResults.totalResults[id1]);
+                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, calendarResults.CurrentEventResults.totalResults[id1]);
                     }
                 }
             }
@@ -253,47 +253,11 @@ public class CompetitionManager : MonoBehaviour
         }
     }
 
-    public float GetResult()
-    {
-        return 0;
-    }
-
-    public Tuple<int, decimal> AddJump(Calendar.JumpResult jmp)
-    {
-        jmp.distancePoints = calendarResults.CurrentHillInfo.DistancePoints(jmp.distance);
-        jmp.totalPoints = Math.Max(0, jmp.judgesTotalPoints + jmp.distancePoints);
-        return Tuple.Create(calendarResults.CurrentEventResults.AddResult(calendarResults.CurrentStartList[calendarResults.jumpIt], jmp), calendarResults.CurrentEventResults.totalResults[(calendarResults.CurrentStartList[calendarResults.jumpIt])]);
-    }
-
     void Start()
     {
         LoadData();
-        // calendarResults = new CalendarResults();
-        // if (File.Exists(Path.Combine(Application.streamingAssetsPath, "data.json")))
-        // {
-        //     string dataAsJson = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "data.json"));
-        //     calendarResults.hillProfiles = JsonConvert.DeserializeObject<HillProfile.AllData>(dataAsJson).profileData;
-        // }
-
-        // calendarResults.calendar = new Calendar();
-        // calendarResults.calendar.competitors.Add(new Competitor("Kubacki", "Dawid", "POL", Gender.Male, 1990, 1, 1));
-        // calendarResults.calendar.competitors.Add(new Competitor("Johansson", "Robert", "NOR", Gender.Male, 1990, 1, 1));
-        // calendarResults.calendar.competitors.Add(new Competitor("Eisenbichler", "Markus", "GER", Gender.Male, 1990, 1, 1));
-        // calendarResults.calendar.competitors.Add(new Competitor("Stoch", "Kamil", "POL", Gender.Male, 1987, 5, 25));
-        // calendarResults.calendar.competitors.Add(new Competitor("Kraft", "Stefan", "AUT", Gender.Male, 1993, 1, 1));
-        // calendarResults.calendar.competitors.Add(new Competitor("Kobayashi", "Ryoyu", "JPN", Gender.Male, 1990, 1, 1));
-        // calendarResults.calendar.classifications.Add(new Classification("World Cup", ClassificationType.IndividualPlace));
-        // calendarResults.calendar.events.Add(new CompetitionClasses.Event("Wisla Ind", 0, CompetitionClasses.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, -1, RankType.None, -1));
-        // calendarResults.calendar.events[0].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.Normal, 3));
-        // calendarResults.calendar.events[0].roundInfos.Add(new RoundInfo(RoundType.Normal, LimitType.None, -1));
-        // calendarResults.eventResults = new EventResults[calendarResults.calendar.events.Count];
-        // calendarResults.classificationResults = new ClassificationResults[calendarResults.calendar.classifications.Count];
         calendarResults.eventIt = 0;
         CompetitionInit();
-        // foreach (var item in calendarResults.CurrentStartList)
-        // {
-        //     Debug.Log(calendar.competitors[competitorsList[item]].lastName.ToUpper() + " " + calendar.competitors[competitorsList[item]].firstName);
-        // }
         // SaveData();
     }
 }
