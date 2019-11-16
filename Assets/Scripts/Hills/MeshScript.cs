@@ -164,6 +164,8 @@ public class MeshScript : MonoBehaviour
     public void GenerateMesh()
     {
         hill = new Hill(profileData);
+        inrunTerrain = profileData.terrainSteepness;
+
 
         CalculateHill();
 
@@ -630,7 +632,7 @@ public class MeshScript : MonoBehaviour
 
         igelitLines.Clear();
 
-        for (int i = Mathf.Max(5, (pLen / 5) * 5 - 10); i <= lLen + 5; i += 5) igelitLines.Add(i);
+        for (int i = Mathf.Max(5, (pLen / 5) * 5 - 10); i <= Mathf.Max(lLen + 5, (int)(1.1 * lLen)); i += 5) igelitLines.Add(i);
 
         // white lines
         foreach (var line in igelitLines)
