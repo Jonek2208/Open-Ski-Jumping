@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using Calendar;
+using CompCal;
 
 public class ClassificationsListUI : ListDisplay
 {
@@ -18,6 +18,26 @@ public class ClassificationsListUI : ListDisplay
         classificationsList = new List<Classification>();
         updated = false;
     }
+
+    public override void ShowElementInfo(int index)
+    {
+        nameInput.text = classificationsList[index].name;
+        dropdown1.value = (int)(classificationsList[index].classificationType) / 2;
+        dropdown2.value = (int)(classificationsList[index].classificationType) % 2;
+    }
+
+    public void LoadList(List<CompCal.Classification> tmpList)
+    {
+        ClearListElement();
+        ListInit();
+        if (tmpList == null) { tmpList = new List<Classification>(); }
+        foreach (var item in tmpList)
+        {
+            classificationsList.Add(item);
+            AddListElement(NewListElement(item));
+        }
+    }
+
     public GameObject NewListElement(Classification classification)
     {
         GameObject tmp = Instantiate(elementPrefab);
@@ -29,12 +49,7 @@ public class ClassificationsListUI : ListDisplay
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = classification.name;
     }
-    public override void ShowElementInfo(int index)
-    {
-        nameInput.text = classificationsList[index].name;
-        dropdown1.value = (int)(classificationsList[index].classificationType) / 2;
-        dropdown2.value = (int)(classificationsList[index].classificationType) % 2;
-    }
+
     public void Add()
     {
         Classification classification = new Classification("New Tournament", ClassificationType.IndividualPlace);

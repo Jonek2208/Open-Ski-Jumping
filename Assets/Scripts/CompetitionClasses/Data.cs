@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Calendar
+namespace CompCal
 {
+    [Serializable]
     public class Country
     {
         public string ioc;
         public string alpha2;
         public string en;
     }
+
+    [Serializable]
     public class CountryData
     {
         public List<Country> countryList;
@@ -23,8 +26,8 @@ namespace Calendar
     public enum EventType { Qualification, Individual, Team }
     public enum ClassificationType { IndividualPlace, IndividualPoints, TeamPlace, TeamPoints }
     public enum RankType { None, Event, Classification }
-    public enum EventPreset { Qualification, QualificationFlying, QualificationKO, Individual2Rounds, Individual4Rounds, IndividualKO }
 
+    [Serializable]
     public class Competitor
     {
         public string lastName;
@@ -44,6 +47,7 @@ namespace Calendar
         }
     }
 
+    [Serializable]
     public class Team
     {
         public string countryCode;
@@ -55,6 +59,7 @@ namespace Calendar
         }
     }
 
+    [Serializable]
     public class HillInfo
     {
         public decimal kPoint;
@@ -101,6 +106,7 @@ namespace Calendar
         public decimal GatePoints(int gateBefore, int gateAfter) => (gateBefore - gateAfter) * gatesSpacing * gatePoints;
     }
 
+    [Serializable]
     public class RoundInfo
     {
         [JsonConverter(typeof(StringEnumConverter))]
@@ -123,6 +129,7 @@ namespace Calendar
         }
     }
 
+    [Serializable]
     public class Classification
     {
         public string name;
@@ -130,7 +137,6 @@ namespace Calendar
         public ClassificationType classificationType;
         public List<int> events;
 
-        // Classification() { }
         public Classification(string _name, ClassificationType _classificationType)
         {
             name = _name;
@@ -138,6 +144,8 @@ namespace Calendar
             events = new List<int>();
         }
     }
+    
+    [Serializable]
     public class Event
     {
         public string name;
@@ -155,8 +163,7 @@ namespace Calendar
         public int ordRankId;
         public List<RoundInfo> roundInfos;
         public List<int> classifications;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EventPreset eventPreset;
+        public int eventPreset;
         public Event(string _name, int _hillId, EventType _eventType, List<RoundInfo> _roundInfos, List<int> _classifications, RankType _qualRankType, int _qualRankId, RankType _ordRankType, int _ordRankId, LimitType _inLimitType = LimitType.None, int _inLimit = 0)
         {
             name = _name;
@@ -172,13 +179,14 @@ namespace Calendar
         }
     }
 
+    [Serializable]
     public class Calendar
     {
+        public string name;
         public List<Competitor> competitors;
         public List<Team> teams;
         // public List<HillInfo> hills;
         public List<int> hillIds;
-        public List<HillInfo> hillInfos;
         public List<Classification> classifications;
         public List<Event> events;
         public Calendar()

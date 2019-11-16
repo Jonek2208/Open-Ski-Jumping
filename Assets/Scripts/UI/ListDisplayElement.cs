@@ -10,7 +10,6 @@ public class ListDisplayElement : MonoBehaviour
     public int index;
     public void OnValueChanged(bool flag)
     {
-        // Debug.Log("Index: " + index);
         if (flag)
         {
             listDisplay.OnListElementClick(index);

@@ -142,7 +142,7 @@ public class JudgesController : MonoBehaviour
         total = System.Math.Max(0, total);
         int rank1, rank2, cnt;
         decimal pts1, pts2;
-        Calendar.JumpResult jmp = new Calendar.JumpResult(dist, stylePoints, 0, 0, 0);
+        CompCal.JumpResult jmp = new CompCal.JumpResult(dist, stylePoints, 0, 0, 0);
         cnt = competitionManager.calendarResults.AddJump(jmp, out rank1, out pts1, out rank2, out pts2);
         if (cnt == 1) { jumpUIManager.SetPoints(jmp, rank1, pts1); }
         else { jumpUIManager.SetPoints(jmp, rank1, pts1, rank2, pts2); }

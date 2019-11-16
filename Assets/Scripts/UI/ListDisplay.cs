@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,11 +37,19 @@ public abstract class ListDisplay : MonoBehaviour
         tmp.transform.SetParent(contentObject.transform);
         currentIndex = elementsList.Count;
         elementsList.Add(tmp);
-        tmp.GetComponent<Toggle>().isOn = true;
+        tmp.GetComponent<Toggle>().isOn = true; 
     }
 
     public void SaveListElement()
     {
+    }
+
+    public void ClearListElement()
+    {
+        for (int i = 0; i < elementsList.Count; i++) { Destroy(elementsList[i]); }
+        elementsList.Clear();
+        currentIndex = -1;
+        elementPanel.SetActive(false);
     }
 
     public void DeleteListElement()
