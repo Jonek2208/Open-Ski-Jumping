@@ -2,8 +2,7 @@
 Open Ski Jumping is a free and open source ski jumping game.
 More specific information you can find on project wiki.
 
-# Hills under modelling stage
-* Wisła HS134
+<img src="https://jonek2208.github.io/Open-Ski-Jumping/img/screenshot2.jpg" height="500" > 
 
 # Setting up your computer for development
 ## Git
