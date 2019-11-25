@@ -228,8 +228,8 @@ public class JumpUIManager : MonoBehaviour
             GameObject wrapper = Instantiate(resultsWrapperPrefab);
             wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(width, wrapper.GetComponent<RectTransform>().sizeDelta.y);
             GameObject tmp = Instantiate(resultPrefab);
-            wrapper.transform.SetParent(contentObject.transform);
-            tmp.transform.SetParent(wrapper.transform);
+            wrapper.transform.SetParent(contentObject.transform, false);
+            tmp.transform.SetParent(wrapper.transform, false);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.calendar.competitors[i].firstName + " " + calendarResults.calendar.competitors[i].lastName.ToUpper();
             tmp.GetComponentsInChildren<Image>()[1].sprite = databaseManager.flagsManager.GetFlag(calendarResults.calendar.competitors[i].countryCode);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = calendarResults.calendar.competitors[i].countryCode;
@@ -239,12 +239,12 @@ public class JumpUIManager : MonoBehaviour
             for (int j = 0; j <= calendarResults.roundIt; j++)
             {
                 tmp = Instantiate(resultMetersPrefab);
-                tmp.transform.SetParent(wrapper.transform);
+                tmp.transform.SetParent(wrapper.transform, false);
                 tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.roundResults[x][j].distance.ToString("#0.0");
             }
 
             tmp = Instantiate(resultPointsPrefab);
-            tmp.transform.SetParent(wrapper.transform);
+            tmp.transform.SetParent(wrapper.transform, false);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.totalResults[x].ToString("#0.0");
             resultsList.Add(wrapper);
         }

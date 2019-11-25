@@ -66,15 +66,15 @@ public class TournamentMenuController : MonoBehaviour
             GameObject wrapper = Instantiate(resultsWrapperPrefab);
             wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(width, wrapper.GetComponent<RectTransform>().sizeDelta.y);
             GameObject tmp = Instantiate(resultPrefab);
-            wrapper.transform.SetParent(contentObject.transform);
-            tmp.transform.SetParent(wrapper.transform);
+            wrapper.transform.SetParent(contentObject.transform, false);
+            tmp.transform.SetParent(wrapper.transform, false);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.calendar.competitors[x].firstName + " " + calendarResults.calendar.competitors[x].lastName.ToUpper();
             tmp.GetComponentsInChildren<Image>()[1].sprite = databaseManager.flagsManager.GetFlag(calendarResults.calendar.competitors[x].countryCode);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = calendarResults.calendar.competitors[x].countryCode;
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = calendarResults.classificationResults[classificationId].rank[x].ToString();
 
             tmp = Instantiate(resultPointsPrefab);
-            tmp.transform.SetParent(wrapper.transform);
+            tmp.transform.SetParent(wrapper.transform, false);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.classificationResults[classificationId].totalSortedResults.Keys[i].Item1.ToString("#0.0");
             resultsList.Add(wrapper);
         }

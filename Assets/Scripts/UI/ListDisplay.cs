@@ -34,7 +34,7 @@ public abstract class ListDisplay : MonoBehaviour
         tmp.GetComponent<ListDisplayElement>().listDisplay = this;
         tmp.GetComponent<ListDisplayElement>().index = elementsList.Count;
         tmp.GetComponent<Toggle>().group = contentObject.GetComponent<ToggleGroup>();
-        tmp.transform.SetParent(contentObject.transform);
+        tmp.transform.SetParent(contentObject.transform, false);
         currentIndex = elementsList.Count;
         elementsList.Add(tmp);
         tmp.GetComponent<Toggle>().isOn = true; 

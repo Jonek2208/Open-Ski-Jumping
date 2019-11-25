@@ -24,7 +24,7 @@ public class EventsListUI : ListDisplay
     public GameObject classificationsToggleGroup;
     public GameObject classificationToggle;
 
-    public List<CompCal.Event> eventsList;
+    public List<CompCal.EventInfo> eventsList;
     private bool[] classificationsMask;
     private List<HillProfile.ProfileData> hillsList;
     private List<GameObject> classificationToggles;
@@ -32,7 +32,7 @@ public class EventsListUI : ListDisplay
 
     public override void ListInit()
     {
-        eventsList = new List<CompCal.Event>();
+        eventsList = new List<CompCal.EventInfo>();
         hillsList = new List<HillProfile.ProfileData>();
         if (databaseManager.dbHills.Loaded) { hillsList = databaseManager.dbHills.Data.profileData; }
 
@@ -75,11 +75,11 @@ public class EventsListUI : ListDisplay
         qualRankEventDropdown.value = eventsList[currentIndex].qualRankId;
     }
 
-    public void LoadList(List<CompCal.Event> tmpList)
+    public void LoadList(List<CompCal.EventInfo> tmpList)
     {
         ClearListElement();
 
-        if (tmpList == null) { tmpList = new List<CompCal.Event>(); }
+        if (tmpList == null) { tmpList = new List<CompCal.EventInfo>(); }
         ListInit();
         foreach (var item in tmpList)
         {
@@ -88,21 +88,21 @@ public class EventsListUI : ListDisplay
         }
     }
 
-    public GameObject NewListElement(CompCal.Event e)
+    public GameObject NewListElement(CompCal.EventInfo e)
     {
         GameObject tmp = Instantiate(elementPrefab);
         SetValue(tmp, e);
         return tmp;
     }
 
-    public void SetValue(GameObject tmp, CompCal.Event e)
+    public void SetValue(GameObject tmp, CompCal.EventInfo e)
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = hillsDropdown.options[e.hillId].text;
     }
 
     public void CreateClassificationsList()
     {
-        List<Classification> classificationsList = GetComponent<ClassificationsListUI>().classificationsList;
+        List<ClassificationInfo> classificationsList = GetComponent<ClassificationsListUI>().classificationsList;
         classificationsMask = new bool[classificationsList.Count];
 
         if (classificationToggles == null) { classificationToggles = new List<GameObject>(); }
@@ -119,7 +119,7 @@ public class EventsListUI : ListDisplay
         {
             GameObject tmp = Instantiate(classificationToggle);
             tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = c.name;
-            tmp.transform.SetParent(classificationsToggleGroup.transform);
+            tmp.transform.SetParent(classificationsToggleGroup.transform, false);
 
             classificationToggles.Add(tmp);
         }
@@ -175,7 +175,7 @@ public class EventsListUI : ListDisplay
 
     public void Add()
     {
-        CompCal.Event e = new CompCal.Event("New Event", 0, CompCal.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
+        CompCal.EventInfo e = new CompCal.EventInfo("New Event", 0, CompCal.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
         eventsList.Add(e);
         AddListElement(NewListElement(e));
         Save();

@@ -33,7 +33,7 @@ public class CalendarCreatorScript : MonoBehaviour
                 GameObject tmp = Instantiate(jumperPrefab);
                 tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = c.lastName.ToUpper() + " " + c.firstName;
                 tmp.GetComponentsInChildren<Image>()[3].sprite = databaseManager.flagsManager.GetFlag(c.countryCode);
-                tmp.transform.SetParent(jumpersContentObject.transform);
+                tmp.transform.SetParent(jumpersContentObject.transform, false);
                 competitorsObjList.Add(tmp);
             }
         }

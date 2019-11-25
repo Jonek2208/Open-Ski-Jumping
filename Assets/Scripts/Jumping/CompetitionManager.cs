@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using Newtonsoft.Json;
 
 using CompCal;
 
@@ -13,6 +11,13 @@ public class CompetitionManager : MonoBehaviour
     public JumpUIManager jumpUIManager;
     public JudgesController judges;
 
+    private CompCal.EventInfo currentEvent;
+    private RoundRunner roundRunner;
+    private EventRunner eventRunner;
+
+    public FloatVariable leaderPoints;
+    public FloatVariable currentJumperPoints;
+    public CompetitorVariable competitorVariable;
     public CalendarResults calendarResults;
 
     public bool showingResults;
@@ -23,7 +28,12 @@ public class CompetitionManager : MonoBehaviour
 
     public void CompetitionInit()
     {
+        currentEvent = calendarResults.calendar.events[calendarResults.eventIt]; //caching event info
+        if (currentEvent.eventType == CompCal.EventType.Team) { eventRunner = new EventRunnerTeam(); }
+        else { eventRunner = new EventRunnerInd(); }
+
         judges.PrepareHill(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
+
         calendarResults.EventInit();
 
         RoundInit();
@@ -49,9 +59,20 @@ public class CompetitionManager : MonoBehaviour
             int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
             if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
             {
+                currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];
+                if (calendarResults.CurrentEventResults.allroundResults.Count > 0)
+                {
+                    leaderPoints.Value = (float)calendarResults.CurrentEventResults.allroundResults.Keys[0].Item1;
+                }
+                else
+                {
+                    leaderPoints.Value = 0;
+                }
+
                 if (calendarResults.roundIt == 0)
                 {
                     jumpUIManager.ShowJumperInfoNormal(comp, bib);
+                    competitorVariable.Value = comp;
                 }
                 else
                 {

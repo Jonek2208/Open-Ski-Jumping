@@ -52,6 +52,7 @@ public enum TerrainBase { currentTerrain, PerlinNoise, flat };
 public class MeshScript : MonoBehaviour
 {
     [Header("Hill data")]
+    public bool saveMesh;
     public HillProfile.ProfileData profileData;
 
     public Hill hill;
@@ -311,18 +312,21 @@ public class MeshScript : MonoBehaviour
         // }
 
         // terrain2.terrainData.SetHeights(0, 0, tab);
-        SaveMesh(inrun.gObj, "Inrun", true);
-        SaveMesh(inrun.gObj, "InrunTrack");
-        SaveMesh(landingArea.gObj, "LandingAreaCollider", true);
-        SaveMesh(landingArea.gObj, "LandingArea");
-        SaveMesh(gateStairsL.gObj, "GateStairsL");
-        SaveMesh(gateStairsR.gObj, "GateStairsR");
-        SaveMesh(inrunStairsL.gObj, "InrunStairsL");
-        SaveMesh(inrunStairsR.gObj, "InrunStairsR");
-        SaveMesh(landingAreaGuardrailL.gObj, "LandingAreaGuardrailL");
-        SaveMesh(landingAreaGuardrailR.gObj, "LandingAreaGuardrailR");
-        SaveMesh(inrunConstruction.gObj, "InrunConstruction");
-        SaveMesh(digitsMarks.gObj, "DigitsMarks");
+        if (saveMesh)
+        {
+            SaveMesh(inrun.gObj, "Inrun", true);
+            SaveMesh(inrun.gObj, "InrunTrack");
+            SaveMesh(landingArea.gObj, "LandingAreaCollider", true);
+            SaveMesh(landingArea.gObj, "LandingArea");
+            SaveMesh(gateStairsL.gObj, "GateStairsL");
+            SaveMesh(gateStairsR.gObj, "GateStairsR");
+            SaveMesh(inrunStairsL.gObj, "InrunStairsL");
+            SaveMesh(inrunStairsR.gObj, "InrunStairsR");
+            SaveMesh(landingAreaGuardrailL.gObj, "LandingAreaGuardrailL");
+            SaveMesh(landingAreaGuardrailR.gObj, "LandingAreaGuardrailR");
+            SaveMesh(inrunConstruction.gObj, "InrunConstruction");
+            SaveMesh(digitsMarks.gObj, "DigitsMarks");
+        }
 
         SetGate(hill, 1);
 

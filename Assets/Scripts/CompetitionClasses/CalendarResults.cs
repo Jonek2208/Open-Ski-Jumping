@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace CompCal
 {
@@ -15,12 +15,16 @@ namespace CompCal
         public int eventIt;
         public int roundIt;
         public int jumpIt;
-
         public EventResults[] eventResults;
+
+        public int[] eventIds;
+        public EventResultsInd[] eventResultsInd;
+        public EventResultsTeam[] eventResultsTeam;
+
         public ClassificationResults[] classificationResults;
 
         [JsonIgnore]
-        public Event CurrentEvent
+        public EventInfo CurrentEvent
         {
             get => calendar.events[eventIt];
             set => calendar.events[eventIt] = value;
@@ -55,7 +59,7 @@ namespace CompCal
             get => calendar.competitors[eventResults[eventIt].competitorsList[eventResults[eventIt].startLists[roundIt][jumpIt]]];
         }
 
-        private List<int> GetCompetitorsFromQualRank(Event e)
+        private List<int> GetCompetitorsFromQualRank(EventInfo e)
         {
             List<Tuple<decimal, int>> tempList = new List<Tuple<decimal, int>>();
             List<int> competitorsList = new List<int>();
@@ -67,38 +71,38 @@ namespace CompCal
                     break;
                 case RankType.Event:
                     EventResults qualRankEvent = eventResults[e.qualRankId];
-                    for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
-                    {
-                        decimal result = qualRankEvent.finalResults.Keys[i].Item2;
-                        int competitorId = qualRankEvent.competitorsList[qualRankEvent.finalResults.Values[i]];
-                        tempList.Add(Tuple.Create(result, competitorId));
-                    }
+                    tempList = qualRankEvent.finalResults.Select(it => Tuple.Create(it.Key.Item2, qualRankEvent.competitorsList[it.Value])).ToList();
+                    // for (int i = 0; i < qualRankEvent.finalResults.Count; i++)
+                    // {
+                    //     decimal result = qualRankEvent.finalResults.Keys[i].Item2;
+                    //     int competitorId = qualRankEvent.competitorsList[qualRankEvent.finalResults.Values[i]];
+                    //     tempList.Add(Tuple.Create(result, competitorId));
+                    // }
                     break;
                 case RankType.Classification:
                     ClassificationResults qualRankClassification = classificationResults[e.qualRankId];
-                    for (int i = 0; i < qualRankClassification.totalSortedResults.Count; i++)
-                    {
-                        decimal result = qualRankClassification.totalSortedResults.Keys[i].Item1;
-                        int competitorId = qualRankClassification.totalSortedResults.Values[i];
-                        tempList.Add(Tuple.Create(result, competitorId));
-                    }
+                    tempList = qualRankClassification.totalSortedResults.Select(it => Tuple.Create(it.Key.Item1, it.Value)).ToList();
+                    // for (int i = 0; i < qualRankClassification.totalSortedResults.Count; i++)
+                    // {
+                    //     decimal result = qualRankClassification.totalSortedResults.Keys[i].Item1;
+                    //     int competitorId = qualRankClassification.totalSortedResults.Values[i];
+                    //     tempList.Add(Tuple.Create(result, competitorId));
+                    // }
                     break;
             }
 
             switch (e.inLimitType)
             {
                 case LimitType.None:
-                    for (int i = 0; i < tempList.Count; i++) { competitorsList.Add(tempList[i].Item2); }
+                    competitorsList = tempList.Select(it => it.Item2).ToList();
                     break;
                 case LimitType.Normal:
-                    for (int i = 0; i < tempList.Count; i++)
-                    {
-                        if (tempList[i].Item1 < tempList[e.inLimit - 1].Item1) { break; }
-                        competitorsList.Add(tempList[i].Item2);
-                    }
+                    decimal minPoints = tempList[Math.Min(tempList.Count, e.inLimit) - 1].Item1;
+                    competitorsList = tempList.Where(it => it.Item1 >= minPoints).Select(it => it.Item2).ToList();
                     break;
                 case LimitType.Exact:
-                    for (int i = 0; i < e.inLimit; i++) { competitorsList.Add(tempList[i].Item2); }
+                    int cnt = Math.Min(tempList.Count, e.inLimit);
+                    competitorsList = tempList.Take(cnt).Select(it => it.Item2).ToList();
                     break;
             }
             return competitorsList;
@@ -168,8 +172,9 @@ namespace CompCal
             switch (CurrentRoundInfo.roundType)
             {
                 case RoundType.Normal:
-                    for (int i = CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
-                    { CurrentStartList.Add(CurrentEventResults.finalResults.Values[i]); }
+                    CurrentStartList = CurrentEventResults.finalResults.Values.Select(it => it).Reverse().ToList();
+                    // for (int i = CurrentEventResults.finalResults.Count - 1; i >= 0; i--)
+                    // { CurrentStartList.Add(CurrentEventResults.finalResults.Values[i]); }
                     break;
                 case RoundType.KO:
                     int len = CurrentEventResults.finalResults.Count;
@@ -180,6 +185,7 @@ namespace CompCal
                     }
                     if (len % 2 == 1)
                     { CurrentStartList.Add(CurrentEventResults.finalResults.Values[0]); }
+
                     CurrentEventResults.koState = new int[CurrentEventResults.competitorsList.Count];
                     CurrentEventResults.maxLosers = Math.Max(0, CurrentRoundInfo.outLimit - (CurrentStartList.Count + 1) / 2);
 
@@ -218,7 +224,7 @@ namespace CompCal
 
         public void RecalculateFinalResults()
         {
-            for (int i = 0; i < CurrentEventResults.competitorsList.Count; i++) { CurrentEventResults.lastRank[i] = CurrentEventResults.rank[i]; }
+            CurrentEventResults.lastRank = CurrentEventResults.rank.Select(it => it).ToArray();
 
             switch (CurrentEvent.roundInfos[roundIt].outLimitType)
             {

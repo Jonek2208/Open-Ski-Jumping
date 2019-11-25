@@ -11,11 +11,11 @@ public class ClassificationsListUI : ListDisplay
 
     public bool updated;
 
-    public List<Classification> classificationsList;
+    public List<ClassificationInfo> classificationsList;
 
     public override void ListInit()
     {
-        classificationsList = new List<Classification>();
+        classificationsList = new List<ClassificationInfo>();
         updated = false;
     }
 
@@ -26,11 +26,11 @@ public class ClassificationsListUI : ListDisplay
         dropdown2.value = (int)(classificationsList[index].classificationType) % 2;
     }
 
-    public void LoadList(List<CompCal.Classification> tmpList)
+    public void LoadList(List<CompCal.ClassificationInfo> tmpList)
     {
         ClearListElement();
         ListInit();
-        if (tmpList == null) { tmpList = new List<Classification>(); }
+        if (tmpList == null) { tmpList = new List<ClassificationInfo>(); }
         foreach (var item in tmpList)
         {
             classificationsList.Add(item);
@@ -38,21 +38,21 @@ public class ClassificationsListUI : ListDisplay
         }
     }
 
-    public GameObject NewListElement(Classification classification)
+    public GameObject NewListElement(ClassificationInfo classification)
     {
         GameObject tmp = Instantiate(elementPrefab);
         SetValue(tmp, classification);
         return tmp;
     }
 
-    public void SetValue(GameObject tmp, Classification classification)
+    public void SetValue(GameObject tmp, ClassificationInfo classification)
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = classification.name;
     }
 
     public void Add()
     {
-        Classification classification = new Classification("New Tournament", ClassificationType.IndividualPlace);
+        ClassificationInfo classification = new ClassificationInfo("New Tournament", ClassificationType.IndividualPlace);
         classificationsList.Add(classification);
         AddListElement(NewListElement(classification));
         updated = false;
