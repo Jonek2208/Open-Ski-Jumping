@@ -57,22 +57,22 @@ public class CompetitionManager : MonoBehaviour
         {
             CompCal.Competitor comp = calendarResults.CurrentCompetitor;
             int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
+            currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];
+            if (calendarResults.CurrentEventResults.allroundResults.Count > 0)
+            {
+                leaderPoints.Value = (float)calendarResults.CurrentEventResults.allroundResults.Keys[0].Item1;
+            }
+            else
+            {
+                leaderPoints.Value = 0;
+            }
             if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
             {
-                currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];
-                if (calendarResults.CurrentEventResults.allroundResults.Count > 0)
-                {
-                    leaderPoints.Value = (float)calendarResults.CurrentEventResults.allroundResults.Keys[0].Item1;
-                }
-                else
-                {
-                    leaderPoints.Value = 0;
-                }
 
                 if (calendarResults.roundIt == 0)
                 {
                     jumpUIManager.ShowJumperInfoNormal(comp, bib);
-                    competitorVariable.Value = comp;
+                    // competitorVariable.Value = comp;
                 }
                 else
                 {
