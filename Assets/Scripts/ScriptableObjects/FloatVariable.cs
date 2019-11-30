@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class FloatVariable : ScriptableObject
 {
+    [SerializeField]
     private float value;
     [SerializeField]
     private GameEvent gameEvent;

@@ -6,6 +6,7 @@ using CompCal;
 
 public class CompetitionManager : MonoBehaviour
 {
+    public GameEvent jumperPreparation;
     public DatabaseManager databaseManager;
     public ManagerScript managerScript;
     public JumpUIManager jumpUIManager;
@@ -55,6 +56,7 @@ public class CompetitionManager : MonoBehaviour
         calendarResults.jumpIt++;
         if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
         {
+            jumperPreparation.Raise();
             CompCal.Competitor comp = calendarResults.CurrentCompetitor;
             int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
             currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];

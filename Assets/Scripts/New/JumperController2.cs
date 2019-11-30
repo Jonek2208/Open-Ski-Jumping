@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class JumperController2 : MonoBehaviour
 {
+    public GameEvent startEvent;
+    public FloatVariable mouseSensitivity;
+    public FloatVariable rotCoef;
     private Animator animator;
     private Rigidbody rb;
     public GameObject rSki, lSki;
@@ -37,10 +40,9 @@ public class JumperController2 : MonoBehaviour
     public double angle = 0;
     public double drag = 0.001d;
     public double lift = 0.001d;
-    public float rotCoef = 1f;
     public float smoothCoef = 0.01f;
     public float sensCoef = 0.01f;
-    public float mouseSensitivity = 2f;
+    // public float mouseSensitivity = 2f;
     [Space]
 
     [Header("Wind")]
@@ -176,12 +178,12 @@ public class JumperController2 : MonoBehaviour
             //double pitchMoment = 0.5f;
             if (oldMode)
             {
-                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity;
+                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
             }
             else
             {
-                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity;
+                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
                 jumperAngle /= 1.05f;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
                 // jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
@@ -198,7 +200,7 @@ public class JumperController2 : MonoBehaviour
             }
             else
             {
-                Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef * mouseSensitivity/* * 70.0f*/);
+                Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef.Value);
                 rb.AddRelativeTorque(torque);
             }
 
@@ -241,7 +243,7 @@ public class JumperController2 : MonoBehaviour
         {
             rb.AddForce(-vel.normalized * (float)drag * vel.sqrMagnitude/* * rb.mass*/);
             rb.AddForce(liftVec * (float)lift * vel.sqrMagnitude/* * rb.mass*/);
-            Vector3 torque = new Vector3(0.0f, 0.0f, (90 - (float)angle) * Time.fixedDeltaTime*0.5f/* * 70.0f*/);
+            Vector3 torque = new Vector3(0.0f, 0.0f, (90 - (float)angle) * Time.fixedDeltaTime * 0.5f/* * 70.0f*/);
             rb.AddRelativeTorque(torque);
 
             //rb.AddForceAtPosition(-vel.normalized * (float)drag * vel.sqrMagnitude, rb.transform.position);
@@ -259,7 +261,7 @@ public class JumperController2 : MonoBehaviour
     public void Gate()
     {
         State = 1;
-
+        startEvent.Raise();
         rb.isKinematic = false;
     }
 
