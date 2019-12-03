@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public abstract class ListDisplay : MonoBehaviour
 {
+    public GameEventListener changeEventListener;
     public GameObject elementPrefab;
     public GameObject contentObject;
     public GameObject elementPanel;
     public Button AddButton;
-    public Button SaveButton;
     public Button DeleteButton;
 
     [SerializeField]
@@ -37,7 +37,7 @@ public abstract class ListDisplay : MonoBehaviour
         tmp.transform.SetParent(contentObject.transform, false);
         currentIndex = elementsList.Count;
         elementsList.Add(tmp);
-        tmp.GetComponent<Toggle>().isOn = true; 
+        tmp.GetComponent<Toggle>().isOn = true;
     }
 
     public void SaveListElement()

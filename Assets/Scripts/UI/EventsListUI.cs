@@ -48,6 +48,7 @@ public class EventsListUI : ListDisplay
 
     public override void ShowElementInfo(int index)
     {
+        changeEventListener.enabled = false;
         hillsDropdown.value = eventsList[index].hillId;
         eventTypeDropdown.value = (int)eventsList[index].eventType;
         inLimitTypeDropdown.value = (int)eventsList[index].inLimitType;
@@ -73,6 +74,7 @@ public class EventsListUI : ListDisplay
 
         qualRankTypeDropdown.value = (int)eventsList[currentIndex].qualRankType;
         qualRankEventDropdown.value = eventsList[currentIndex].qualRankId;
+        changeEventListener.enabled = true;
     }
 
     public void LoadList(List<CompCal.EventInfo> tmpList)
@@ -183,6 +185,7 @@ public class EventsListUI : ListDisplay
 
     public void Save()
     {
+        changeEventListener.enabled = false;
         eventsList[currentIndex].hillId = hillsDropdown.value;
         eventsList[currentIndex].eventType = (CompCal.EventType)eventTypeDropdown.value;
         eventsList[currentIndex].inLimitType = (LimitType)inLimitTypeDropdown.value;
@@ -205,7 +208,7 @@ public class EventsListUI : ListDisplay
         eventsList[currentIndex].eventPreset = eventPresetDropdown.value;
 
         eventsList[currentIndex].roundInfos = presetsList[eventPresetDropdown.value].roundInfos;
-
+        changeEventListener.enabled = true;
         SetValue(elementsList[currentIndex], eventsList[currentIndex]);
     }
 

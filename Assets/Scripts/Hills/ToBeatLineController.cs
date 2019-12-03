@@ -8,10 +8,12 @@ public class ToBeatLineController : MonoBehaviour
     private FloatVariable leaderPoints;
     [SerializeField]
     private FloatVariable currentJumperPoints;
-
+    [SerializeField]
+    private Label toBeatDistString;
 
     public void SetLine()
     {
+
         float k = meshScript.profileData.w;
         float judges = 54.0f;
 
@@ -31,11 +33,10 @@ public class ToBeatLineController : MonoBehaviour
             q = 1.2f;
             p = 120f;
         }
-
-
         float toBeatDist = (leaderPoints.Value - currentJumperPoints.Value - judges - p) / q + k;
+
         int toBeatDistDoubled = Mathf.Min(2 * (meshScript.landingAreaPoints.Length - 1), Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));
-        Debug.Log(p + " " + q + " " + toBeatDist + " " + toBeatDistDoubled + " " + (toBeatDistDoubled / 2));
+        // Debug.Log(p + " " + q + " " + toBeatDist + " " + toBeatDistDoubled + " " + (toBeatDistDoubled / 2));
         Vector2 point = meshScript.landingAreaPoints[toBeatDistDoubled / 2];
         Vector2 delta = meshScript.landingAreaPoints[toBeatDistDoubled / 2 + 1] - point;
         if (toBeatDistDoubled % 2 == 1) { point += delta / 2; }
@@ -44,5 +45,7 @@ public class ToBeatLineController : MonoBehaviour
                 point.x >= meshScript.hill.U.x ? (meshScript.profileData.bU / 2) : (meshScript.profileData.bK / 2) + (point.x - meshScript.hill.K.x) / (meshScript.hill.U.x - meshScript.hill.K.x) * ((meshScript.profileData.bU - meshScript.profileData.bK) / 2);
 
         lineRenderer.SetPositions(new Vector3[] { new Vector3(point.x, point.y, -b), new Vector3(point.x, point.y, b) });
+
+        toBeatDistString.Value = "To beat: " + (toBeatDistDoubled / 2m).ToString("#0.0") + " m";
     }
 }

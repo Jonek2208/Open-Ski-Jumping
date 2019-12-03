@@ -21,9 +21,11 @@ public class ClassificationsListUI : ListDisplay
 
     public override void ShowElementInfo(int index)
     {
+        changeEventListener.enabled = false;
         nameInput.text = classificationsList[index].name;
         dropdown1.value = (int)(classificationsList[index].classificationType) / 2;
         dropdown2.value = (int)(classificationsList[index].classificationType) % 2;
+        changeEventListener.enabled = true;
     }
 
     public void LoadList(List<CompCal.ClassificationInfo> tmpList)
@@ -60,8 +62,10 @@ public class ClassificationsListUI : ListDisplay
 
     public void Save()
     {
+        changeEventListener.enabled = false;
         classificationsList[currentIndex].name = nameInput.text;
         classificationsList[currentIndex].classificationType = (ClassificationType)(2 * dropdown1.value + dropdown2.value);
+        changeEventListener.enabled = true;
         SetValue(elementsList[currentIndex], classificationsList[currentIndex]);
         updated = false;
     }

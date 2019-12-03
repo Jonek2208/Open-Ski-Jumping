@@ -10,6 +10,16 @@ public class JumpersCreatorListUI : ListDisplay
     public TMPro.TMP_InputField lastNameInput;
     public TMPro.TMP_InputField firstNameInput;
     public TMPro.TMP_InputField countryCodeInput;
+    public SimpleColorPicker helmetColorPicker;
+    //     public string suitTopFrontColor;
+    // public string suitTopBackColor;
+    // public string suitBottomFrontColor;
+    // public string suitBottomBackColor;
+    public SimpleColorPicker suitTopFrontColorPicker;
+    public SimpleColorPicker suitTopBackColorPicker;
+    public SimpleColorPicker suitBottomFrontColorPicker;
+    public SimpleColorPicker suitBottomBackColorPicker;
+    public SimpleColorPicker skisColorPicker;
     // public TMPro.TMP_Dropdown genderDropdown;
 
     public bool updated;
@@ -21,6 +31,8 @@ public class JumpersCreatorListUI : ListDisplay
         tmpList = new List<Competitor>();
         if (databaseManager.dbCompetitors.Loaded) { tmpList = databaseManager.dbCompetitors.Data; }
     }
+
+
 
     public override void ListInit()
     {
@@ -47,7 +59,15 @@ public class JumpersCreatorListUI : ListDisplay
         firstNameInput.text = competitorsList[index].firstName;
         lastNameInput.text = competitorsList[index].lastName;
         countryCodeInput.text = competitorsList[index].countryCode;
+        // Debug.Log("SHOWING: " + competitorsList[index].helmetColor + " " + competitorsList[index].suitTopFrontColor + " " + competitorsList[index].skisColor);
+        helmetColorPicker.Set(competitorsList[index].helmetColor);
+        suitTopFrontColorPicker.Set(competitorsList[index].suitTopFrontColor);
+        suitTopBackColorPicker.Set(competitorsList[index].suitTopBackColor);
+        suitBottomFrontColorPicker.Set(competitorsList[index].suitBottomFrontColor);
+        suitBottomBackColorPicker.Set(competitorsList[index].suitBottomBackColor);
+        skisColorPicker.Set(competitorsList[index].skisColor);
         // genderDropdown.value = (int)(competitorsList[index].gender);
+
     }
     public void Add()
     {
@@ -62,6 +82,14 @@ public class JumpersCreatorListUI : ListDisplay
         competitorsList[currentIndex].lastName = lastNameInput.text;
         competitorsList[currentIndex].firstName = firstNameInput.text;
         competitorsList[currentIndex].countryCode = countryCodeInput.text;
+        competitorsList[currentIndex].helmetColor = helmetColorPicker.ToHex;
+        competitorsList[currentIndex].suitTopFrontColor = suitTopFrontColorPicker.ToHex;
+        competitorsList[currentIndex].suitTopBackColor = suitTopBackColorPicker.ToHex;
+        competitorsList[currentIndex].suitBottomFrontColor = suitBottomFrontColorPicker.ToHex;
+        competitorsList[currentIndex].suitBottomBackColor = suitBottomBackColorPicker.ToHex;
+        competitorsList[currentIndex].skisColor = skisColorPicker.ToHex;
+        // Debug.Log(competitorsList[currentIndex].helmetColor + " " + competitorsList[currentIndex].suitColor + " " + competitorsList[currentIndex].skisColor);
+        Debug.Log("SAVED COMPETITOR DATA");
         // competitorsList[currentIndex].gender = (Gender)genderDropdown.value;
         SetValue(elementsList[currentIndex], competitorsList[currentIndex]);
         updated = false;

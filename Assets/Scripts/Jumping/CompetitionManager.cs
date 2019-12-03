@@ -7,6 +7,7 @@ using CompCal;
 public class CompetitionManager : MonoBehaviour
 {
     public GameEvent jumperPreparation;
+    public SkiJumperData currentJumper;
     public DatabaseManager databaseManager;
     public ManagerScript managerScript;
     public JumpUIManager jumpUIManager;
@@ -56,6 +57,12 @@ public class CompetitionManager : MonoBehaviour
         calendarResults.jumpIt++;
         if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
         {
+            currentJumper.helmetColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.helmetColor);
+            currentJumper.suitTopFrontColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitTopFrontColor);
+            currentJumper.suitTopBackColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitTopBackColor);
+            currentJumper.suitBottomFrontColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitBottomFrontColor);
+            currentJumper.suitBottomBackColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitBottomBackColor);
+            currentJumper.skisColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.skisColor);
             jumperPreparation.Raise();
             CompCal.Competitor comp = calendarResults.CurrentCompetitor;
             int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
