@@ -211,6 +211,7 @@ public class CompetitionManager : MonoBehaviour
         }
 
         RoundInit();
+        NextJump();
         return true;
     }
 
