@@ -42,44 +42,6 @@ public class DatabaseObject<T>
     }
 }
 
-public class FlagsManager
-{
-    private SpriteAtlas flagsSpriteAtlas;
-    private Dictionary<string, int> countriesDict;
-    private CountryData countryData;
-
-    public FlagsManager(CountryData countryData, SpriteAtlas flagsSpriteAtlas)
-    {
-        this.countryData = countryData;
-        this.flagsSpriteAtlas = flagsSpriteAtlas; 
-        this.LoadCountriesData();
-    }
-
-    private void LoadCountriesData()
-    {
-        this.countriesDict = new Dictionary<string, int>();
-
-        for (int i = 0; i < this.countryData.spritesList.Count; i++)
-        {
-            this.countriesDict.Add(this.countryData.spritesList[i], i);
-        }
-
-        foreach (var c in this.countryData.countryList)
-        {
-            if (this.countriesDict.ContainsKey(c.alpha2))
-            {
-                this.countriesDict.Add(c.ioc, this.countriesDict[c.alpha2]);
-            }
-        }
-    }
-
-    public Sprite GetFlag(string countryCode)
-    {
-        string flagSprite = this.countriesDict.ContainsKey(countryCode) ? this.countriesDict[countryCode].ToString() : "0";
-        return this.flagsSpriteAtlas.GetSprite("flags_responsive_uncompressed_" + flagSprite);
-    }
-}
-
 public class DatabaseManager : MonoBehaviour
 {
     public bool loadRoundInfoPresets;
@@ -94,14 +56,9 @@ public class DatabaseManager : MonoBehaviour
     public bool loadHills;
     public DatabaseObject<HillProfile.AllData> dbHills = new DatabaseObject<HillProfile.AllData>("data.json");
 
-    public bool loadCountriesFlagsData;
-    public DatabaseObject<CompCal.CountryData> dbCountryData = new DatabaseObject<CompCal.CountryData>("country_data.json");
-    public SpriteAtlas flagsSpriteAtlas;
-
     public bool loadSavesData;
     public SaveData dbSaveData;
 
-    public FlagsManager flagsManager;
 
     private void Awake()
     {
@@ -109,14 +66,6 @@ public class DatabaseManager : MonoBehaviour
         if (loadCompetitors) { dbCompetitors.LoadData(); }
         if (loadHills) { dbHills.LoadData(); }
         if (loadRoundInfoPresets) { dbRoundInfoPresets.LoadData(); }
-        if (loadCountriesFlagsData)
-        {
-            dbCountryData.LoadData();
-            if (dbCountryData.Loaded)
-            {
-                flagsManager = new FlagsManager(dbCountryData.Data, flagsSpriteAtlas);
-            }
-        }
 
         if (loadSavesData)
         {

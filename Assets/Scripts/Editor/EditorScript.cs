@@ -19,6 +19,21 @@ public class EditorScript : UnityEditor.Editor
     }
 }
 
+[CustomEditor(typeof(GameEvent))]
+public class GameEventEditor : UnityEditor.Editor
+{
+    public override void OnInspectorGUI()
+    {
+        GameEvent gameEvent = (GameEvent)target;
+        DrawDefaultInspector();
+        if (GUILayout.Button("Raise"))
+        {
+            Debug.Log("RAISED EVENT");
+            gameEvent.Raise();
+        }
+    }
+}
+
 [CustomEditor(typeof(TerrainScript))]
 public class EditorTerrainScript : UnityEditor.Editor
 {

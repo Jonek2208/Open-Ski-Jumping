@@ -7,6 +7,7 @@ using CompCal;
 public class JumpersCreatorListUI : ListDisplay
 {
     public DatabaseManager databaseManager;
+    public FlagsData flagsData;
     public TMPro.TMP_InputField lastNameInput;
     public TMPro.TMP_InputField firstNameInput;
     public TMPro.TMP_InputField countryCodeInput;
@@ -52,7 +53,7 @@ public class JumpersCreatorListUI : ListDisplay
     {
         tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = competitor.firstName + " " + competitor.lastName.ToUpper();
         tmp.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = competitor.countryCode;
-        tmp.GetComponentsInChildren<Image>()[1].sprite = databaseManager.flagsManager.GetFlag(competitor.countryCode);
+        tmp.GetComponentsInChildren<Image>()[1].sprite = flagsData.GetFlag(competitor.countryCode);
     }
     public override void ShowElementInfo(int index)
     {

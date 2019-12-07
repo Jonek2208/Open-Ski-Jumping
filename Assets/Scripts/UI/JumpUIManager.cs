@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 public class JumpUIManager : MonoBehaviour
 {
     #region Properties
-    public DatabaseManager databaseManager;
+    public FlagsData flagsData;
     public JudgesController judgesController;
     public Slider gateSlider;
     public TMPro.TMP_Text gateText;
@@ -16,11 +16,8 @@ public class JumpUIManager : MonoBehaviour
     public TMPro.TMP_Text windText;
     public TMPro.TMP_Text distText;
     public TMPro.TMP_Text speedText;
-
-    public TMPro.TMP_Text[] stylePtsText;
     public GameObject pointsPanel;
     public TMPro.TMP_Text hillNameText;
-
     private List<GameObject> resultsList;
     public GameObject resultsWrapperPrefab;
     public GameObject resultPrefab;
@@ -28,36 +25,24 @@ public class JumpUIManager : MonoBehaviour
     public GameObject resultPointsPrefab;
     public GameObject scrollViewObject;
     public GameObject resultsObject;
-    public GameObject resultsDropdown;
     public TMPro.TMP_Text resultsInfoText;
     public GameObject contentObject;
-    public GameObject jumperResult;
-    public GameObject jumperResultBlue;
-    public GameObject jumperResultRed;
-    public GameObject jumperResultTeamTop;
-    public GameObject jumperResultTeamBottom;
-    private GameObject currentJumperInfo;
     #endregion
     public void UIReset()
     {
         speedText.text = "";
         distText.text = "";
         pointsPanel.SetActive(false);
-
-        for (int i = 0; i < 5; i++)
-        {
-            stylePtsText[i].fontStyle = TMPro.FontStyles.Normal;
-        }
     }
 
-    public void DisableJumperResults()
-    {
-        jumperResult.SetActive(false);
-        jumperResultBlue.SetActive(false);
-        jumperResultRed.SetActive(false);
-        jumperResultTeamTop.SetActive(false);
-        jumperResultTeamBottom.SetActive(false);
-    }
+    // public void DisableJumperResults()
+    // {
+    //     jumperResult.SetActive(false);
+    //     jumperResultBlue.SetActive(false);
+    //     jumperResultRed.SetActive(false);
+    //     jumperResultTeamTop.SetActive(false);
+    //     jumperResultTeamBottom.SetActive(false);
+    // }
 
     public void GateSliderChange()
     {
@@ -95,116 +80,106 @@ public class JumpUIManager : MonoBehaviour
         distText.text = (int)val + "." + (int)(val * 10 % 10) + " m";
     }
 
-    public void SetJudgesPoints(CompCal.JumpResult jmp)
-    {
-        pointsPanel.SetActive(true);
-        for (int i = 0; i < 5; i++)
-        {
-            stylePtsText[i].text = "" + jmp.judgesMarks[i].ToString("#.0");
-            if (!jmp.judgesMask[i]) { stylePtsText[i].fontStyle = TMPro.FontStyles.Strikethrough; }
-        }
-    }
+    // public void SetPoints(CompCal.JumpResult jmp, int rank, decimal total)
+    // {
+    //     SetJudgesPoints(jmp);
+    //     currentJumperInfo.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total.ToString("#0.0") + "\t\t" + rank;
+    // }
 
-    public void SetPoints(CompCal.JumpResult jmp, int rank, decimal total)
-    {
-        SetJudgesPoints(jmp);
-        currentJumperInfo.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total.ToString("#0.0") + "\t\t" + rank;
-    }
+    // public void SetPoints(CompCal.JumpResult jmp, int rank1, decimal total1, int rank2, decimal total2)
+    // {
+    //     SetJudgesPoints(jmp);
+    //     jumperResultRed.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total1.ToString("#0.0") + "\t\t" + rank1;
+    //     jumperResultBlue.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total2.ToString("#0.0") + "\t\t" + rank2;
+    // }
 
-    public void SetPoints(CompCal.JumpResult jmp, int rank1, decimal total1, int rank2, decimal total2)
-    {
-        SetJudgesPoints(jmp);
-        jumperResultRed.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total1.ToString("#0.0") + "\t\t" + rank1;
-        jumperResultBlue.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = total2.ToString("#0.0") + "\t\t" + rank2;
-    }
+    // public void SetPoints(CompCal.JumpResult jmp, int rank, decimal totalTeam, decimal totalJumper)
+    // {
+    //     SetJudgesPoints(jmp);
+    //     jumperResultTeamTop.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = totalTeam.ToString("#0.0") + "\t\t" + rank;
+    //     jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = totalJumper.ToString("#0.0");
+    // }
 
-    public void SetPoints(CompCal.JumpResult jmp, int rank, decimal totalTeam, decimal totalJumper)
-    {
-        SetJudgesPoints(jmp);
-        jumperResultTeamTop.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = totalTeam.ToString("#0.0") + "\t\t" + rank;
-        jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = totalJumper.ToString("#0.0");
-    }
+    // public string CompetitorData(CompCal.Competitor competitor, int bib) => bib + "\t\t" + competitor.firstName + " " + competitor.lastName.ToUpper();
+    // public string TeamData(CompCal.Team team, int bib) => bib + "\t\t" + team.countryCode.ToUpper();
 
-    public string CompetitorData(CompCal.Competitor competitor, int bib) => bib + "\t\t" + competitor.firstName + " " + competitor.lastName.ToUpper();
-    public string TeamData(CompCal.Team team, int bib) => bib + "\t\t" + team.countryCode.ToUpper();
+    // public void ShowJumperInfo(GameObject gameObject, string infoString, string countryCode, string resultsString)
+    // {
+    //     gameObject.SetActive(true);
+    //     gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = infoString;
+    //     gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = countryCode;
+    //     gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = resultsString;
+    //     gameObject.GetComponentsInChildren<Image>()[1].sprite = flagsData.GetFlag(countryCode);
+    // }
 
-    public void ShowJumperInfo(GameObject gameObject, string infoString, string countryCode, string resultsString)
-    {
-        gameObject.SetActive(true);
-        gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = infoString;
-        gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = countryCode;
-        gameObject.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = resultsString;
-        gameObject.GetComponentsInChildren<Image>()[1].sprite = databaseManager.flagsManager.GetFlag(countryCode);
-    }
+    // public void ShowJumperInfoNormal(CompCal.Competitor competitor, int bib)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResult, CompetitorData(competitor, bib), competitor.countryCode, "");
+    //     currentJumperInfo = jumperResult;
+    // }
 
-    public void ShowJumperInfoNormal(CompCal.Competitor competitor, int bib)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResult, CompetitorData(competitor, bib), competitor.countryCode, "");
-        currentJumperInfo = jumperResult;
-    }
+    // public void ShowJumperInfoNormal(CompCal.Competitor competitor, int bib, decimal lastPoints, int lastRank)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResult, CompetitorData(competitor, bib), competitor.countryCode, lastPoints.ToString("#0.0") + "\t\t" + lastRank);
+    //     currentJumperInfo = jumperResult;
+    // }
 
-    public void ShowJumperInfoNormal(CompCal.Competitor competitor, int bib, decimal lastPoints, int lastRank)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResult, CompetitorData(competitor, bib), competitor.countryCode, lastPoints.ToString("#0.0") + "\t\t" + lastRank);
-        currentJumperInfo = jumperResult;
-    }
+    // public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultRed, CompetitorData(comp1, bib1), comp1.countryCode, "");
+    //     jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
+    //     currentJumperInfo = jumperResultRed;
+    // }
 
-    public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultRed, CompetitorData(comp1, bib1), comp1.countryCode, "");
-        jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
-        currentJumperInfo = jumperResultRed;
-    }
+    // public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1, CompCal.Competitor comp2, int bib2)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultBlue, CompetitorData(comp1, bib1), comp1.countryCode, "");
+    //     jumperResultBlue.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition + new Vector2(0, 50);
+    //     ShowJumperInfo(jumperResultRed, CompetitorData(comp2, bib2), comp2.countryCode, "");
+    //     jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
+    //     currentJumperInfo = jumperResultBlue;
+    // }
 
-    public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1, CompCal.Competitor comp2, int bib2)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultBlue, CompetitorData(comp1, bib1), comp1.countryCode, "");
-        jumperResultBlue.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition + new Vector2(0, 50);
-        ShowJumperInfo(jumperResultRed, CompetitorData(comp2, bib2), comp2.countryCode, "");
-        jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
-        currentJumperInfo = jumperResultBlue;
-    }
+    // public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1, CompCal.Competitor comp2, int bib2, decimal points1)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultBlue, CompetitorData(comp1, bib1), comp1.countryCode, points1.ToString("#0.0"));
+    //     jumperResultBlue.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
+    //     ShowJumperInfo(jumperResultRed, CompetitorData(comp2, bib2), comp2.countryCode, "");
+    //     jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition + new Vector2(0, 50);
+    //     currentJumperInfo = jumperResultRed;
+    // }
 
-    public void ShowJumperInfoKO(CompCal.Competitor comp1, int bib1, CompCal.Competitor comp2, int bib2, decimal points1)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultBlue, CompetitorData(comp1, bib1), comp1.countryCode, points1.ToString("#0.0"));
-        jumperResultBlue.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition;
-        ShowJumperInfo(jumperResultRed, CompetitorData(comp2, bib2), comp2.countryCode, "");
-        jumperResultRed.GetComponent<RectTransform>().anchoredPosition = jumperResult.GetComponent<RectTransform>().anchoredPosition + new Vector2(0, 50);
-        currentJumperInfo = jumperResultRed;
-    }
+    // private void ShowJumperInfoTeamHelper(string txt1, string txt2)
+    // {
+    //     jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = txt1;
+    //     jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = txt2;
+    // }
 
-    private void ShowJumperInfoTeamHelper(string txt1, string txt2)
-    {
-        jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = txt1;
-        jumperResultTeamBottom.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = txt2;
-    }
+    // public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, "");
+    //     ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), "");
+    // }
 
-    public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, "");
-        ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), "");
-    }
+    // public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper, int lastRank, decimal lastPointsTeam)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, lastPointsTeam.ToString("#0.0") + "\t\t" + lastRank);
+    //     ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), "");
+    // }
 
-    public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper, int lastRank, decimal lastPointsTeam)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, lastPointsTeam.ToString("#0.0") + "\t\t" + lastRank);
-        ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), "");
-    }
-
-    public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper, int lastRank, decimal lastPointsTeam, decimal lastPointsJumper)
-    {
-        DisableJumperResults();
-        ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, lastPointsTeam.ToString("#0.0") + "\t\t" + lastRank);
-        ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), lastPointsJumper.ToString("#0.0"));
-    }
+    // public void ShowJumperInfoTeam(CompCal.Team team, CompCal.Competitor jumper, int bibTeam, int bibJumper, int lastRank, decimal lastPointsTeam, decimal lastPointsJumper)
+    // {
+    //     DisableJumperResults();
+    //     ShowJumperInfo(jumperResultTeamTop, TeamData(team, bibTeam), team.countryCode, lastPointsTeam.ToString("#0.0") + "\t\t" + lastRank);
+    //     ShowJumperInfoTeamHelper(CompetitorData(jumper, bibJumper), lastPointsJumper.ToString("#0.0"));
+    // }
 
     public void SetHillNameText(string s = "")
     {
@@ -213,7 +188,6 @@ public class JumpUIManager : MonoBehaviour
 
     public void ShowEventResults(CompCal.CalendarResults calendarResults)
     {
-        DisableJumperResults();
         resultsList = new List<GameObject>();
         int hillId = calendarResults.calendar.events[calendarResults.eventIt].hillId;
         resultsInfoText.text = calendarResults.hillProfiles[hillId].name + " " + calendarResults.calendar.events[calendarResults.eventIt].eventType.ToString() + "\n" + "Round #" + (calendarResults.roundIt + 1);
@@ -222,32 +196,32 @@ public class JumpUIManager : MonoBehaviour
         float width = resultPrefab.GetComponent<RectTransform>().rect.width + Mathf.Min(calendarResults.roundIt + 1, 4) * resultMetersPrefab.GetComponent<RectTransform>().rect.width + resultPointsPrefab.GetComponent<RectTransform>().rect.width;
         scrollViewObject.GetComponent<RectTransform>().sizeDelta = new Vector2(width, scrollViewObject.GetComponent<RectTransform>().sizeDelta.y);
 
-        foreach (var x in calendarResults.CurrentEventResults.finalResults.Values)
-        {
-            int i = calendarResults.CurrentEventResults.competitorsList[x];
-            GameObject wrapper = Instantiate(resultsWrapperPrefab);
-            wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(width, wrapper.GetComponent<RectTransform>().sizeDelta.y);
-            GameObject tmp = Instantiate(resultPrefab);
-            wrapper.transform.SetParent(contentObject.transform, false);
-            tmp.transform.SetParent(wrapper.transform, false);
-            tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.calendar.competitors[i].firstName + " " + calendarResults.calendar.competitors[i].lastName.ToUpper();
-            tmp.GetComponentsInChildren<Image>()[1].sprite = databaseManager.flagsManager.GetFlag(calendarResults.calendar.competitors[i].countryCode);
-            tmp.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = calendarResults.calendar.competitors[i].countryCode;
-            tmp.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = calendarResults.CurrentEventResults.rank[x].ToString();
-            // tmp.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = x.Item1.ToString("#0.0");
+        // foreach (var x in calendarResults.CurrentEventResults.finalResults.Values)
+        // {
+        //     int i = calendarResults.CurrentEventResults.participants[x];
+        //     GameObject wrapper = Instantiate(resultsWrapperPrefab);
+        //     wrapper.GetComponent<RectTransform>().sizeDelta = new Vector2(width, wrapper.GetComponent<RectTransform>().sizeDelta.y);
+        //     GameObject tmp = Instantiate(resultPrefab);
+        //     wrapper.transform.SetParent(contentObject.transform, false);
+        //     tmp.transform.SetParent(wrapper.transform, false);
+        //     tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.calendar.competitors[i].firstName + " " + calendarResults.calendar.competitors[i].lastName.ToUpper();
+        //     tmp.GetComponentsInChildren<Image>()[1].sprite = flagsData.GetFlag(calendarResults.calendar.competitors[i].countryCode);
+        //     tmp.GetComponentsInChildren<TMPro.TMP_Text>()[1].text = calendarResults.calendar.competitors[i].countryCode;
+        //     tmp.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = calendarResults.CurrentEventResults.rank[x].ToString();
+        //     // tmp.GetComponentsInChildren<TMPro.TMP_Text>()[2].text = x.Item1.ToString("#0.0");
 
-            for (int j = 0; j <= calendarResults.roundIt; j++)
-            {
-                tmp = Instantiate(resultMetersPrefab);
-                tmp.transform.SetParent(wrapper.transform, false);
-                tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.roundResults[x][j].distance.ToString("#0.0");
-            }
+        //     for (int j = 0; j <= calendarResults.roundIt; j++)
+        //     {
+        //         tmp = Instantiate(resultMetersPrefab);
+        //         tmp.transform.SetParent(wrapper.transform, false);
+        //         tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.roundResults[x][j].distance.ToString("#0.0");
+        //     }
 
-            tmp = Instantiate(resultPointsPrefab);
-            tmp.transform.SetParent(wrapper.transform, false);
-            tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.totalResults[x].ToString("#0.0");
-            resultsList.Add(wrapper);
-        }
+        //     tmp = Instantiate(resultPointsPrefab);
+        //     tmp.transform.SetParent(wrapper.transform, false);
+        //     tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = calendarResults.CurrentEventResults.totalResults[x].ToString("#0.0");
+        //     resultsList.Add(wrapper);
+        // }
     }
 
     public void HideResults()
@@ -261,9 +235,6 @@ public class JumpUIManager : MonoBehaviour
         }
 
         resultsList = new List<GameObject>();
-        jumperResult.SetActive(true);
         resultsObject.SetActive(false);
-        resultsDropdown.SetActive(false);
-
     }
 }

@@ -54,7 +54,7 @@ public class ClassificationsListUI : ListDisplay
 
     public void Add()
     {
-        ClassificationInfo classification = new ClassificationInfo("New Tournament", ClassificationType.IndividualPlace);
+        ClassificationInfo classification = new ClassificationInfo("New Tournament", ClassificationType.Place);
         classificationsList.Add(classification);
         AddListElement(NewListElement(classification));
         updated = false;

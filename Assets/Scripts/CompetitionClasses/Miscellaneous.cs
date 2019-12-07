@@ -21,7 +21,7 @@ namespace CompCal
     public enum Gender { Male, Female }
     public enum LimitType { None, Normal, Exact }
     public enum RoundType { Normal, KO }
-    public enum EventType { Qualification, Individual, Team }
-    public enum ClassificationType { IndividualPlace, IndividualPoints, TeamPlace, TeamPoints }
+    public enum EventType { Individual, Team }
+    public enum ClassificationType { Place, Points }
     public enum RankType { None, Event, Classification }
 }

@@ -16,4 +16,11 @@ namespace CompCal
             competitors = new List<int>();
         }
     }
+
+    [Serializable]
+    public class Participant
+    {
+        public int id;
+        public List<int> competitors;
+    }
 }

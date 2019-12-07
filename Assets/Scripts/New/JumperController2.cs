@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class JumperController2 : MonoBehaviour
 {
-    public GameEvent startEvent;
+    public UnityEvent OnStartEvent;
     public FloatVariable mouseSensitivity;
     public FloatVariable rotCoef;
     private Animator animator;
@@ -42,7 +43,7 @@ public class JumperController2 : MonoBehaviour
     public double lift = 0.001d;
     public float smoothCoef = 0.01f;
     public float sensCoef = 0.01f;
-    // public float mouseSensitivity = 2f;
+    // public float mouseSensitivity = 2f; 
     [Space]
 
     [Header("Wind")]
@@ -56,9 +57,6 @@ public class JumperController2 : MonoBehaviour
     bool button0, button1;
 
     public JudgesController judgesController;
-    public MouseScript mouseScript;
-    // public ManagerScript managerScript;
-
     private int landing;
     private bool deductedforlanding = false;
 
@@ -111,10 +109,7 @@ public class JumperController2 : MonoBehaviour
                     Crash();
                     Landed = true;
                 }
-
-
             }
-
         }
     }
 
@@ -126,10 +121,6 @@ public class JumperController2 : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-
-        //Wind
-        //windDir.Set(0.0f, 0.0f);
-        //windForce = 0.0f;
 
         ResetValues();
     }
@@ -160,7 +151,6 @@ public class JumperController2 : MonoBehaviour
         if (State == 0 && Input.GetKeyDown(KeyCode.Space))
         {
             Gate();
-            mouseScript.LockCursor();
         }
         else if (State == 1 && Input.GetMouseButtonDown(0))
         {
@@ -174,8 +164,6 @@ public class JumperController2 : MonoBehaviour
         }
         if (State == 2)
         {
-            //double pitchMoment = 3.29363 - 0.11567 * angle - 0.00333928 * angle * angle + 0.0000573605f * angle * angle * angle;
-            //double pitchMoment = 0.5f;
             if (oldMode)
             {
                 jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
@@ -186,14 +174,10 @@ public class JumperController2 : MonoBehaviour
                 jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
                 jumperAngle /= 1.05f;
                 jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-                // jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
-                // jumperAngle += Input.GetAxis("Moues Y") * sensCoef;
-                // jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
             }
 
             judgesController.FlightStability(jumperAngle);
 
-            //rb.AddTorque(0.0f, 0.0f, (float)pitchMoment);
             if (oldMode)
             {
 
@@ -205,17 +189,12 @@ public class JumperController2 : MonoBehaviour
             }
 
             animator.SetFloat("JumperAngle", jumperAngle);
-            // Debug.Log("angle: " + angle + " jumperAngle: " + jumperAngle);
         }
         if (rb.transform.position.x > judgesController.hill.U.x)
         {
             Brake();
 
         }
-        // if ((Landed && State != 3 && !land) || (State == 2 && (angle < -10.0f || angle > 80.0f) && animator.GetCurrentAnimatorStateInfo(0).IsName("Flight")))
-        // {
-        //     // Crash();
-        // }
     }
 
     void FixedUpdate()
@@ -261,7 +240,7 @@ public class JumperController2 : MonoBehaviour
     public void Gate()
     {
         State = 1;
-        startEvent.Raise();
+        OnStartEvent.Invoke();
         rb.isKinematic = false;
     }
 

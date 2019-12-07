@@ -1,29 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class MainMenuController
+[CreateAssetMenu]
+public class MainMenuController : ScriptableObject
 {
-    public static void LoadEditor()
+    public void LoadEditor()
     {
         SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
     }
-
-    public static void LoadTournament()
+    public void LoadTournament()
     {
         SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
     }
-
-    public static void LoadMainMenu()
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("Scenes/MainMenu");
     }
-
-    public static void LoadTournamentMenu()
+    public void LoadTournamentMenu()
     {
         SceneManager.LoadScene("Scenes/TournamentMenu");
     }
-
-    public static void QuitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }

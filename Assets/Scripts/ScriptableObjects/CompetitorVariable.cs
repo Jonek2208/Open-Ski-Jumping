@@ -4,30 +4,22 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CompetitorVariable : ScriptableObject
 {
-    public GameEvent uiUpdateEvent;
     private CompCal.Competitor value;
+    public StringVariable firstName;
+    public StringVariable lastName;
+    public StringVariable countryCode;
+    public FloatVariable result;
+    public IntVariable rank;
+    public IntVariable bib;
+    public JudgesMarkInfo[] judgesMarks;
+    public FloatVariable speed;
+    public FloatVariable distance;
 
-    [SerializeField]
-    private Label competitorName;
-
-    [SerializeField]
-    private Label countryCode;
-
-    public Competitor Value
+    public void Set(CompCal.Competitor competitor)
     {
-        get => this.value;
-        set
-        {
-            this.value = value;
-            SetLabels();
-            uiUpdateEvent.Raise();
-        }
+        this.value = competitor;
+        this.firstName.Value = this.value.firstName;
+        this.lastName.Value = this.value.lastName;
+        this.countryCode.Value = this.value.countryCode;
     }
-
-    private void SetLabels()
-    {
-        this.competitorName.Value = this.Value.firstName + " " + this.Value.lastName.ToUpper();
-        this.countryCode.Value = this.Value.countryCode;
-    }
-
 }

@@ -11,8 +11,12 @@ namespace CompCal
     {
         public string name;
         [JsonConverter(typeof(StringEnumConverter))]
+        public EventType eventType;
         public ClassificationType classificationType;
         public List<int> events;
+        public bool hasLimit;
+        public int limit;
+        public int[] pointsTable;
 
         public ClassificationInfo(string _name, ClassificationType _classificationType)
         {

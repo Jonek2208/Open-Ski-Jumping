@@ -66,12 +66,6 @@ public class SavesListUI : ListDisplay
         {
             calendarResults.classificationResults[i] = new ClassificationResults();
             calendarResults.classificationResults[i].totalResults = new decimal[calendarResults.calendar.competitors.Count];
-            calendarResults.classificationResults[i].rank = new int[calendarResults.calendar.competitors.Count];
-            calendarResults.classificationResults[i].eventResults = new List<decimal>[calendarResults.calendar.competitors.Count];
-            for (int j = 0; j < calendarResults.classificationResults[i].eventResults.Length; j++)
-            {
-                calendarResults.classificationResults[i].eventResults[j] = new List<decimal>();
-            }
         }
 
         if (databaseManager.dbHills.Loaded)
@@ -129,7 +123,6 @@ public class SavesListUI : ListDisplay
         {
             databaseManager.dbSaveData.currentSaveId = currentIndex;
             databaseManager.Save();
-            MainMenuController.LoadTournamentMenu();
         }
 
     }

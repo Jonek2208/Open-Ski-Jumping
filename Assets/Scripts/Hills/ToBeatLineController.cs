@@ -9,7 +9,7 @@ public class ToBeatLineController : MonoBehaviour
     [SerializeField]
     private FloatVariable currentJumperPoints;
     [SerializeField]
-    private Label toBeatDistString;
+    private StringVariable toBeatDistString;
 
     public void SetLine()
     {

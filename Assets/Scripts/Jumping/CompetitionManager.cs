@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using CompCal;
+using UnityEngine.Events;
+
+[Serializable]
+public class UnityEventInt : UnityEvent<int> { }
 
 public class CompetitionManager : MonoBehaviour
 {
-    public GameEvent jumperPreparation;
     public SkiJumperData currentJumper;
     public DatabaseManager databaseManager;
     public ManagerScript managerScript;
@@ -15,14 +18,16 @@ public class CompetitionManager : MonoBehaviour
 
     private CompCal.EventInfo currentEvent;
     private RoundRunner roundRunner;
-    private EventRunner eventRunner;
+    private EventManager eventManager;
 
     public FloatVariable leaderPoints;
     public FloatVariable currentJumperPoints;
     public CompetitorVariable competitorVariable;
+    public CompetitorVariable competitorVariable2;
     public CalendarResults calendarResults;
+    public UnityEventInt jumperPreparation;
 
-    public bool showingResults;
+
     private void LoadData()
     {
         calendarResults = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId];
@@ -31,12 +36,12 @@ public class CompetitionManager : MonoBehaviour
     public void CompetitionInit()
     {
         currentEvent = calendarResults.calendar.events[calendarResults.eventIt]; //caching event info
-        if (currentEvent.eventType == CompCal.EventType.Team) { eventRunner = new EventRunnerTeam(); }
-        else { eventRunner = new EventRunnerInd(); }
+        // if (currentEvent.eventType == CompCal.EventType.Team) { eventRunner = new EventRunnerTeam(); }
+        // else { eventRunner = new EventRunnerInd(); }
 
         judges.PrepareHill(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
 
-        calendarResults.EventInit();
+        // calendarResults.EventInit();
 
         RoundInit();
         NextJump();
@@ -44,171 +49,90 @@ public class CompetitionManager : MonoBehaviour
 
     public void RoundInit()
     {
-        calendarResults.RoundInit();
-        foreach (var item in calendarResults.CurrentStartList)
-        {
-            Debug.Log(calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[item]].lastName);
-        }
+        // calendarResults.RoundInit();
         calendarResults.jumpIt = -1;
     }
 
     public bool NextJump()
     {
-        calendarResults.jumpIt++;
-        if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
-        {
-            currentJumper.helmetColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.helmetColor);
-            currentJumper.suitTopFrontColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitTopFrontColor);
-            currentJumper.suitTopBackColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitTopBackColor);
-            currentJumper.suitBottomFrontColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitBottomFrontColor);
-            currentJumper.suitBottomBackColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.suitBottomBackColor);
-            currentJumper.skisColor = SimpleColorPicker.Hex2Color(calendarResults.CurrentCompetitor.skisColor);
-            jumperPreparation.Raise();
-            CompCal.Competitor comp = calendarResults.CurrentCompetitor;
-            int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
-            currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];
-            if (calendarResults.CurrentEventResults.allroundResults.Count > 0)
-            {
-                leaderPoints.Value = (float)calendarResults.CurrentEventResults.allroundResults.Keys[0].Item1;
-            }
-            else
-            {
-                leaderPoints.Value = 0;
-            }
-            if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
-            {
+        // calendarResults.jumpIt++;
+        //     if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
+        //     {
+        //         CompCal.Competitor comp = calendarResults.CurrentCompetitor;
+        //         currentJumper.Set(comp);
+        //         int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
+        //         currentJumperPoints.Value = (float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]];
 
-                if (calendarResults.roundIt == 0)
-                {
-                    jumpUIManager.ShowJumperInfoNormal(comp, bib);
-                    // competitorVariable.Value = comp;
-                }
-                else
-                {
-                    jumpUIManager.ShowJumperInfoNormal(comp, bib,
-                    calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]],
-                    calendarResults.CurrentEventResults.lastRank[calendarResults.CurrentStartList[calendarResults.jumpIt]]);
-                }
-            }
-            else if (calendarResults.CurrentRoundInfo.roundType == RoundType.KO)
-            {
-                if (calendarResults.jumpIt % 2 == 0 && calendarResults.jumpIt == calendarResults.CurrentStartList.Count - 1)
-                {
-                    jumpUIManager.ShowJumperInfoKO(comp, bib);
-                }
-                else
-                {
-                    int cnt = calendarResults.jumpIt - calendarResults.jumpIt % 2;
-                    int id1 = calendarResults.CurrentStartList[cnt];
-                    int id2 = calendarResults.CurrentStartList[cnt + 1];
-                    Competitor comp1 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id1]];
-                    Competitor comp2 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id2]];
-                    int bib1 = calendarResults.CurrentEventResults.bibs[id1][calendarResults.roundIt];
-                    int bib2 = calendarResults.CurrentEventResults.bibs[id2][calendarResults.roundIt];
+        //         if (calendarResults.CurrentEventResults.allroundResults.Count > 0)
+        //         { leaderPoints.Value = (float)calendarResults.CurrentEventResults.allroundResults.Keys[0].Item1; }
+        //         else
+        //         { leaderPoints.Value = 0; }
 
-                    if (calendarResults.jumpIt % 2 == 0)
-                    {
-                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2);
-                    }
-                    else
-                    {
-                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, calendarResults.CurrentEventResults.totalResults[id1]);
-                    }
-                }
-            }
+        //         competitorVariable.Set(comp, bib);
 
+        //         if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
+        //         {
+        //             if (calendarResults.roundIt > 0)
+        //             {
+        //                 competitorVariable.SetResult((float)calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]],
+        //                 calendarResults.CurrentEventResults.lastRank[calendarResults.CurrentStartList[calendarResults.jumpIt]]);
+        //             }
+        //         }
+        //         else if (calendarResults.CurrentRoundInfo.roundType == RoundType.KO)
+        //         {
+        //             if (calendarResults.jumpIt % 2 == 0 && calendarResults.jumpIt == calendarResults.CurrentStartList.Count - 1)
+        //             {
+        //                 // jumpUIManager.ShowJumperInfoKO(comp, bib);
+        //             }
+        //             else
+        //             {
+        //                 int cnt = calendarResults.jumpIt - calendarResults.jumpIt % 2;
+        //                 int id1 = calendarResults.CurrentStartList[cnt];
+        //                 int id2 = calendarResults.CurrentStartList[cnt + 1];
+        //                 Competitor comp1 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.participants[id1]];
+        //                 Competitor comp2 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.participants[id2]];
+        //                 int bib1 = calendarResults.CurrentEventResults.bibs[id1][calendarResults.roundIt];
+        //                 int bib2 = calendarResults.CurrentEventResults.bibs[id2][calendarResults.roundIt];
 
-            judges.NewJump();
-        }
-        else if (calendarResults.jumpIt == calendarResults.CurrentStartList.Count)
-        {
-            showingResults = true;
-            jumpUIManager.ShowEventResults(calendarResults);
-        }
-        else if (calendarResults.jumpIt >= calendarResults.CurrentStartList.Count)
-        {
-            calendarResults.jumpIt = 0;
-            return NextRound();
-        }
+        //                 if (calendarResults.jumpIt % 2 == 0)
+        //                 {
+        //                     // jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2);
+        //                 }
+        //                 else
+        //                 {
+        //                     // jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, calendarResults.CurrentEventResults.totalResults[id1]);
+        //                 }
+        //             }
+        //         }
+
+        //         jumperPreparation.Invoke(calendarResults.roundIt);
+        //         judges.NewJump();
+        //     }
+        //     else if (calendarResults.jumpIt == calendarResults.CurrentStartList.Count)
+        //     {
+        //         showingResults = true;
+        //         jumpUIManager.ShowEventResults(calendarResults);
+        //     }
+        //     else if (calendarResults.jumpIt >= calendarResults.CurrentStartList.Count)
+        //     {
+        //         calendarResults.jumpIt = 0;
+        //         return NextRound();
+        //     }
 
         return true;
     }
 
-    public bool NextJumpTeam()
-    {
-        calendarResults.jumpIt++;
-        if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
-        {
-            CompCal.Competitor comp = calendarResults.CurrentCompetitor;
-            int bib = calendarResults.CurrentEventResults.bibs[calendarResults.CurrentStartList[calendarResults.jumpIt]][calendarResults.roundIt];
-            if (calendarResults.CurrentRoundInfo.roundType == RoundType.Normal)
-            {
-                if (calendarResults.roundIt == 0)
-                {
-                    jumpUIManager.ShowJumperInfoNormal(comp, bib);
-                }
-                else
-                {
-                    jumpUIManager.ShowJumperInfoNormal(comp, bib,
-                    calendarResults.CurrentEventResults.totalResults[calendarResults.CurrentStartList[calendarResults.jumpIt]],
-                    calendarResults.CurrentEventResults.lastRank[calendarResults.CurrentStartList[calendarResults.jumpIt]]);
-                }
-            }
-            else if (calendarResults.CurrentRoundInfo.roundType == RoundType.KO)
-            {
-                if (calendarResults.jumpIt % 2 == 0 && calendarResults.jumpIt == calendarResults.CurrentStartList.Count - 1)
-                {
-                    jumpUIManager.ShowJumperInfoKO(comp, bib);
-                }
-                else
-                {
-                    int cnt = calendarResults.jumpIt - calendarResults.jumpIt % 2;
-                    int id1 = calendarResults.CurrentStartList[cnt];
-                    int id2 = calendarResults.CurrentStartList[cnt + 1];
-                    Competitor comp1 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id1]];
-                    Competitor comp2 = calendarResults.calendar.competitors[calendarResults.CurrentEventResults.competitorsList[id2]];
-                    int bib1 = calendarResults.CurrentEventResults.bibs[id1][calendarResults.roundIt];
-                    int bib2 = calendarResults.CurrentEventResults.bibs[id2][calendarResults.roundIt];
-
-                    if (calendarResults.jumpIt % 2 == 0)
-                    {
-                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2);
-                    }
-                    else
-                    {
-                        jumpUIManager.ShowJumperInfoKO(comp1, bib1, comp2, bib2, calendarResults.CurrentEventResults.totalResults[id1]);
-                    }
-                }
-            }
-
-
-            judges.NewJump();
-        }
-        else if (calendarResults.jumpIt == calendarResults.CurrentStartList.Count)
-        {
-            showingResults = true;
-            jumpUIManager.ShowEventResults(calendarResults);
-        }
-        else if (calendarResults.jumpIt >= calendarResults.CurrentStartList.Count)
-        {
-            calendarResults.jumpIt = 0;
-            return NextRound();
-        }
-
-        return true;
-    }
 
     public bool NextRound()
     {
-        calendarResults.RecalculateFinalResults();
+        // calendarResults.RecalculateFinalResults();
         calendarResults.roundIt++;
         jumpUIManager.HideResults();
-        showingResults = false;
-        if (calendarResults.roundIt >= calendarResults.CurrentEvent.roundInfos.Count)
-        {
-            calendarResults.roundIt = 0;
-            return NextEvent();
-        }
+        // if (calendarResults.roundIt >= calendarResults.CurrentEvent.roundInfos.Count)
+        // {
+        //     calendarResults.roundIt = 0;
+        //     return NextEvent();
+        // }
 
         RoundInit();
         NextJump();
@@ -217,9 +141,8 @@ public class CompetitionManager : MonoBehaviour
 
     public bool NextEvent()
     {
-        calendarResults.UpdateClassifications();
+        // calendarResults.UpdateClassifications();
         calendarResults.eventIt++;
-        LoadTournamentMenu();
         // if (calendarResults.eventIt >= calendarResults.calendar.events.Count)
         // {
         //     ShowClassificationsResults();
@@ -240,17 +163,6 @@ public class CompetitionManager : MonoBehaviour
                 Debug.Log(calendarResults.calendar.competitors[j].lastName + " " + calendarResults.classificationResults[i].totalResults[j].ToString("#.0"));
             }
         }
-    }
-
-    public void LoadTournamentMenu()
-    {
-        databaseManager.Save();
-        MainMenuController.LoadTournamentMenu();
-    }
-
-    public void LoadMainMenu()
-    {
-        MainMenuController.LoadMainMenu();
     }
 
     void Start()

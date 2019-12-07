@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Wrapper
 {
-    public Label label;
+    public StringVariable label;
     public string text;
 }
 

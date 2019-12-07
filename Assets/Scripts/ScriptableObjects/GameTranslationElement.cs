@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameTranslationElement : ScriptableObject
 {
     [SerializeField]
-    private Label label;
+    private StringVariable label;
     [SerializeField]
     private string text;
 }

@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HillProfile;
+using UnityEngine.Events;
 
 public class JudgesController : MonoBehaviour
 {
-    public enum JumpState
-    {
-        Stairs, Gate, Inrun, Flight, LandingArea, Brake
-    }
-
-    JumpState state;
-
     public Hill hill;
-    public ManagerScript managerScript;
     public MeshScript meshScript;
     public JumpUIManager jumpUIManager;
-    public MouseScript mouseScript;
     public CompetitionManager competitionManager;
     public JumperController2 jumperController;
     public GameObject gateObject;
     public Vector3 jumperPosition;
     public Quaternion jumperRotation;
+
+    public CompetitorVariable competitorVariable;
+    public StringVariable hillName;
+    public UnityEvent OnShowResults;
 
     private decimal[] deductions = { 0, 0, 0 };
     private decimal[] maxDeductions = { 5, 5, 7 };
@@ -112,41 +108,17 @@ public class JudgesController : MonoBehaviour
     public void Judge()
     {
         decimal[] stylePoints = GetJudgesPoints();
-        bool[] valid = new bool[5];
-        decimal minPts = 20, maxPts = 0;
-        int lo = 0, hi = 0;
-
         decimal total = 0;
 
-        for (int i = 0; i < 5; i++)
-        {
-            total += stylePoints[i];
-            if (maxPts <= stylePoints[i])
-            {
-                maxPts = stylePoints[i];
-                hi = i;
-            }
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            if (i != hi && minPts >= stylePoints[i])
-            {
-                minPts = stylePoints[i];
-                lo = i;
-            }
-        }
-
-        total -= stylePoints[lo] + stylePoints[hi];
+        CompCal.JumpResult jmp = new CompCal.JumpResult(dist, stylePoints, 0, 0, 0);
+        total += jmp.judgesTotalPoints;
         total += (hill.w >= 165 ? 120 : 60) + (dist - (decimal)hill.w) * PtsPerMeter(hill.w);
         total = System.Math.Max(0, total);
-        int rank1, rank2, cnt;
-        decimal pts1, pts2;
-        CompCal.JumpResult jmp = new CompCal.JumpResult(dist, stylePoints, 0, 0, 0);
-        cnt = competitionManager.calendarResults.AddJump(jmp, out rank1, out pts1, out rank2, out pts2);
-        if (cnt == 1) { jumpUIManager.SetPoints(jmp, rank1, pts1); }
-        else { jumpUIManager.SetPoints(jmp, rank1, pts1, rank2, pts2); }
-        mouseScript.UnlockCursor();
+        for (int i = 0; i < 5; i++)
+        {
+            competitorVariable.judgesMarks[i].MarkValue = (float)jmp.judgesMarks[i];
+            competitorVariable.judgesMarks[i].IsCounted = jmp.judgesMask[i];
+        }
     }
 
     public void FlightStability(float jumperAngle)
@@ -177,7 +149,7 @@ public class JudgesController : MonoBehaviour
 
         hill = new Hill(pd);
 
-        jumpUIManager.SetHillNameText(pd.name);
+        hillName.Value = pd.name;
         hill.Calculate();
         meshScript.profileData = pd;
         meshScript.GenerateMesh();
@@ -207,13 +179,13 @@ public class JudgesController : MonoBehaviour
 
     public void SpeedMeasurement(float speed)
     {
-        jumpUIManager.SetSpeed(speed * 3.6f);
+        competitorVariable.speed.Value = speed * 3.6f;
     }
 
     public void DistanceMeasurement(Vector3 contact)
     {
         dist = Distance(meshScript.landingAreaPoints, contact);
-        jumpUIManager.SetDistance(dist);
+        competitorVariable.distance.Value = (float)dist;
     }
 
     public void SetGate(int gate)
@@ -225,7 +197,6 @@ public class JudgesController : MonoBehaviour
 
     public void NewJump()
     {
-        state = JumpState.Gate;
         jumperController.ResetValues();
         jumperController.GetComponent<Transform>().position = jumperPosition;
         gateObject.GetComponent<Transform>().position = jumperPosition;

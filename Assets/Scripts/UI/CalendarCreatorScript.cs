@@ -7,6 +7,7 @@ using CompCal;
 public class CalendarCreatorScript : MonoBehaviour
 {
     public DatabaseManager databaseManager;
+    public FlagsData flagsData;
     public GameObject jumpersContentObject;
     public GameObject jumperPrefab;
     public GameObject popUpObject;
@@ -32,7 +33,7 @@ public class CalendarCreatorScript : MonoBehaviour
             {
                 GameObject tmp = Instantiate(jumperPrefab);
                 tmp.GetComponentsInChildren<TMPro.TMP_Text>()[0].text = c.lastName.ToUpper() + " " + c.firstName;
-                tmp.GetComponentsInChildren<Image>()[3].sprite = databaseManager.flagsManager.GetFlag(c.countryCode);
+                tmp.GetComponentsInChildren<Image>()[3].sprite = flagsData.GetFlag(c.countryCode);
                 tmp.transform.SetParent(jumpersContentObject.transform, false);
                 competitorsObjList.Add(tmp);
             }

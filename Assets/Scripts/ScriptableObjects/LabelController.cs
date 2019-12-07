@@ -4,7 +4,7 @@ using UnityEngine;
 public class LabelController : MonoBehaviour
 {
     private TMPro.TMP_Text text;
-    public Label label;
+    public StringVariable label;
 
     private void OnEnable()
     {
