@@ -11,6 +11,7 @@ namespace CompCal
         public string lastName;
         public string firstName;
         public string countryCode;
+        public int teamId;
         [JsonConverter(typeof(StringEnumConverter))]
         public Gender gender;
         public DateTime birthdate;

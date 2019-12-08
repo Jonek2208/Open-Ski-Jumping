@@ -51,7 +51,7 @@ namespace CompCal
             else
             {
                 //Add all registred participants
-                competitorsList = eventResults.participants.Select(it => it.id).ToList();
+                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
             }
 
             switch (eventInfo.ordRankType)
@@ -142,31 +142,26 @@ namespace CompCal
         private List<int> RoundInit()
         {
             //ToDo
-            return new List<int>();
+            throw new NotImplementedException();
         }
 
         public void UpdateClassifications()
         {
+            IEventFinalResults eventFinalResults;
+
+            if (eventInfo.eventType == EventType.Individual)
+            { eventFinalResults = new IndividualEventFinalResults(eventResults, competitors); }
+            else
+            { eventFinalResults = new TeamEventFinalResults(eventResults); }
+
             foreach (var it in eventInfo.classifications)
             {
                 ClassificationInfo classificationInfo = calendarResults.calendar.classifications[it];
-                ClassificationResults classificationResults = calendarResults.classificationResults[it];
-                IClassificationUpdater classificationUpdater;
+                var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
 
-                if (classificationInfo.eventType == EventType.Individual)
-                { classificationUpdater = new ClassificationUpdaterIndividual(); }
-                else
-                { classificationUpdater = new ClassificationUpdaterTeam(); }
+                // ToDo
 
-                if (classificationInfo.classificationType == ClassificationType.Points)
-                {
-                    for (int i = 0; i < competitorsList.Count; i++)
-                    {
-                        int id = competitorsList[i];
-                        classificationResults.totalResults[id] += classificationUpdater.GetPoints(classificationInfo, eventResults.results[i]);
-                        //update sorted results
-                    }
-                }
+
             }
         }
 
