@@ -65,7 +65,6 @@ public class SavesListUI : ListDisplay
         for (int i = 0; i < calendarResults.classificationResults.Length; i++)
         {
             calendarResults.classificationResults[i] = new ClassificationResults();
-            calendarResults.classificationResults[i].totalResults = new decimal[calendarResults.calendar.competitors.Count];
         }
 
         if (databaseManager.dbHills.Loaded)

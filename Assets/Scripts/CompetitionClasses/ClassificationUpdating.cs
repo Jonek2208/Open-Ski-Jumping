@@ -4,56 +4,6 @@ using System.Linq;
 
 namespace CompCal
 {
-    public interface IRoundRunner
-    {
-
-    }
-
-    public interface IClassificationUpdater
-    {
-        decimal GetPoints(ClassificationInfo classificationInfo, Result result);
-    }
-
-    public class ClassificationUpdaterIndividual : IClassificationUpdater
-    {
-        public decimal GetPoints(ClassificationInfo classificationInfo, Result result)
-        {
-            if (classificationInfo.eventType == EventType.Team)
-            {
-                //Team event to individual classification ToDo
-                return 0m;
-            }
-
-            if (classificationInfo.classificationType == ClassificationType.Points)
-            { return result.totalPoints; }
-
-            if (0 < result.rank && result.rank < classificationInfo.pointsTable.Length)
-            { return classificationInfo.pointsTable[result.rank - 1]; }
-
-            return 0m;
-        }
-    }
-
-    public class ClassificationUpdaterTeam : IClassificationUpdater
-    {
-        public decimal GetPoints(ClassificationInfo classificationInfo, Result result)
-        {
-            if (classificationInfo.eventType == EventType.Individual)
-            {
-                //Individual event to team classification ToDo
-                return 0m;
-            }
-
-            if (classificationInfo.classificationType == ClassificationType.Points)
-            { return result.totalPoints; }
-
-            if (0 < result.rank && result.rank < classificationInfo.pointsTable.Length)
-            { return classificationInfo.pointsTable[result.rank - 1]; }
-
-            return 0m;
-        }
-    }
-
     #region PointsGivers
     public interface IPointsGiver
     {
@@ -88,6 +38,7 @@ namespace CompCal
     }
     #endregion
 
+    #region EventFinalResults
     public interface IEventFinalResults
     {
         List<(int, decimal)> GetPoints(ClassificationInfo classificationInfo);
@@ -194,4 +145,5 @@ namespace CompCal
 
         private int GlobalId(int localId) => this.eventResults.participants[this.eventResults.competitorIds[localId]].id;
     }
+    #endregion
 }

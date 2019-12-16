@@ -16,8 +16,8 @@ namespace CompCal
         private EventResults ordRankEvent;
         private ClassificationResults ordRankClassification;
 
-        private SortedList<Tuple<int, decimal, int>, int> finalResults;
-        private SortedList<Tuple<decimal, int, int>, int> allroundResults;
+        private SortedList<(int, decimal, int), int> finalResults;
+        private SortedList<(int, decimal, int), int> allroundResults;
         private List<int> competitorsList;
         private List<int>[] privatestartLists;
         private int[] rank;
@@ -59,12 +59,24 @@ namespace CompCal
                 case RankType.None:
                     break;
                 case RankType.Event:
-                    InjectOrdRankEvent();
+                    GetOrdRankEvent();
                     break;
                 case RankType.Classification:
-                    InjectOrdRankClassification();
+                    GetOrdRankClassification();
                     break;
             }
+
+            if (eventInfo.useOrdRank) { InjectOrdRankResults(); }
+        }
+
+        public void AddResult(JumpResult jmp, int localId, int innerId = 0)
+        {
+            this.eventResults.results[localId].results[innerId].Add(jmp);
+            this.eventResults.results[localId].totalResults[innerId] += jmp.totalPoints;
+            this.eventResults.results[localId].totalPoints += jmp.totalPoints;
+
+            //add to sorted results
+            // this.allroundResults.Add((0, this.eventResults.results[localId].totalPoints, ))
         }
 
         private List<Tuple<decimal, int>> GetQualRankEvent(EventResults qualRankEvent)
@@ -77,7 +89,7 @@ namespace CompCal
         private List<Tuple<decimal, int>> GetQualRankClassification(ClassificationResults qualRankClassification)
         {
             List<Tuple<decimal, int>> tempList = new List<Tuple<decimal, int>>();
-            tempList = qualRankClassification.totalSortedResults.Select(it => Tuple.Create(qualRankClassification.totalResults[it.Item1], it.Item1)).ToList();
+            tempList = qualRankClassification.totalSortedResults.Select(it => Tuple.Create(qualRankClassification.totalResults[it], it)).ToList();
             return tempList;
         }
 
@@ -103,17 +115,17 @@ namespace CompCal
             return competitorsList;
         }
 
-        private void InjectOrdRankClassification()
+        private void GetOrdRankClassification()
         {
             ClassificationResults ordRankResults = calendarResults.classificationResults[eventInfo.ordRankId];
             for (int i = 0; i < competitorsList.Count; i++)
             {
                 decimal points = ordRankResults.totalResults[competitorsList[i]];
-                finalResults.Add(Tuple.Create(0, points, i), i);
+                finalResults.Add((0, points, i), i);
             }
         }
 
-        private void InjectOrdRankEvent()
+        private void GetOrdRankEvent()
         {
             EventResults ordRankResults = calendarResults.eventResults[eventInfo.ordRankId];
             var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(it => it.val, it => it.index);
@@ -129,13 +141,21 @@ namespace CompCal
                 {
                     selected[map[globalId]] = true;
                     decimal points = ordRankResults.results[localId].totalPoints;
-                    finalResults.Add(Tuple.Create(0, points, it++), map[globalId]);
+                    finalResults.Add((0, points, it++), map[globalId]);
                 }
             }
 
             for (int i = 0; i < competitorsList.Count; i++)
             {
-                if (!selected[i]) { finalResults.Add(Tuple.Create(0, 0m, it++), i); }
+                if (!selected[i]) { finalResults.Add((0, 0m, it++), i); }
+            }
+        }
+
+        private void InjectOrdRankResults()
+        {
+            foreach (var item in finalResults)
+            {
+                eventResults.results[item.Value].ordRankPoints = item.Key.Item2;
             }
         }
 
@@ -157,15 +177,32 @@ namespace CompCal
             foreach (var it in eventInfo.classifications)
             {
                 ClassificationInfo classificationInfo = calendarResults.calendar.classifications[it];
+                ClassificationResults classificationResults = calendarResults.classificationResults[it];
                 var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
 
-                // ToDo
+                // Update results
+                foreach (var item in resultsUpdate)
+                {
+                    classificationResults.totalResults[item.Item1] += item.Item2;
+                }
 
+                // Update sorted results
+                classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(it => it).Select((val, ind) => ind).ToList();
 
+                // Calculate rank
+                for (int i = 0; i < classificationResults.totalSortedResults.Count; i++)
+                {
+                    if (i > 0 && classificationResults.totalResults[classificationResults.totalSortedResults[i]] == classificationResults.totalResults[classificationResults.totalSortedResults[i - 1]])
+                    {
+                        classificationResults.rank[classificationResults.totalSortedResults[i]] = classificationResults.rank[classificationResults.totalSortedResults[i + 1]];
+                    }
+                    else
+                    {
+                        classificationResults.rank[classificationResults.totalSortedResults[i]] = i + 1;
+                    }
+                }
             }
         }
-
-
     }
 }
 

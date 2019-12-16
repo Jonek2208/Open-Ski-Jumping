@@ -158,7 +158,7 @@ public class CompetitionManager : MonoBehaviour
         for (int i = 0; i < calendarResults.classificationResults.Length; i++)
         {
             Debug.Log(calendarResults.calendar.classifications[i].name);
-            for (int j = 0; j < calendarResults.classificationResults[i].totalResults.Length; j++)
+            for (int j = 0; j < calendarResults.classificationResults[i].totalResults.Count; j++)
             {
                 Debug.Log(calendarResults.calendar.competitors[j].lastName + " " + calendarResults.classificationResults[i].totalResults[j].ToString("#.0"));
             }
