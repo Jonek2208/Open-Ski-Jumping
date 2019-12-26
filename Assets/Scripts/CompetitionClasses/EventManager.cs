@@ -128,7 +128,7 @@ namespace CompCal
         private void GetOrdRankEvent()
         {
             EventResults ordRankResults = calendarResults.eventResults[eventInfo.ordRankId];
-            var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(it => it.val, it => it.index);
+            var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(x => x.val, x => x.index);
             bool[] selected = new bool[competitorsList.Count];
             int it = 0;
 
@@ -141,7 +141,7 @@ namespace CompCal
                 {
                     selected[map[globalId]] = true;
                     decimal points = ordRankResults.results[localId].totalPoints;
-                    finalResults.Add((0, points, it++), map[globalId]);
+                    finalResults.Add((0, points, it++), map[globalId]); 
                 }
             }
 
@@ -187,7 +187,7 @@ namespace CompCal
                 }
 
                 // Update sorted results
-                classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(it => it).Select((val, ind) => ind).ToList();
+                classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(x => x).Select((val, ind) => ind).ToList();
 
                 // Calculate rank
                 for (int i = 0; i < classificationResults.totalSortedResults.Count; i++)

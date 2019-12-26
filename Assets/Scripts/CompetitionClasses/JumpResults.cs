@@ -17,6 +17,7 @@ namespace CompCal
         public decimal wind;
         public decimal windPoints;
         public decimal speed;
+        public JumpResultState state;
         public JumpResult()
         {
             judgesMask = new bool[5];

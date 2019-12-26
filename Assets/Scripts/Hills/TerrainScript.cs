@@ -8,7 +8,7 @@ public class TerrainScript : MonoBehaviour
     public float padding;
     public List<GameObject> hillObjects;
     private List<MeshScript> hills;
-    private List<HillProfile.Hill> hillsList;
+    private List<Hill> hillsList;
     public Terrain[] terrains;
     public float offset;
     public float inrunFlatLength;
@@ -27,10 +27,10 @@ public class TerrainScript : MonoBehaviour
         {
             hills.Add(it.GetComponentInChildren<MeshScript>());
         }
-        hillsList = new List<HillProfile.Hill>();
+        hillsList = new List<Hill>();
         foreach (var it in hills)
         {
-            HillProfile.Hill hill = new HillProfile.Hill(it.profileData);
+            Hill hill = new Hill(it.profileData);
             hill.Calculate();
             hillsList.Add(hill);
         }
@@ -73,7 +73,7 @@ public class TerrainScript : MonoBehaviour
                     for (int ii = 0; ii < hills.Count; ii++)
                     {
                         Transform hillTransform = hills[ii].GetComponent<Transform>();
-                        HillProfile.Hill hill = hillsList[ii];
+                        Hill hill = hillsList[ii];
                         float inrunTerrain = hills[ii].inrunTerrain;
                         Vector3 pointOnHill = hillTransform.InverseTransformPoint(new Vector3(x, 0, z));
 

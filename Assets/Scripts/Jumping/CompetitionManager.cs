@@ -12,7 +12,6 @@ public class CompetitionManager : MonoBehaviour
 {
     public SkiJumperData currentJumper;
     public DatabaseManager databaseManager;
-    public ManagerScript managerScript;
     public JumpUIManager jumpUIManager;
     public JudgesController judges;
 

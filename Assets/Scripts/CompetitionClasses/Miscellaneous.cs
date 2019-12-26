@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace CompCal
 {
+    [Flags]
+    public enum JumpResultState
+    {
+        None = 0,
+        KoLoser = 1,
+        LuckyLoser = 2
+    }
+
     [Serializable]
     public class Country
     {
