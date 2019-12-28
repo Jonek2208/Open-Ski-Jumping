@@ -46,7 +46,6 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            competitionManager.NextJump();
             OnJumpRestart.Invoke();
         }
 

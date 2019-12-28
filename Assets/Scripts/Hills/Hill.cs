@@ -32,78 +32,15 @@ public class Hill : ScriptableObject
     public float b1, b2, bK, bU;
 
     public Vector2 A, B, C1, C2, CL, CV, E1, E2, T, F, P, K, L, U, V, X;
-
-    public Hill() { }
-
-    public Hill(ProfileType _type, int _gates, float _w, float _hn, float _gamma, float _alpha, float _e, float _es, float _t, float _r1,
-    float _betaP, float _betaK, float _betaL, float _s, float _l1, float _l2, float _rL, float _r2L, float _r2)
-    {
-        type = _type;
-        gates = _gates;
-        w = _w;
-        hn = _hn;
-        gamma = _gamma;
-        alpha = _alpha;
-        gammaR = Mathf.Deg2Rad * gamma;
-        alphaR = Mathf.Deg2Rad * alpha;
-        e = _e;
-        es = _es;
-        t = _t;
-        r1 = _r1;
-        betaP = _betaP;
-        beta0 = betaP / 6.0f;
-        betaK = _betaK;
-        betaL = _betaL;
-        beta0R = Mathf.Deg2Rad * beta0;
-        betaPR = Mathf.Deg2Rad * betaP;
-        betaKR = Mathf.Deg2Rad * betaK;
-        betaLR = Mathf.Deg2Rad * betaL;
-        s = _s;
-        l1 = _l1;
-        l2 = _l2;
-        rL = _rL;
-        r2L = _r2L;
-        r2 = _r2;
-        a = 100f;
-        betaA = 0f;
-        betaAR = 0f;
-    }
-    public Hill(ProfileType _type, int _gates, float _w, float _hn, float _gamma, float _alpha, float _e, float _es, float _t, float _r1,
-    float _betaP, float _betaK, float _betaL, float _s, float _l1, float _l2, float _rL, float _r2L, float _r2, float _a, float _rA, float _betaA)
-    {
-        type = _type;
-        gates = _gates;
-        w = _w;
-        hn = _hn;
-        gamma = _gamma;
-        alpha = _alpha;
-        gammaR = Mathf.Deg2Rad * gamma;
-        alphaR = Mathf.Deg2Rad * alpha;
-        e = _e;
-        es = _es;
-        t = _t;
-        r1 = _r1;
-        betaP = _betaP;
-        beta0 = betaP / 6.0f;
-        betaK = _betaK;
-        betaL = _betaL;
-        beta0R = Mathf.Deg2Rad * beta0;
-        betaPR = Mathf.Deg2Rad * betaP;
-        betaKR = Mathf.Deg2Rad * betaK;
-        betaLR = Mathf.Deg2Rad * betaL;
-        s = _s;
-        l1 = _l1;
-        l2 = _l2;
-        rL = _rL;
-        r2L = _r2L;
-        r2 = _r2;
-        a = _a;
-        rA = _rA;
-        betaA = _betaA;
-        betaAR = Mathf.Deg2Rad * betaA;
-    }
+    public Vector2[] landingAreaPoints;
+    public Vector2[] inrunPoints;
 
     public Hill(ProfileData profileData)
+    {
+        SetValues(profileData);
+    }
+
+    public void SetValues(ProfileData profileData)
     {
         type = profileData.type;
         gates = profileData.gates;
@@ -139,6 +76,9 @@ public class Hill : ScriptableObject
         b2 = profileData.b2;
         bK = profileData.bK;
         bU = profileData.bU;
+        Calculate();
+        inrunPoints = GenerateInrunPoints();
+        landingAreaPoints = GenerateLandingAreaPoints();
     }
 
     public void Calculate()
@@ -296,7 +236,7 @@ public class Hill : ScriptableObject
             return V.y + Mathf.Sin(betaAR) * (x - V.x);
         }
     }
-    public Vector2[] LandingAreaPoints(int accuracy)
+    public Vector2[] GenerateLandingAreaPoints(int accuracy = 1000)
     {
         List<Vector2> points = new List<Vector2>();
 
@@ -329,7 +269,7 @@ public class Hill : ScriptableObject
         return points.ToArray();
     }
 
-    public Vector2[] InrunPoints()
+    public Vector2[] GenerateInrunPoints()
     {
         List<Vector2> points = new List<Vector2>();
 

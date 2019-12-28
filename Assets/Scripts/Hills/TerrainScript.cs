@@ -30,7 +30,7 @@ public class TerrainScript : MonoBehaviour
         hillsList = new List<Hill>();
         foreach (var it in hills)
         {
-            Hill hill = new Hill(it.profileData);
+            Hill hill = new Hill(it.profileData.Value);
             hill.Calculate();
             hillsList.Add(hill);
         }

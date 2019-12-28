@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ToBeatLineController : MonoBehaviour
 {
-    public MeshScript meshScript;
+    public Hill hill;
     public LineRenderer lineRenderer;
     [SerializeField]
     private FloatVariable leaderPoints;
@@ -14,7 +14,7 @@ public class ToBeatLineController : MonoBehaviour
     public void SetLine()
     {
 
-        float k = meshScript.profileData.w;
+        float k = hill.w;
         float judges = 54.0f;
 
         float p = 60f, q = 4.8f;
@@ -35,14 +35,14 @@ public class ToBeatLineController : MonoBehaviour
         }
         float toBeatDist = (leaderPoints.Value - currentJumperPoints.Value - judges - p) / q + k;
 
-        int toBeatDistDoubled = Mathf.Min(2 * (meshScript.landingAreaPoints.Length - 1), Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));
+        int toBeatDistDoubled = Mathf.Min(2 * (hill.landingAreaPoints.Length - 1), Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));
         // Debug.Log(p + " " + q + " " + toBeatDist + " " + toBeatDistDoubled + " " + (toBeatDistDoubled / 2));
-        Vector2 point = meshScript.landingAreaPoints[toBeatDistDoubled / 2];
-        Vector2 delta = meshScript.landingAreaPoints[toBeatDistDoubled / 2 + 1] - point;
+        Vector2 point = hill.landingAreaPoints[toBeatDistDoubled / 2];
+        Vector2 delta = hill.landingAreaPoints[toBeatDistDoubled / 2 + 1] - point;
         if (toBeatDistDoubled % 2 == 1) { point += delta / 2; }
 
-        float b = point.x <= meshScript.hill.K.x ? (meshScript.profileData.b2 / 2) + point.x / meshScript.hill.K.x * ((meshScript.profileData.bK - meshScript.profileData.b2) / 2) :
-                point.x >= meshScript.hill.U.x ? (meshScript.profileData.bU / 2) : (meshScript.profileData.bK / 2) + (point.x - meshScript.hill.K.x) / (meshScript.hill.U.x - meshScript.hill.K.x) * ((meshScript.profileData.bU - meshScript.profileData.bK) / 2);
+        float b = point.x <= hill.K.x ? (hill.b2 / 2) + point.x / hill.K.x * ((hill.bK - hill.b2) / 2) :
+                point.x >= hill.U.x ? (hill.bU / 2) : (hill.bK / 2) + (point.x - hill.K.x) / (hill.U.x - hill.K.x) * ((hill.bU - hill.bK) / 2);
 
         lineRenderer.SetPositions(new Vector3[] { new Vector3(point.x, point.y, -b), new Vector3(point.x, point.y, b) });
 

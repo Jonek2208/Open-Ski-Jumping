@@ -9,7 +9,6 @@ public class JudgesController : MonoBehaviour
     public Hill hill;
     public MeshScript meshScript;
     public JumpUIManager jumpUIManager;
-    public CompetitionManager competitionManager;
     public JumperController2 jumperController;
     public GameObject gateObject;
     public Vector3 jumperPosition;
@@ -18,6 +17,8 @@ public class JudgesController : MonoBehaviour
     public CompetitorVariable competitorVariable;
     public StringVariable hillName;
     public UnityEvent OnShowResults;
+    public UnityEvent OnShowDistance;
+    public UnityEvent OnShowSpeed;
 
     private decimal[] deductions = { 0, 0, 0 };
     private decimal[] maxDeductions = { 5, 5, 7 };
@@ -119,6 +120,8 @@ public class JudgesController : MonoBehaviour
             competitorVariable.judgesMarks[i].MarkValue = (float)jmp.judgesMarks[i];
             competitorVariable.judgesMarks[i].IsCounted = jmp.judgesMask[i];
         }
+        competitorVariable.result.Value = (float)total;
+        OnShowResults.Invoke();
     }
 
     public void FlightStability(float jumperAngle)
@@ -141,7 +144,7 @@ public class JudgesController : MonoBehaviour
     {
         if (pd == null)
         {
-            pd = meshScript.profileData;
+            pd = meshScript.profileData.Value;
         }
 
         // Temporary - until hillsdatabase & editor will be updated
@@ -151,7 +154,7 @@ public class JudgesController : MonoBehaviour
 
         hillName.Value = pd.name;
         hill.Calculate();
-        meshScript.profileData = pd;
+        meshScript.profileData.Value = pd;
         meshScript.GenerateMesh();
     }
 
@@ -180,12 +183,14 @@ public class JudgesController : MonoBehaviour
     public void SpeedMeasurement(float speed)
     {
         competitorVariable.speed.Value = speed * 3.6f;
+        OnShowSpeed.Invoke();
     }
 
     public void DistanceMeasurement(Vector3 contact)
     {
-        dist = Distance(meshScript.landingAreaPoints, contact);
+        dist = Distance(hill.landingAreaPoints, contact);
         competitorVariable.distance.Value = (float)dist;
+        OnShowDistance.Invoke();
     }
 
     public void SetGate(int gate)

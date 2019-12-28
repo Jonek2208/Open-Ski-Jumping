@@ -15,4 +15,11 @@ public class FloatText : MonoBehaviour
     {
         text.text = variableName + ": " + this.value.Value.ToString("#0.00");
     }
+
+    public void Reset()
+    {
+
+        text.text = variableName + ": ";
+
+    }
 }
