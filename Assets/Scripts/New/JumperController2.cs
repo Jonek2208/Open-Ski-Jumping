@@ -93,14 +93,22 @@ public class JumperController2 : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+
         if (!Landed && other.collider.tag == "LandingArea")
         {
+            Debug.Log("Landed: " + other.impulse.magnitude);
+            if (other.impulse.magnitude > 4)
+            {
+                Crash();
+                Landed = true;
+            }
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
             {
                 if (State == 3 && !deductedforlanding)
                 {
                     judgesController.PointDeduction(1, 1);
                     deductedforlanding = true;
+
                 }
                 else
                 {
@@ -110,6 +118,7 @@ public class JumperController2 : MonoBehaviour
                     Landed = true;
                 }
             }
+
         }
     }
 
@@ -185,7 +194,7 @@ public class JumperController2 : MonoBehaviour
             else
             {
                 Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef.Value);
-                rb.AddRelativeTorque(torque);
+                rb.AddRelativeTorque(torque, ForceMode.Acceleration);
             }
 
             animator.SetFloat("JumperAngle", jumperAngle);
@@ -193,7 +202,6 @@ public class JumperController2 : MonoBehaviour
         if (rb.transform.position.x > judgesController.hill.U.x)
         {
             Brake();
-
         }
     }
 
@@ -223,7 +231,7 @@ public class JumperController2 : MonoBehaviour
             rb.AddForce(-vel.normalized * (float)drag * vel.sqrMagnitude/* * rb.mass*/);
             rb.AddForce(liftVec * (float)lift * vel.sqrMagnitude/* * rb.mass*/);
             Vector3 torque = new Vector3(0.0f, 0.0f, (90 - (float)angle) * Time.fixedDeltaTime * 0.5f/* * 70.0f*/);
-            rb.AddRelativeTorque(torque);
+            rb.AddRelativeTorque(torque, ForceMode.Acceleration);
 
             //rb.AddForceAtPosition(-vel.normalized * (float)drag * vel.sqrMagnitude, rb.transform.position);
             //rb.AddForceAtPosition(liftVec * (float)lift * vel.sqrMagnitude, rb.transform.position);
@@ -263,7 +271,11 @@ public class JumperController2 : MonoBehaviour
     {
         float angle = rb.GetComponent<Rigidbody>().transform.rotation.eulerAngles.z;
         angle = (angle + 180) % 360 - 180;
-        rb.AddTorque(0, 0, -angle * 5);
+        if (Landed)
+        {
+            rb.AddTorque(0, 0, -angle * 5);
+        }
+        
         State = 3;
         landing = 1;
         animator.SetFloat("Landing", 1);

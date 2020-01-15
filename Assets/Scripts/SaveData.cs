@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
 
+public class GameSave
+{
+    public string name;
+    public CompCal.Calendar calendar;
+    public CompCal.ResultsContainer resultsContainer;
+}
+
 [System.Serializable]
 public class SaveData
 {
     public int currentSaveId;
-    public List<CompCal.CalendarResults> savesList;
-    public SaveData(int currentSaveId, List<CompCal.CalendarResults> savesList)
+    public List<GameSave> savesList;
+    public SaveData(int currentSaveId, List<GameSave> savesList)
     {
         this.currentSaveId = currentSaveId;
         this.savesList = savesList;

@@ -74,6 +74,9 @@ public class MeshScript : MonoBehaviour
     [Range(0.01f, 1)]
     public float inrunStairsStepHeigth;
 
+    [Range(0, 1)]
+    public float inrunStairsAngle;
+
     /* Hill profile */
     [Space]
     [Header("Hill profile")]
@@ -121,6 +124,7 @@ public class MeshScript : MonoBehaviour
 
     [Range(0, 1)]
     public float inrunTerrain;
+
 
     public TerrainBase terrainBase;
 
@@ -394,38 +398,43 @@ public class MeshScript : MonoBehaviour
 
         // const float width = 5f;
         Func<float, float> width = (xx => 0.5f / hill.A.y / hill.A.y * (xx - hill.A.x) * (xx - hill.A.x) * (xx - hill.A.x) + 3f);
-        // Func<float, float> width = (x => 5f);
+        // Func<float, float> width = (xx => 5f);
         int x = 0;
-        float[] len = new float[hill.inrunPoints.Length];
-        float[] b = hill.inrunPoints.Select(it => (it.x > hill.B.x ? (hill.b1 / 2 + 0.7f) : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray();
+        float[] len = new float[hill.inrunPoints.Length + 1];
+        List<Vector2> tmpList = new List<Vector2>();
+        tmpList.AddRange(hill.inrunPoints.Where(it => it.x > hill.GatePoint(-1).x));
+        tmpList.Add(hill.GatePoint(-1));
+        tmpList.AddRange(hill.inrunPoints.Where(it => it.x <= hill.GatePoint(-1).x));
 
-        for (int i = 1; i < hill.inrunPoints.Length; i++)
+        float[] b = tmpList.Select(it => (it.x > hill.GatePoint(-1).x ? (hill.b1 / 2 + 0.7f) : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray();
+
+        for (int i = 1; i < tmpList.Count; i++)
         {
-            len[i] = len[i - 1] + (hill.inrunPoints[i] - hill.inrunPoints[i - 1]).magnitude;
+            len[i] = len[i - 1] + (tmpList[i] - hill.inrunPoints[i - 1]).magnitude;
         }
 
-        for (int i = 0; i < hill.inrunPoints.Length; i++)
+        for (int i = 0; i < tmpList.Count; i++)
         {
             int tmp = verticesList.Count;
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - 0.1f, -b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y));
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - 0.1f, b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - 0.1f, -b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - 0.1f, b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y));
 
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, -b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y));
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y, -b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y, b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y));
 
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x), -b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x)));
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x), b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x)));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - width(tmpList[i].x), -b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y - width(tmpList[i].x)));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - width(tmpList[i].x), b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, tmpList[i].y - width(tmpList[i].x)));
 
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x), -b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, -2));
-            verticesList.Add(new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y - width(hill.inrunPoints[i].x), b[i]));
-            uvsList.Add(new Vector2(hill.inrunPoints[i].x, 2));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - width(tmpList[i].x), -b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, -2));
+            verticesList.Add(new Vector3(tmpList[i].x, tmpList[i].y - width(tmpList[i].x), b[i]));
+            uvsList.Add(new Vector2(tmpList[i].x, 2));
 
             tmp = verticesList.Count - tmp;
             if (i > 0)
@@ -697,8 +706,13 @@ public class MeshScript : MonoBehaviour
             guardrail.gObj.GetComponent<MeshRenderer>().material = null;
             return;
         }
+        List<Vector2> tmpList = new List<Vector2>();
+        tmpList.AddRange(hill.inrunPoints.Where(it => it.x > hill.GatePoint(-1).x));
+        tmpList.Add(hill.GatePoint(-1));
+        tmpList.AddRange(hill.inrunPoints.Where(it => it.x <= hill.GatePoint(-1).x));
+
         int sgn = (side == 0 ? -1 : 1);
-        Vector3[] points = hill.inrunPoints.Select(it => new Vector3(it.x, it.y, sgn * ((it.x > hill.B.x ? hill.b1 / 2 + 0.7f : hill.b1 / 2 + gateStairsSO.StepWidth)))).Reverse().ToArray();
+        Vector3[] points = tmpList.Select(it => new Vector3(it.x, it.y, sgn * (it.x > hill.GatePoint(-1).x ? (hill.b1 / 2 + 0.7f) : (hill.b1 / 2 + gateStairsSO.StepWidth)))).Reverse().ToArray();
 
         Mesh mesh = InrunOuterGuardrailSO.Generate(points, side);
         guardrail.gObj.GetComponent<MeshFilter>().mesh = mesh;

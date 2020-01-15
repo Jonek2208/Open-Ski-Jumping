@@ -6,12 +6,13 @@ namespace CompCal
 {
     public class EventManager
     {
-        private CalendarResults calendarResults;
+        private EventResults eventResults;
+        private ResultsContainer resultsContainer;
+        private Calendar calendar;
+        private EventInfo eventInfo;
+        private List<Participant> participants;
         private List<Competitor> competitors;
         private List<Team> teams;
-        private List<Participant> participants;
-        private EventInfo eventInfo;
-        private EventResults eventResults;
 
         private EventResults ordRankEvent;
         private ClassificationResults ordRankClassification;
@@ -19,54 +20,46 @@ namespace CompCal
         private SortedList<(int, decimal, int), int> finalResults;
         private SortedList<(int, decimal, int), int> allroundResults;
         private List<int> competitorsList;
-        private List<int>[] privatestartLists;
+        private List<int>[] currentStartLists;
         private int[] rank;
         private int[] lastRank;
 
-        public void EventInit()
+        private List<int> startList;
+
+        public EventManager(int eventId, Calendar calendar, ResultsContainer resultsContainer)
         {
-            List<int> competitorsList;
-            if (eventInfo.qualRankType != RankType.None)
+            this.eventInfo = calendar.events[eventId];
+            this.eventResults = resultsContainer.eventResults[eventId];
+
+
+            if (eventInfo.qualRankType == RankType.None)
             {
-                List<Tuple<decimal, int>> tempList;
-                if (eventInfo.qualRankType == RankType.Event)
-                {
-                    EventResults qualRankEvent = calendarResults.eventResults[eventInfo.qualRankId];
-                    tempList = GetQualRankEvent(qualRankEvent);
-                }
-                else
-                {
-                    ClassificationResults qualRankClassification = calendarResults.classificationResults[eventInfo.qualRankId];
-                    tempList = GetQualRankClassification(qualRankClassification);
-                }
-
-                // remove not registred participants
-                var lookup = participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
-                tempList = tempList.Where(it => lookup.ContainsKey(it.Item2)).ToList();
-
-                // trim list to inLimit 
-                competitorsList = TrimRankingToLimit(tempList, eventInfo.inLimitType, eventInfo.inLimit);
-                competitorsList.Select(it => lookup[it]).ToList();
+                //Add all registred participants
+                this.competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
             }
             else
             {
-                //Add all registred participants
-                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
+                ResultsProcessor resultsProcessor;
+                if (eventInfo.qualRankType == RankType.Event)
+                {
+                    resultsProcessor = new EventResultsProcessor(resultsContainer.eventResults[eventInfo.qualRankId]);
+                }
+                else
+                {
+                    resultsProcessor = new ClassificationResultsProcessor(resultsContainer.classificationResults[eventInfo.qualRankId]);
+                }
+
+                this.competitorsList = resultsProcessor.GetTrimmedFinalResults(eventResults.participants, eventInfo.inLimitType, eventInfo.inLimit);
+
+                if (this.eventInfo.useQualRank)
+                {
+                    InjectQualRankResults(resultsProcessor.GetFinalResultsWithTotalPoints());
+                }
             }
 
-            switch (eventInfo.ordRankType)
-            {
-                case RankType.None:
-                    break;
-                case RankType.Event:
-                    GetOrdRankEvent();
-                    break;
-                case RankType.Classification:
-                    GetOrdRankClassification();
-                    break;
-            }
 
-            if (eventInfo.useOrdRank) { InjectOrdRankResults(); }
+            // this.startList = resultsProcessor.GetFinalResultsWithCompetitorsList(this.competitorsList);
+
         }
 
         public void AddResult(JumpResult jmp, int localId, int innerId = 0)
@@ -79,21 +72,72 @@ namespace CompCal
             // this.allroundResults.Add((0, this.eventResults.results[localId].totalPoints, ))
         }
 
-        private List<Tuple<decimal, int>> GetQualRankEvent(EventResults qualRankEvent)
+        private void GetCompetitors()
         {
-            List<Tuple<decimal, int>> tempList = new List<Tuple<decimal, int>>();
-            tempList = qualRankEvent.finalResults.Select(it => Tuple.Create(qualRankEvent.results[it].totalPoints, qualRankEvent.competitorIds[it])).ToList();
+            if (this.eventInfo.qualRankType != RankType.None)
+            {
+                List<(decimal, int)> tempList;
+                if (this.eventInfo.qualRankType == RankType.Event)
+                {
+                    EventResults qualRankEvent = this.resultsContainer.eventResults[this.eventInfo.qualRankId];
+                    tempList = GetQualRankEvent(qualRankEvent);
+                }
+                else
+                {
+                    ClassificationResults qualRankClassification = this.resultsContainer.classificationResults[this.eventInfo.qualRankId];
+                    tempList = GetQualRankClassification(qualRankClassification);
+                }
+
+                // remove not registred participants
+                var lookup = this.participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
+                tempList = tempList.Where(it => lookup.ContainsKey(it.Item2)).ToList();
+
+                // trim list to inLimit 
+                this.competitorsList = TrimRankingToLimit(tempList, eventInfo.inLimitType, eventInfo.inLimit);
+            }
+            else
+            {
+                //Add all registred participants
+                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
+            }
+        }
+
+        private List<int> GetInitialOrder()
+        {
+            List<int> tmpList;
+            if (eventInfo.ordRankType == RankType.None)
+            {
+                tmpList = competitorsList.Select((val, ind) => ind).ToList();
+            }
+            else
+            {
+                if (eventInfo.ordRankType == RankType.Event)
+                {
+                    tmpList = GetOrdRankEvent();
+                }
+                else
+                {
+                    tmpList = GetOrdRankClassification();
+                }
+            }
+            return tmpList;
+        }
+
+        private List<(decimal, int)> GetQualRankEvent(EventResults qualRankEvent)
+        {
+            List<(decimal, int)> tempList = new List<(decimal, int)>();
+            tempList = qualRankEvent.finalResults.Select(it => (qualRankEvent.results[it].totalPoints, qualRankEvent.competitorIds[it])).ToList();
             return tempList;
         }
 
-        private List<Tuple<decimal, int>> GetQualRankClassification(ClassificationResults qualRankClassification)
+        private List<(decimal, int)> GetQualRankClassification(ClassificationResults qualRankClassification)
         {
-            List<Tuple<decimal, int>> tempList = new List<Tuple<decimal, int>>();
-            tempList = qualRankClassification.totalSortedResults.Select(it => Tuple.Create(qualRankClassification.totalResults[it], it)).ToList();
+            List<(decimal, int)> tempList = new List<(decimal, int)>();
+            tempList = qualRankClassification.totalSortedResults.Select(it => (qualRankClassification.totalResults[it], it)).ToList();
             return tempList;
         }
 
-        private List<int> TrimRankingToLimit(List<Tuple<decimal, int>> results, LimitType inLimitType = LimitType.None, int inLimit = 0)
+        private List<int> TrimRankingToLimit(List<(decimal, int)> results, LimitType inLimitType = LimitType.None, int inLimit = 0)
         {
             List<int> competitorsList = new List<int>();
 
@@ -115,19 +159,16 @@ namespace CompCal
             return competitorsList;
         }
 
-        private void GetOrdRankClassification()
+        private List<int> GetOrdRankClassification()
         {
-            ClassificationResults ordRankResults = calendarResults.classificationResults[eventInfo.ordRankId];
-            for (int i = 0; i < competitorsList.Count; i++)
-            {
-                decimal points = ordRankResults.totalResults[competitorsList[i]];
-                finalResults.Add((0, points, i), i);
-            }
+            ClassificationResults ordRankResults = resultsContainer.classificationResults[eventInfo.ordRankId];
+            return competitorsList.Select((val, ind) => (val, ind)).OrderByDescending(item => (ordRankResults.totalResults[competitorsList[item.ind]], item.ind)).Select(item => item.val).ToList();
         }
 
-        private void GetOrdRankEvent()
+        private List<int> GetOrdRankEvent()
         {
-            EventResults ordRankResults = calendarResults.eventResults[eventInfo.ordRankId];
+            List<(decimal, int, int)> tmpList = new List<(decimal, int, int)>();
+            EventResults ordRankResults = resultsContainer.eventResults[eventInfo.ordRankId];
             var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(x => x.val, x => x.index);
             bool[] selected = new bool[competitorsList.Count];
             int it = 0;
@@ -141,21 +182,67 @@ namespace CompCal
                 {
                     selected[map[globalId]] = true;
                     decimal points = ordRankResults.results[localId].totalPoints;
-                    finalResults.Add((0, points, it++), map[globalId]); 
+                    tmpList.Add((points, it++, map[globalId]));
                 }
             }
 
             for (int i = 0; i < competitorsList.Count; i++)
             {
-                if (!selected[i]) { finalResults.Add((0, 0m, it++), i); }
+                if (!selected[i]) { tmpList.Add((0m, it++, i)); }
             }
+
+            return tmpList.OrderByDescending(item => item).Select(item => item.Item3).ToList();
         }
 
-        private void InjectOrdRankResults()
+        private List<(int, int)> AssignBibs(List<int> orderedParticipants, bool reversedOrder)
         {
-            foreach (var item in finalResults)
+            if (reversedOrder)
             {
-                eventResults.results[item.Value].ordRankPoints = item.Key.Item2;
+                return orderedParticipants.Select((val, ind) => (val, ind + 1)).ToList();
+            }
+            return orderedParticipants.Select((val, ind) => (val, orderedParticipants.Count - ind)).ToList();
+        }
+        private List<int> RoundStartList(List<int> orderedParticipants, RoundInfo roundInfo)
+        {
+            if (roundInfo.roundType == RoundType.Normal)
+            {
+                return orderedParticipants.Select(item => item).Reverse().ToList();
+            }
+            List<int> tmpList = new List<int>();
+
+            int len = orderedParticipants.Count;
+            for (int i = 0; i < len / 2; i++)
+            {
+                tmpList.Add(orderedParticipants[(len + 1) / 2 + i]);
+                tmpList.Add(orderedParticipants[(len + 1) / 2 - i - 1]);
+            }
+
+            if (len % 2 == 1)
+            {
+                tmpList.Add(orderedParticipants[0]);
+            }
+
+            return tmpList;
+        }
+
+        private List<int> SubRoundStartList(List<int> roundStartList, int subRoundId = 0, List<int> orderedParticipants = null, bool changeOrder = false)
+        {
+            if (changeOrder)
+            {
+                return orderedParticipants.Select(item => participants[competitorsList[item]].competitors[subRoundId]).Reverse().ToList();
+            }
+            return roundStartList.Select(item => participants[competitorsList[item]].competitors[subRoundId]).ToList();
+        }
+
+        private void CalculateFinalResults()
+        {
+
+        }
+        private void InjectQualRankResults(List<(decimal, int)> resultsList)
+        {
+            foreach (var item in resultsList)
+            {
+                eventResults.results[item.Item2].qualRankPoints = item.Item1;
             }
         }
 
@@ -176,8 +263,8 @@ namespace CompCal
 
             foreach (var it in eventInfo.classifications)
             {
-                ClassificationInfo classificationInfo = calendarResults.calendar.classifications[it];
-                ClassificationResults classificationResults = calendarResults.classificationResults[it];
+                ClassificationInfo classificationInfo = calendar.classifications[it];
+                ClassificationResults classificationResults = resultsContainer.classificationResults[it];
                 var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
 
                 // Update results
@@ -206,3 +293,17 @@ namespace CompCal
     }
 }
 
+/*
+1. GetQualRank
+2. GetOrdRank
+(Inject QualRank)
+
+  Round
+  (AssignBibs)
+    SubRound
+      CreateStartList
+      RunSubRound
+  CalculateFinalResults
+
+
+*/

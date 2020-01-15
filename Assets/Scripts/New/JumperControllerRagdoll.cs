@@ -2,13 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum JumperState { Gate, Inrun, TakeOff, Flight, PreLanding, Landing, Outrun, Braking, Crash };
+
 public class JumperControllerRagdoll : MonoBehaviour
 {
-    private Animator animator;
+    public Transform com;
+    public JumperPose inrunPose;
+    public JumperPose flightHighPose;
+    public JumperPose flightLowPose;
+    public JumperPose landingPose;
+    public JointAnimation bodyJointR;
+    public JointAnimation bodyJointL;
+    public JointAnimation kneesJointR;
+    public JointAnimation kneesJointL;
+    public JointAnimation anklesJointR;
+    public JointAnimation anklesJointL;
+    public GameObject hips;
+    public GameObject skiL;
+    public GameObject skiR;
     private Rigidbody rb;
-    public GameObject rSki, lSki;
-    public GameObject rSkiClone, lSkiClone;
-    public int State { get; private set; }
+    private Rigidbody rbSkiL;
+    private Rigidbody rbSkiR;
+
+    [SerializeField]
+    private JumperState state;
+    public JumperState State { get => state; private set => state = value; }
     public float Distance { get; private set; }
     public bool Landed { get; private set; }
     public bool OnInrun { get; private set; }
@@ -16,17 +34,12 @@ public class JumperControllerRagdoll : MonoBehaviour
 
     [Header("Colliders")]
 
-    public SphereCollider distCollider1;
-    public SphereCollider distCollider2;
     public Collider bodyCollider;
-
-    public Collider rSkiCollider;
-    public Collider lSkiCollider;
-
 
     [Space]
 
     [Header("Parameters")]
+    public float mass;
     public float jumpSpeed;
     public float jumperAngle = 0f;
 
@@ -35,32 +48,28 @@ public class JumperControllerRagdoll : MonoBehaviour
 
     [Header("Flight")]
     public double angle = 0;
-    public double drag = 0.001d;
-    public double lift = 0.001d;
+    public double drag;
+    public double lift;
+    [SerializeField]
+    private float torqueVal;
     public float rotCoef = 1f;
-    public float smoothCoef = 0.01f;
-    public float sensCoef = 0.01f;
     public float mouseSensitivity = 2f;
     [Space]
 
     [Header("Wind")]
-    public Vector2 windDir;
     public float windForce;
-    public float dirChange;
-    public float forceChange;
-
-    public GameObject modelObject;
 
     bool button0, button1;
 
-    public JudgesController judgesController;
-    public MouseScript mouseScript;
-    // public ManagerScript managerScript;
+    // public JudgesController judgesController;
 
     private int landing;
     private bool deductedforlanding = false;
 
     private bool judged = false;
+
+    public GameObject[] jumperParts;
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -70,16 +79,49 @@ public class JumperControllerRagdoll : MonoBehaviour
         }
         if (!Landed && other.tag == "LandingArea")
         {
-            judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
-
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
-            {
-                Crash();
-            }
+            // judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
             Landed = true;
-            animator.SetFloat("DownForce", 1f);
+        }
+    }
+
+    void InputHandle()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            switch (State)
+            {
+                case JumperState.Gate:
+                    State = JumperState.Inrun;
+                    JumpStart();
+                    break;
+                case JumperState.Inrun:
+                    State = JumperState.TakeOff;
+                    TakeOff();
+                    break;
+                case JumperState.Flight:
+                    State = JumperState.PreLanding;
+                    Land();
+                    break;
+            }
+
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            bodyJointR.torqueForce = 0;
+            bodyJointL.torqueForce = 0;
+            kneesJointR.torqueForce = 0;
+            kneesJointL.torqueForce = 0;
+            anklesJointR.torqueForce = 0;
+            anklesJointL.torqueForce = 0;
+
+            bodyJointR.Configure();
+            bodyJointL.Configure();
+            kneesJointR.Configure();
+            kneesJointL.Configure();
+            anklesJointR.Configure();
+            anklesJointL.Configure();
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -87,7 +129,7 @@ public class JumperControllerRagdoll : MonoBehaviour
         if (other.tag == "Inrun")
         {
             OnInrun = false;
-            judgesController.SpeedMeasurement(rb.velocity.magnitude);
+            // judgesController.SpeedMeasurement(rb.velocity.magnitude);
         }
     }
 
@@ -95,22 +137,17 @@ public class JumperControllerRagdoll : MonoBehaviour
     {
         if (!Landed && other.collider.tag == "LandingArea")
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+            if (State == JumperState.PreLanding && !deductedforlanding)
             {
-                if (State == 3 && !deductedforlanding)
-                {
-                    judgesController.PointDeduction(1, 1);
-                    deductedforlanding = true;
-                }
-                else
-                {
-                    judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
+                // judgesController.PointDeduction(1, 1);
+                deductedforlanding = true;
+            }
+            else
+            {
+                // judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
 
-                    Crash();
-                    Landed = true;
-                }
-
-
+                Crash();
+                Landed = true;
             }
 
         }
@@ -118,35 +155,47 @@ public class JumperControllerRagdoll : MonoBehaviour
 
     void Start()
     {
-        State = 0;
+        State = JumperState.Gate;
         Landed = false;
 
-        animator = GetComponentInChildren<Animator>();
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-
-        //Wind
-        //windDir.Set(0.0f, 0.0f);
-        //windForce = 0.0f;
-
+        rb = hips.GetComponent<Rigidbody>();
+        rbSkiL = skiL.GetComponent<Rigidbody>();
+        rbSkiR = skiR.GetComponent<Rigidbody>();
         ResetValues();
+    }
+
+    void SetPose(JumperPose pose)
+    {
+        bodyJointR.targetRotation.x = pose.bodyAngle;
+        bodyJointL.targetRotation.x = pose.bodyAngle;
+        kneesJointR.targetRotation.x = pose.kneesAngle;
+        kneesJointL.targetRotation.x = pose.kneesAngle;
+        anklesJointR.targetRotation.x = pose.anklesAngle;
+        anklesJointL.targetRotation.x = pose.anklesAngle;
+    }
+
+    void SetPose(JumperPose pose1, JumperPose pose2, float factor)
+    {
+        float val = Mathf.SmoothStep(0, 1, factor);
+        bodyJointR.targetRotation.x = pose1.bodyAngle * val + (1 - val) * pose2.bodyAngle;
+        bodyJointL.targetRotation.x = pose1.bodyAngle * val + (1 - val) * pose2.bodyAngle;
+        kneesJointR.targetRotation.x = pose1.kneesAngle * val + (1 - val) * pose2.kneesAngle;
+        kneesJointL.targetRotation.x = pose1.kneesAngle * val + (1 - val) * pose2.kneesAngle;
+        anklesJointR.targetRotation.x = pose1.anklesAngle * val + (1 - val) * pose2.anklesAngle;
+        anklesJointL.targetRotation.x = pose1.anklesAngle * val + (1 - val) * pose2.anklesAngle;
     }
 
     public void ResetValues()
     {
-        State = 0;
-        animator.SetBool("JumperCrash", false);
-        animator.SetInteger("JumperState", State);
-        animator.SetFloat("DownForce", 0f);
-        Landed = false;
+
+        // hips.GetComponent<Transform>().position = GetComponent<Transform>().position;
+        // hips.GetComponent<Transform>().rotation = Quaternion.identity;
+
         rb.isKinematic = true;
-        modelObject.GetComponent<Transform>().localPosition = new Vector3();
+        State = JumperState.Gate;
+        Landed = false;
         jumperAngle = 1;
         button0 = button1 = false;
-        rSkiClone.SetActive(false);
-        lSkiClone.SetActive(false);
-        rSki.SetActive(true);
-        lSki.SetActive(true);
         deductedforlanding = false;
         judged = false;
     }
@@ -154,198 +203,142 @@ public class JumperControllerRagdoll : MonoBehaviour
 
     void Update()
     {
-        animator.SetInteger("JumperState", State);
-        if (State == 0 && Input.GetKeyDown(KeyCode.Space))
-        {
-            Gate();
-            mouseScript.LockCursor();
-        }
-        else if (State == 1 && Input.GetMouseButtonDown(0))
-        {
-            Jump();
-        }
-        else if ((State == 2 || State == 3) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
-        {
-            button0 |= Input.GetMouseButtonDown(0);
-            button1 |= Input.GetMouseButtonDown(1);
-            Land();
-        }
-        if (State == 2)
-        {
-            //double pitchMoment = 3.29363 - 0.11567 * angle - 0.00333928 * angle * angle + 0.0000573605f * angle * angle * angle;
-            //double pitchMoment = 0.5f;
-            if (oldMode)
-            {
-                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity;
-                jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-            }
-            else
-            {
-                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity;
-                jumperAngle /= 1.05f;
-                jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-                // jumperAngle -= jumperAngle * jumperAngle * Mathf.Sign(jumperAngle) * smoothCoef;
-                // jumperAngle += Input.GetAxis("Moues Y") * sensCoef;
-                // jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-            }
+        InputHandle();
 
-            judgesController.FlightStability(jumperAngle);
-
-            //rb.AddTorque(0.0f, 0.0f, (float)pitchMoment);
-            if (oldMode)
-            {
-
-            }
-            else
-            {
-                Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef * mouseSensitivity/* * 70.0f*/);
-                rb.AddRelativeTorque(torque);
-            }
-
-            animator.SetFloat("JumperAngle", jumperAngle);
-            // Debug.Log("angle: " + angle + " jumperAngle: " + jumperAngle);
-        }
-        if (rb.transform.position.x > judgesController.hill.U.x)
+        if (State == JumperState.Flight)
         {
-            Brake();
+            jumperAngle += Input.GetAxis("Mouse Y") * mouseSensitivity;
+            jumperAngle /= 1.05f;
+            jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
 
+            SetPose(flightHighPose, flightLowPose, (jumperAngle + 1) / 2);
+
+            // judgesController.FlightStability(jumperAngle);
+
+            Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef * mouseSensitivity);
+            rb.AddTorque(torque, ForceMode.VelocityChange);
+            // rb.AddForceAtPosition(Vector3.down * jumperAngle * rotCoef * mouseSensitivity, com.position, ForceMode.Acceleration);
+            // Debug.Log(torque);
+            // rb.AddTorque(torque, ForceMode.VelocityChange);
         }
-        // if ((Landed && State != 3 && !land) || (State == 2 && (angle < -10.0f || angle > 80.0f) && animator.GetCurrentAnimatorStateInfo(0).IsName("Flight")))
+
+        // if (rb.transform.position.x > judgesController.hill.U.x)
         // {
-        //     // Crash();
+        //     State = JumperState.Braking;
+        //     Brake();
         // }
+    }
+
+    private double Lift(double angle)
+    {
+        if (-15 <= angle && angle <= 50)
+        {
+            return 0.000933 + 0.00023314 * angle - 0.00000008201 * angle * angle - 0.0000001233 * angle * angle * angle + 0.00000000169 * angle * angle * angle * angle;
+        }
+        return 0;
+    }
+
+    private double Drag(double angle)
+    {
+        if (-15 <= angle && angle <= 50)
+        {
+            return 0.001822 + 0.000096017 * angle + 0.00000222578 * angle * angle - 0.00000018944 * angle * angle * angle + 0.00000000352 * angle * angle * angle * angle;
+        }
+        return 0;
     }
 
     void FixedUpdate()
     {
         Vector3 vel = rb.velocity + rb.velocity.normalized * windForce;
-        // Debug.Log(vel);
         Vector3 liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
-        double tmp = rb.rotation.eulerAngles.z;
+        double tmp = (rbSkiL.rotation.eulerAngles.z + rbSkiL.rotation.eulerAngles.z) * 0.5;
         if (tmp > 180) tmp -= 360;
 
         angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + tmp;
-        if (oldMode)
-        {
-            angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + jumperAngle * 10;
-        }
-        if (-15.0f <= angle && angle <= 50)
-        {
-            lift = 0.000933d + 0.00023314d * angle - 0.00000008201d * angle * angle - 0.0000001233d * angle * angle * angle + 0.00000000169d * angle * angle * angle * angle;
-            drag = 0.001822d + 0.000096017d * angle + 0.00000222578d * angle * angle - 0.00000018944d * angle * angle * angle + 0.00000000352d * angle * angle * angle * angle;
-        }
 
+        lift = Lift(angle);
+        drag = Drag(angle);
 
-        //Debug.Log("angle: " + angle + " drag: " + drag + " lift: " + lift);
-        if (State == 2)
+        if (State == JumperState.Flight)
         {
-            rb.AddForce(-vel.normalized * (float)drag * vel.sqrMagnitude/* * rb.mass*/);
-            rb.AddForce(liftVec * (float)lift * vel.sqrMagnitude/* * rb.mass*/);
-            Vector3 torque = new Vector3(0.0f, 0.0f, (90 - (float)angle) * Time.fixedDeltaTime*0.5f/* * 70.0f*/);
+            rb.AddForce(-vel.normalized * (float)drag * vel.sqrMagnitude * mass / rb.mass, ForceMode.Acceleration);
+            rb.AddForce(liftVec * (float)lift * vel.sqrMagnitude * mass / rb.mass, ForceMode.Acceleration);
+            // Vector3 torque = new Vector3(0.0f, 0.0f, Mathf.Pow(Mathf.Sin(2 * (float)angle * Mathf.Deg2Rad), 3) * Time.fixedDeltaTime * 100f);
+            Vector3 torque = new Vector3(0.0f, 0.0f, (90 - (float)angle) * Time.fixedDeltaTime * 0.5f * mass/* * 70.0f*/);
+            torqueVal = torque.z;
             rb.AddRelativeTorque(torque);
-
-            //rb.AddForceAtPosition(-vel.normalized * (float)drag * vel.sqrMagnitude, rb.transform.position);
-            //rb.AddForceAtPosition(liftVec * (float)lift * vel.sqrMagnitude, rb.transform.position);
         }
-        if (State == 4)
+        if (State == JumperState.Braking)
         {
             Vector3 brakeVec = Vector3.left;
-            float distToEnd = judgesController.hill.U.x + 100 - rb.position.x;
+            // float distToEnd = judgesController.hill.U.x + 100 - rb.position.x;
 
             rb.AddForce(brakeVec * rb.mass * rb.velocity.x / 2);
         }
     }
 
-    public void Gate()
+    public void JumpStart()
     {
-        State = 1;
-
         rb.isKinematic = false;
+        SetPose(inrunPose);
     }
 
-    public void Jump()
+    public void TakeOff()
     {
-        State = 2;
+        Debug.Log("TakeOff");
 
-        Debug.Log(OnInrun);
-        if (OnInrun)
-        {
-            Vector3 jumpDirection = rb.velocity.normalized;
-            jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
-            rb.velocity += jumpSpeed * jumpDirection;
-            //rb.AddTorque(0.0f, 0.0f, 10f);
-        }
+        Vector3 jumpDirection = rb.velocity.normalized;
+        jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
+        rb.AddForce(jumpSpeed * jumpDirection * mass / rb.mass, ForceMode.VelocityChange);
 
+        State = JumperState.Flight;
+        SetPose(flightHighPose);
     }
 
     public void Land()
     {
-        float angle = rb.GetComponent<Rigidbody>().transform.rotation.eulerAngles.z;
-        angle = (angle + 180) % 360 - 180;
-        rb.AddTorque(0, 0, -angle * 5);
-        State = 3;
+        State = JumperState.PreLanding;
         landing = 1;
-        animator.SetFloat("Landing", 1);
         if (button0 && button1)
         {
-            animator.SetFloat("Landing", 0);
             landing = 0;
 
         }
         if (landing == 0)
         {
-            Debug.Log("RAKAKAN MALY CVEL");
-            judgesController.PointDeduction(1, 1m);
+            // judgesController.PointDeduction(1, 1m);
             landing = -1;
         }
 
+        SetPose(landingPose);
     }
 
     public void Crash()
     {
-        if (State == 3)
+        if (State == JumperState.Flight)
         {
-            judgesController.PointDeduction(1, 3);
+            // judgesController.PointDeduction(1, 3);
         }
         else
         {
-            judgesController.PointDeduction(1, 5);
-            judgesController.PointDeduction(0, 5);
+            // judgesController.PointDeduction(1, 5);
+            // judgesController.PointDeduction(0, 5);
         }
-        //Na plecy i na brzuch
-        //State = ;
-        animator.SetBool("JumperCrash", true);
-        rSkiClone.SetActive(true);
-        lSkiClone.SetActive(true);
-        rSki.SetActive(false);
-        lSki.SetActive(false);
-        lSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
-        lSkiClone.GetComponent<Transform>().position = lSki.GetComponent<Transform>().position;
-        lSkiClone.GetComponent<Transform>().rotation = lSki.GetComponent<Transform>().rotation;
 
-        rSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
-        rSkiClone.GetComponent<Transform>().position = rSki.GetComponent<Transform>().position;
-        rSkiClone.GetComponent<Transform>().rotation = rSki.GetComponent<Transform>().rotation;
-        judgesController.PointDeduction(2, 7);
+        // judgesController.PointDeduction(2, 7);
         if (!judged)
         {
-            judgesController.Judge();
+            // judgesController.Judge();
             judged = true;
         }
-
     }
 
     public void Brake()
     {
-        //ToDo
-        if (State != 4)
+        if (!judged)
         {
-            if (!judged)
-            {
-                judgesController.Judge();
-                judged = true;
-            }
+            // judgesController.Judge();
+            judged = true;
         }
-        State = 4;
     }
 }

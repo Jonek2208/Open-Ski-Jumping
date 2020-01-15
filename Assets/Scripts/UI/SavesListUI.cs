@@ -10,7 +10,7 @@ public class SavesListUI : ListDisplay
     public DatabaseManager databaseManager;
 
     public TMPro.TMP_Dropdown calendarsDropdown;
-    public List<CompCal.CalendarResults> savesList;
+    public List<GameSave> savesList;
     private List<CompCal.Calendar> calendarsList;
 
     public GameObject popUpObject;
@@ -42,42 +42,43 @@ public class SavesListUI : ListDisplay
 
     }
 
-    public GameObject NewListElement(CompCal.CalendarResults item)
+    public GameObject NewListElement(GameSave item)
     {
         GameObject tmp = Instantiate(elementPrefab);
         SetValue(tmp, item);
         return tmp;
     }
 
-    public void SetValue(GameObject tmp, CompCal.CalendarResults item)
+    public void SetValue(GameObject tmp, GameSave item)
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = item.name;
     }
 
-    public CalendarResults CreateCalendarResultsFromCalendar(Calendar calendar)
+    public GameSave CreateGameSaveFromCalendar(Calendar calendar)
     {
-        CalendarResults calendarResults = new CalendarResults();
-        calendarResults.calendar = calendar;
+        GameSave gameSave = new GameSave();
+        gameSave.resultsContainer = new ResultsContainer();
+        gameSave.calendar = calendar;
 
-        calendarResults.eventResults = new EventResults[calendarResults.calendar.events.Count];
-        calendarResults.classificationResults = new ClassificationResults[calendarResults.calendar.classifications.Count];
+        gameSave.resultsContainer.eventResults = new EventResults[gameSave.calendar.events.Count];
+        gameSave.resultsContainer.classificationResults = new ClassificationResults[gameSave.calendar.classifications.Count];
 
-        for (int i = 0; i < calendarResults.classificationResults.Length; i++)
+        for (int i = 0; i < gameSave.resultsContainer.classificationResults.Length; i++)
         {
-            calendarResults.classificationResults[i] = new ClassificationResults();
+            gameSave.resultsContainer.classificationResults[i] = new ClassificationResults();
         }
 
         if (databaseManager.dbHills.Loaded)
         {
-            calendarResults.hillProfiles = databaseManager.dbHills.Data.profileData;
+            gameSave.resultsContainer.hillProfiles = databaseManager.dbHills.Data.profileData;
         }
 
-        calendarResults.hillInfos = new List<HillInfo>();
-        foreach (var item in calendarResults.hillProfiles)
+        gameSave.resultsContainer.hillInfos = new List<HillInfo>();
+        foreach (var item in gameSave.resultsContainer.hillProfiles)
         {
-            calendarResults.hillInfos.Add(new HillInfo((decimal)item.w, (decimal)(item.w + item.l2)));
+            gameSave.resultsContainer.hillInfos.Add(new HillInfo((decimal)item.w, (decimal)(item.w + item.l2)));
         }
-        return calendarResults;
+        return gameSave;
     }
 
 
@@ -109,10 +110,10 @@ public class SavesListUI : ListDisplay
 
     public void Save()
     {
-        CalendarResults calendarResults = CreateCalendarResultsFromCalendar(calendarsList[calendarsDropdown.value]);
-        calendarResults.name = calendarNameInput.text;
-        savesList.Add(calendarResults);
-        AddListElement(NewListElement(calendarResults));
+        GameSave gameSave = CreateGameSaveFromCalendar(calendarsList[calendarsDropdown.value]);
+        gameSave.name = calendarNameInput.text;
+        savesList.Add(gameSave);
+        AddListElement(NewListElement(gameSave));
         SetValue(elementsList[currentIndex], savesList[currentIndex]);
     }
 

@@ -6,15 +6,11 @@ using Newtonsoft.Json;
 namespace CompCal
 {
     [Serializable]
-    public class CalendarResults
+    public class ResultsContainer
     {
-        public string name;
-        public Calendar calendar;
         public List<HillInfo> hillInfos;
         public List<HillProfile.ProfileData> hillProfiles;
         public int eventIt;
-        public int roundIt;
-        public int jumpIt;
         public EventResults[] eventResults;
         public ClassificationResults[] classificationResults;
 

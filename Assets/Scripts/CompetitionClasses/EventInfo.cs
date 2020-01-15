@@ -21,11 +21,11 @@ namespace CompCal
         [JsonConverter(typeof(StringEnumConverter))]
         public RankType ordRankType;
         public int ordRankId;
-        public bool useOrdRank;
+        public bool useQualRank;
         public List<RoundInfo> roundInfos;
         public List<int> classifications;
         public int eventPreset;
-        public EventInfo(string _name, int _hillId, EventType _eventType, List<RoundInfo> _roundInfos, List<int> _classifications, RankType _qualRankType, int _qualRankId, RankType _ordRankType, int _ordRankId, bool _useOrdRank = false, LimitType _inLimitType = LimitType.None, int _inLimit = 0)
+        public EventInfo(string _name, int _hillId, EventType _eventType, List<RoundInfo> _roundInfos, List<int> _classifications, RankType _qualRankType, int _qualRankId, RankType _ordRankType, int _ordRankId, bool _useQualRank = false, LimitType _inLimitType = LimitType.None, int _inLimit = 0)
         {
             name = _name;
             hillId = _hillId;
@@ -35,7 +35,7 @@ namespace CompCal
             qualRankId = _qualRankId;
             ordRankType = _ordRankType;
             ordRankId = _ordRankId;
-            useOrdRank = _useOrdRank;
+            useQualRank = _useQualRank;
             inLimitType = _inLimitType;
             inLimit = _inLimit;
         }

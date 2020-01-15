@@ -6,7 +6,7 @@ namespace CompCal
     public class Result
     {
         public List<JumpResult>[] results;
-        public decimal ordRankPoints;
+        public decimal qualRankPoints;
         public decimal[] totalResults;
         public int[] bibs;
         public int rank;

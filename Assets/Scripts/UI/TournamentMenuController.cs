@@ -7,11 +7,12 @@ public class TournamentMenuController : MonoBehaviour
 {
     public DatabaseManager databaseManager;
     public FlagsData flagsData;
-    private CompCal.CalendarResults calendarResults;
+    private GameSave gameSave;
+    private CompCal.ResultsContainer resultsContainer;
+    private CompCal.Calendar calendar;
     private List<GameObject> resultsList;
-
     public TMPro.TMP_Dropdown resultsDropdown;
-    public GameObject resultsWrapperPrefab; 
+    public GameObject resultsWrapperPrefab;
     public GameObject resultPrefab;
     public GameObject resultPointsPrefab;
     public GameObject scrollViewObject;
@@ -20,21 +21,22 @@ public class TournamentMenuController : MonoBehaviour
 
     private void Start()
     {
-        calendarResults = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId];
-        var dropdownList = calendarResults.calendar.classifications.Select(x => new TMPro.TMP_Dropdown.OptionData(x.name));
+        resultsContainer = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId].resultsContainer;
+        calendar = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId].calendar;
+        var dropdownList = calendar.classifications.Select(x => new TMPro.TMP_Dropdown.OptionData(x.name));
         resultsDropdown.options = new List<TMPro.TMP_Dropdown.OptionData>(dropdownList);
-        ShowEventResults(calendarResults, 0);
+        ShowEventResults(resultsContainer, 0);
     }
 
     public void OnDropdownChange()
     {
         HideResults();
-        ShowEventResults(calendarResults, resultsDropdown.value);
+        ShowEventResults(resultsContainer, resultsDropdown.value);
     }
 
     public void LoadNextEvent()
     {
-        if (calendarResults.eventIt >= calendarResults.calendar.events.Count)
+        if (resultsContainer.eventIt >= calendar.events.Count)
         {
             databaseManager.dbSaveData.savesList.RemoveAt(databaseManager.dbSaveData.currentSaveId);
             databaseManager.dbSaveData.currentSaveId = -1;
@@ -45,10 +47,10 @@ public class TournamentMenuController : MonoBehaviour
         }
     }
 
-    public void ShowEventResults(CompCal.CalendarResults calendarResults, int classificationId)
+    public void ShowEventResults(CompCal.ResultsContainer calendarResults, int classificationId)
     {
         resultsList = new List<GameObject>();
-        resultsInfoText.text = calendarResults.calendar.classifications[classificationId].name;
+        resultsInfoText.text = calendar.classifications[classificationId].name;
 
         float width = resultPrefab.GetComponent<RectTransform>().rect.width + resultPointsPrefab.GetComponent<RectTransform>().rect.width;
         scrollViewObject.GetComponent<RectTransform>().sizeDelta = new Vector2(width, scrollViewObject.GetComponent<RectTransform>().sizeDelta.y);

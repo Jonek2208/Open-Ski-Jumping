@@ -23,37 +23,42 @@ public class CompetitionManager : MonoBehaviour
     public FloatVariable currentJumperPoints;
     public CompetitorVariable competitorVariable;
     public CompetitorVariable competitorVariable2;
-    public CalendarResults calendarResults;
+    public ResultsContainer resultsContainer;
+    public Calendar calendar;
     public UnityEventInt jumperPreparation;
 
+    private int jumperIt;
 
     private void LoadData()
     {
-        calendarResults = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId];
+        resultsContainer = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId].resultsContainer;
+        calendar = databaseManager.dbSaveData.savesList[databaseManager.dbSaveData.currentSaveId].calendar;
+    }
+
+    private void EventManagerInit()
+    {
+        EventManager eventManager = new EventManager(resultsContainer.eventIt, calendar, resultsContainer);
     }
 
     public void CompetitionInit()
     {
-        currentEvent = calendarResults.calendar.events[calendarResults.eventIt]; //caching event info
-        // if (currentEvent.eventType == CompCal.EventType.Team) { eventRunner = new EventRunnerTeam(); }
-        // else { eventRunner = new EventRunnerInd(); }
+        LoadData();
+        EventManagerInit();
 
-        judges.PrepareHill(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
-
-        // calendarResults.EventInit();
-
-        RoundInit();
-        NextJump();
+        // judges.PrepareHill(calendarResults.hillProfiles[calendarResults.calendar.events[calendarResults.eventIt].hillId]);
     }
 
     public void RoundInit()
     {
         // calendarResults.RoundInit();
-        calendarResults.jumpIt = -1;
     }
 
     public bool NextJump()
     {
+        // Update Scriptable Objects
+
+        jumperIt++;
+
         // calendarResults.jumpIt++;
         //     if (calendarResults.jumpIt < calendarResults.CurrentStartList.Count)
         //     {
@@ -125,7 +130,6 @@ public class CompetitionManager : MonoBehaviour
     public bool NextRound()
     {
         // calendarResults.RecalculateFinalResults();
-        calendarResults.roundIt++;
         jumpUIManager.HideResults();
         // if (calendarResults.roundIt >= calendarResults.CurrentEvent.roundInfos.Count)
         // {
@@ -141,7 +145,7 @@ public class CompetitionManager : MonoBehaviour
     public bool NextEvent()
     {
         // calendarResults.UpdateClassifications();
-        calendarResults.eventIt++;
+        resultsContainer.eventIt++;
         // if (calendarResults.eventIt >= calendarResults.calendar.events.Count)
         // {
         //     ShowClassificationsResults();
@@ -150,18 +154,6 @@ public class CompetitionManager : MonoBehaviour
 
         // CompetitionInit();
         return true;
-    }
-
-    public void ShowClassificationsResults()
-    {
-        for (int i = 0; i < calendarResults.classificationResults.Length; i++)
-        {
-            Debug.Log(calendarResults.calendar.classifications[i].name);
-            for (int j = 0; j < calendarResults.classificationResults[i].totalResults.Count; j++)
-            {
-                Debug.Log(calendarResults.calendar.competitors[j].lastName + " " + calendarResults.classificationResults[i].totalResults[j].ToString("#.0"));
-            }
-        }
     }
 
     void Start()

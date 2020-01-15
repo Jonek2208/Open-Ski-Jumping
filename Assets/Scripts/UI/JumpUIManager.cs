@@ -186,15 +186,15 @@ public class JumpUIManager : MonoBehaviour
         hillNameText.text = s;
     }
 
-    public void ShowEventResults(CompCal.CalendarResults calendarResults)
+    public void ShowEventResults(CompCal.ResultsContainer calendarResults)
     {
-        resultsList = new List<GameObject>();
-        int hillId = calendarResults.calendar.events[calendarResults.eventIt].hillId;
-        resultsInfoText.text = calendarResults.hillProfiles[hillId].name + " " + calendarResults.calendar.events[calendarResults.eventIt].eventType.ToString() + "\n" + "Round #" + (calendarResults.roundIt + 1);
-        resultsObject.SetActive(true);
+        // resultsList = new List<GameObject>();
+        // int hillId = calendarResults.calendar.events[calendarResults.eventIt].hillId;
+        // resultsInfoText.text = calendarResults.hillProfiles[hillId].name + " " + calendarResults.calendar.events[calendarResults.eventIt].eventType.ToString() + "\n" + "Round #" + (calendarResults.roundIt + 1);
+        // resultsObject.SetActive(true);
 
-        float width = resultPrefab.GetComponent<RectTransform>().rect.width + Mathf.Min(calendarResults.roundIt + 1, 4) * resultMetersPrefab.GetComponent<RectTransform>().rect.width + resultPointsPrefab.GetComponent<RectTransform>().rect.width;
-        scrollViewObject.GetComponent<RectTransform>().sizeDelta = new Vector2(width, scrollViewObject.GetComponent<RectTransform>().sizeDelta.y);
+        // float width = resultPrefab.GetComponent<RectTransform>().rect.width + Mathf.Min(calendarResults.roundIt + 1, 4) * resultMetersPrefab.GetComponent<RectTransform>().rect.width + resultPointsPrefab.GetComponent<RectTransform>().rect.width;
+        // scrollViewObject.GetComponent<RectTransform>().sizeDelta = new Vector2(width, scrollViewObject.GetComponent<RectTransform>().sizeDelta.y);
 
         // foreach (var x in calendarResults.CurrentEventResults.finalResults.Values)
         // {

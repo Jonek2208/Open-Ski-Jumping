@@ -72,7 +72,7 @@ public class DatabaseManager : MonoBehaviour
             this.dbSaveData = SavesSystem.Load();
             if (this.dbSaveData == null)
             {
-                this.dbSaveData = new SaveData(-1, new List<CalendarResults>());
+                this.dbSaveData = new SaveData(-1, new List<GameSave>());
             }
         }
     }

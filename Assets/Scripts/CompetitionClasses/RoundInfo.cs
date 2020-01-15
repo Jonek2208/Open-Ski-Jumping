@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -13,6 +14,7 @@ namespace CompCal
         public LimitType outLimitType;
         public int outLimit;
         public bool has95Rule;
+        public List<bool> orderByBibs;
         public bool reversedBibs;
         public bool reassignBibs;
         public RoundInfo() { }
