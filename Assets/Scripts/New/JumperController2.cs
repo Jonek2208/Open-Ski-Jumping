@@ -38,6 +38,8 @@ public class JumperController2 : MonoBehaviour
     [Space]
 
     [Header("Flight")]
+    public AnimationCurve liftCurve;
+    public AnimationCurve dragCurve;
     public double angle = 0;
     public double drag = 0.001d;
     public double lift = 0.001d;
@@ -51,6 +53,10 @@ public class JumperController2 : MonoBehaviour
     public float windForce;
     public float dirChange;
     public float forceChange;
+
+    private bool takeoff;
+    public int totalSamples;
+    private int goodSamples;
 
     public GameObject modelObject;
 
@@ -72,12 +78,12 @@ public class JumperController2 : MonoBehaviour
         {
             judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
 
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Pre-landing"))
             {
                 Crash();
             }
             Landed = true;
-            animator.SetFloat("DownForce", 1f);
+            State = 4;
         }
 
     }
@@ -97,12 +103,12 @@ public class JumperController2 : MonoBehaviour
         if (!Landed && other.collider.tag == "LandingArea")
         {
             Debug.Log("Landed: " + other.impulse.magnitude);
-            if (other.impulse.magnitude > 4)
-            {
-                Crash();
-                Landed = true;
-            }
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+            // if (other.impulse.magnitude > 4)
+            // {
+            //     Crash();
+            //     Landed = true;
+            // }
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Pre-landing"))
             {
                 if (State == 3 && !deductedforlanding)
                 {
@@ -151,6 +157,8 @@ public class JumperController2 : MonoBehaviour
         lSki.SetActive(true);
         deductedforlanding = false;
         judged = false;
+        takeoff = false;
+        goodSamples = 0;
     }
 
 
@@ -165,13 +173,13 @@ public class JumperController2 : MonoBehaviour
         {
             Jump();
         }
-        else if ((State == 2 || State == 3) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+        else if ((State == 2 || State == 3 || State == 4) && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
         {
             button0 |= Input.GetMouseButtonDown(0);
             button1 |= Input.GetMouseButtonDown(1);
             Land();
         }
-        if (State == 2)
+        if (State == 2 && !takeoff)
         {
             if (oldMode)
             {
@@ -226,7 +234,23 @@ public class JumperController2 : MonoBehaviour
 
 
         //Debug.Log("angle: " + angle + " drag: " + drag + " lift: " + lift);
-        if (State == 2)
+        if (takeoff)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Take-off"))
+            {
+                takeoff = false;
+                Debug.Log("Total samples: " + totalSamples + ", good samples: " + goodSamples);
+            }
+            if (OnInrun && goodSamples < totalSamples)
+            {
+                Vector3 jumpDirection = rb.velocity.normalized;
+                jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
+                rb.AddForce(jumpSpeed * jumpDirection / (float)totalSamples / Time.fixedDeltaTime, ForceMode.Acceleration);
+                goodSamples++;
+            }
+        }
+
+        if (State == 2 && !takeoff)
         {
             rb.AddForce(-vel.normalized * (float)drag * vel.sqrMagnitude/* * rb.mass*/);
             rb.AddForce(liftVec * (float)lift * vel.sqrMagnitude/* * rb.mass*/);
@@ -236,7 +260,7 @@ public class JumperController2 : MonoBehaviour
             //rb.AddForceAtPosition(-vel.normalized * (float)drag * vel.sqrMagnitude, rb.transform.position);
             //rb.AddForceAtPosition(liftVec * (float)lift * vel.sqrMagnitude, rb.transform.position);
         }
-        if (State == 4)
+        if (State == 5)
         {
             Vector3 brakeVec = Vector3.left;
             float distToEnd = judgesController.hill.U.x + 100 - rb.position.x;
@@ -254,17 +278,11 @@ public class JumperController2 : MonoBehaviour
 
     public void Jump()
     {
+        takeoff = true;
         State = 2;
-
-        Debug.Log(OnInrun);
-        if (OnInrun)
-        {
-            Vector3 jumpDirection = rb.velocity.normalized;
-            jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
-            rb.velocity += jumpSpeed * jumpDirection;
-            //rb.AddTorque(0.0f, 0.0f, 10f);
-        }
-
+        // Vector3 jumpDirection = rb.velocity.normalized;
+        // jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
+        // rb.AddForce(jumpSpeed * jumpDirection, ForceMode.VelocityChange);
     }
 
     public void Land()
@@ -273,9 +291,9 @@ public class JumperController2 : MonoBehaviour
         angle = (angle + 180) % 360 - 180;
         if (Landed)
         {
-            rb.AddTorque(0, 0, -angle * 5);
+            // rb.AddTorque(0, 0, -angle * 5);
         }
-        
+
         State = 3;
         landing = 1;
         animator.SetFloat("Landing", 1);
@@ -296,7 +314,7 @@ public class JumperController2 : MonoBehaviour
 
     public void Crash()
     {
-        if (State == 3)
+        if (State == 4)
         {
             judgesController.PointDeduction(1, 3);
         }
@@ -331,7 +349,7 @@ public class JumperController2 : MonoBehaviour
     public void Brake()
     {
         //ToDo
-        if (State != 4)
+        if (State != 5)
         {
             if (!judged)
             {
@@ -339,6 +357,6 @@ public class JumperController2 : MonoBehaviour
                 judged = true;
             }
         }
-        State = 4;
+        State = 5;
     }
 }

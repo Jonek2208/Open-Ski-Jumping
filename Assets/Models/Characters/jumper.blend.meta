@@ -32,7 +32,7 @@ ModelImporter:
     second: Inrun
   - first:
       74: -966790721585091120
-    second: INRUN
+    second: Pass
   - first:
       74: -940277799779003669
     second: Landing_001
@@ -54,6 +54,9 @@ ModelImporter:
   - first:
       74: 2667949614841947897
     second: Walk
+  - first:
+      74: -7956678587993952281
+    second: Pass (1)
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -69,10 +72,19 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take-Off' has import animation warnings that
+    animationImportWarnings: "\nClip 'Default Take' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Lower_Leg_L' has scale animation that will
+      be discarded.\n\t'Foot_L' has scale animation that will be discarded.\n\t'Lower_Leg_R'
+      has scale animation that will be discarded.\n\t'Foot_R' has scale animation
+      that will be discarded.\n\nClip 'Landing' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'Lower_Leg_L' has scale animation that will
       be discarded.\n\t'Foot_L' has scale animation that will be discarded.\n\t'Lower_Leg_R'
+      has scale animation that will be discarded.\n\t'Foot_R' has scale animation
+      that will be discarded.\n\nClip 'Telemark' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'Foot_L' has scale animation that will be discarded.\n\t'Lower_Leg_R'
       has scale animation that will be discarded.\n\t'Foot_R' has scale animation
       that will be discarded.\n\nClip 'Walk' has import animation warnings that might
       lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
@@ -355,8 +367,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: INRUN
-      takeName: INRUN
+      name: Pass (1)
+      takeName: Pass
       internalID: 0
       firstFrame: 0
       lastFrame: 1
@@ -388,7 +400,7 @@ ModelImporter:
       takeName: Landing
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 5
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -504,7 +516,7 @@ ModelImporter:
       takeName: Telemark
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

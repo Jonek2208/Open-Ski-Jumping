@@ -203,7 +203,7 @@ public class JudgesController : MonoBehaviour
     public void NewJump()
     {
         jumperController.ResetValues();
-        jumperController.GetComponent<Transform>().position = jumperPosition;
+        jumperController.GetComponent<Transform>().position = jumperPosition + Vector3.up;
         gateObject.GetComponent<Transform>().position = jumperPosition;
         jumperController.GetComponent<Transform>().rotation = jumperRotation;
 
