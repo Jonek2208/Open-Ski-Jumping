@@ -16,7 +16,10 @@ public class JumperController2 : MonoBehaviour
     public float Distance { get; private set; }
     public bool Landed { get; private set; }
     public bool OnInrun { get; private set; }
+    public bool OnOutrun { get; private set; }
+
     public bool oldMode;
+    public AudioSource audioSource;
 
     [Header("Colliders")]
 
@@ -74,6 +77,10 @@ public class JumperController2 : MonoBehaviour
         {
             OnInrun = true;
         }
+        if (other.tag == "LandingArea")
+        {
+            OnOutrun = true;
+        }
         if (!Landed && other.tag == "LandingArea")
         {
             judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
@@ -94,6 +101,10 @@ public class JumperController2 : MonoBehaviour
         {
             OnInrun = false;
             judgesController.SpeedMeasurement(rb.velocity.magnitude);
+        }
+        if (other.tag == "LandingArea")
+        {
+            OnOutrun = false;
         }
     }
 
@@ -164,6 +175,15 @@ public class JumperController2 : MonoBehaviour
 
     void Update()
     {
+        if (OnInrun || OnOutrun)
+        {
+            audioSource.mute = false;
+            audioSource.pitch = Mathf.Sqrt(rb.velocity.magnitude / 20.0f);
+        }
+        else
+        {
+            audioSource.mute = true;
+        }
         animator.SetInteger("JumperState", State);
         if (State == 0 && Input.GetKeyDown(KeyCode.Space))
         {
