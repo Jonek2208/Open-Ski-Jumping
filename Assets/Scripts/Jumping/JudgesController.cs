@@ -160,6 +160,8 @@ public class JudgesController : MonoBehaviour
 
     public decimal Distance(Vector2[] landingAreaPoints, Vector3 contact)
     {
+        contact -= meshScript.GetComponent<Transform>().position;
+        
         for (int i = 0; i < landingAreaPoints.Length - 1; i++)
         {
             float diff1 = contact.x - landingAreaPoints[i].x;
@@ -203,8 +205,8 @@ public class JudgesController : MonoBehaviour
     public void NewJump()
     {
         jumperController.ResetValues();
-        jumperController.GetComponent<Transform>().position = jumperPosition + Vector3.up;
-        gateObject.GetComponent<Transform>().position = jumperPosition;
+        jumperController.GetComponent<Transform>().position = meshScript.GetComponent<Transform>().position + jumperPosition + Vector3.up;
+        gateObject.GetComponent<Transform>().position = meshScript.GetComponent<Transform>().position + jumperPosition;
         jumperController.GetComponent<Transform>().rotation = jumperRotation;
 
         fl0 = fl1 = 0;
