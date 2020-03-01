@@ -6,7 +6,7 @@ using UnityEditor;
 using HillProfile;
 
 [CustomEditor(typeof(MeshScript))]
-public class EditorScript : UnityEditor.Editor
+public class EditorScript : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -20,7 +20,7 @@ public class EditorScript : UnityEditor.Editor
 }
 
 [CustomEditor(typeof(GameEvent))]
-public class GameEventEditor : UnityEditor.Editor
+public class GameEventEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -35,7 +35,7 @@ public class GameEventEditor : UnityEditor.Editor
 }
 
 [CustomEditor(typeof(TerrainScript))]
-public class EditorTerrainScript : UnityEditor.Editor
+public class EditorTerrainScript : Editor
 {
     public override void OnInspectorGUI()
     {

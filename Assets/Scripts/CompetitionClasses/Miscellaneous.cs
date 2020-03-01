@@ -7,8 +7,8 @@ namespace CompCal
     public enum JumpResultState
     {
         None = 0,
-        KoLoser = 1,
-        LuckyLoser = 2
+        Advanced = 1,
+        KoLoser = 2
     }
 
     [Serializable]

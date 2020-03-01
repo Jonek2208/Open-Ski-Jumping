@@ -83,7 +83,7 @@ public class JumperController2 : MonoBehaviour
         }
         if (!Landed && other.tag == "LandingArea")
         {
-            judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
+            judgesController.OnDistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
 
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Pre-landing"))
             {
@@ -100,7 +100,7 @@ public class JumperController2 : MonoBehaviour
         if (other.tag == "Inrun")
         {
             OnInrun = false;
-            judgesController.SpeedMeasurement(rb.velocity.magnitude);
+            judgesController.OnSpeedMeasurement(rb.velocity.magnitude);
         }
         if (other.tag == "LandingArea")
         {
@@ -129,7 +129,7 @@ public class JumperController2 : MonoBehaviour
                 }
                 else
                 {
-                    judgesController.DistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
+                    judgesController.OnDistanceMeasurement((distCollider1.transform.position + distCollider2.transform.position) / 2.0f);
 
                     Crash();
                     Landed = true;
@@ -139,7 +139,7 @@ public class JumperController2 : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         State = 0;
         Landed = false;

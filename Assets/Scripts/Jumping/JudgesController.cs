@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HillProfile;
 using UnityEngine.Events;
 
 public class JudgesController : MonoBehaviour
 {
-    public Hill hill;
-    public MeshScript meshScript;
-    public JumpUIManager jumpUIManager;
     public JumperController2 jumperController;
+    public Hill hill;
+    public Transform hillTransform;
+
+    [SerializeField]
+    private int currentGate;
+    [SerializeField]
+    private decimal currentWind;
     public GameObject gateObject;
     public Vector3 jumperPosition;
     public Quaternion jumperRotation;
 
-    public CompetitorVariable competitorVariable;
-    public StringVariable hillName;
-    public UnityEvent OnShowResults;
-    public UnityEvent OnShowDistance;
-    public UnityEvent OnShowSpeed;
+    // public CompetitorVariable competitorVariable;
+    public RuntimeJumpData jumpData;
+    public UnityEvent OnPointsGiven;
+    public UnityEvent onDistanceMeasurement;
+    public UnityEvent onSpeedMeasurement;
 
     private decimal[] deductions = { 0, 0, 0 };
     private decimal[] maxDeductions = { 5, 5, 7 };
@@ -38,15 +41,15 @@ public class JudgesController : MonoBehaviour
         }
     }
 
-    public void PrepareHill(ProfileData pd = null)
+    public void PrepareHill()
     {
-        Debug.Log("INITIALIZING: " + pd.name);
-        HillInit(pd);
-        jumpUIManager.UIReset();
-        jumpUIManager.SetGateSliderRange(hill.gates);
-        jumpUIManager.SetGateSlider(1);
-        SetGate(1);
-        showResults = false;
+        // Debug.Log("INITIALIZING: " + pd.name);
+        // HillInit(pd);
+        // jumpUIManager.UIReset();
+        // jumpUIManager.SetGateSliderRange(hill.gates);
+        // jumpUIManager.SetGateSlider(1);
+        // SetGate(1);
+        // showResults = false;
     }
 
     public void PointDeduction(int type, decimal val)
@@ -109,19 +112,22 @@ public class JudgesController : MonoBehaviour
     public void Judge()
     {
         decimal[] stylePoints = GetJudgesPoints();
-        decimal total = 0;
+        jumpData.JudgesMarks = stylePoints;
+        jumpData.Wind = currentWind;
+        // decimal total = 0;
 
-        CompCal.JumpResult jmp = new CompCal.JumpResult(dist, stylePoints, 0, 0, 0);
-        total += jmp.judgesTotalPoints;
-        total += (hill.w >= 165 ? 120 : 60) + (dist - (decimal)hill.w) * PtsPerMeter(hill.w);
-        total = System.Math.Max(0, total);
-        for (int i = 0; i < 5; i++)
-        {
-            competitorVariable.judgesMarks[i].MarkValue = (float)jmp.judgesMarks[i];
-            competitorVariable.judgesMarks[i].IsCounted = jmp.judgesMask[i];
-        }
-        competitorVariable.result.Value = (float)total;
-        OnShowResults.Invoke();
+        // CompCal.JumpResult jmp = new CompCal.JumpResult(dist, stylePoints, 0, 0, 0);
+        // total += jmp.judgesTotalPoints;
+        // total += (hill.w >= 165 ? 120 : 60) + (dist - (decimal)hill.w) * PtsPerMeter(hill.w);
+        // total = System.Math.Max(0, total);
+
+        // for (int i = 0; i < 5; i++)
+        // {
+        //     competitorVariable.judgesMarks[i].MarkValue = (float)jmp.judgesMarks[i];
+        //     competitorVariable.judgesMarks[i].IsCounted = jmp.judgesMask[i];
+        // }
+        // competitorVariable.result.Value = (float)total;
+        OnPointsGiven.Invoke();
     }
 
     public void FlightStability(float jumperAngle)
@@ -140,28 +146,28 @@ public class JudgesController : MonoBehaviour
         dx1 = dx2;
     }
 
-    public void HillInit(ProfileData pd = null)
+    public void HillInit()
     {
-        if (pd == null)
-        {
-            pd = meshScript.profileData.Value;
-        }
+        // if (pd == null)
+        // {
+        //     pd = meshScript.profileData.Value;
+        // }
 
-        // Temporary - until hillsdatabase & editor will be updated
-        pd.a = 100; pd.rA = 0; pd.betaA = 0; pd.b1 = 2.5f; pd.b2 = 10; pd.bK = 20; pd.bU = 25;
+        // // Temporary - until hillsdatabase & editor will be updated
+        // pd.a = 100; pd.rA = 0; pd.betaA = 0; pd.b1 = 2.5f; pd.b2 = 10; pd.bK = 20; pd.bU = 25;
 
-        hill = new Hill(pd);
+        // hill = new Hill(pd);
 
-        hillName.Value = pd.name;
-        hill.Calculate();
-        meshScript.profileData.Value = pd;
-        meshScript.GenerateMesh();
+        // hillName.Value = pd.name;
+        // hill.Calculate();
+        // meshScript.profileData.Value = pd;
+        // meshScript.GenerateMesh();
     }
 
     public decimal Distance(Vector2[] landingAreaPoints, Vector3 contact)
     {
-        contact -= meshScript.GetComponent<Transform>().position;
-        
+        contact -= hillTransform.position;
+
         for (int i = 0; i < landingAreaPoints.Length - 1; i++)
         {
             float diff1 = contact.x - landingAreaPoints[i].x;
@@ -181,22 +187,31 @@ public class JudgesController : MonoBehaviour
         return landingAreaPoints.Length;
     }
 
-
-    public void SpeedMeasurement(float speed)
+    public void OnJumperStart()
     {
-        competitorVariable.speed.Value = speed * 3.6f;
-        OnShowSpeed.Invoke();
+        jumpData.ResetValues();
+        jumpData.Gate = currentGate;
     }
 
-    public void DistanceMeasurement(Vector3 contact)
+    public void OnSpeedMeasurement(float speed)
+    {
+        jumpData.Speed = (decimal)speed * 3.6m;
+        // competitorVariable.speed.Value = speed * 3.6f;
+        onSpeedMeasurement.Invoke();
+    }
+
+    public void OnDistanceMeasurement(Vector3 contact)
     {
         dist = Distance(hill.landingAreaPoints, contact);
-        competitorVariable.distance.Value = (float)dist;
-        OnShowDistance.Invoke();
+        jumpData.Distance = dist;
+        // competitorVariable.distance.Value = (float)dist;
+        onDistanceMeasurement.Invoke();
     }
 
-    public void SetGate(int gate)
+    public void SetGate(float _gate)
     {
+        int gate = Mathf.RoundToInt(_gate);
+        currentGate = gate;
         jumperPosition = new Vector3(hill.GatePoint(gate).x, hill.GatePoint(gate).y, 0);
         jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
         NewJump();
@@ -205,19 +220,20 @@ public class JudgesController : MonoBehaviour
     public void NewJump()
     {
         jumperController.ResetValues();
-        jumperController.GetComponent<Transform>().position = meshScript.GetComponent<Transform>().position + jumperPosition + Vector3.up;
-        gateObject.GetComponent<Transform>().position = meshScript.GetComponent<Transform>().position + jumperPosition;
+        jumperController.GetComponent<Transform>().position = hillTransform.position + jumperPosition + Vector3.up;
+        gateObject.GetComponent<Transform>().position = hillTransform.position + jumperPosition;
         jumperController.GetComponent<Transform>().rotation = jumperRotation;
 
         fl0 = fl1 = 0;
         dx0 = dx1 = dx2 = 0;
         deductions[0] = deductions[1] = deductions[2] = 0;
 
-        jumpUIManager.UIReset();
+        // jumpUIManager.UIReset();
     }
 
     public void SetWind(float val)
     {
+        currentWind = (decimal)val;
         jumperController.windForce = val;
     }
 }

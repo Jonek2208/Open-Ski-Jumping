@@ -1,42 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-    public Vector3 offset;
-    public GameObject jumperObject;
-
+    private Transform tr;
+    private Camera cam;
+    public Transform jumperTransform;
     public bool fixedPosition;
     public bool fixedRotation;
     public bool fixedZoom;
-
-    public Vector3 position;
-
     public float zoom;
 
+    private Vector3 position;
+    private Vector3 offset;
+    private float angleSize;
+
+    public Camera Camera { get => cam; set => cam = value; }
+    public float AngleSize { get => angleSize; set => angleSize = value; }
+
+    public void RecalculateAngleSize()
+    {
+        // angleSize = (jumperTransform.position - tr.position).magnitude * Mathf.Tan(Mathf.Deg2Rad * cam.fieldOfView / 2.0f);
+        AngleSize = (jumperTransform.position - tr.position).magnitude * 2.0f / 360.0f * Mathf.PI * Camera.fieldOfView;
+    }
+    void Awake()
+    {
+        tr = GetComponent<Transform>();
+        Camera = GetComponent<Camera>();
+    }
 
     void Start()
     {
-
+        offset = jumperTransform.position - tr.position;
+        RecalculateAngleSize();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (fixedPosition)
         {
-            offset = jumperObject.GetComponent<Transform>().position - position;
-            float offsetMagnitude = offset.magnitude;
-            
-            Quaternion rotation = new Quaternion();
-            // Vector3 offset2 = offset - (fixedZoom ? (offsetMagnitude - zoom) / offsetMagnitude : zoom) * offset;
-            rotation.eulerAngles = new Vector3(Mathf.Rad2Deg * Mathf.Atan2(-offset.y, Mathf.Sqrt(offset.x * offset.x + offset.z * offset.z)), Mathf.Rad2Deg * Mathf.Atan2(offset.x, offset.z), 0 * Mathf.Rad2Deg * Mathf.Atan2(offset.z, offset.y));
-            GetComponent<Transform>().rotation = rotation;
-            GetComponent<Transform>().position = position + (fixedZoom ? (offsetMagnitude - zoom) / offsetMagnitude : zoom) * offset;
+            tr.LookAt(jumperTransform);
+            if (fixedZoom)
+            {
+                // cam.fieldOfView = 2.0f * Mathf.Atan(angleSize / (jumperTransform.position - tr.position).magnitude) * Mathf.Rad2Deg;
+                Camera.fieldOfView = 360.0f * AngleSize / (jumperTransform.position - tr.position).magnitude / (2.0f * Mathf.PI);
+            }
         }
-        else
+        if (fixedRotation)
         {
-            GetComponent<Transform>().position = jumperObject.GetComponent<Transform>().position + offset;
+            tr.position = jumperTransform.position + offset;
         }
 
         // if(GetComponent<Camera>().enabled) Debug.Log("offsetMagnitude: " + (float)(jumperObject.GetComponent<Transform>().position - GetComponent<Transform>().position).magnitude);

@@ -5,14 +5,11 @@ using UnityEngine;
 using CompCal;
 using UnityEngine.Events;
 
-[Serializable]
-public class UnityEventInt : UnityEvent<int> { }
-
 public class CompetitionManager : MonoBehaviour
 {
     public SkiJumperData currentJumper;
     public DatabaseManager databaseManager;
-    public JumpUIManager jumpUIManager;
+    // public JumpUIManager jumpUIManager;
     public JudgesController judges;
 
     private CompCal.EventInfo currentEvent;
@@ -130,7 +127,7 @@ public class CompetitionManager : MonoBehaviour
     public bool NextRound()
     {
         // calendarResults.RecalculateFinalResults();
-        jumpUIManager.HideResults();
+        // jumpUIManager.HideResults();
         // if (calendarResults.roundIt >= calendarResults.CurrentEvent.roundInfos.Count)
         // {
         //     calendarResults.roundIt = 0;

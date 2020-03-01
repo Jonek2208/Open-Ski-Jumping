@@ -1,20 +1,28 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class JudgesMarkUI : MonoBehaviour
 {
-    [SerializeField]
-    private Image flagImage;
-    [SerializeField]
-    private TMPro.TMP_Text markValueText;
-    [SerializeField]
-    private FlagsData flagsData;
-
-    public void SetUI(JudgesMarkInfo judgesMarkInfo)
+    public JudgesMarkUIData judgesMarkUIData;
+    public Image flagImage;
+    public TMPro.TMP_Text countryText;
+    public TMPro.TMP_Text markValueText;
+    public bool state;
+    public void SetValues(decimal markValue, string countryCode, Sprite sprite, bool state)
     {
-        flagImage.sprite = flagsData.GetFlag(judgesMarkInfo.CountryCode);
-        markValueText.text = judgesMarkInfo.MarkValue.ToString("#0.0");
-        if (judgesMarkInfo.IsCounted) { markValueText.fontStyle = TMPro.FontStyles.Normal; }
-        else { markValueText.fontStyle = TMPro.FontStyles.Strikethrough; }
+        this.markValueText.text = markValue.ToString("F1", CultureInfo.InvariantCulture);
+        this.flagImage.sprite = sprite;
+        this.countryText.text = countryCode;
+        this.state = state;
+
+        if (state)
+        {
+            markValueText.color = judgesMarkUIData.countedTextColor;
+        }
+        else
+        {
+            markValueText.color = judgesMarkUIData.notCountedTextColor;
+        }
     }
 }

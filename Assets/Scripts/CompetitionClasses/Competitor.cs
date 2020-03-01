@@ -15,6 +15,7 @@ namespace CompCal
         [JsonConverter(typeof(StringEnumConverter))]
         public Gender gender;
         public DateTime birthdate;
+        public string imagePath;
         public string helmetColor;
         public string suitTopFrontColor;
         public string suitTopBackColor;

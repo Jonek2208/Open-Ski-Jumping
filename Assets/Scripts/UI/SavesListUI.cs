@@ -74,10 +74,10 @@ public class SavesListUI : ListDisplay
         }
 
         gameSave.resultsContainer.hillInfos = new List<HillInfo>();
-        foreach (var item in gameSave.resultsContainer.hillProfiles)
-        {
-            gameSave.resultsContainer.hillInfos.Add(new HillInfo((decimal)item.w, (decimal)(item.w + item.l2)));
-        }
+        // foreach (var item in gameSave.resultsContainer.hillProfiles)
+        // {
+        //     gameSave.resultsContainer.hillInfos.Add(new HillInfo((decimal)item.w, (decimal)(item.w + item.l2)));
+        // }
         return gameSave;
     }
 

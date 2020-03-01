@@ -8,6 +8,7 @@ namespace CompCal
     [Serializable]
     public class Team
     {
+        public string teamName;
         public string countryCode;
         public List<int> competitors;
         public Team(string _countryCode)

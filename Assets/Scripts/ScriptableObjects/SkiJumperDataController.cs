@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class SkiJumperDataController : MonoBehaviour
 {
+    public JumperController2 jumperController;
+    public GameObject jumperMale;
+    public GameObject jumperFemale;
     public SkiJumperData skiJumperData;
     public Material helmetMaterial;
     public Material suitTopFrontMaterial;
@@ -11,8 +14,9 @@ public class SkiJumperDataController : MonoBehaviour
     public Material suitBottomBackMaterial;
     public Material skisMaterial;
 
-    public void SetColors()
+    public void SetValues()
     {
+        jumperController.modelObject = (skiJumperData.gender == CompCal.Gender.Male ? jumperMale : jumperFemale);
         helmetMaterial.SetColor("_Color", skiJumperData.helmetColor);
         suitTopFrontMaterial.SetColor("_Color", skiJumperData.suitTopFrontColor);
         suitTopBackMaterial.SetColor("_Color", skiJumperData.suitTopBackColor);

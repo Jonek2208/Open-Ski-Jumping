@@ -64,7 +64,7 @@ namespace CompCal
 
         public void AddResult(JumpResult jmp, int localId, int innerId = 0)
         {
-            this.eventResults.results[localId].results[innerId].Add(jmp);
+            this.eventResults.results[localId].results[innerId].results.Add(jmp);
             this.eventResults.results[localId].totalResults[innerId] += jmp.totalPoints;
             this.eventResults.results[localId].totalPoints += jmp.totalPoints;
 

@@ -49,11 +49,12 @@ public class EventsListUI : ListDisplay
     public override void ShowElementInfo(int index)
     {
         changeEventListener.enabled = false;
-        hillsDropdown.value = eventsList[index].hillId;
+        // hillsDropdown.value = eventsList[index].hillId;
+        hillsDropdown.value = 0;
         eventTypeDropdown.value = (int)eventsList[index].eventType;
         inLimitTypeDropdown.value = (int)eventsList[index].inLimitType;
         inLimitInput.text = eventsList[index].inLimit.ToString();
-        eventPresetDropdown.value = (int)eventsList[index].eventPreset;
+        // eventPresetDropdown.value = (int)eventsList[index].eventPreset;
 
         if (!GetComponent<ClassificationsListUI>().updated)
         {
@@ -99,7 +100,7 @@ public class EventsListUI : ListDisplay
 
     public void SetValue(GameObject tmp, CompCal.EventInfo e)
     {
-        tmp.GetComponentInChildren<TMPro.TMP_Text>().text = hillsDropdown.options[e.hillId].text;
+        tmp.GetComponentInChildren<TMPro.TMP_Text>().text = e.hillId;
     }
 
     public void CreateClassificationsList()
@@ -136,7 +137,7 @@ public class EventsListUI : ListDisplay
         {
             for (int i = 0; i < currentIndex; i++)
             {
-                tmp.Add(hillsDropdown.options[eventsList[i].hillId].text);
+                tmp.Add(eventsList[i].hillId);
             }
         }
         else if (ordRankTypeDropdown.value == (int)CompCal.RankType.Classification)
@@ -158,8 +159,8 @@ public class EventsListUI : ListDisplay
         {
             for (int i = 0; i < currentIndex; i++)
             {
-                Debug.Log(hillsDropdown.options[eventsList[i].hillId].text);
-                tmp.Add(hillsDropdown.options[eventsList[i].hillId].text);
+                // Debug.Log(hillsDropdown.options[eventsList[i].hillId].text);
+                tmp.Add(eventsList[i].hillId);
             }
         }
         else if (qualRankTypeDropdown.value == (int)CompCal.RankType.Classification)
@@ -177,7 +178,7 @@ public class EventsListUI : ListDisplay
 
     public void Add()
     {
-        CompCal.EventInfo e = new CompCal.EventInfo("New Event", 0, CompCal.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
+        CompCal.EventInfo e = new CompCal.EventInfo("", CompCal.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
         eventsList.Add(e);
         AddListElement(NewListElement(e));
         Save();
@@ -186,7 +187,8 @@ public class EventsListUI : ListDisplay
     public void Save()
     {
         changeEventListener.enabled = false;
-        eventsList[currentIndex].hillId = hillsDropdown.value;
+        // eventsList[currentIndex].hillId = hillsDropdown.value;
+        eventsList[currentIndex].hillId = "";
         eventsList[currentIndex].eventType = (CompCal.EventType)eventTypeDropdown.value;
         eventsList[currentIndex].inLimitType = (LimitType)inLimitTypeDropdown.value;
         eventsList[currentIndex].inLimit = int.Parse(inLimitInput.text);
@@ -205,7 +207,7 @@ public class EventsListUI : ListDisplay
 
         eventsList[currentIndex].qualRankType = (CompCal.RankType)qualRankTypeDropdown.value;
         eventsList[currentIndex].qualRankId = qualRankEventDropdown.value;
-        eventsList[currentIndex].eventPreset = eventPresetDropdown.value;
+        // eventsList[currentIndex].eventPreset = eventPresetDropdown.value;
 
         eventsList[currentIndex].roundInfos = presetsList[eventPresetDropdown.value].roundInfos;
         changeEventListener.enabled = true;

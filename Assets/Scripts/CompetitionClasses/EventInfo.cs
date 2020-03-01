@@ -8,8 +8,7 @@ namespace CompCal
     [Serializable]
     public class EventInfo
     {
-        public string name;
-        public int hillId;
+        public string hillId;
         [JsonConverter(typeof(StringEnumConverter))]
         public EventType eventType;
         [JsonConverter(typeof(StringEnumConverter))]
@@ -24,10 +23,8 @@ namespace CompCal
         public bool useQualRank;
         public List<RoundInfo> roundInfos;
         public List<int> classifications;
-        public int eventPreset;
-        public EventInfo(string _name, int _hillId, EventType _eventType, List<RoundInfo> _roundInfos, List<int> _classifications, RankType _qualRankType, int _qualRankId, RankType _ordRankType, int _ordRankId, bool _useQualRank = false, LimitType _inLimitType = LimitType.None, int _inLimit = 0)
+        public EventInfo(string _hillId, EventType _eventType, List<RoundInfo> _roundInfos, List<int> _classifications, RankType _qualRankType, int _qualRankId, RankType _ordRankType, int _ordRankId, bool _useQualRank = false, LimitType _inLimitType = LimitType.None, int _inLimit = 0)
         {
-            name = _name;
             hillId = _hillId;
             roundInfos = _roundInfos;
             classifications = _classifications;
