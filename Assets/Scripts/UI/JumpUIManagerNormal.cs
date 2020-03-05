@@ -69,8 +69,8 @@ public class JumpUIManagerNormal : JumpUIManager
 
         int jumpsCount = resultsManager.roundIndex;
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        int bib = resultsManager.results[competitorId].bibs[resultsManager.roundIndex];
-        int rank = resultsManager.results[competitorId].rank;
+        int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
+        int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
@@ -98,13 +98,15 @@ public class JumpUIManagerNormal : JumpUIManager
             EnableRow2();
             this.rankPreJump.Text.text = rank.ToString();
             nextAthleteTransform.localPosition = new Vector3(nextAthleteTransform.localPosition.x, nextAthleteY);
-
+            CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+            CompCal.JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
+            totalPreJump.Text.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
             int xx = Mathf.Max(0, jumpsCount - metersPreJump.Length);
             foreach (var item in metersPreJump)
             {
                 if (xx < jumpsCount)
                 {
-                    item.Text.text = ((xx + 1) * 10).ToString("F1", CultureInfo.InvariantCulture) + " m";
+                    item.Text.text = jumpResults.results[xx].distance.ToString("F1", CultureInfo.InvariantCulture) + " m";
                 }
                 else
                 {
@@ -139,10 +141,10 @@ public class JumpUIManagerNormal : JumpUIManager
 
         int jumpsCount = resultsManager.roundIndex + 1;
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        int bib = resultsManager.results[competitorId].bibs[resultsManager.roundIndex];
-        int rank = resultsManager.results[competitorId].rank;
+        int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
+        int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        CompCal.JumpResults jumpResults = resultsManager.results[competitorId].results[resultsManager.subroundIndex];
+        CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
         this.bib.Text.text = bib.ToString();
@@ -154,10 +156,10 @@ public class JumpUIManagerNormal : JumpUIManager
         int offset = Mathf.Max(0, metersPreJump.Length - jumpsCount);
 
         CompCal.JumpResult jump = jumpResults.results[resultsManager.roundIndex];
-        totalPostJump.Text.text = resultsManager.results[competitorId].totalPoints.ToString("F1", CultureInfo.InvariantCulture);
+        totalPostJump.Text.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
         wind.SetValues(jump.windPoints);
         gate.SetValues(jump.gatePoints);
-        for(int i = 0; i < judgesMarks.Length; i++)
+        for (int i = 0; i < judgesMarks.Length; i++)
         {
             judgesMarks[i].SetValues(jump.judgesMarks[i], judgesUIData.countries[i], flagsData.GetFlag(judgesUIData.countries[i]), jump.judgesMask[i]);
         }
@@ -213,7 +215,7 @@ public class JumpUIManagerNormal : JumpUIManager
 
     // void SetJumperInfo(bool value)
     // {
-    //     jumperInfoObject.SetActive(value);
+    //     jumperInfoObject.SetActive(value); 
 
     //     if (value)
     //     {

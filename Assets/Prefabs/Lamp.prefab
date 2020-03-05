@@ -39,10 +39,11 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218008471903606065}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 0
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 1000
   m_Range: 300
   m_SpotAngle: 150
   m_InnerSpotAngle: 139.10919
@@ -194,11 +195,12 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6718574273356947522}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 30
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 15
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
   m_CookieSize: 10
@@ -253,6 +255,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4436381725861176088}
     m_Modifications:
+    - target: {fileID: -7191673905517306017, guid: 2da2594c79bc50ec48cf22b5cad2ee81,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5982637757194479735, guid: 2da2594c79bc50ec48cf22b5cad2ee81,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100012, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_Name
       value: lamp
@@ -301,12 +313,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7191673905517306017, guid: 2da2594c79bc50ec48cf22b5cad2ee81,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300016, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+    - target: {fileID: 2300000, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
@@ -314,7 +321,15 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+    - target: {fileID: 2300004, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300006, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300008, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
@@ -322,28 +337,15 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300014, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2300012, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -5982637757194479735, guid: 2da2594c79bc50ec48cf22b5cad2ee81,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300006, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+    - target: {fileID: 2300014, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300004, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300008, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
+    - target: {fileID: 2300016, guid: 2da2594c79bc50ec48cf22b5cad2ee81, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}

@@ -66,7 +66,7 @@ namespace CompCal
                 if (map.ContainsKey(globalId)) //check if id from ORE is in current event competitors list
                 {
                     selected[map[globalId]] = true;
-                    decimal points = this.eventResults.results[localId].totalPoints;
+                    decimal points = this.eventResults.results[localId].TotalPoints;
                     tmpList.Add((points, it++, map[globalId]));
                 }
             }
@@ -81,7 +81,7 @@ namespace CompCal
 
         public override List<(decimal, int)> GetFinalResultsWithTotalPoints()
         {
-            return this.eventResults.finalResults.Select(it => (this.eventResults.results[it].totalPoints, this.eventResults.competitorIds[it])).ToList();
+            return this.eventResults.finalResults.Select(it => (this.eventResults.results[it].TotalPoints, this.eventResults.competitorIds[it])).ToList();
         }
     }
 

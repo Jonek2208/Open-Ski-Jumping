@@ -58,8 +58,8 @@ public class JumpUIManagerTeam : JumpUIManager
 
         int jumpsCount = resultsManager.roundIndex;
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        int bib = resultsManager.results[competitorId].bibs[resultsManager.roundIndex];
-        int rank = resultsManager.results[competitorId].rank;
+        int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
+        int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[0]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
@@ -119,8 +119,8 @@ public class JumpUIManagerTeam : JumpUIManager
 
         int jumpsCount = resultsManager.roundIndex + 1;
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        int bib = resultsManager.results[competitorId].bibs[resultsManager.roundIndex];
-        int rank = resultsManager.results[competitorId].rank;
+        int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
+        int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[0]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();

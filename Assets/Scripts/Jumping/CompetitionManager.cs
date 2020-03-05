@@ -14,7 +14,7 @@ public class CompetitionManager : MonoBehaviour
 
     private CompCal.EventInfo currentEvent;
     private RoundRunner roundRunner;
-    private EventManager eventManager;
+    private EventProcessor eventManager;
 
     public FloatVariable leaderPoints;
     public FloatVariable currentJumperPoints;
@@ -34,7 +34,7 @@ public class CompetitionManager : MonoBehaviour
 
     private void EventManagerInit()
     {
-        EventManager eventManager = new EventManager(resultsContainer.eventIt, calendar, resultsContainer);
+        EventProcessor eventManager = new EventProcessor(resultsContainer.eventIt, calendar, resultsContainer);
     }
 
     public void CompetitionInit()

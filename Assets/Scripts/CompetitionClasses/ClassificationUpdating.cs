@@ -15,7 +15,7 @@ namespace CompCal
     {
         public decimal GetPoints(ClassificationInfo classificationInfo, Result result)
         {
-            return ((0 < result.rank && result.rank < classificationInfo.pointsTable.Length) ? classificationInfo.pointsTable[result.rank - 1] : 0m);
+            return ((0 < result.Rank && result.Rank < classificationInfo.pointsTable.Length) ? classificationInfo.pointsTable[result.Rank - 1] : 0m);
         }
 
         public decimal GetPoints(ClassificationInfo classificationInfo, int rank, decimal points)
@@ -28,7 +28,7 @@ namespace CompCal
     {
         public decimal GetPoints(ClassificationInfo classificationInfo, Result result)
         {
-            return result.totalPoints;
+            return result.TotalPoints;
         }
 
         public decimal GetPoints(ClassificationInfo classificationInfo, int rank, decimal points)
@@ -72,7 +72,7 @@ namespace CompCal
                 this.teamResults[localTeamId].Add(i);
             }
 
-            this.teamResults = this.teamResults.Select(it => it.OrderBy(x => this.eventResults.results[x].rank).ToList()).ToArray();
+            this.teamResults = this.teamResults.Select(it => it.OrderBy(x => this.eventResults.results[x].Rank).ToList()).ToArray();
         }
 
         public List<(int, decimal)> GetPoints(ClassificationInfo classificationInfo)

@@ -8,8 +8,6 @@ using System.Collections;
 public class CompetitionRunner : MonoBehaviour
 {
     [SerializeField]
-    private EventManager eventManager;
-    [SerializeField]
     private IntVariable eventId;
     [SerializeField]
     private RuntimeCalendar calendar;
