@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace CompCal
 {
     [Serializable]
-    public class ResultsContainer
+    public class ResultsDatabase
     {
         public List<HillInfo> hillInfos;
         public List<HillProfile.ProfileData> hillProfiles;

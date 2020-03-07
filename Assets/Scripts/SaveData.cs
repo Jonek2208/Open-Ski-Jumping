@@ -4,7 +4,7 @@ public class GameSave
 {
     public string name;
     public CompCal.Calendar calendar;
-    public CompCal.ResultsContainer resultsContainer;
+    public CompCal.ResultsDatabase resultsContainer;
 }
 
 [System.Serializable]

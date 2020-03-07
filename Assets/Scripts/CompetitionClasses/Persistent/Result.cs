@@ -19,7 +19,7 @@ namespace CompCal
         [SerializeField]
         private float qualRankPoints;
         [SerializeField]
-        private float[] totalResults;
+        private decimal[] totalResults;
         [SerializeField]
         private int[] bibs;
         [SerializeField]
@@ -29,7 +29,7 @@ namespace CompCal
 
         public JumpResults[] Results { get => results; set => results = value; }
         public decimal QualRankPoints { get => (decimal)qualRankPoints; set => qualRankPoints = (float)value; }
-        public decimal[] TotalResults { get => totalResults.Select(item => (decimal)item).ToArray(); set => totalResults = value.Select(item => (float)item).ToArray(); }
+        public decimal[] TotalResults { get => totalResults; set => totalResults = value; }
         public int[] Bibs { get => bibs; set => bibs = value; }
         public int Rank { get => rank; set => rank = value; }
         public decimal TotalPoints { get => (decimal)totalPoints; set => totalPoints = (float)value; }

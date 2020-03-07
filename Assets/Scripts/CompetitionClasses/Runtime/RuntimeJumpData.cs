@@ -13,10 +13,10 @@ public class RuntimeJumpData : ScriptableObject
     [SerializeField]
     private float wind;
     [SerializeField]
-    private float[] judgesMarks;
+    private decimal[] judgesMarks;
 
     public decimal Distance { get => (decimal)distance; set => distance = (float)value; }
-    public decimal[] JudgesMarks { get => judgesMarks.Select(item => (decimal)item).ToArray(); set => judgesMarks = value.Select(item => (float)item).ToArray(); }
+    public decimal[] JudgesMarks { get => judgesMarks; set => judgesMarks = value; }
     public int Gate { get => gate; set => gate = value; }
     public decimal Wind { get => (decimal)wind; set => wind = (float)value; }
     public decimal Speed { get => (decimal)speed; set => speed = (float)value; }

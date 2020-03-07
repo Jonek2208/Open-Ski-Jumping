@@ -16,13 +16,16 @@ public class RuntimeResultsManager : ScriptableObject
     public Result[] results;
     public List<int> currentStartList;
 
+    [SerializeField]
+    private List<(int, int)> resultsWithRank;
+    private int[] ordRankOrder;
     private SortedList<(int, decimal, int), int> finalResults;
-    private SortedList<(int, decimal, int), int> allroundResults;
+    private SortedList<(decimal, int, int), int> allroundResults;
     private SortedList<(decimal, int), int> losersResults;
     private int maxLosers;
     private int[] koState;
     private int maxBib;
-
+    private int competitorsCount;
     public int roundsCount;
     public int subroundsCount;
 
@@ -35,19 +38,21 @@ public class RuntimeResultsManager : ScriptableObject
         roundsCount = eventInfo.value.roundInfos.Count;
         subroundsCount = (eventInfo.value.eventType == CompCal.EventType.Individual ? 1 : 4);
 
+        competitorsCount = results.Length;
+
         foreach (var item in results)
         {
             item.TotalResults = new decimal[subroundsCount];
             item.Results = new JumpResults[subroundsCount];
-            for(int i = 0; i < subroundsCount; i++)
+            for (int i = 0; i < subroundsCount; i++)
             {
                 item.Results[i] = new JumpResults();
             }
-            
+
             item.Bibs = new int[roundsCount];
         }
 
-        allroundResults = new SortedList<(int, decimal, int), int>();
+        allroundResults = new SortedList<(decimal, int, int), int>();
         Comparison<(int, decimal, int)> comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1));
         Comparer<(int, decimal, int)> comparer = Comparer<(int, decimal, int)>.Create(comp);
         finalResults = new SortedList<(int, decimal, int), int>(comparer);
@@ -56,15 +61,13 @@ public class RuntimeResultsManager : ScriptableObject
         // rank = new int[competitorsList.Count];
         // bibs = new List<int>[competitorsList.Count];
         // lastRank = new int[competitorsList.Count];
-        Comparison<(int, decimal, int)> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
-        allroundResults = new SortedList<(int, decimal, int), int>(Comparer<(int, decimal, int)>.Create(comp2));
+        Comparison<(decimal, int, int)> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
+        allroundResults = new SortedList<(decimal, int, int), int>(Comparer<(decimal, int, int)>.Create(comp2));
         // losersResults = new SortedList<(int, decimal, int), int>();
         // startLists = new List<int>[roundsCount];
-        // for (int i = 0; i < competitorsList.Count; i++)
-        // {
-        //     roundResults[i] = new List<JumpResult>();
-        //     bibs[i] = new List<int>();
-        // }
+
+        //Temporary
+        ordRankOrder = results.Select((item, index) => index).ToArray();
     }
 
     public bool JumpFinish()
@@ -76,6 +79,12 @@ public class RuntimeResultsManager : ScriptableObject
 
     public void RoundInit()
     {
+        //Temporary
+        for (int i = 0; i < results.Length; i++)
+        {
+            results[i].Bibs[roundIndex] = i + 1;
+        }
+
         finalResults.Clear();
     }
 
@@ -97,22 +106,31 @@ public class RuntimeResultsManager : ScriptableObject
 
     public void SubroundInit()
     {
-        finalResults.Clear();
-    }
+        RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
+        if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
+        {
+            if (currentRoundInfo.useOrdRank[subroundIndex])
+            {
+                currentStartList = EventProcessor.GetStartList(finalResults.Values.ToList(), eventInfo.value.roundInfos[roundIndex]);
+            }
+            else
+            {
+                currentStartList = finalResults.Select((item, index) => index).ToList();
+            }
 
-    public void SetStartList(List<int> startList)
-    {
-        currentStartList = startList;
+        }
+
+        finalResults.Clear();
     }
 
     private void AddResult(int primaryIndex, int secondaryIndex, JumpResult jump)
     {
         int id = currentStartList[currentStartListIndex];
-        Result result = results[id];
-        Debug.Assert(result.Results[secondaryIndex].results != null);
-        result.Results[secondaryIndex].results.Add(jump);
-        result.TotalResults[secondaryIndex] = result.Results[secondaryIndex].results.Sum(item => item.totalPoints);
-        result.TotalPoints = result.TotalResults.Sum();
+        Debug.Assert(results[id].Results[secondaryIndex].results != null);
+        results[id].Results[secondaryIndex].results.Add(jump);
+
+        results[id].TotalResults[secondaryIndex] = results[id].Results[secondaryIndex].results.Sum(item => item.totalPoints);
+        results[id].TotalPoints = results[id].TotalResults.Sum();
     }
 
     public void RegisterJump()
@@ -124,12 +142,13 @@ public class RuntimeResultsManager : ScriptableObject
         jump.totalPoints = jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints;
         if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
         {
-            RemoveFromAllroundResults(currentStartList[currentStartListIndex]);
+            RemoveFromAllroundResults();
         }
 
         AddResult(currentStartListIndex, subroundIndex, jump);
         AddToAllroundResults();
         AddToFinalResults();
+        Debug.Log(results[currentStartList[currentStartListIndex]].TotalPoints);
     }
 
     private void AddToFinalResults()
@@ -179,7 +198,6 @@ public class RuntimeResultsManager : ScriptableObject
                 koState[loserId] = 1;
                 finalResults.Add((1, results[loserId].TotalPoints, loserBib), loserId);
             }
-
         }
         else
         {
@@ -191,11 +209,34 @@ public class RuntimeResultsManager : ScriptableObject
     private void AddToAllroundResults()
     {
 
+        int competitorId = currentStartList[currentStartListIndex];
+        int subroundNum = roundIndex * subroundsCount + subroundIndex;
+
+        allroundResults.Add((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[roundIndex]), competitorId);
+
+        // Update rank
+        for (int i = 0; i < Math.Min(competitorsCount, allroundResults.Count); i++)
+        {
+            if (i > 0 && allroundResults.Keys[i].Item1 == allroundResults.Keys[i - 1].Item1)
+            {
+                results[allroundResults.Values[i]].Rank = results[allroundResults.Values[i - 1]].Rank;
+            }
+            else
+            {
+                results[allroundResults.Values[i]].Rank = i + 1;
+            }
+        }
     }
 
-    private void RemoveFromAllroundResults(int index)
+    private void RemoveFromAllroundResults()
     {
+        int competitorId = currentStartList[currentStartListIndex];
+        int subroundNum = (roundIndex - 1) * subroundsCount + subroundIndex;
 
+        if (roundIndex > 0)
+        {
+            allroundResults.Remove((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[roundIndex - 1]));
+        }
     }
 
     private int GetBibCode(int bib)

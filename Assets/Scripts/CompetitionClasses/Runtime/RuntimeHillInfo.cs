@@ -34,7 +34,7 @@ public class RuntimeHillInfo : ScriptableObject
     public void Init(decimal _kPoint, decimal _hs, decimal _gatePoints = 0, decimal _gatesSpacing = 0, decimal _headWindPoints = 0, decimal _tailWindPoints = 0)
     {
         value.KPoint = _kPoint;
-        value.Hs = _hs;
+        value.Hs = _hs; 
         value.PointsPerMeter = GetPointsPerMeter(value.KPoint);
         value.KPointPoints = GetKPointPoints(value.KPoint);
         value.GateFactor = _gatePoints;

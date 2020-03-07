@@ -20,7 +20,7 @@ public class CompetitionManager : MonoBehaviour
     public FloatVariable currentJumperPoints;
     public CompetitorVariable competitorVariable;
     public CompetitorVariable competitorVariable2;
-    public ResultsContainer resultsContainer;
+    public CompCal.ResultsDatabase resultsContainer;
     public Calendar calendar;
     public UnityEventInt jumperPreparation;
 
@@ -34,7 +34,7 @@ public class CompetitionManager : MonoBehaviour
 
     private void EventManagerInit()
     {
-        EventProcessor eventManager = new EventProcessor(resultsContainer.eventIt, calendar, resultsContainer);
+        // EventProcessor eventManager = new EventProcessor(resultsContainer.eventIt, calendar, resultsContainer);
     }
 
     public void CompetitionInit()

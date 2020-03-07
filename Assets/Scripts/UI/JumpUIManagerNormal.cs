@@ -71,7 +71,7 @@ public class JumpUIManagerNormal : JumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
         this.bib.Text.text = bib.ToString();
@@ -79,7 +79,7 @@ public class JumpUIManagerNormal : JumpUIManager
         if (resultsManager.currentStartListIndex + 1 < resultsManager.currentStartList.Count)
         {
             int nextCompetitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex + 1];
-            CompCal.Competitor nextCompetitor = participants.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
+            CompCal.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
             nextAthleteName.Text.text = "Next athlete: " + nextCompetitor.firstName + " " + nextCompetitor.lastName.ToUpper();
         }
         else
@@ -121,7 +121,7 @@ public class JumpUIManagerNormal : JumpUIManager
     public void SetCountry()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
         countryInfo.CountryName.text = competitor.countryCode;
     }
@@ -143,7 +143,7 @@ public class JumpUIManagerNormal : JumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
@@ -181,7 +181,7 @@ public class JumpUIManagerNormal : JumpUIManager
     IEnumerator LoadImage()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
         yield return www.SendWebRequest();
 

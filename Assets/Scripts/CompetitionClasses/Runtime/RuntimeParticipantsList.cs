@@ -7,6 +7,4 @@ using CompCal;
 public class RuntimeParticipantsList : ScriptableObject
 {
     public List<Participant> participants;
-    public List<Competitor> competitors;
-    public List<Team> teams;
 }

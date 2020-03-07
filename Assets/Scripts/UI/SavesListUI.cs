@@ -57,7 +57,7 @@ public class SavesListUI : ListDisplay
     public GameSave CreateGameSaveFromCalendar(Calendar calendar)
     {
         GameSave gameSave = new GameSave();
-        gameSave.resultsContainer = new ResultsContainer();
+        gameSave.resultsContainer = new ResultsDatabase();
         gameSave.calendar = calendar;
 
         gameSave.resultsContainer.eventResults = new EventResults[gameSave.calendar.events.Count];

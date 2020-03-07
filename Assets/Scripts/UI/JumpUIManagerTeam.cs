@@ -60,7 +60,7 @@ public class JumpUIManagerTeam : JumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[0]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[0]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
         this.bib.Text.text = bib.ToString();
@@ -68,7 +68,7 @@ public class JumpUIManagerTeam : JumpUIManager
         if (resultsManager.currentStartListIndex + 1 < resultsManager.currentStartList.Count)
         {
             int nextCompetitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex + 1];
-            CompCal.Competitor nextCompetitor = participants.competitors[participants.participants[nextCompetitorId].competitors[0]];
+            CompCal.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[0]];
             nextAthleteName.Text.text = "Next athlete: " + nextCompetitor.firstName + " " + nextCompetitor.lastName.ToUpper();
         }
         else
@@ -121,7 +121,7 @@ public class JumpUIManagerTeam : JumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = participants.competitors[participants.participants[competitorId].competitors[0]];
+        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[0]];
 
         this.jumperName.Text.text = competitor.firstName + " " + competitor.lastName.ToUpper();
         this.bib.Text.text = bib.ToString();

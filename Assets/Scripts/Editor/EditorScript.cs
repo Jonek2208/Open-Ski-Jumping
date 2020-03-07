@@ -34,6 +34,21 @@ public class GameEventEditor : Editor
     }
 }
 
+[CustomEditor(typeof(RuntimeJumpData))]
+public class RuntimeJumpDataEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        GameEvent gameEvent = (GameEvent)target;
+        DrawDefaultInspector();
+        if (GUILayout.Button("Raise"))
+        {
+            Debug.Log("RAISED EVENT");
+            gameEvent.Raise();
+        }
+    }
+}
+
 [CustomEditor(typeof(TerrainScript))]
 public class EditorTerrainScript : Editor
 {

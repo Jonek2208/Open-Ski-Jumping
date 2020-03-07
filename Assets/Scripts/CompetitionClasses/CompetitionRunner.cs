@@ -14,7 +14,7 @@ public class CompetitionRunner : MonoBehaviour
     [SerializeField]
     private RuntimeEventInfo eventInfo;
     [SerializeField]
-    private RuntimeResultsContainer resultsContainer;
+    private RuntimeResultsDatabase resultsContainer;
     [SerializeField]
     private RuntimeParticipantsList startList;
     [SerializeField]

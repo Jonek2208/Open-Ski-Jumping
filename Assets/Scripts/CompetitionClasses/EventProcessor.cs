@@ -7,7 +7,7 @@ namespace CompCal
     public class EventProcessor
     {
         private EventResults eventResults;
-        private ResultsContainer resultsContainer;
+        private ResultsDatabase resultsDatabase;
         private Calendar calendar;
         private EventInfo eventInfo;
         private List<Participant> participants;
@@ -26,49 +26,42 @@ namespace CompCal
 
         private List<int> startList;
 
-        public EventProcessor(int eventId, Calendar calendar, ResultsContainer resultsContainer)
+        public static List<int> GetCompetitors(int eventId, Calendar calendar, ResultsDatabase resultsDatabase)
         {
-            this.eventInfo = calendar.events[eventId];
-            this.eventResults = resultsContainer.eventResults[eventId];
+            EventInfo eventInfo = calendar.events[eventId];
+            EventResults eventResults = resultsDatabase.eventResults[eventId];
+            List<int> competitorsList;
 
             if (eventInfo.qualRankType == RankType.None)
             {
                 //Add all registred participants
-                this.competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
+                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
             }
             else
             {
                 ResultsProcessor resultsProcessor;
                 if (eventInfo.qualRankType == RankType.Event)
                 {
-                    resultsProcessor = new EventResultsProcessor(resultsContainer.eventResults[eventInfo.qualRankId]);
+                    resultsProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.qualRankId]);
                 }
                 else
                 {
-                    resultsProcessor = new ClassificationResultsProcessor(resultsContainer.classificationResults[eventInfo.qualRankId]);
+                    resultsProcessor = new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.qualRankId]);
                 }
 
-                this.competitorsList = resultsProcessor.GetTrimmedFinalResults(eventResults.participants, eventInfo.inLimitType, eventInfo.inLimit);
-
-                if (this.eventInfo.useQualRank)
-                {
-                    InjectQualRankResults(resultsProcessor.GetFinalResultsWithTotalPoints());
-                }
+                competitorsList = resultsProcessor.GetTrimmedFinalResults(eventResults.participants, eventInfo.inLimitType, eventInfo.inLimit);
             }
 
+            if (eventInfo.ordRankType == RankType.Event)
+            {
+                return GetOrdRank(competitorsList, resultsDatabase.eventResults[eventInfo.ordRankId]);
+            }
+            if (eventInfo.ordRankType == RankType.Classification)
+            {
+                return GetOrdRank(competitorsList, resultsDatabase.classificationResults[eventInfo.ordRankId]);
+            }
 
-            // this.startList = resultsProcessor.GetFinalResultsWithCompetitorsList(this.competitorsList);
-
-        }
-
-        public void AddResult(JumpResult jmp, int localId, int innerId = 0)
-        {
-            this.eventResults.results[localId].Results[innerId].results.Add(jmp);
-            this.eventResults.results[localId].TotalResults[innerId] += jmp.totalPoints;
-            this.eventResults.results[localId].TotalPoints += jmp.totalPoints;
-
-            //add to sorted results
-            // this.allroundResults.Add((0, this.eventResults.results[localId].totalPoints, ))
+            return competitorsList;
         }
 
         private void GetCompetitors()
@@ -78,13 +71,13 @@ namespace CompCal
                 List<(decimal, int)> tempList;
                 if (this.eventInfo.qualRankType == RankType.Event)
                 {
-                    EventResults qualRankEvent = this.resultsContainer.eventResults[this.eventInfo.qualRankId];
-                    tempList = GetQualRankEvent(qualRankEvent);
+                    EventResults qualRankEvent = this.resultsDatabase.eventResults[this.eventInfo.qualRankId];
+                    tempList = GetQualRank(qualRankEvent);
                 }
                 else
                 {
-                    ClassificationResults qualRankClassification = this.resultsContainer.classificationResults[this.eventInfo.qualRankId];
-                    tempList = GetQualRankClassification(qualRankClassification);
+                    ClassificationResults qualRankClassification = this.resultsDatabase.classificationResults[this.eventInfo.qualRankId];
+                    tempList = GetQualRank(qualRankClassification);
                 }
 
                 // remove not registred participants
@@ -101,35 +94,35 @@ namespace CompCal
             }
         }
 
-        private List<int> GetInitialOrder()
-        {
-            List<int> tmpList;
-            if (eventInfo.ordRankType == RankType.None)
-            {
-                tmpList = competitorsList.Select((val, ind) => ind).ToList();
-            }
-            else
-            {
-                if (eventInfo.ordRankType == RankType.Event)
-                {
-                    tmpList = GetOrdRankEvent();
-                }
-                else
-                {
-                    tmpList = GetOrdRankClassification();
-                }
-            }
-            return tmpList;
-        }
+        // public static List<int> GetInitialOrder(List<int> competitorsList, EventInfo eventInfo)
+        // {
+        //     List<int> tmpList;
+        //     if (eventInfo.ordRankType == RankType.None)
+        //     {
+        //         tmpList = competitorsList.Select((val, ind) => ind).ToList();
+        //     }
+        //     else
+        //     {
+        //         if (eventInfo.ordRankType == RankType.Event)
+        //         {
+        //             tmpList = GetOrdRank(competitorsList, resultsDatabase.eventResults[eventInfo.ordRankId]);
+        //         }
+        //         else
+        //         {
+        //             tmpList = GetOrdRank(competitorsList, resultsDatabase.classificationResults[eventInfo.ordRankId]);
+        //         }
+        //     }
+        //     return tmpList;
+        // }
 
-        private List<(decimal, int)> GetQualRankEvent(EventResults qualRankEvent)
+        public static List<(decimal, int)> GetQualRank(EventResults qualRankEvent)
         {
             List<(decimal, int)> tempList = new List<(decimal, int)>();
             tempList = qualRankEvent.finalResults.Select(it => (qualRankEvent.results[it].TotalPoints, qualRankEvent.competitorIds[it])).ToList();
             return tempList;
         }
 
-        private List<(decimal, int)> GetQualRankClassification(ClassificationResults qualRankClassification)
+        public static List<(decimal, int)> GetQualRank(ClassificationResults qualRankClassification)
         {
             List<(decimal, int)> tempList = new List<(decimal, int)>();
             tempList = qualRankClassification.totalSortedResults.Select(it => (qualRankClassification.totalResults[it], it)).ToList();
@@ -158,16 +151,14 @@ namespace CompCal
             return competitorsList;
         }
 
-        private List<int> GetOrdRankClassification()
+        public static List<int> GetOrdRank(List<int> competitorsList, ClassificationResults ordRankResults)
         {
-            ClassificationResults ordRankResults = resultsContainer.classificationResults[eventInfo.ordRankId];
             return competitorsList.Select((val, ind) => (val, ind)).OrderByDescending(item => (ordRankResults.totalResults[competitorsList[item.ind]], item.ind)).Select(item => item.val).ToList();
         }
 
-        private List<int> GetOrdRankEvent()
+        public static List<int> GetOrdRank(List<int> competitorsList, EventResults ordRankResults)
         {
             List<(decimal, int, int)> tmpList = new List<(decimal, int, int)>();
-            EventResults ordRankResults = resultsContainer.eventResults[eventInfo.ordRankId];
             var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(x => x.val, x => x.index);
             bool[] selected = new bool[competitorsList.Count];
             int it = 0;
@@ -177,7 +168,7 @@ namespace CompCal
                 int localId = ordRankResults.allroundResults[i];
                 int globalId = ordRankResults.competitorIds[localId];
 
-                if (map.ContainsKey(globalId)) //check if id from ORE is in current event competitors list
+                if (map.ContainsKey(globalId)) //check if id from OrdRank is in current event competitors list
                 {
                     selected[map[globalId]] = true;
                     decimal points = ordRankResults.results[localId].TotalPoints;
@@ -193,7 +184,7 @@ namespace CompCal
             return tmpList.OrderByDescending(item => item).Select(item => item.Item3).ToList();
         }
 
-        private List<(int, int)> AssignBibs(List<int> orderedParticipants, bool reversedOrder)
+        public static List<(int, int)> AssignBibs(List<int> orderedParticipants, bool reversedOrder)
         {
             if (reversedOrder)
             {
@@ -201,7 +192,7 @@ namespace CompCal
             }
             return orderedParticipants.Select((val, ind) => (val, orderedParticipants.Count - ind)).ToList();
         }
-        private List<int> RoundStartList(List<int> orderedParticipants, RoundInfo roundInfo)
+        public static List<int> GetStartList(List<int> orderedParticipants, RoundInfo roundInfo)
         {
             if (roundInfo.roundType == RoundType.Normal)
             {
@@ -233,18 +224,6 @@ namespace CompCal
             return roundStartList.Select(item => participants[competitorsList[item]].competitors[subRoundId]).ToList();
         }
 
-        private void CalculateFinalResults()
-        {
-
-        }
-        private void InjectQualRankResults(List<(decimal, int)> resultsList)
-        {
-            foreach (var item in resultsList)
-            {
-                eventResults.results[item.Item2].QualRankPoints = item.Item1;
-            }
-        }
-
         private List<int> RoundInit()
         {
             //ToDo
@@ -263,7 +242,7 @@ namespace CompCal
             foreach (var it in eventInfo.classifications)
             {
                 ClassificationInfo classificationInfo = calendar.classifications[it];
-                ClassificationResults classificationResults = resultsContainer.classificationResults[it];
+                ClassificationResults classificationResults = resultsDatabase.classificationResults[it];
                 var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
 
                 // Update results

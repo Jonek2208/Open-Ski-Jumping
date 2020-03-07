@@ -7,8 +7,9 @@ public abstract class JumpUIManager : MonoBehaviour
     public FlagsData flagsData;
     public RuntimeResultsManager resultsManager;
     public RuntimeParticipantsList participants;
+    public RuntimeCompetitorsList competitors;
     public CountryInfo countryInfo;
-    public JudgesMarkUI[] judgesMarks;
+    public JudgesMarkUI[] judgesMarks; 
     public CompensationUI wind;
     public CompensationUI gate;
     public abstract void SetPreJumpUI();

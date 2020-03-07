@@ -5,7 +5,7 @@ namespace CompCal
 {
     public class EventInitializer
     {
-        public static List<int> GetCompetitorsFromQualRank(int eventId, Calendar calendar, ResultsContainer resultsContainer)
+        public static List<int> GetCompetitorsFromQualRank(int eventId, Calendar calendar, ResultsDatabase resultsContainer)
         {
             EventInfo eventInfo = calendar.events[eventId];
             EventResults eventResults = resultsContainer.eventResults[eventId];
