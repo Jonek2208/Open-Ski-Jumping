@@ -21,9 +21,11 @@ public class RuntimeResultsManager : ScriptableObject
     private int[] ordRankOrder;
     private SortedList<(int, decimal, int), int> finalResults;
     private SortedList<(decimal, int, int), int> allroundResults;
+    public SortedList<(decimal, int, int), int> AllroundResults { get => allroundResults; }
     private SortedList<(decimal, int), int> losersResults;
     private int maxLosers;
     private int[] koState;
+    public int[] lastRank;
     private int maxBib;
     private int competitorsCount;
     public int roundsCount;
@@ -39,6 +41,8 @@ public class RuntimeResultsManager : ScriptableObject
         subroundsCount = (eventInfo.value.eventType == CompCal.EventType.Individual ? 1 : 4);
 
         competitorsCount = results.Length;
+
+        lastRank = new int[competitorsCount];
 
         foreach (var item in results)
         {
@@ -79,6 +83,15 @@ public class RuntimeResultsManager : ScriptableObject
 
     public void RoundInit()
     {
+        Debug.Log($"ROUND INIT: {roundIndex}");
+        if (roundIndex > 0)
+        {
+            currentStartList = finalResults.Select(item => item.Value).Reverse().ToList();
+        }
+        else
+        {
+            currentStartList = results.Select((item, index) => index).ToList();
+        }
         //Temporary
         for (int i = 0; i < results.Length; i++)
         {
@@ -90,6 +103,7 @@ public class RuntimeResultsManager : ScriptableObject
 
     public bool RoundFinish()
     {
+        Debug.Log($"ROUND FINISH: {subroundIndex}");
         roundIndex++;
         subroundIndex = 0;
         if (roundIndex < roundsCount) { return true; }
@@ -98,6 +112,8 @@ public class RuntimeResultsManager : ScriptableObject
 
     public bool SubroundFinish()
     {
+        Debug.Log($"SUBROUND FINISH: {subroundIndex}");
+        lastRank = results.Select(item => item.Rank).ToArray();
         subroundIndex++;
         currentStartListIndex = 0;
         if (subroundIndex < subroundsCount) { return true; }
@@ -106,19 +122,20 @@ public class RuntimeResultsManager : ScriptableObject
 
     public void SubroundInit()
     {
-        RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
-        if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
-        {
-            if (currentRoundInfo.useOrdRank[subroundIndex])
-            {
-                currentStartList = EventProcessor.GetStartList(finalResults.Values.ToList(), eventInfo.value.roundInfos[roundIndex]);
-            }
-            else
-            {
-                currentStartList = finalResults.Select((item, index) => index).ToList();
-            }
+        Debug.Log($"SUBROUND INIT: {subroundIndex}");
+        // RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
+        // if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
+        // {
+        //     if (currentRoundInfo.useOrdRank[subroundIndex])
+        //     {
+        //         currentStartList = EventProcessor.GetStartList(finalResults.Values.ToList(), eventInfo.value.roundInfos[roundIndex]);
+        //     }
+        //     else
+        //     {
+        //         currentStartList = finalResults.Select((item, index) => index).ToList();
+        //     }
 
-        }
+        // }
 
         finalResults.Clear();
     }
@@ -139,7 +156,7 @@ public class RuntimeResultsManager : ScriptableObject
         jump.distancePoints = hillInfo.GetDistancePoints(jump.distance);
         jump.windPoints = hillInfo.GetWindPoints(jump.wind);
         jump.gatePoints = hillInfo.GetGatePoints(0, jump.gate);
-        jump.totalPoints = jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints;
+        jump.totalPoints = Math.Max(0, jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints);
         if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
         {
             RemoveFromAllroundResults();

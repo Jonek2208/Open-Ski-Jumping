@@ -30,7 +30,7 @@ public class CompetitionRunner : MonoBehaviour
     public UnityEvent onJumpStart;
     public UnityEvent onJumpFinish; 
 
-    private void Start()
+    private void Awake()
     {
         // eventManager = new EventManager(eventId.Value, calendar.Value, resultsContainer.Value);
         OnCompetitionStart();
@@ -41,6 +41,7 @@ public class CompetitionRunner : MonoBehaviour
         if (resultsManager.JumpFinish())
         {
             onJumpFinish.Invoke();
+            OnJumpStart();
             return;
         }
 
@@ -52,10 +53,12 @@ public class CompetitionRunner : MonoBehaviour
         if (resultsManager.SubroundFinish())
         {
             onSubroundFinish.Invoke();
+            OnSubroundStart();
             return;
         }
 
         OnRoundFinish();
+
     }
 
     public void OnRoundFinish()
@@ -63,6 +66,7 @@ public class CompetitionRunner : MonoBehaviour
         if (resultsManager.RoundFinish())
         {
             onRoundFinish.Invoke();
+            OnRoundStart();
             return;
         }
 
@@ -85,12 +89,16 @@ public class CompetitionRunner : MonoBehaviour
 
     public void OnRoundStart()
     {
+        onRoundStart.Invoke();
         resultsManager.RoundInit();
+        OnSubroundStart();
     }
 
     public void OnSubroundStart()
     {
+        onSubroundStart.Invoke();
         resultsManager.SubroundInit();
+        OnJumpStart();
     }
 
     public void OnJumpStart()

@@ -6,17 +6,13 @@ public class LabelController : MonoBehaviour
     private TMPro.TMP_Text text;
     public StringVariable label;
 
-    private void OnEnable()
-    {
-        text = GetComponent<TMPro.TMP_Text>();
-    }
-
-    private void OnDisable()
-    {
-        text = null;
-    }
     public void ReplaceText()
     {
+        if (text == null)
+        {
+            text = GetComponent<TMPro.TMP_Text>();
+        }
+        
         text.text = label.Value;
     }
 }

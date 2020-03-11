@@ -3,7 +3,7 @@ using CompCal;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeResultsContainer")]
+[CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeResultsDatabase")]
 public class RuntimeResultsDatabase : ScriptableObject
 {
     [SerializeField] private ResultsDatabase resultsDatabase;
@@ -18,7 +18,7 @@ public class RuntimeResultsDatabase : ScriptableObject
     public RuntimeHillInfo HillInfo { get => hillInfo; set => hillInfo = value; }
     public RuntimeParticipantsList Participants { get => participants; set => participants = value; }
 
-    public void PrepareCompetition(int competitionId)
+    public void PrepareCompetition(int competitionId) 
     {
         eventInfo.value = calendar.events[competitionId];
         List<int> tmp = EventProcessor.GetCompetitors(competitionId, calendar, resultsDatabase);

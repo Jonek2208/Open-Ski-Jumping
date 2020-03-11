@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class JumpUIManagerTeam : JumpUIManager
+public class JumpUIManagerTeam : PreJumpUIManager
 {
     public Label bib;
     public Label jumperName;
@@ -40,10 +40,10 @@ public class JumpUIManagerTeam : JumpUIManager
         row2height = row2.rect.height;
         nextAthleteY = nextAthleteTransform.localPosition.y;
         this.rectTransform = GetComponent<RectTransform>();
-        SetPreJumpUI();
+        Show();
     }
 
-    public override void SetPreJumpUI()
+    public override void Show()
     {
         postJumpDataObj.SetActive(false);
         nextAthleteObj.SetActive(true);
@@ -105,7 +105,7 @@ public class JumpUIManagerTeam : JumpUIManager
         }
     }
 
-    public override void SetPostJumpUI()
+    public void SetPostJumpUI()
     {
         nextAthleteObj.SetActive(false);
         preJumpDataObj.SetActive(false);
@@ -157,6 +157,11 @@ public class JumpUIManagerTeam : JumpUIManager
     {
         preJumpDataObj.SetActive(false);
         row2.sizeDelta = new Vector2(row2.rect.width, 0);
+    }
+
+    public override void Hide()
+    {
+        
     }
 
     // void SetJumperInfo(bool value)
@@ -224,7 +229,7 @@ public class JumpUIManagerTeam : JumpUIManager
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SetPreJumpUI();
+            Show();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {

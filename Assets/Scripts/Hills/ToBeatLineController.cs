@@ -3,17 +3,13 @@ using UnityEngine;
 public class ToBeatLineController : MonoBehaviour
 {
     public Hill hill;
+    public RuntimeResultsManager resultsManager;
     public LineRenderer lineRenderer;
-    [SerializeField]
-    private FloatVariable leaderPoints;
-    [SerializeField]
-    private FloatVariable currentJumperPoints;
     [SerializeField]
     private StringVariable toBeatDistString;
 
     public void SetLine()
     {
-
         float k = hill.w;
         float judges = 54.0f;
 
@@ -33,7 +29,21 @@ public class ToBeatLineController : MonoBehaviour
             q = 1.2f;
             p = 120f;
         }
-        float toBeatDist = (leaderPoints.Value - currentJumperPoints.Value - judges - p) / q + k;
+
+
+        float leaderPoints = 0;
+        float currentJumperPoints = 0;
+        if(resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0 || resultsManager.currentStartListIndex > 0)
+        {
+            leaderPoints = (float)resultsManager.AllroundResults.Keys[0].Item1;
+        }
+        if(resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0)
+        {
+            int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+            currentJumperPoints = (float)resultsManager.results[competitorId].TotalPoints;
+        }
+
+        float toBeatDist = (leaderPoints - currentJumperPoints - judges - p) / q + k;
 
         int toBeatDistDoubled = Mathf.Min(2 * (hill.landingAreaPoints.Length - 1), Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));
         // Debug.Log(p + " " + q + " " + toBeatDist + " " + toBeatDistDoubled + " " + (toBeatDistDoubled / 2));
