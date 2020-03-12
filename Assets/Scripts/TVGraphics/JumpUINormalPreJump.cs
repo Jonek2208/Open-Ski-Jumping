@@ -24,18 +24,13 @@ public class JumpUINormalPreJump : PreJumpUIManager
     public GameObject row1;
     public GameObject row2;
     public GameObject nextAthleteObj;
-    // public RectTransform jumperImage;
 
-    private RectTransform jumperImageTransform;
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     private void OnEnable()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
-        Hide();
+        InstantHide();
     }
 
     public override void Show()
@@ -51,7 +46,7 @@ public class JumpUINormalPreJump : PreJumpUIManager
         DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
 
         int jumpsCount = resultsManager.roundIndex;
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.lastRank[competitorId];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
@@ -59,10 +54,10 @@ public class JumpUINormalPreJump : PreJumpUIManager
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
         this.bib.text = bib.ToString();
 
-        if (resultsManager.currentStartListIndex + 1 < resultsManager.currentStartList.Count)
+        if (resultsManager.startListIndex + 1 < resultsManager.currentStartList.Count)
         {
             nextAthleteObj.SetActive(true);
-            int nextCompetitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex + 1];
+            int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
             CompCal.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
             nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
         }
@@ -102,7 +97,7 @@ public class JumpUINormalPreJump : PreJumpUIManager
 
     public void SetCountry()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
         countryInfo.CountryName.text = competitor.countryCode;
@@ -110,7 +105,7 @@ public class JumpUINormalPreJump : PreJumpUIManager
 
     IEnumerator LoadImage()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
         yield return www.SendWebRequest();
@@ -129,6 +124,11 @@ public class JumpUINormalPreJump : PreJumpUIManager
     public override void Hide()
     {
         canvasGroup.DOFade(0, 0.5f);
+    }
+
+    public override void InstantHide()
+    {
+        canvasGroup.alpha = 0;
     }
 
 }

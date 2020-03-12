@@ -26,16 +26,13 @@ public class JumpUITeamPreJump : PreJumpUIManager
     public GameObject rankObj;
     public GameObject nextAthleteObj;
 
-    private RectTransform jumperImageTransform;
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private CanvasGroup canvasGroup;
 
 
     private void OnEnable()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
-        Hide();
+        InstantHide();
     }
 
     public override void Show()
@@ -51,20 +48,21 @@ public class JumpUITeamPreJump : PreJumpUIManager
         DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
 
         int jumpsCount = resultsManager.roundIndex;
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.lastRank[competitorId];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
 
-        this.teamName.text = competitor.countryCode;
+        this.teamName.text = team.teamName.ToUpper();
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
         this.bibTeam.text = bib.ToString();
         this.bibJumper.text = (resultsManager.subroundIndex + 1).ToString();
 
-        if (resultsManager.currentStartListIndex + 1 < resultsManager.currentStartList.Count)
+        if (resultsManager.startListIndex + 1 < resultsManager.currentStartList.Count)
         {
             nextAthleteObj.SetActive(true);
-            int nextCompetitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex + 1];
+            int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
             CompCal.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
             nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
         }
@@ -114,15 +112,15 @@ public class JumpUITeamPreJump : PreJumpUIManager
 
     public void SetCountry()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
-        countryInfo.CountryName.text = competitor.countryCode;
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
+        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
+        countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
+        countryInfo.CountryName.text = team.countryCode;
     }
 
     IEnumerator LoadImage()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
         yield return www.SendWebRequest();
@@ -141,6 +139,11 @@ public class JumpUITeamPreJump : PreJumpUIManager
     public override void Hide()
     {
         canvasGroup.DOFade(0, 0.5f);
+    }
+
+    public override void InstantHide()
+    {
+        canvasGroup.alpha = 0;
     }
 
 }

@@ -18,24 +18,18 @@ public class JumpUINormalPostJump : PostJumpUIManager
     [SerializeField] private RectTransform judgesMarksTransform;
     [SerializeField] private JudgesUIData judgesUIData;
 
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     private void OnEnable()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        // jumperImageTransform = jumperImageObj.GetComponent<RectTransform>();
-        // jumperImage = jumperImageObj.GetComponent<RawImage>();
-        this.rectTransform = GetComponent<RectTransform>();
-        Hide();
+        InstantHide();
     }
 
-   
 
     public void SetCountry()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
         countryInfo.CountryName.text = competitor.countryCode;
@@ -51,7 +45,7 @@ public class JumpUINormalPostJump : PostJumpUIManager
         DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f)).Append(judgesMarksTransform.DOScaleY(1, 0.5f));
 
         int jumpsCount = resultsManager.roundIndex + 1;
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
@@ -60,7 +54,7 @@ public class JumpUINormalPostJump : PostJumpUIManager
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
         this.bib.text = bib.ToString();
         this.rank.text = rank.ToString();
-        
+
         int xx = jumpsCount - meters.Length;
         int offset = Mathf.Max(0, meters.Length - jumpsCount);
 
@@ -94,5 +88,11 @@ public class JumpUINormalPostJump : PostJumpUIManager
     {
         canvasGroup.DOFade(0, 0.5f);
     }
+
+    public override void InstantHide()
+    {
+        canvasGroup.alpha = 0;
+    }
+
 
 }

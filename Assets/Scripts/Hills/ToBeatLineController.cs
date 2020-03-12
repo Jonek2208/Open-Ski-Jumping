@@ -5,8 +5,7 @@ public class ToBeatLineController : MonoBehaviour
     public Hill hill;
     public RuntimeResultsManager resultsManager;
     public LineRenderer lineRenderer;
-    [SerializeField]
-    private StringVariable toBeatDistString;
+    [SerializeField] private FloatVariable toBeatDistFV;
 
     public void SetLine()
     {
@@ -33,13 +32,13 @@ public class ToBeatLineController : MonoBehaviour
 
         float leaderPoints = 0;
         float currentJumperPoints = 0;
-        if(resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0 || resultsManager.currentStartListIndex > 0)
+        if (resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0 || resultsManager.startListIndex > 0)
         {
             leaderPoints = (float)resultsManager.AllroundResults.Keys[0].Item1;
         }
-        if(resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0)
+        if (resultsManager.roundIndex > 0 || resultsManager.subroundIndex > 0)
         {
-            int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
             currentJumperPoints = (float)resultsManager.results[competitorId].TotalPoints;
         }
 
@@ -56,6 +55,6 @@ public class ToBeatLineController : MonoBehaviour
 
         lineRenderer.SetPositions(new Vector3[] { new Vector3(point.x, point.y, -b), new Vector3(point.x, point.y, b) });
 
-        toBeatDistString.Value = "To beat: " + (toBeatDistDoubled / 2m).ToString("#0.0") + " m";
+        toBeatDistFV.Value = toBeatDistDoubled / 2;
     }
 }

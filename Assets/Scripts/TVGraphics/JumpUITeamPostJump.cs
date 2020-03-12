@@ -19,27 +19,21 @@ public class JumpUITeamPostJump : PostJumpUIManager
     [SerializeField] private RectTransform judgesMarksTransform;
     [SerializeField] private JudgesUIData judgesUIData;
 
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     private void OnEnable()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        // jumperImageTransform = jumperImageObj.GetComponent<RectTransform>();
-        // jumperImage = jumperImageObj.GetComponent<RawImage>();
-        this.rectTransform = GetComponent<RectTransform>();
-        Hide();
+        InstantHide();
     }
-
 
 
     public void SetCountry()
     {
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
-        countryInfo.CountryName.text = competitor.countryCode;
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
+        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
+        countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
+        countryInfo.CountryName.text = team.countryCode;
     }
 
     public override void Show()
@@ -52,13 +46,14 @@ public class JumpUITeamPostJump : PostJumpUIManager
         DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f)).Append(judgesMarksTransform.DOScaleY(1, 0.5f));
 
         int jumpsCount = resultsManager.roundIndex + 1;
-        int competitorId = resultsManager.currentStartList[resultsManager.currentStartListIndex];
+        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
         CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
         CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
 
-        this.teamName.text = competitor.countryCode;
+        this.teamName.text = team.teamName.ToUpper();
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
         this.bibTeam.text = bib.ToString();
         this.bibJumper.text = (resultsManager.subroundIndex + 1).ToString();
@@ -97,6 +92,11 @@ public class JumpUITeamPostJump : PostJumpUIManager
     public override void Hide()
     {
         canvasGroup.DOFade(0, 0.5f);
+    }
+
+    public override void InstantHide()
+    {
+        canvasGroup.alpha = 0;
     }
 
 }

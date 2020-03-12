@@ -31,12 +31,20 @@ public class RuntimeResultsManager : ScriptableObject
     public int roundsCount;
     public int subroundsCount;
 
-    public int currentStartListIndex;
+    public int startListIndex;
     public int roundIndex;
     public int subroundIndex;
+    public bool resetOnStart;
 
     public void CompetitionInit()
     {
+        if (resetOnStart)
+        {
+            startListIndex = 0;
+            roundIndex = 0;
+            subroundIndex = 0;
+        }
+
         roundsCount = eventInfo.value.roundInfos.Count;
         subroundsCount = (eventInfo.value.eventType == CompCal.EventType.Individual ? 1 : 4);
 
@@ -74,75 +82,83 @@ public class RuntimeResultsManager : ScriptableObject
         ordRankOrder = results.Select((item, index) => index).ToArray();
     }
 
-    public bool JumpFinish()
+    #region InitFunctions
+    public void SubroundInit()
     {
-        currentStartListIndex++;
-        if (currentStartListIndex < currentStartList.Count) { return true; }
-        return false;
-    }
+        Debug.Log($"SUBROUND INIT: {subroundIndex}");
 
-    public void RoundInit()
-    {
-        Debug.Log($"ROUND INIT: {roundIndex}");
-        if (roundIndex > 0)
+        RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
+        if (roundIndex > 0 || subroundIndex > 0)
         {
-            currentStartList = finalResults.Select(item => item.Value).Reverse().ToList();
+            if (currentRoundInfo.useOrdRank[subroundIndex])
+            {
+                currentStartList = finalResults.Select(item => item.Value).OrderBy(item => item).ToList();
+            }
+            else
+            {
+                currentStartList = finalResults.Select(item => item.Value).Reverse().ToList();
+            }
         }
         else
         {
-            currentStartList = results.Select((item, index) => index).ToList();
-        }
-        //Temporary
-        for (int i = 0; i < results.Length; i++)
-        {
-            results[i].Bibs[roundIndex] = i + 1;
+            currentStartList = Enumerable.Range(0, competitorsCount).ToList();
         }
 
         finalResults.Clear();
     }
 
-    public bool RoundFinish()
+    public void RoundInit()
     {
-        Debug.Log($"ROUND FINISH: {subroundIndex}");
-        roundIndex++;
-        subroundIndex = 0;
-        if (roundIndex < roundsCount) { return true; }
+        Debug.Log($"ROUND INIT: {roundIndex}");
+
+        //Temporary
+        for (int i = 0; i < results.Length; i++)
+        {
+            results[i].Bibs[roundIndex] = i + 1;
+        }
+    }
+
+    #endregion
+
+    #region FinishFunctions
+    public bool JumpFinish()
+    {
+        startListIndex++;
+        if (startListIndex < currentStartList.Count) { return true; }
         return false;
     }
 
     public bool SubroundFinish()
     {
         Debug.Log($"SUBROUND FINISH: {subroundIndex}");
+
         lastRank = results.Select(item => item.Rank).ToArray();
+
         subroundIndex++;
-        currentStartListIndex = 0;
+        startListIndex = 0;
         if (subroundIndex < subroundsCount) { return true; }
         return false;
     }
 
-    public void SubroundInit()
+    public bool RoundFinish()
     {
-        Debug.Log($"SUBROUND INIT: {subroundIndex}");
-        // RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
-        // if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
-        // {
-        //     if (currentRoundInfo.useOrdRank[subroundIndex])
-        //     {
-        //         currentStartList = EventProcessor.GetStartList(finalResults.Values.ToList(), eventInfo.value.roundInfos[roundIndex]);
-        //     }
-        //     else
-        //     {
-        //         currentStartList = finalResults.Select((item, index) => index).ToList();
-        //     }
+        Debug.Log($"ROUND FINISH: {subroundIndex}");
 
-        // }
+        //Calculate next round
 
-        finalResults.Clear();
+        roundIndex++;
+        subroundIndex = 0;
+        if (roundIndex < roundsCount) { return true; }
+        return false;
     }
+
+    #endregion
+
+
 
     private void AddResult(int primaryIndex, int secondaryIndex, JumpResult jump)
     {
-        int id = currentStartList[currentStartListIndex];
+        int id = currentStartList[startListIndex];
         Debug.Assert(results[id].Results[secondaryIndex].results != null);
         results[id].Results[secondaryIndex].results.Add(jump);
 
@@ -157,27 +173,29 @@ public class RuntimeResultsManager : ScriptableObject
         jump.windPoints = hillInfo.GetWindPoints(jump.wind);
         jump.gatePoints = hillInfo.GetGatePoints(0, jump.gate);
         jump.totalPoints = Math.Max(0, jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints);
-        if (roundIndex > 0 || (roundIndex == 0 && subroundIndex > 0))
+        if (roundIndex > 0 || subroundIndex > 0)
         {
             RemoveFromAllroundResults();
         }
 
-        AddResult(currentStartListIndex, subroundIndex, jump);
+        AddResult(startListIndex, subroundIndex, jump);
+        DebugAllRoundResults();
         AddToAllroundResults();
+        DebugAllRoundResults();
         AddToFinalResults();
-        Debug.Log(results[currentStartList[currentStartListIndex]].TotalPoints);
+        Debug.Log(results[currentStartList[startListIndex]].TotalPoints);
     }
 
     private void AddToFinalResults()
     {
-        int id = currentStartList[currentStartListIndex];
+        int id = currentStartList[startListIndex];
         int bib = results[id].Bibs[roundIndex];
 
-        if (eventInfo.value.roundInfos[roundIndex].roundType == RoundType.KO && currentStartListIndex % 2 == 1)
+        if (eventInfo.value.roundInfos[roundIndex].roundType == RoundType.KO && startListIndex % 2 == 1)
         {
             finalResults.Remove((0, id, bib));
 
-            int id2 = currentStartList[currentStartListIndex - 1];
+            int id2 = currentStartList[startListIndex - 1];
             int bib2 = results[id2].Bibs[roundIndex];
             int loserId = id2, winnerId = id;
 
@@ -223,10 +241,18 @@ public class RuntimeResultsManager : ScriptableObject
         }
     }
 
+    private void DebugAllRoundResults()
+    {
+        Debug.Log($"DEGUG ALLROUND RESULTS {startListIndex} {subroundIndex} {roundIndex}");
+        foreach (var item in allroundResults)
+        {
+            Debug.Log($"{results[item.Value].Rank} {item.Key.Item1} {item.Key.Item2} {item.Key.Item3} {item.Value}");
+        }
+    }
+
     private void AddToAllroundResults()
     {
-
-        int competitorId = currentStartList[currentStartListIndex];
+        int competitorId = currentStartList[startListIndex];
         int subroundNum = roundIndex * subroundsCount + subroundIndex;
 
         allroundResults.Add((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[roundIndex]), competitorId);
@@ -247,13 +273,10 @@ public class RuntimeResultsManager : ScriptableObject
 
     private void RemoveFromAllroundResults()
     {
-        int competitorId = currentStartList[currentStartListIndex];
-        int subroundNum = (roundIndex - 1) * subroundsCount + subroundIndex;
-
-        if (roundIndex > 0)
-        {
-            allroundResults.Remove((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[roundIndex - 1]));
-        }
+        int competitorId = currentStartList[startListIndex];
+        int subroundNum = roundIndex * subroundsCount + subroundIndex - 1;
+        int bibRoundIndex = (subroundIndex > 0 ? roundIndex : roundIndex - 1);
+        allroundResults.Remove((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[bibRoundIndex]));
     }
 
     private int GetBibCode(int bib)
