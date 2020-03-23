@@ -10,11 +10,11 @@ namespace CompCal
     {
         public string teamName;
         public string countryCode;
-        public List<int> competitors;
+        public List<string> competitorsIds;
         public Team(string _countryCode)
         {
             countryCode = _countryCode;
-            competitors = new List<int>();
+            competitorsIds = new List<string>();
         }
     }
 }

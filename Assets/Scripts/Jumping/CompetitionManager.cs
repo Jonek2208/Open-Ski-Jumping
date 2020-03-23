@@ -14,7 +14,6 @@ public class CompetitionManager : MonoBehaviour
 
     private CompCal.EventInfo currentEvent;
     private RoundRunner roundRunner;
-    private EventProcessor eventManager;
 
     public FloatVariable leaderPoints;
     public FloatVariable currentJumperPoints;

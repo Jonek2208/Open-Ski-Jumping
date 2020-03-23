@@ -12,3 +12,6 @@ public class UnityEventDecimal : UnityEvent<decimal> { }
 
 [Serializable]
 public class UnityEventBool : UnityEvent<bool> { }
+
+[Serializable]
+public class UnityEventString : UnityEvent<string> { }

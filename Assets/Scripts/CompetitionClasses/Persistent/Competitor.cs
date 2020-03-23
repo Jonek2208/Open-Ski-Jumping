@@ -8,12 +8,12 @@ namespace CompCal
     [Serializable]
     public class Competitor
     {
+        public string id;
         public string lastName;
         public string firstName;
         public string countryCode;
         public int teamId;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Gender gender;
+        [JsonConverter(typeof(StringEnumConverter))] public Gender gender;
         public DateTime birthdate;
         public string imagePath;
         public string helmetColor;
@@ -23,9 +23,12 @@ namespace CompCal
         public string suitBottomBackColor;
         public string skisColor;
         public Competitor() { }
-        public Competitor(string _lastName, string _firstName, string _countryCode, Gender _gender, int _year, int _month, int _day,
+        public Competitor Clone() { return (Competitor)this.MemberwiseClone(); }
+        public Competitor(string _lastName, string _firstName, string _countryCode, Gender _gender = Gender.Male, int _year = 2000, int _month = 1, int _day = 1,
         string _helmetColor = "000000", string _suitTopFrontColor = "000000", string _suitTopBackColor = "000000", string _suitBottomFrontColor = "000000", string _suitBottomBackColor = "000000", string _skisColor = "000000")
         {
+            id = "";
+            imagePath = "";
             lastName = _lastName;
             firstName = _firstName;
             countryCode = _countryCode;

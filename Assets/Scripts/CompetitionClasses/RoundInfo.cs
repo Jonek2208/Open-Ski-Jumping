@@ -8,13 +8,11 @@ namespace CompCal
     [Serializable]
     public class RoundInfo
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RoundType roundType;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public LimitType outLimitType;
+        [JsonConverter(typeof(StringEnumConverter))] public RoundType roundType;
+        [JsonConverter(typeof(StringEnumConverter))] public LimitType outLimitType;
         public int outLimit;
-        public bool has95Rule;
         public List<bool> useOrdRank;
+        public bool has95Rule;
         public bool reversedBibs;
         public bool reassignBibs;
         public RoundInfo() { }

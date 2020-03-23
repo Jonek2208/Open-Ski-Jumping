@@ -8,17 +8,14 @@ namespace CompCal
     [Serializable]
     public class EventInfo
     {
+        public string name;
         public string hillId;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public EventType eventType;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RankType qualRankType;
+        [JsonConverter(typeof(StringEnumConverter))] public EventType eventType;
+        [JsonConverter(typeof(StringEnumConverter))] public RankType qualRankType;
         public int qualRankId;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public LimitType inLimitType;
+        [JsonConverter(typeof(StringEnumConverter))] public LimitType inLimitType;
         public int inLimit;
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RankType ordRankType;
+        [JsonConverter(typeof(StringEnumConverter))] public RankType ordRankType;
         public int ordRankId;
         public List<RoundInfo> roundInfos;
         public List<int> classifications;
@@ -35,4 +32,4 @@ namespace CompCal
             inLimit = _inLimit;
         }
     }
-}
+} 

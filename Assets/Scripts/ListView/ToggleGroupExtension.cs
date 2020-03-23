@@ -15,11 +15,15 @@ public class ToggleGroupExtension : MonoBehaviour
 
     public void SetCurrentId(int elementId)
     {
-        currentId = elementId;
+        bool tmp = (this.currentId == elementId);
+        this.currentId = elementId;
+        if (tmp) { this.onChangeValue.Invoke(this.currentId); }
     }
 
     public bool GetElementValue(int elementId)
     {
-        return elementId == currentId;
+        return elementId == this.currentId;
     }
+
+    public UnityEventInt onChangeValue;
 }

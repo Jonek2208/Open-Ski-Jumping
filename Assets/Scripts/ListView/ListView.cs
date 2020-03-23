@@ -18,6 +18,7 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
     public RectTransform content;
     public Mask mask;
     public RectTransform listItem;
+    public Scrollbar scrollbar;
     public float Spacing;
     public LISTDIRECTION Direction = LISTDIRECTION.HORIZONTAL;
     private RectTransform maskRT;
@@ -40,33 +41,53 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
     public List<T> Items { get => items; set { items = value; Show(); } }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         Show();
+        this.scrollbar.onValueChanged.AddListener(ReorderItemsByPos);
     }
 
-    public void AddItem(T val)
+    private void OnDestroy()
     {
-        items.Add(val);
-        Show();
+        this.scrollbar.onValueChanged.RemoveListener(ReorderItemsByPos);
     }
 
-    public void Show()
+    public void Add(T val)
     {
-        content.anchoredPosition3D = new Vector3(0, 0, 0);
+        this.items.Add(val);
+        Show(0);
+        if (this.items.Count > 0)
+        {
+            ReorderItemsByPos(0);
+        }
+    }
 
-        maskRT = mask.GetComponent<RectTransform>();
+    public void RemoveAt(int index)
+    {
+        this.items.RemoveAt(index);
+        Show(0);
+        if (this.items.Count > 0)
+        {
+            ReorderItemsByPos(0);
+        }
+    }
+
+    public void Show(float targetPosition = 1f)
+    {
+        this.content.anchoredPosition3D = new Vector3(0, 0, 0);
+
+        this.maskRT = mask.GetComponent<RectTransform>();
         Vector2 prefabScale = listItem.rect.size;
-        prefabSize = (Direction == LISTDIRECTION.HORIZONTAL ? prefabScale.x : prefabScale.y) + Spacing;
+        this.prefabSize = (Direction == LISTDIRECTION.HORIZONTAL ? prefabScale.x : prefabScale.y) + Spacing;
         // if (items.Count == 0) return;
-        content.sizeDelta = Direction == LISTDIRECTION.HORIZONTAL ? (new Vector2(prefabSize * items.Count, prefabScale.y)) : (new Vector2(prefabScale.x, prefabSize * items.Count));
-        containerHalfSize = Direction == LISTDIRECTION.HORIZONTAL ? (content.rect.size.x * 0.5f) : (content.rect.size.y * 0.5f);
+        this.content.sizeDelta = Direction == LISTDIRECTION.HORIZONTAL ? (new Vector2(prefabSize * items.Count, prefabScale.y)) : (new Vector2(prefabScale.x, prefabSize * items.Count));
+        this.containerHalfSize = Direction == LISTDIRECTION.HORIZONTAL ? (content.rect.size.x * 0.5f) : (content.rect.size.y * 0.5f);
 
-        numVisible = Mathf.CeilToInt((Direction == LISTDIRECTION.HORIZONTAL ? maskRT.rect.size.x : maskRT.rect.size.y) / prefabSize);
+        this.numVisible = Mathf.CeilToInt((Direction == LISTDIRECTION.HORIZONTAL ? maskRT.rect.size.x : maskRT.rect.size.y) / prefabSize);
 
-        offsetVec = Direction == LISTDIRECTION.HORIZONTAL ? Vector3.right : Vector3.down;
-        startPos = content.anchoredPosition3D - (offsetVec * containerHalfSize) + (offsetVec * ((Direction == LISTDIRECTION.HORIZONTAL ? prefabScale.x : prefabScale.y) * 0.5f));
-        numItems = Mathf.Min(items.Count, numVisible + numBuffer);
+        this.offsetVec = Direction == LISTDIRECTION.HORIZONTAL ? Vector3.right : Vector3.down;
+        this.startPos = content.anchoredPosition3D - (offsetVec * containerHalfSize) + (offsetVec * ((Direction == LISTDIRECTION.HORIZONTAL ? prefabScale.x : prefabScale.y) * 0.5f));
+        this.numItems = Mathf.Min(items.Count, numVisible + numBuffer);
 
         for (int i = 0; i < Mathf.Min(numItems, listItems.Count); i++)
         {
@@ -81,31 +102,37 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
             GameObject obj = (GameObject)Instantiate(listItem.gameObject, content.transform);
             RectTransform t = obj.GetComponent<RectTransform>();
             t.anchoredPosition3D = startPos + (offsetVec * i * prefabSize);
-            listItemRect.Add(t);
-            itemDict.Add(t.GetInstanceID(), new int[] { i, i });
+            this.listItemRect.Add(t);
+            this.itemDict.Add(t.GetInstanceID(), new int[] { i, i });
             obj.SetActive(true);
 
             T1 li = obj.GetComponentInChildren<T1>();
-            listItems.Add(li);
+            this.listItems.Add(li);
             li.UpdateContent(i, items[i]);
         }
 
         for (int i = numItems; i < listItems.Count; i++)
         {
-            listItems[i].gameObject.SetActive(false);
+            this.listItems[i].gameObject.SetActive(false);
         }
 
-        listItem.gameObject.SetActive(false);
-        if (items.Count > 0)
-        {
-            ReorderItemsByPos(scrollBarPosition);
-        }
-        content.anchoredPosition3D += offsetVec * (containerHalfSize - ((Direction == LISTDIRECTION.HORIZONTAL ? maskRT.rect.size.x : maskRT.rect.size.y) * 0.5f));
+        this.listItem.gameObject.SetActive(false);
+        this.content.anchoredPosition3D += offsetVec * (containerHalfSize - ((Direction == LISTDIRECTION.HORIZONTAL ? maskRT.rect.size.x : maskRT.rect.size.y) * 0.5f));
+        this.scrollbar.value = targetPosition;// Debug.Log($"Show Num Items {numItems} List Item Rect: {listItemRect.Count}");
+        this.scrollBarPosition = targetPosition;
     }
+
 
     public void ReorderItemsByPos(float normPos)
     {
-        scrollBarPosition = normPos;
+        // Debug.Log($"Reorder Num Items {numItems} List Item Rect: {listItemRect.Count}");
+        this.scrollBarPosition = normPos;
+        RefreshShownValue();
+    }
+
+    public void RefreshShownValue()
+    {
+        float normPos = scrollBarPosition;
         if (Direction == LISTDIRECTION.VERTICAL) normPos = 1f - normPos;
         int numOutOfView = Mathf.CeilToInt(normPos * (items.Count - numVisible));   //number of elements beyond the left boundary (or top)
         int firstIndex = Mathf.Max(0, numOutOfView - numBuffer);   //index of first element beyond the left boundary (or top)
@@ -115,13 +142,13 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
         for (int i = originalIndex; i < numItems; i++)
         {
             moveItemByIndex(listItemRect[i], newIndex);
-            listItems[i].UpdateContent(newIndex, items[newIndex]);
+            this.listItems[i].UpdateContent(newIndex, items[newIndex]);
             newIndex++;
         }
         for (int i = 0; i < originalIndex; i++)
         {
             moveItemByIndex(listItemRect[i], newIndex);
-            listItems[i].UpdateContent(newIndex, items[newIndex]);
+            this.listItems[i].UpdateContent(newIndex, items[newIndex]);
             newIndex++;
         }
     }
@@ -129,7 +156,7 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
     private void moveItemByIndex(RectTransform item, int index)
     {
         int id = item.GetInstanceID();
-        itemDict[id][0] = index;
+        this.itemDict[id][0] = index;
         item.anchoredPosition3D = startPos + (offsetVec * index * prefabSize);
     }
 }

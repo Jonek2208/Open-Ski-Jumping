@@ -6,13 +6,13 @@ using CompCal;
 
 public class JumpersCreatorListUI : ListDisplay
 {
-    public DatabaseManager databaseManager;
+    public CompetitorsRuntime databaseManager;
     public FlagsData flagsData;
     public TMPro.TMP_InputField lastNameInput;
     public TMPro.TMP_InputField firstNameInput;
     public TMPro.TMP_InputField countryCodeInput;
     public SimpleColorPicker helmetColorPicker;
-    //     public string suitTopFrontColor;
+    // public string suitTopFrontColor;
     // public string suitTopBackColor;
     // public string suitBottomFrontColor;
     // public string suitBottomBackColor;
@@ -27,17 +27,17 @@ public class JumpersCreatorListUI : ListDisplay
     private bool initialized;
 
     public List<Competitor> competitorsList;
-    private void LoadJumpersData(out List<Competitor> tmpList)
-    {
-        tmpList = new List<Competitor>();
-        if (databaseManager.dbCompetitors.Loaded) { tmpList = databaseManager.dbCompetitors.Data; }
-    }
+    // private void LoadJumpersData(out List<Competitor> tmpList)
+    // {
+    //     tmpList = new List<Competitor>();
+    //     if (databaseManager.dbCompetitors.Loaded) { tmpList = databaseManager.dbCompetitors.Data; }
+    // }
 
 
 
     public override void ListInit()
     {
-        LoadJumpersData(out competitorsList);
+        // LoadJumpersData(out competitorsList);
         foreach (var competitor in competitorsList) { AddListElement(NewListElement(competitor)); }
         updated = false;
         initialized = true;

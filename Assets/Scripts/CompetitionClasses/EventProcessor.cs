@@ -4,28 +4,12 @@ using System.Linq;
 
 namespace CompCal
 {
-    public class EventProcessor
+    public static class EventProcessor
     {
-        private EventResults eventResults;
-        private ResultsDatabase resultsDatabase;
-        private Calendar calendar;
-        private EventInfo eventInfo;
-        private List<Participant> participants;
-        private List<Competitor> competitors;
-        private List<Team> teams;
-
-        private EventResults ordRankEvent;
-        private ClassificationResults ordRankClassification;
-
-        private SortedList<(int, decimal, int), int> finalResults;
-        private SortedList<(int, decimal, int), int> allroundResults;
-        private List<int> competitorsList;
-        private List<int>[] currentStartLists;
-        private int[] rank;
-        private int[] lastRank;
-
-        private List<int> startList;
-
+        public static (RankType, string) ParseRankString(string value)
+        {
+            return (RankType.None, "");
+        }
         public static List<int> GetCompetitors(int eventId, Calendar calendar, ResultsDatabase resultsDatabase)
         {
             EventInfo eventInfo = calendar.events[eventId];
@@ -64,35 +48,35 @@ namespace CompCal
             return competitorsList;
         }
 
-        private void GetCompetitors()
-        {
-            if (this.eventInfo.qualRankType != RankType.None)
-            {
-                List<(decimal, int)> tempList;
-                if (this.eventInfo.qualRankType == RankType.Event)
-                {
-                    EventResults qualRankEvent = this.resultsDatabase.eventResults[this.eventInfo.qualRankId];
-                    tempList = GetQualRank(qualRankEvent);
-                }
-                else
-                {
-                    ClassificationResults qualRankClassification = this.resultsDatabase.classificationResults[this.eventInfo.qualRankId];
-                    tempList = GetQualRank(qualRankClassification);
-                }
+        // private void GetCompetitors()
+        // {
+        //     if (this.eventInfo.qualRankType != RankType.None)
+        //     {
+        //         List<(decimal, int)> tempList;
+        //         if (this.eventInfo.qualRankType == RankType.Event)
+        //         {
+        //             EventResults qualRankEvent = this.resultsDatabase.eventResults[this.eventInfo.qualRankId];
+        //             tempList = GetQualRank(qualRankEvent);
+        //         }
+        //         else
+        //         {
+        //             ClassificationResults qualRankClassification = this.resultsDatabase.classificationResults[this.eventInfo.qualRankId];
+        //             tempList = GetQualRank(qualRankClassification);
+        //         }
 
-                // remove not registred participants
-                var lookup = this.participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
-                tempList = tempList.Where(it => lookup.ContainsKey(it.Item2)).ToList();
+        //         // remove not registred participants
+        //         var lookup = this.participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
+        //         tempList = tempList.Where(it => lookup.ContainsKey(it.Item2)).ToList();
 
-                // trim list to inLimit 
-                this.competitorsList = TrimRankingToLimit(tempList, eventInfo.inLimitType, eventInfo.inLimit);
-            }
-            else
-            {
-                //Add all registred participants
-                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
-            }
-        }
+        //         // trim list to inLimit 
+        //         this.competitorsList = TrimRankingToLimit(tempList, eventInfo.inLimitType, eventInfo.inLimit);
+        //     }
+        //     else
+        //     {
+        //         //Add all registred participants
+        //         competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
+        //     }
+        // }
 
         // public static List<int> GetInitialOrder(List<int> competitorsList, EventInfo eventInfo)
         // {
@@ -129,27 +113,27 @@ namespace CompCal
             return tempList;
         }
 
-        private List<int> TrimRankingToLimit(List<(decimal, int)> results, LimitType inLimitType = LimitType.None, int inLimit = 0)
-        {
-            List<int> competitorsList = new List<int>();
+        // private static List<int> TrimRankingToLimit(List<(decimal, int)> results, LimitType inLimitType = LimitType.None, int inLimit = 0)
+        // {
+        //     List<int> competitorsList = new List<int>();
 
-            switch (eventInfo.inLimitType)
-            {
-                case LimitType.None:
-                    competitorsList = results.Select(it => it.Item2).ToList();
-                    break;
-                case LimitType.Normal:
-                    decimal minPoints = results[Math.Min(results.Count, eventInfo.inLimit) - 1].Item1;
-                    competitorsList = results.Where(it => it.Item1 >= minPoints).Select(it => it.Item2).ToList();
-                    break;
-                case LimitType.Exact:
-                    int cnt = Math.Min(results.Count, eventInfo.inLimit);
-                    competitorsList = results.Take(cnt).Select(it => it.Item2).ToList();
-                    break;
-            }
+        //     switch (eventInfo.inLimitType)
+        //     {
+        //         case LimitType.None:
+        //             competitorsList = results.Select(it => it.Item2).ToList();
+        //             break;
+        //         case LimitType.Normal:
+        //             decimal minPoints = results[Math.Min(results.Count, eventInfo.inLimit) - 1].Item1;
+        //             competitorsList = results.Where(it => it.Item1 >= minPoints).Select(it => it.Item2).ToList();
+        //             break;
+        //         case LimitType.Exact:
+        //             int cnt = Math.Min(results.Count, eventInfo.inLimit);
+        //             competitorsList = results.Take(cnt).Select(it => it.Item2).ToList();
+        //             break;
+        //     }
 
-            return competitorsList;
-        }
+        //     return competitorsList;
+        // }
 
         public static List<int> GetOrdRank(List<int> competitorsList, ClassificationResults ordRankResults)
         {
@@ -215,59 +199,54 @@ namespace CompCal
             return tmpList;
         }
 
-        private List<int> SubRoundStartList(List<int> roundStartList, int subRoundId = 0, List<int> orderedParticipants = null, bool changeOrder = false)
-        {
-            if (changeOrder)
-            {
-                return orderedParticipants.Select(item => participants[competitorsList[item]].competitors[subRoundId]).Reverse().ToList();
-            }
-            return roundStartList.Select(item => participants[competitorsList[item]].competitors[subRoundId]).ToList();
-        }
+        // private List<int> SubRoundStartList(List<int> roundStartList, int subRoundId = 0, List<int> orderedParticipants = null, bool changeOrder = false)
+        // {
+        //     if (changeOrder)
+        //     {
+        //         return orderedParticipants.Select(item => participants[competitorsList[item]].competitors[subRoundId]).Reverse().ToList();
+        //     }
+        //     return roundStartList.Select(item => participants[competitorsList[item]].competitors[subRoundId]).ToList();
+        // }
 
-        private List<int> RoundInit()
-        {
-            //ToDo
-            throw new NotImplementedException();
-        }
 
-        public void UpdateClassifications()
-        {
-            IEventFinalResults eventFinalResults;
+        // public void UpdateClassifications()
+        // {
+        //     IEventFinalResults eventFinalResults;
 
-            if (eventInfo.eventType == EventType.Individual)
-            { eventFinalResults = new IndividualEventFinalResults(eventResults, competitors); }
-            else
-            { eventFinalResults = new TeamEventFinalResults(eventResults); }
+        //     if (eventInfo.eventType == EventType.Individual)
+        //     { eventFinalResults = new IndividualEventFinalResults(eventResults, competitors); }
+        //     else
+        //     { eventFinalResults = new TeamEventFinalResults(eventResults); }
 
-            foreach (var it in eventInfo.classifications)
-            {
-                ClassificationInfo classificationInfo = calendar.classifications[it];
-                ClassificationResults classificationResults = resultsDatabase.classificationResults[it];
-                var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
+        //     foreach (var it in eventInfo.classifications)
+        //     {
+        //         ClassificationInfo classificationInfo = calendar.classifications[it];
+        //         ClassificationResults classificationResults = resultsDatabase.classificationResults[it];
+        //         var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
 
-                // Update results
-                foreach (var item in resultsUpdate)
-                {
-                    classificationResults.totalResults[item.Item1] += item.Item2;
-                }
+        //         // Update results
+        //         foreach (var item in resultsUpdate)
+        //         {
+        //             classificationResults.totalResults[item.Item1] += item.Item2;
+        //         }
 
-                // Update sorted results
-                classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(x => x).Select((val, ind) => ind).ToList();
+        //         // Update sorted results
+        //         classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(x => x).Select((val, ind) => ind).ToList();
 
-                // Calculate rank
-                for (int i = 0; i < classificationResults.totalSortedResults.Count; i++)
-                {
-                    if (i > 0 && classificationResults.totalResults[classificationResults.totalSortedResults[i]] == classificationResults.totalResults[classificationResults.totalSortedResults[i - 1]])
-                    {
-                        classificationResults.rank[classificationResults.totalSortedResults[i]] = classificationResults.rank[classificationResults.totalSortedResults[i + 1]];
-                    }
-                    else
-                    {
-                        classificationResults.rank[classificationResults.totalSortedResults[i]] = i + 1;
-                    }
-                }
-            }
-        }
+        //         // Calculate rank
+        //         for (int i = 0; i < classificationResults.totalSortedResults.Count; i++)
+        //         {
+        //             if (i > 0 && classificationResults.totalResults[classificationResults.totalSortedResults[i]] == classificationResults.totalResults[classificationResults.totalSortedResults[i - 1]])
+        //             {
+        //                 classificationResults.rank[classificationResults.totalSortedResults[i]] = classificationResults.rank[classificationResults.totalSortedResults[i + 1]];
+        //             }
+        //             else
+        //             {
+        //                 classificationResults.rank[classificationResults.totalSortedResults[i]] = i + 1;
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 

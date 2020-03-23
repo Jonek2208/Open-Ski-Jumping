@@ -15,12 +15,12 @@ namespace CompCal
     {
         public decimal GetPoints(ClassificationInfo classificationInfo, Result result)
         {
-            return ((0 < result.Rank && result.Rank < classificationInfo.pointsTable.Length) ? classificationInfo.pointsTable[result.Rank - 1] : 0m);
+            return ((0 < result.Rank && result.Rank < classificationInfo.pointsTables[0].value.Length) ? classificationInfo.pointsTables[0].value[result.Rank - 1] : 0m);
         }
 
         public decimal GetPoints(ClassificationInfo classificationInfo, int rank, decimal points)
         {
-            return ((0 < rank && rank < classificationInfo.pointsTable.Length) ? classificationInfo.pointsTable[rank - 1] : 0m);
+            return ((0 < rank && rank < classificationInfo.pointsTables[0].value.Length) ? classificationInfo.pointsTables[0].value[rank - 1] : 0m);
         }
     }
 
@@ -102,7 +102,7 @@ namespace CompCal
             else
             { pointsGiver = new PointsPointsGiver(); }
 
-            return this.teamResults.Select((val, index) => (this.teamIds[index], (classificationInfo.hasLimit ? val.Take(classificationInfo.limit) : val).
+            return this.teamResults.Select((val, index) => (this.teamIds[index], (classificationInfo.teamCompetitorsLimit > 0 ? val.Take(classificationInfo.teamCompetitorsLimit) : val).
                 Select(it => pointsGiver.GetPoints(classificationInfo, this.eventResults.results[it])).Sum())).ToList();
         }
 

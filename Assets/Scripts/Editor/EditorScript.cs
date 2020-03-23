@@ -5,6 +5,42 @@ using UnityEngine;
 using UnityEditor;
 using HillProfile;
 
+[CustomEditor(typeof(RuntimeData), true)]
+public class DatabaseObjectEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        RuntimeData databaseObject = (RuntimeData)target;
+        DrawDefaultInspector();
+        if (GUILayout.Button("Load Data from file"))
+        {
+            databaseObject.LoadData();
+        }
+        if (GUILayout.Button("Save Data to file"))
+        {
+            databaseObject.SaveData();
+        }
+    }
+}
+
+// [CustomEditor(typeof(JumperInfo))]
+// public class JumperInfoEditor : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         JumperInfo value = (JumperInfo)target;
+//         DrawDefaultInspector();
+//         if (GUILayout.Button("Update Bound Competitor"))
+//         {
+//             value.UpdateBoundCompetitor();
+//         }
+//         if (GUILayout.Button("Refresh Shown Value"))
+//         {
+//             value.RefreshShownValue();
+//         }
+//     }
+// }
+
 [CustomEditor(typeof(MeshScript))]
 public class EditorScript : Editor
 {

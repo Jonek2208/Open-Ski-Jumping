@@ -115,7 +115,7 @@ public class CalendarCreatorScript : MonoBehaviour
         {
             if (competitorsObjList[i].GetComponentInChildren<Toggle>().isOn)
             {
-                calendar.competitors.Add(allCompetitors[i]);
+                // calendar.competitorsIds.Add(allCompetitors[i]);
             }
         }
 

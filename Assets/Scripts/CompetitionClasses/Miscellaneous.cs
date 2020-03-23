@@ -30,6 +30,6 @@ namespace CompCal
     public enum LimitType { None, Normal, Exact }
     public enum RoundType { Normal, KO }
     public enum EventType { Individual, Team }
-    public enum ClassificationType { Place, Points }
+    public enum ClassificationType { Place, Points, Medal }
     public enum RankType { None, Event, Classification }
 }

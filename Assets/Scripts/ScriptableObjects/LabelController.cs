@@ -1,18 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(TMPro.TMP_Text))]
 public class LabelController : MonoBehaviour
 {
-    private TMPro.TMP_Text text;
-    public StringVariable label;
+    [SerializeField] private TMPro.TMP_Text[] texts;
+    [SerializeField] private TranslatablePhrase label;
 
+    private void OnEnable()
+    {
+        ReplaceText();
+    }
     public void ReplaceText()
     {
-        if (text == null)
+        foreach (var item in texts)
         {
-            text = GetComponent<TMPro.TMP_Text>();
+            item.text = label.CurrentValue;
         }
-        
-        text.text = label.Value;
     }
 }

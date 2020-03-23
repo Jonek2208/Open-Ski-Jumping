@@ -51,7 +51,7 @@ public class TVGraphicsController : MonoBehaviour
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
         CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
-        listView.AddItem(new ResultData() { firstName = team.teamName, lastName = "", result = (float)resultsManager.results[competitorId].TotalPoints });
+        listView.Add(new ResultData() { firstName = team.teamName, lastName = "", result = (float)resultsManager.results[competitorId].TotalPoints });
         listView.Items = listView.Items.OrderByDescending(item => item.result).ToList();
     }
 

@@ -1,60 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using CompCal;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class DatabaseObject<T>
-{
-    private string fileName;
-    private T data;
-    private bool loaded;
-
-    public T Data { get => data; set => data = value; }
-    public bool Loaded { get => loaded; set => loaded = value; }
-
-    public DatabaseObject(string fileName)
-    {
-        this.fileName = fileName;
-        this.loaded = false;
-    }
-
-    public bool LoadData()
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, this.fileName);
-        if (File.Exists(filePath))
-        {
-            string dataAsJson = File.ReadAllText(filePath);
-            this.data = JsonConvert.DeserializeObject<T>(dataAsJson);
-            this.loaded = true;
-            return true;
-        }
-        this.loaded = false;
-        return false;
-    }
-
-    public void SaveData()
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, this.fileName);
-        string dataAsJson = JsonConvert.SerializeObject(this.data);
-        File.WriteAllText(filePath, dataAsJson);
-    }
-}
-
 public class DatabaseManager : MonoBehaviour
 {
+    public List<RuntimeData> objects;
     public bool loadRoundInfoPresets;
-    public DatabaseObject<List<RoundInfoPreset>> dbRoundInfoPresets = new DatabaseObject<List<RoundInfoPreset>>("presets.json");
+    public DatabaseObject<List<RoundInfoPreset>> dbRoundInfoPresets;
 
     public bool loadCalendars;
-    public DatabaseObject<List<CompCal.Calendar>> dbCalendars = new DatabaseObject<List<CompCal.Calendar>>("calendars.json");
+    public DatabaseObject<List<CompCal.Calendar>> dbCalendars;
 
     public bool loadCompetitors;
-    public DatabaseObject<List<CompCal.Competitor>> dbCompetitors = new DatabaseObject<List<CompCal.Competitor>>("competitors.json");
+    public DatabaseObject<List<CompCal.Competitor>> dbCompetitors;
 
     public bool loadHills;
-    public DatabaseObject<HillProfile.AllData> dbHills = new DatabaseObject<HillProfile.AllData>("data.json");
+    public DatabaseObject<HillProfile.AllData> dbHills;
 
     public bool loadSavesData;
     public SaveData dbSaveData;
@@ -62,6 +24,7 @@ public class DatabaseManager : MonoBehaviour
 
     private void Awake()
     {
+        foreach (var item in objects) { item.LoadData(); }
         if (loadCalendars) { dbCalendars.LoadData(); }
         if (loadCompetitors) { dbCompetitors.LoadData(); }
         if (loadHills) { dbHills.LoadData(); }
