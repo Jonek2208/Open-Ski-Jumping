@@ -102,4 +102,5 @@ public class JumperInfo : MonoBehaviour
         }
     }
 
+    
 }

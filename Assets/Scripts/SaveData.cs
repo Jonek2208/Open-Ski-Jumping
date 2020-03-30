@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class GameSave
 {
     public string name;
@@ -7,7 +9,7 @@ public class GameSave
     public CompCal.ResultsDatabase resultsContainer;
 }
 
-[System.Serializable]
+[Serializable]
 public class SaveData
 {
     public int currentSaveId;
@@ -19,7 +21,7 @@ public class SaveData
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class RoundInfoPreset
 {
     public string name;

@@ -8,6 +8,7 @@ namespace CompCal
     public class Calendar
     {
         public string name;
+        public DateTime lastModified;
         public List<string> competitorsIds;
         public List<Team> teams;
         public List<ClassificationInfo> classifications;

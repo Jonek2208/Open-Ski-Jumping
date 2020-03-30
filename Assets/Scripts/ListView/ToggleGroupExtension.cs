@@ -17,7 +17,7 @@ public class ToggleGroupExtension : MonoBehaviour
     {
         bool tmp = (this.currentId == elementId);
         this.currentId = elementId;
-        if (tmp) { this.onChangeValue.Invoke(this.currentId); }
+        if (tmp) { this.onValueChanged?.Invoke(this.currentId); }
     }
 
     public bool GetElementValue(int elementId)
@@ -25,5 +25,5 @@ public class ToggleGroupExtension : MonoBehaviour
         return elementId == this.currentId;
     }
 
-    public UnityEventInt onChangeValue;
+    public event Action<int> onValueChanged;
 }

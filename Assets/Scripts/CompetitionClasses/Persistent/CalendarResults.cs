@@ -9,7 +9,6 @@ namespace CompCal
     public class ResultsDatabase
     {
         public List<HillInfo> hillInfos;
-        public List<HillProfile.ProfileData> hillProfiles;
         public int eventIt;
         public EventResults[] eventResults;
         public ClassificationResults[] classificationResults;

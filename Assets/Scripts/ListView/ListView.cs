@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +14,12 @@ public interface IListViewElement<T>
     void UpdateContent(int index, T val);
 }
 
-public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListViewElement<T>
+public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour, IListViewElement<ItemData>
 {
     public RectTransform content;
     public Mask mask;
     public RectTransform listItem;
-    public Scrollbar scrollbar;
+    public ScrollRect scrollRect;
     public float Spacing;
     public LISTDIRECTION Direction = LISTDIRECTION.HORIZONTAL;
     private RectTransform maskRT;
@@ -28,58 +29,64 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
     private float prefabSize;
 
     [SerializeField]
-    private List<T> items = new List<T>();
+    private List<ItemData> items = new List<ItemData>();
 
     private Dictionary<int, int[]> itemDict = new Dictionary<int, int[]>();
     private List<RectTransform> listItemRect = new List<RectTransform>();
-    private List<T1> listItems = new List<T1>();
+    private List<Item> listItems = new List<Item>();
     private int numItems = 0;
     private Vector3 startPos;
     private Vector3 offsetVec;
-    private float scrollBarPosition = 0;
+    private float scrollBarPosition = 1;
 
-    public List<T> Items { get => items; set { items = value; Show(); } }
+    public List<ItemData> Items { get => items; set { items = value; } }
 
     // Use this for initialization
     private void Start()
     {
-        Show();
-        this.scrollbar.onValueChanged.AddListener(ReorderItemsByPos);
+        ShowHelper();
+        this.scrollRect.onValueChanged.AddListener(ReorderItemsByPos);
     }
 
     private void OnDestroy()
     {
-        this.scrollbar.onValueChanged.RemoveListener(ReorderItemsByPos);
+        this.scrollRect.onValueChanged.RemoveListener(ReorderItemsByPos);
     }
 
-    public void Add(T val)
+    public void Add(ItemData val)
     {
         this.items.Add(val);
-        Show(0);
-        if (this.items.Count > 0)
-        {
-            ReorderItemsByPos(0);
-        }
+        Refresh();
     }
 
     public void RemoveAt(int index)
     {
         this.items.RemoveAt(index);
-        Show(0);
-        if (this.items.Count > 0)
-        {
-            ReorderItemsByPos(0);
-        }
+        Refresh();
     }
 
-    public void Show(float targetPosition = 1f)
+    public void Refresh()
     {
-        this.content.anchoredPosition3D = new Vector3(0, 0, 0);
+        float tmp = this.scrollBarPosition;
+        ShowHelper();
+        this.scrollBarPosition = tmp;
+        RefreshShownValue();
+    }
 
+    public void Refresh(float targetPosition)
+    {
+        ShowHelper();
+        this.scrollBarPosition = targetPosition;
+        RefreshShownValue();
+    }
+
+    private void ShowHelper()
+    {
+        this.scrollBarPosition = 1;
         this.maskRT = mask.GetComponent<RectTransform>();
+        this.content.anchoredPosition3D = new Vector3(0, 0, 0);
         Vector2 prefabScale = listItem.rect.size;
         this.prefabSize = (Direction == LISTDIRECTION.HORIZONTAL ? prefabScale.x : prefabScale.y) + Spacing;
-        // if (items.Count == 0) return;
         this.content.sizeDelta = Direction == LISTDIRECTION.HORIZONTAL ? (new Vector2(prefabSize * items.Count, prefabScale.y)) : (new Vector2(prefabScale.x, prefabSize * items.Count));
         this.containerHalfSize = Direction == LISTDIRECTION.HORIZONTAL ? (content.rect.size.x * 0.5f) : (content.rect.size.y * 0.5f);
 
@@ -106,7 +113,7 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
             this.itemDict.Add(t.GetInstanceID(), new int[] { i, i });
             obj.SetActive(true);
 
-            T1 li = obj.GetComponentInChildren<T1>();
+            Item li = obj.GetComponentInChildren<Item>();
             this.listItems.Add(li);
             li.UpdateContent(i, items[i]);
         }
@@ -117,16 +124,12 @@ public class ListView<T, T1> : MonoBehaviour where T1 : MonoBehaviour, IListView
         }
 
         this.listItem.gameObject.SetActive(false);
-        this.content.anchoredPosition3D += offsetVec * (containerHalfSize - ((Direction == LISTDIRECTION.HORIZONTAL ? maskRT.rect.size.x : maskRT.rect.size.y) * 0.5f));
-        this.scrollbar.value = targetPosition;// Debug.Log($"Show Num Items {numItems} List Item Rect: {listItemRect.Count}");
-        this.scrollBarPosition = targetPosition;
     }
 
-
-    public void ReorderItemsByPos(float normPos)
+    public void ReorderItemsByPos(Vector2 normPos)
     {
         // Debug.Log($"Reorder Num Items {numItems} List Item Rect: {listItemRect.Count}");
-        this.scrollBarPosition = normPos;
+        this.scrollBarPosition = (Direction == LISTDIRECTION.HORIZONTAL ? normPos.x : normPos.y);
         RefreshShownValue();
     }
 

@@ -1,47 +1,6 @@
-[
-    {
-        "name": "Qualification",
-        "roundInfos": [
-            {
-                "roundType": "Normal",
-                "outLimitType": "Normal",
-                "outLimit": 50,
-                "has95Rule": true,
-                "reversedBibs": false,
-                "reassignBibs": false
-            }
-        ]
-    },
-    {
-        "name": "QualificationKO",
-        "roundInfos": [
-            {
-                "roundType": "Normal",
-                "outLimitType": "Exact",
-                "outLimit": 50,
-                "has95Rule": true,
-                "reversedBibs": false,
-                "reassignBibs": false
-            }
-        ]
-    },
-    {
-        "name": "QualificationFlying",
-        "roundInfos": [
-            {
-                "roundType": "Normal",
-                "outLimitType": "Normal",
-                "outLimit": 40,
-                "has95Rule": true,
-                "reversedBibs": false,
-                "reassignBibs": false
-            }
-        ]
-    },
-    {
+[{
         "name": "Individual2Rounds",
-        "roundInfos": [
-            {
+        "roundInfos": [{
                 "roundType": "Normal",
                 "outLimitType": "Normal",
                 "outLimit": 30,
@@ -60,9 +19,101 @@
         ]
     },
     {
-        "name": "Individual4Rounds",
-        "roundInfos": [
+        "name": "IndividualKO",
+        "roundInfos": [{
+                "roundType": "KO",
+                "outLimitType": "Normal",
+                "outLimit": 30,
+                "has95Rule": true,
+                "reversedBibs": true,
+                "reassignBibs": false
+            },
             {
+                "roundType": "Normal",
+                "outLimitType": "None",
+                "outLimit": -1,
+                "has95Rule": true,
+                "reversedBibs": true,
+                "reassignBibs": false
+            }
+        ]
+    },
+    {
+        "name": "Individual2Rounds15",
+        "roundInfos": [{
+                "roundType": "Normal",
+                "outLimitType": "Normal",
+                "outLimit": 15,
+                "has95Rule": true,
+                "reversedBibs": false,
+                "reassignBibs": false
+            },
+            {
+                "roundType": "Normal",
+                "outLimitType": "None",
+                "outLimit": -1,
+                "has95Rule": true,
+                "reversedBibs": false,
+                "reassignBibs": false
+            }
+        ]
+    },
+    {
+        "name": "IndividualKO15",
+        "roundInfos": [{
+                "roundType": "KO",
+                "outLimitType": "Normal",
+                "outLimit": 15,
+                "has95Rule": true,
+                "reversedBibs": true,
+                "reassignBibs": false
+            },
+            {
+                "roundType": "Normal",
+                "outLimitType": "None",
+                "outLimit": -1,
+                "has95Rule": true,
+                "reversedBibs": true,
+                "reassignBibs": false
+            }
+        ]
+    },
+    {
+        "name": "Qualification",
+        "roundInfos": [{
+            "roundType": "Normal",
+            "outLimitType": "Normal",
+            "outLimit": 50,
+            "has95Rule": true,
+            "reversedBibs": false,
+            "reassignBibs": false
+        }]
+    },
+    {
+        "name": "QualificationKO",
+        "roundInfos": [{
+            "roundType": "Normal",
+            "outLimitType": "Exact",
+            "outLimit": 50,
+            "has95Rule": true,
+            "reversedBibs": false,
+            "reassignBibs": false
+        }]
+    },
+    {
+        "name": "QualificationFlying",
+        "roundInfos": [{
+            "roundType": "Normal",
+            "outLimitType": "Normal",
+            "outLimit": 40,
+            "has95Rule": true,
+            "reversedBibs": false,
+            "reassignBibs": false
+        }]
+    },
+    {
+        "name": "Individual4Rounds",
+        "roundInfos": [{
                 "roundType": "Normal",
                 "outLimitType": "Normal",
                 "outLimit": 30,
@@ -92,27 +143,6 @@
                 "outLimit": -1,
                 "has95Rule": true,
                 "reversedBibs": false,
-                "reassignBibs": false
-            }
-        ]
-    },
-    {
-        "name": "IndividualKO",
-        "roundInfos": [
-            {
-                "roundType": "KO",
-                "outLimitType": "Normal",
-                "outLimit": 30,
-                "has95Rule": true,
-                "reversedBibs": true,
-                "reassignBibs": false
-            },
-            {
-                "roundType": "Normal",
-                "outLimitType": "None",
-                "outLimit": -1,
-                "has95Rule": true,
-                "reversedBibs": true,
                 "reassignBibs": false
             }
         ]
