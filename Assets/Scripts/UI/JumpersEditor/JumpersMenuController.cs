@@ -15,10 +15,11 @@ public class JumpersMenuController : MonoBehaviour
     void Start()
     {
         dict = competitorsRuntime.Data.Select((item, index) => (item.id, index)).ToDictionary(item => item.id, item => item.index);
-        jumpersListView.Items = competitorsRuntime.Data.Select(item => GetItemFromJumper(item)).ToList();
+        jumpersListView.Items = competitorsRuntime.Data;
+        jumpersListView.Initialize(BindListViewItem);
         jumperInfo.Bind(competitorsRuntime.Data[0]);
     }
-    public JumpersListElementData GetItemFromJumper(CompCal.Competitor competitor)
+    public JumpersListElementData GetItemFromJumper(Competition.Competitor competitor)
     {
         return new JumpersListElementData
         {
@@ -29,6 +30,15 @@ public class JumpersMenuController : MonoBehaviour
             flagSprite = flagsData.GetFlag(competitor.countryCode),
             id = competitor.id
         };
+    }
+
+    private void BindListViewItem(int index, JumpersListItem item)
+    {
+        item.nameText.text = $"{jumpersListView.Items[index].firstName} {jumpersListView.Items[index].lastName.ToUpper()}";
+        item.countryFlagText.text = jumpersListView.Items[index].countryCode;
+        item.countryFlagImage.sprite = flagsData.GetFlag(jumpersListView.Items[index].countryCode);
+        item.genderIconImage.sprite = genderIcons[(int)jumpersListView.Items[index].gender];
+        item.toggleExtension.SetElementId(index);
     }
 
     public void BindData(string jumperId)
@@ -42,18 +52,18 @@ public class JumpersMenuController : MonoBehaviour
 
         int index = dict[competitor.id];
         dict.Remove(competitor.id);
-        competitorsRuntime.Repair(competitor);
+        competitorsRuntime.Recalculate(competitor);
 
         dict.Add(competitor.id, index);
-        jumpersListView.Items[index] = GetItemFromJumper(competitor);
+        jumpersListView.Items[index] = competitor;
         jumpersListView.RefreshShownValue();
     }
 
     public void AddCompetitor()
     {
-        var competitor = new CompCal.Competitor("", "", "");
-        competitorsRuntime.AddJumper(competitor);
-        jumpersListView.Add(GetItemFromJumper(competitor));
+        var competitor = new Competition.Competitor("", "", "");
+        competitorsRuntime.Add(competitor);
+        jumpersListView.Add(competitor);
         dict.Add(competitor.id, jumpersListView.Items.Count - 1);
     }
 
@@ -61,7 +71,7 @@ public class JumpersMenuController : MonoBehaviour
     {
         var competitor = jumperInfo.GetCompetitorValue();
         if (competitor == null) return;
-        competitorsRuntime.RemoveJumper(competitor);
+        competitorsRuntime.Remove(competitor);
         int index = dict[competitor.id];
         dict.Remove(competitor.id);
         jumpersListView.RemoveAt(index);

@@ -10,19 +10,20 @@ public class ToggleGroupExtension : MonoBehaviour
 {
     [SerializeField] private ToggleGroup toggleGroup;
     [SerializeField] private int currentId;
-    public int CurrentValue { get => currentId; set => currentId = value; }
+    public int CurrentValue { get => currentId; private set => currentId = value; }
     public ToggleGroup ToggleGroup { get => toggleGroup; set => toggleGroup = value; }
 
-    public void SetCurrentId(int elementId)
+    public void SetCurrentId(int elementId, bool sendCallback = true)
     {
-        bool tmp = (this.currentId == elementId);
-        this.currentId = elementId;
-        if (tmp) { this.onValueChanged?.Invoke(this.currentId); }
+        toggleGroup.allowSwitchOff = true;
+        bool tmp = (CurrentValue == elementId);
+        CurrentValue = elementId;
+        if (tmp && sendCallback) { onValueChanged?.Invoke(CurrentValue); }
     }
 
     public bool GetElementValue(int elementId)
     {
-        return elementId == this.currentId;
+        return elementId == CurrentValue;
     }
 
     public event Action<int> onValueChanged;

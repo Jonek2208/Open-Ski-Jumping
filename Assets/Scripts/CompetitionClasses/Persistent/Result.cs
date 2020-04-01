@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace CompCal
+namespace Competition
 {
     [Serializable]
     public class JumpResults

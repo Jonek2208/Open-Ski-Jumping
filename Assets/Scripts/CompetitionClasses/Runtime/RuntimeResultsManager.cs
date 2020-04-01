@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CompCal;
+using Competition;
 using UnityEngine;
 
 
@@ -46,7 +46,7 @@ public class RuntimeResultsManager : ScriptableObject
         }
 
         roundsCount = eventInfo.value.roundInfos.Count;
-        subroundsCount = (eventInfo.value.eventType == CompCal.EventType.Individual ? 1 : 4);
+        subroundsCount = (eventInfo.value.eventType == Competition.EventType.Individual ? 1 : 4);
 
         competitorsCount = results.Length;
 

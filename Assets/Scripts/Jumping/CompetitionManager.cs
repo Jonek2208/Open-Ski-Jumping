@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using CompCal;
+using Competition;
 using UnityEngine.Events;
 
 public class CompetitionManager : MonoBehaviour
@@ -12,14 +12,14 @@ public class CompetitionManager : MonoBehaviour
     // public JumpUIManager jumpUIManager;
     public JudgesController judges;
 
-    private CompCal.EventInfo currentEvent;
+    private Competition.EventInfo currentEvent;
     private RoundRunner roundRunner;
 
     public FloatVariable leaderPoints;
     public FloatVariable currentJumperPoints;
     public CompetitorVariable competitorVariable;
     public CompetitorVariable competitorVariable2;
-    public CompCal.ResultsDatabase resultsContainer;
+    public Competition.ResultsDatabase resultsContainer;
     public Calendar calendar;
     public UnityEventInt jumperPreparation;
 

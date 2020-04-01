@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using CompCal;
+using Competition;
 
 
 [CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeParticipantsList")]

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using CompCal;
+using Competition;
 
 public class ClassificationsListUI : ListDisplay
 {
@@ -28,7 +28,7 @@ public class ClassificationsListUI : ListDisplay
         changeEventListener.enabled = true;
     }
 
-    public void LoadList(List<CompCal.ClassificationInfo> tmpList)
+    public void LoadList(List<Competition.ClassificationInfo> tmpList)
     {
         ClearListElement();
         ListInit();

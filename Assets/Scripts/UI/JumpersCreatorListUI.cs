@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using CompCal;
+using Competition;
 
 public class JumpersCreatorListUI : ListDisplay
 {

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class GameSave
 {
     public string name;
-    public CompCal.Calendar calendar;
-    public CompCal.ResultsDatabase resultsContainer;
+    public Competition.Calendar calendar;
+    public Competition.ResultsDatabase resultsContainer;
 }
 
 [Serializable]
@@ -25,8 +25,8 @@ public class SaveData
 public class RoundInfoPreset
 {
     public string name;
-    public List<CompCal.RoundInfo> roundInfos;
-    public RoundInfoPreset(string name, List<CompCal.RoundInfo> roundInfos)
+    public List<Competition.RoundInfo> roundInfos;
+    public RoundInfoPreset(string name, List<Competition.RoundInfo> roundInfos)
     {
         this.name = name;
         this.roundInfos = roundInfos;

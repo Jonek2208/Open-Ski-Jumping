@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-using CompCal;
+using Competition;
 
 public class SavesListUI : ListDisplay
 {
@@ -11,7 +11,7 @@ public class SavesListUI : ListDisplay
 
     public TMPro.TMP_Dropdown calendarsDropdown;
     public List<GameSave> savesList;
-    private List<CompCal.Calendar> calendarsList;
+    private List<Competition.Calendar> calendarsList;
 
     public GameObject popUpObject;
     public TMPro.TMP_InputField calendarNameInput;
@@ -26,7 +26,7 @@ public class SavesListUI : ListDisplay
             AddListElement(NewListElement(item));
         }
 
-        calendarsList = new List<CompCal.Calendar>();
+        calendarsList = new List<Competition.Calendar>();
         if (databaseManager.dbCalendars.Loaded) { calendarsList = databaseManager.dbCalendars.Data; }
         LoadCalendarsList();
     }

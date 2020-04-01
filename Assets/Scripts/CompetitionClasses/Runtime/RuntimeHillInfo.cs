@@ -1,4 +1,4 @@
-using CompCal;
+using Competition;
 using UnityEngine;
 
 
@@ -6,7 +6,7 @@ using UnityEngine;
 public class RuntimeHillInfo : ScriptableObject
 {
     [SerializeField]
-    private CompCal.HillInfo value;
+    private Competition.HillInfo value;
 
     public HillInfo Value { get => value; set => this.value = value; }
 

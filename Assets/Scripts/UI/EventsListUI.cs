@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-using CompCal;
+using Competition;
 
 public class EventsListUI : ListDisplay
 {
@@ -24,7 +24,7 @@ public class EventsListUI : ListDisplay
     public GameObject classificationsToggleGroup;
     public GameObject classificationToggle;
 
-    public List<CompCal.EventInfo> eventsList;
+    public List<Competition.EventInfo> eventsList;
     private bool[] classificationsMask;
     private List<HillProfile.ProfileData> hillsList;
     private List<GameObject> classificationToggles;
@@ -32,7 +32,7 @@ public class EventsListUI : ListDisplay
 
     public override void ListInit()
     {
-        eventsList = new List<CompCal.EventInfo>();
+        eventsList = new List<Competition.EventInfo>();
         hillsList = new List<HillProfile.ProfileData>();
         if (databaseManager.dbHills.Loaded) { hillsList = databaseManager.dbHills.Data.profileData; }
 
@@ -78,11 +78,11 @@ public class EventsListUI : ListDisplay
         changeEventListener.enabled = true;
     }
 
-    public void LoadList(List<CompCal.EventInfo> tmpList)
+    public void LoadList(List<Competition.EventInfo> tmpList)
     {
         ClearListElement();
 
-        if (tmpList == null) { tmpList = new List<CompCal.EventInfo>(); }
+        if (tmpList == null) { tmpList = new List<Competition.EventInfo>(); }
         ListInit();
         foreach (var item in tmpList)
         {
@@ -91,14 +91,14 @@ public class EventsListUI : ListDisplay
         }
     }
 
-    public GameObject NewListElement(CompCal.EventInfo e)
+    public GameObject NewListElement(Competition.EventInfo e)
     {
         GameObject tmp = Instantiate(elementPrefab);
         SetValue(tmp, e);
         return tmp;
     }
 
-    public void SetValue(GameObject tmp, CompCal.EventInfo e)
+    public void SetValue(GameObject tmp, Competition.EventInfo e)
     {
         tmp.GetComponentInChildren<TMPro.TMP_Text>().text = e.hillId;
     }
@@ -133,14 +133,14 @@ public class EventsListUI : ListDisplay
         ordRankEventDropdown.ClearOptions();
         List<string> tmp = new List<string>();
         Debug.Log(ordRankTypeDropdown.value);
-        if (ordRankTypeDropdown.value == (int)CompCal.RankType.Event)
+        if (ordRankTypeDropdown.value == (int)Competition.RankType.Event)
         {
             for (int i = 0; i < currentIndex; i++)
             {
                 tmp.Add(eventsList[i].hillId);
             }
         }
-        else if (ordRankTypeDropdown.value == (int)CompCal.RankType.Classification)
+        else if (ordRankTypeDropdown.value == (int)Competition.RankType.Classification)
         {
             for (int i = 0; i < GetComponent<ClassificationsListUI>().classificationsList.Count; i++)
             {
@@ -155,7 +155,7 @@ public class EventsListUI : ListDisplay
         qualRankEventDropdown.ClearOptions();
         List<string> tmp = new List<string>();
         Debug.Log(qualRankTypeDropdown.value);
-        if (qualRankTypeDropdown.value == (int)CompCal.RankType.Event)
+        if (qualRankTypeDropdown.value == (int)Competition.RankType.Event)
         {
             for (int i = 0; i < currentIndex; i++)
             {
@@ -163,7 +163,7 @@ public class EventsListUI : ListDisplay
                 tmp.Add(eventsList[i].hillId);
             }
         }
-        else if (qualRankTypeDropdown.value == (int)CompCal.RankType.Classification)
+        else if (qualRankTypeDropdown.value == (int)Competition.RankType.Classification)
         {
             for (int i = 0; i < GetComponent<ClassificationsListUI>().classificationsList.Count; i++)
             {
@@ -178,7 +178,7 @@ public class EventsListUI : ListDisplay
 
     public void Add()
     {
-        CompCal.EventInfo e = new CompCal.EventInfo("", CompCal.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
+        Competition.EventInfo e = new Competition.EventInfo("", Competition.EventType.Individual, new List<RoundInfo>(), new List<int>(), RankType.None, 0, RankType.None, 0);
         eventsList.Add(e);
         AddListElement(NewListElement(e));
         Save();
@@ -189,7 +189,7 @@ public class EventsListUI : ListDisplay
         changeEventListener.enabled = false;
         // eventsList[currentIndex].hillId = hillsDropdown.value;
         eventsList[currentIndex].hillId = "";
-        eventsList[currentIndex].eventType = (CompCal.EventType)eventTypeDropdown.value;
+        eventsList[currentIndex].eventType = (Competition.EventType)eventTypeDropdown.value;
         eventsList[currentIndex].inLimitType = (LimitType)inLimitTypeDropdown.value;
         eventsList[currentIndex].inLimit = int.Parse(inLimitInput.text);
 
@@ -202,10 +202,10 @@ public class EventsListUI : ListDisplay
             }
         }
 
-        eventsList[currentIndex].ordRankType = (CompCal.RankType)ordRankTypeDropdown.value;
+        eventsList[currentIndex].ordRankType = (Competition.RankType)ordRankTypeDropdown.value;
         eventsList[currentIndex].ordRankId = ordRankEventDropdown.value;
 
-        eventsList[currentIndex].qualRankType = (CompCal.RankType)qualRankTypeDropdown.value;
+        eventsList[currentIndex].qualRankType = (Competition.RankType)qualRankTypeDropdown.value;
         eventsList[currentIndex].qualRankId = qualRankEventDropdown.value;
         // eventsList[currentIndex].eventPreset = eventPresetDropdown.value;
 

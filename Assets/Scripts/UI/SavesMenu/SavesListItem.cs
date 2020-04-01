@@ -5,13 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SavesListItem : MonoBehaviour, IListViewElement<string>
+public class SavesListItem : MonoBehaviour
 {
     public ToggleExtension toggleExtension;
-    [SerializeField] private TMP_Text valueText;
-    public void UpdateContent(int index, string val)
-    {
-        this.valueText.text = val;
-        this.toggleExtension.SetElementId(index);
-    }
+    public TMP_Text valueText;
 }

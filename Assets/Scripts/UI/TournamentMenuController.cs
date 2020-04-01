@@ -8,8 +8,8 @@ public class TournamentMenuController : MonoBehaviour
     public DatabaseManager databaseManager;
     public FlagsData flagsData;
     private GameSave gameSave;
-    private CompCal.ResultsDatabase resultsContainer;
-    private CompCal.Calendar calendar;
+    private Competition.ResultsDatabase resultsContainer;
+    private Competition.Calendar calendar;
     private List<GameObject> resultsList;
     public TMPro.TMP_Dropdown resultsDropdown;
     public GameObject resultsWrapperPrefab;
@@ -47,7 +47,7 @@ public class TournamentMenuController : MonoBehaviour
         }
     }
 
-    public void ShowEventResults(CompCal.ResultsDatabase calendarResults, int classificationId)
+    public void ShowEventResults(Competition.ResultsDatabase calendarResults, int classificationId)
     {
         resultsList = new List<GameObject>();
         resultsInfoText.text = calendar.classifications[classificationId].name;

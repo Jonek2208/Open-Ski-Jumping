@@ -1,10 +1,10 @@
-using CompCal;
+using Competition;
 using UnityEngine;
 
 [CreateAssetMenu]
 public class CompetitorVariable : ScriptableObject
 {
-    private CompCal.Competitor value;
+    private Competition.Competitor value;
     public StringVariable firstName;
     public StringVariable lastName;
     public StringVariable countryCode;
@@ -15,7 +15,7 @@ public class CompetitorVariable : ScriptableObject
     public FloatVariable speed;
     public FloatVariable distance;
 
-    public void Set(CompCal.Competitor competitor)
+    public void Set(Competition.Competitor competitor)
     {
         this.value = competitor;
         this.firstName.Value = this.value.firstName;

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,7 +17,7 @@ public class SimpleColorPicker : MonoBehaviour
         input.text = hexColor;
         image.color = currentColor;
     }
-    public UnityEvent OnColorChange;
+    public event Action OnColorChange;
 
     public static bool TryParseHex(string hex, out int redVal, out int greenVal, out int blueVal)
     {
@@ -57,7 +58,7 @@ public class SimpleColorPicker : MonoBehaviour
         currentColor = new Color(red / 255f, green / 255f, blue / 255f);
         hexColor = hex;
         image.color = currentColor;
-        OnColorChange.Invoke();
+        OnColorChange?.Invoke();
     }
 
     public void Set(string hex)

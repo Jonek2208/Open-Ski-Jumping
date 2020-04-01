@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CompCal
+namespace Competition
 {
     public interface RoundResults
     {

@@ -31,7 +31,7 @@ public class JumpUITeamPostJump : PostJumpUIManager
     public void SetCountry()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
+        Competition.Team team = competitors.teams[participants.participants[competitorId].id];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
         countryInfo.CountryName.text = team.countryCode;
     }
@@ -49,9 +49,9 @@ public class JumpUITeamPostJump : PostJumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
-        CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        Competition.Team team = competitors.teams[participants.participants[competitorId].id];
+        Competition.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
 
         this.teamName.text = team.teamName.ToUpper();
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
@@ -62,7 +62,7 @@ public class JumpUITeamPostJump : PostJumpUIManager
         int xx = jumpsCount - meters.Length;
         int offset = Mathf.Max(0, meters.Length - jumpsCount);
 
-        CompCal.JumpResult jump = jumpResults.results[resultsManager.roundIndex];
+        Competition.JumpResult jump = jumpResults.results[resultsManager.roundIndex];
         totalTeam.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
         totalJumper.text = resultsManager.results[competitorId].TotalResults[resultsManager.subroundIndex].ToString("F1", CultureInfo.InvariantCulture);
         wind.SetValues(jump.windPoints);

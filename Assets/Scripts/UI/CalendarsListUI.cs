@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-using CompCal;
+using Competition;
 
 public class CalendarsListUI : ListDisplay
 {

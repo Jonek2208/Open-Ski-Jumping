@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SkiJumperData : ScriptableObject
 {
-    public CompCal.Gender gender;
+    public Competition.Gender gender;
     public Color helmetColor;
     public Color suitTopFrontColor;
     public Color suitTopBackColor;
     public Color suitBottomFrontColor;
     public Color suitBottomBackColor;
     public Color skisColor;
-    public void Set(CompCal.Competitor competitorData)
+    public void Set(Competition.Competitor competitorData)
     {
         gender = competitorData.gender;
         helmetColor = SimpleColorPicker.Hex2Color(competitorData.helmetColor);

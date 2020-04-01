@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
-using CompCal;
+using Competition;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,7 +30,7 @@ public class JumperInfo : MonoBehaviour
         boundCompetitor.firstName = firstNameInput.text;
         boundCompetitor.lastName = lastNameInput.text;
         boundCompetitor.countryCode = countryCodeInput.text;
-        boundCompetitor.gender = (CompCal.Gender)(genderDropdown.value);
+        boundCompetitor.gender = (Competition.Gender)(genderDropdown.value);
         boundCompetitor.helmetColor = helmetColorPicker.ToHex;
         boundCompetitor.suitBottomBackColor = suitBottomBackColorPicker.ToHex;
         boundCompetitor.suitBottomFrontColor = suitBottomFrontColorPicker.ToHex;
@@ -71,7 +71,7 @@ public class JumperInfo : MonoBehaviour
         return uri.AbsoluteUri;
     }
 
-    public void Bind(CompCal.Competitor competitor)
+    public void Bind(Competition.Competitor competitor)
     {
         this.boundCompetitor = competitor;
         gameEventListener.enabled = false;

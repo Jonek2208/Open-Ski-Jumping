@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using CompCal;
+using Competition;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Collections;

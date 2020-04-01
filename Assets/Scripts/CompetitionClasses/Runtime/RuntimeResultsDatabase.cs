@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CompCal;
+using Competition;
 using UnityEngine;
 
 

@@ -9,7 +9,7 @@ public class SkiJumperDataController : MonoBehaviour
     public JumperController2 jumperController;
     public GameObject jumperMale;
     public GameObject jumperFemale;
-    public CompCal.Competitor competitor;
+    public Competition.Competitor competitor;
     public Material helmetMaterial;
     public Material suitTopFrontMaterial;
     public Material suitTopBackMaterial;
@@ -25,9 +25,9 @@ public class SkiJumperDataController : MonoBehaviour
 
     public void SetValues()
     {
-        jumperMale.SetActive(competitor.gender == CompCal.Gender.Male);
-        jumperFemale.SetActive(competitor.gender == CompCal.Gender.Female);
-        jumperController.modelObject = (competitor.gender == CompCal.Gender.Male ? jumperMale : jumperFemale);
+        jumperMale.SetActive(competitor.gender == Competition.Gender.Male);
+        jumperFemale.SetActive(competitor.gender == Competition.Gender.Female);
+        jumperController.modelObject = (competitor.gender == Competition.Gender.Male ? jumperMale : jumperFemale);
         // helmetMaterial.SetColor("_Color", competitor.helmetColor);
         // suitTopFrontMaterial.SetColor("_Color", skiJumperData.suitTopFrontColor);
         // suitTopBackMaterial.SetColor("_Color", skiJumperData.suitTopBackColor);

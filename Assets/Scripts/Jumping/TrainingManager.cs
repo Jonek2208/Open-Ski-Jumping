@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using CompCal;
+using Competition;
 using UnityEngine.Events;
 
 public class TrainingManager : MonoBehaviour

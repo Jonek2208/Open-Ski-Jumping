@@ -1,37 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using CompCal;
+using Competition;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/Data/CompetitorsRuntime")]
-public class CompetitorsRuntime : DatabaseObject<List<CompCal.Competitor>>
+public class CompetitorsRuntime : DatabaseObject<List<Competition.Competitor>>
 {
     private Dictionary<string, int> dict;
-    public CompCal.Competitor GetJumperById(string id)
+    public Competition.Competitor GetJumperById(string id)
     {
         if (!this.dict.ContainsKey(id)) { return null; }
         return this.data[dict[id]];
     }
+    public List<Competitor> GetData() => Data;
 
-
-    public void AddJumper(CompCal.Competitor competitor)
+    public void Add(Competition.Competitor competitor)
     {
         this.data.Add(competitor);
         AddToDict(competitor, data.Count - 1);
     }
 
-    public void RemoveJumper(CompCal.Competitor competitor)
+    public bool Remove(Competition.Competitor competitor)
     {
         string jumperId = competitor.id;
+        if (!dict.ContainsKey(jumperId)) { return false; }
         int index = dict[jumperId];
         data[index] = data[data.Count - 1];
         dict[data[index].id] = index;
         data.RemoveAt(data.Count - 1);
         dict.Remove(jumperId);
+        return true;
     }
 
-    private void AddToDict(CompCal.Competitor competitor, int index)
+    private void AddToDict(Competition.Competitor competitor, int index)
     {
         string idWithoutNum = GetJumperIdWithoutNum(competitor);
         int num = 0;
@@ -50,15 +52,15 @@ public class CompetitorsRuntime : DatabaseObject<List<CompCal.Competitor>>
         dict.Add(jumperId, index);
     }
 
-    private string GetJumperIdWithoutNum(CompCal.Competitor comp)
+    private string GetJumperIdWithoutNum(Competition.Competitor comp)
     {
-        string gender = (comp.gender == CompCal.Gender.Male ? "M" : "F");
+        string gender = (comp.gender == Competition.Gender.Male ? "M" : "F");
         string firstName = comp.firstName.Replace(' ', '_');
         string lastName = comp.lastName.Replace(' ', '_');
         return $"{comp.countryCode}-{gender}-{lastName}-{firstName}";
     }
 
-    public void Repair(Competitor competitor)
+    public void Recalculate(Competitor competitor)
     {
         int index = dict[competitor.id];
         dict.Remove(competitor.id);
@@ -72,7 +74,7 @@ public class CompetitorsRuntime : DatabaseObject<List<CompCal.Competitor>>
         if (!tmp) { return false; }
         return true;
     }
-    private bool IsJumperIdValid(CompCal.Competitor competitor, string jumperId)
+    private bool IsJumperIdValid(Competition.Competitor competitor, string jumperId)
     {
         int num;
         bool tmp = GetJumperIdNum(jumperId, out num);

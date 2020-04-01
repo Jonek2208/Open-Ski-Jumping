@@ -1,1 +1,1 @@
-public class SavesListView : ListView<string, SavesListItem> { }
+public class SavesListView : ListView<GameSave, SavesListItem> { }

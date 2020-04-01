@@ -1,10 +1,10 @@
-using CompCal;
+using Competition;
 using UnityEngine;
 
 [CreateAssetMenu]
 public class JumpResultVariable : ScriptableObject
 {
-    private CompCal.Competitor value;
+    private Competition.Competitor value;
 
     public StringVariable competitorFirstName;
     public StringVariable competitorLastName;
@@ -13,7 +13,7 @@ public class JumpResultVariable : ScriptableObject
     public IntVariable competitorRank;
     public IntVariable competitorBib;
 
-    public void Set(CompCal.Competitor competitor, int bib)
+    public void Set(Competition.Competitor competitor, int bib)
     {
         this.value = competitor;
         this.competitorFirstName.Value = this.value.firstName;

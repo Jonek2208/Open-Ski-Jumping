@@ -1,4 +1,4 @@
-using CompCal;
+using Competition;
 using UnityEngine;
 
 
@@ -6,7 +6,7 @@ using UnityEngine;
 public class RuntimeCalendar : ScriptableObject
 {
     [SerializeField]
-    private CompCal.Calendar value;
+    private Competition.Calendar value;
 
     public Calendar Value { get => value; set => this.value = value; }
 }

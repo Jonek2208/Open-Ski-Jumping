@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CompCal
+namespace Competition
 {
     public class EventRunner
     {

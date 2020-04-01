@@ -9,12 +9,7 @@ public enum LISTDIRECTION
     VERTICAL = 1
 }
 
-public interface IListViewElement<T>
-{
-    void UpdateContent(int index, T val);
-}
-
-public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour, IListViewElement<ItemData>
+public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
 {
     public RectTransform content;
     public Mask mask;
@@ -29,7 +24,7 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
     private float prefabSize;
 
     [SerializeField]
-    private List<ItemData> items = new List<ItemData>();
+    private IList<ItemData> items = new List<ItemData>();
 
     private Dictionary<int, int[]> itemDict = new Dictionary<int, int[]>();
     private List<RectTransform> listItemRect = new List<RectTransform>();
@@ -38,12 +33,12 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
     private Vector3 startPos;
     private Vector3 offsetVec;
     private float scrollBarPosition = 1;
+    public IList<ItemData> Items { get => items; set { items = value; } }
+    public Action<int, Item> BindItem { get; set; }
 
-    public List<ItemData> Items { get => items; set { items = value; } }
-
-    // Use this for initialization
-    private void Start()
+    public void Initialize(Action<int, Item> fun)
     {
+        BindItem = fun;
         ShowHelper();
         this.scrollRect.onValueChanged.AddListener(ReorderItemsByPos);
     }
@@ -115,7 +110,8 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
 
             Item li = obj.GetComponentInChildren<Item>();
             this.listItems.Add(li);
-            li.UpdateContent(i, items[i]);
+            BindItem(i, li);
+            // li.UpdateContent(i, items);
         }
 
         for (int i = numItems; i < listItems.Count; i++)
@@ -145,13 +141,15 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
         for (int i = originalIndex; i < numItems; i++)
         {
             moveItemByIndex(listItemRect[i], newIndex);
-            this.listItems[i].UpdateContent(newIndex, items[newIndex]);
+            BindItem(newIndex, listItems[i]);
+            // this.listItems[i].UpdateContent(newIndex, items);
             newIndex++;
         }
         for (int i = 0; i < originalIndex; i++)
         {
             moveItemByIndex(listItemRect[i], newIndex);
-            this.listItems[i].UpdateContent(newIndex, items[newIndex]);
+            BindItem(newIndex, listItems[i]);
+            // this.listItems[i].UpdateContent(newIndex, items);
             newIndex++;
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CompCal;
+using Competition;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -10,10 +10,10 @@ public class DatabaseManager : MonoBehaviour
     public DatabaseObject<List<RoundInfoPreset>> dbRoundInfoPresets;
 
     public bool loadCalendars;
-    public DatabaseObject<List<CompCal.Calendar>> dbCalendars;
+    public DatabaseObject<List<Competition.Calendar>> dbCalendars;
 
     public bool loadCompetitors;
-    public DatabaseObject<List<CompCal.Competitor>> dbCompetitors;
+    public DatabaseObject<List<Competition.Competitor>> dbCompetitors;
 
     public bool loadHills;
     public DatabaseObject<HillProfile.AllData> dbHills;

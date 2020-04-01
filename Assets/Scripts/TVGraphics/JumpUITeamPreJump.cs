@@ -51,8 +51,8 @@ public class JumpUITeamPreJump : PreJumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.lastRank[competitorId];
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
+        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        Competition.Team team = competitors.teams[participants.participants[competitorId].id];
 
         this.teamName.text = team.teamName.ToUpper();
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
@@ -63,7 +63,7 @@ public class JumpUITeamPreJump : PreJumpUIManager
         {
             nextAthleteObj.SetActive(true);
             int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
-            CompCal.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
+            Competition.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
             nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
         }
         else
@@ -90,8 +90,8 @@ public class JumpUITeamPreJump : PreJumpUIManager
         }
         else
         {
-            CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
-            CompCal.JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
+            Competition.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+            Competition.JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
             this.totalJumper.text = resultsManager.results[competitorId].TotalResults[resultsManager.subroundIndex].ToString("F1", CultureInfo.InvariantCulture);
             int xx = Mathf.Max(0, jumpsCount - meters.Length);
             foreach (var item in meters)
@@ -113,7 +113,7 @@ public class JumpUITeamPreJump : PreJumpUIManager
     public void SetCountry()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        CompCal.Team team = competitors.teams[participants.participants[competitorId].id];
+        Competition.Team team = competitors.teams[participants.participants[competitorId].id];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
         countryInfo.CountryName.text = team.countryCode;
     }
@@ -121,7 +121,7 @@ public class JumpUITeamPreJump : PreJumpUIManager
     IEnumerator LoadImage()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
         yield return www.SendWebRequest();
 

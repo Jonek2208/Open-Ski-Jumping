@@ -6,8 +6,8 @@ using UnityEngine.U2D;
 public class FlagsData : ScriptableObject
 {
     [SerializeField]
-    public CompCal.CountryData data;
-    private Dictionary<string, int> countriesDict;
+    public Competition.CountryData data;
+    private Dictionary<string, string> countriesDict;
     [SerializeField]
     private SpriteAtlas flagsSpriteAtlas;
 
@@ -19,25 +19,17 @@ public class FlagsData : ScriptableObject
 
     public void LoadCountriesData()
     {
-        this.countriesDict = new Dictionary<string, int>();
-
-        for (int i = 0; i < this.data.spritesList.Count; i++)
-        {
-            this.countriesDict.Add(this.data.spritesList[i], i);
-        }
+        countriesDict = new Dictionary<string, string>();
 
         foreach (var c in this.data.countryList)
         {
-            if (this.countriesDict.ContainsKey(c.alpha2))
-            {
-                this.countriesDict.Add(c.ioc, this.countriesDict[c.alpha2]);
-            }
+            countriesDict.Add(c.ioc, c.alpha2);
         }
     }
 
     public Sprite GetFlag(string countryCode)
     {
-        string flagSprite = this.countriesDict.ContainsKey(countryCode) ? this.countriesDict[countryCode].ToString() : "0";
-        return this.flagsSpriteAtlas.GetSprite("flags_responsive_uncompressed_" + flagSprite);
+        string flagSprite = countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode].ToString() : "ioc";
+        return flagsSpriteAtlas.GetSprite(flagSprite);
     }
 }

@@ -30,7 +30,7 @@ public class JumpUINormalPostJump : PostJumpUIManager
     public void SetCountry()
     {
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
         countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
         countryInfo.CountryName.text = competitor.countryCode;
     }
@@ -48,8 +48,8 @@ public class JumpUINormalPostJump : PostJumpUIManager
         int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
         int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
         int rank = resultsManager.results[competitorId].Rank;
-        CompCal.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        CompCal.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        Competition.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
 
         this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
         this.bib.text = bib.ToString();
@@ -58,7 +58,7 @@ public class JumpUINormalPostJump : PostJumpUIManager
         int xx = jumpsCount - meters.Length;
         int offset = Mathf.Max(0, meters.Length - jumpsCount);
 
-        CompCal.JumpResult jump = jumpResults.results[resultsManager.roundIndex];
+        Competition.JumpResult jump = jumpResults.results[resultsManager.roundIndex];
         total.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
         wind.SetValues(jump.windPoints);
         gate.SetValues(jump.gatePoints);

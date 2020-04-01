@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CompCal
+namespace Competition
 {
     [Serializable]
     public class ClassificationResults

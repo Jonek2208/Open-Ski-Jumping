@@ -1,35 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Competition;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JumpersListItem : MonoBehaviour, IListViewElement<JumpersListElementData>
+public class JumpersListItem : MonoBehaviour
 {
     private string jumperId;
     public ToggleExtension toggleExtension;
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text countryFlagText;
-    [SerializeField] private Image countryFlagImage;
-    [SerializeField] private Image genderIconImage;
-
-    public void UpdateContent(int index, JumpersListElementData val)
-    {
-        this.jumperId = val.id;
-        this.nameText.text = $"{val.firstName} {val.lastName.ToUpper()}";
-        this.countryFlagText.text = val.countryCode;
-        this.countryFlagImage.sprite = val.flagSprite;
-        this.genderIconImage.sprite = val.genderIcon;
-        this.toggleExtension.SetElementId(index);
-    }
-
-    public UnityEventString onClickedEvent;
-
-    public void OnClicked(bool value)
-    {
-        if (value)
-        { this.onClickedEvent.Invoke(jumperId); }
-    }
+    public TMP_Text nameText;
+    public TMP_Text countryFlagText;
+    public Image countryFlagImage;
+    public Image genderIconImage;
 }
 
 [System.Serializable]

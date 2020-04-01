@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ListItem : MonoBehaviour, IListViewElement<ResultData>
+public class ListItem : MonoBehaviour
 {
     public ToggleExtension toggleExtension;
-    public void UpdateContent(int index, ResultData val)
+    public void UpdateContent(int index, IList<ResultData> val)
     {
-        GetComponentInChildren<TMP_Text>().text = $"{val.result:F1} {val.firstName} {val.lastName}";
+        GetComponentInChildren<TMP_Text>().text = $"{val[index].result:F1} {val[index].firstName} {val[index].lastName}";
         toggleExtension.SetElementId(index);
     }
 }
