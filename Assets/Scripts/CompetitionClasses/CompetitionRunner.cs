@@ -7,19 +7,15 @@ using System.Collections;
 
 public class CompetitionRunner : MonoBehaviour
 {
-    [SerializeField]
-    private IntVariable eventId;
-    [SerializeField]
-    private RuntimeCalendar calendar;
-    [SerializeField]
-    private RuntimeEventInfo eventInfo;
-    [SerializeField]
-    private RuntimeResultsDatabase resultsContainer;
-    [SerializeField]
-    private RuntimeParticipantsList startList;
-    [SerializeField]
-    private RuntimeResultsManager resultsManager;
-
+    [SerializeField] private SavesRuntime savesRepository;
+    [SerializeField] private HillsRuntime hillsRepository;
+    [SerializeField] private IntVariable eventId;
+    [SerializeField] private RuntimeCalendar calendar;
+    [SerializeField] private RuntimeEventInfo eventInfo;
+    [SerializeField] private RuntimeResultsDatabase resultsDatabase;
+    [SerializeField] private RuntimeParticipantsList startList;
+    [SerializeField] private RuntimeResultsManager resultsManager;
+    [SerializeField] private IHillInfo hillInfo;
     public UnityEvent onCompetitionStart;
     public UnityEvent onCompetitionFinish;
     public UnityEvent onRoundStart;
@@ -28,9 +24,9 @@ public class CompetitionRunner : MonoBehaviour
     public UnityEvent onSubroundFinish;
     public UnityEvent onNewJumper;
     public UnityEvent onJumpStart;
-    public UnityEvent onJumpFinish; 
+    public UnityEvent onJumpFinish;
 
-    private void Awake()
+    private void Start()
     {
         // eventManager = new EventManager(eventId.Value, calendar.Value, resultsContainer.Value);
         OnCompetitionStart();
@@ -81,7 +77,13 @@ public class CompetitionRunner : MonoBehaviour
     public void OnCompetitionStart()
     {
         onCompetitionStart.Invoke();
-        resultsManager.CompetitionInit();
+        GameSave save = savesRepository.GetCurrentSave();
+        var participants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer);
+        int eventId = save.resultsContainer.eventIndex;
+        string hillId = save.calendar.events[eventId].hillId;
+        
+        hillInfo = hillsRepository.GetHillInfo(hillId);
+        resultsManager.Initialize(save.calendar.events[eventId], participants, hillInfo);
         OnRoundStart();
         OnSubroundStart();
         OnJumpStart();
@@ -105,5 +107,7 @@ public class CompetitionRunner : MonoBehaviour
     {
         onNewJumper.Invoke();
     }
+
+
 
 }

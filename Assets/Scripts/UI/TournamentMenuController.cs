@@ -36,7 +36,7 @@ public class TournamentMenuController : MonoBehaviour
 
     public void LoadNextEvent()
     {
-        if (resultsContainer.eventIt >= calendar.events.Count)
+        if (resultsContainer.eventIndex >= calendar.events.Count)
         {
             databaseManager.dbSaveData.savesList.RemoveAt(databaseManager.dbSaveData.currentSaveId);
             databaseManager.dbSaveData.currentSaveId = -1;

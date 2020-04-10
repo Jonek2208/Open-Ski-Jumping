@@ -65,9 +65,12 @@ public class SavesMenuView : MonoBehaviour, ISavesMenuView
             listView.Items = saves;
             FixCurrentSelection();
             listView.Refresh();
+            OnSelectionChanged?.Invoke();
         }
     }
     private List<Calendar> calendars;
+    private GameSave selectedSave;
+
     public IEnumerable<Calendar> Calendars
     {
         set
@@ -78,7 +81,7 @@ public class SavesMenuView : MonoBehaviour, ISavesMenuView
         }
     }
 
-    public GameSave SelectedSave { get; private set; }
+    public GameSave SelectedSave { get => saves[toggleGroup.CurrentValue]; }
     public Calendar SelectedCalendar { get => calendars[dropdown.value]; }
 
 
@@ -93,7 +96,7 @@ public class SavesMenuView : MonoBehaviour, ISavesMenuView
 
     private void Start()
     {
-        toggleGroup.onValueChanged += (val) => { SelectedSave = saves[val]; OnSelectionChanged?.Invoke(); };
+        toggleGroup.onValueChanged += (val) => { OnSelectionChanged?.Invoke(); };
         listView.Initialize(BindListViewItem);
         addButton.onClick.AddListener(() => OnAdd?.Invoke());
         removeButton.onClick.AddListener(() => OnRemove?.Invoke());
@@ -122,11 +125,9 @@ public class SavesMenuView : MonoBehaviour, ISavesMenuView
     public void SelectSave(GameSave save)
     {
         int index = saves.IndexOf(save);
-        // Debug.Log($"Save index: {index}");
         index = Mathf.Clamp(index, 0, saves.Count - 1);
-        // Debug.Log($"Save index clamped: {index}");
         toggleGroup.SetCurrentId(index);
-        // Debug.Log($"Save index clamped: {toggleGroup.CurrentValue}");
+        listView.ScrollToIndex(index);
         listView.RefreshShownValue();
     }
 }

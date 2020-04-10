@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class ToggleGroupExtension : MonoBehaviour
 {
     [SerializeField] private ToggleGroup toggleGroup;
-    [SerializeField] private int currentId;
+    [SerializeField] private int currentId = -1;
     public int CurrentValue { get => currentId; private set => currentId = value; }
     public ToggleGroup ToggleGroup { get => toggleGroup; set => toggleGroup = value; }
 
@@ -18,7 +18,8 @@ public class ToggleGroupExtension : MonoBehaviour
         toggleGroup.allowSwitchOff = true;
         bool tmp = (CurrentValue == elementId);
         CurrentValue = elementId;
-        if (tmp && sendCallback) { onValueChanged?.Invoke(CurrentValue); }
+        // Debug.Log($"Send Callback: {tmp} {sendCallback}");
+        if (!tmp && sendCallback) { onValueChanged?.Invoke(CurrentValue); }
     }
 
     public bool GetElementValue(int elementId)

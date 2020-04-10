@@ -16,4 +16,9 @@ public class SavesRuntime : DatabaseObject<SaveData>
     {
         Data.savesList.Add(item);
     }
+
+    public GameSave GetCurrentSave()
+    {
+        return Data.savesList[Data.currentSaveId];
+    }
 }

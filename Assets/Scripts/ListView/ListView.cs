@@ -11,21 +11,19 @@ public enum LISTDIRECTION
 
 public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
 {
-    public RectTransform content;
-    public Mask mask;
-    public RectTransform listItem;
-    public ScrollRect scrollRect;
-    public float Spacing;
-    public LISTDIRECTION Direction = LISTDIRECTION.HORIZONTAL;
+    [SerializeField] private RectTransform content;
+    [SerializeField] private Mask mask;
+    [SerializeField] private RectTransform listItem;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private float Spacing;
+    [SerializeField] private LISTDIRECTION Direction = LISTDIRECTION.HORIZONTAL;
     private RectTransform maskRT;
     private int numVisible;
     private int numBuffer = 2;
     private float containerHalfSize;
     private float prefabSize;
 
-    [SerializeField]
-    private IList<ItemData> items = new List<ItemData>();
-
+    [SerializeField] private IList<ItemData> items = new List<ItemData>();
     private Dictionary<int, int[]> itemDict = new Dictionary<int, int[]>();
     private List<RectTransform> listItemRect = new List<RectTransform>();
     private List<Item> listItems = new List<Item>();
@@ -33,7 +31,7 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
     private Vector3 startPos;
     private Vector3 offsetVec;
     private float scrollBarPosition = 1;
-    public IList<ItemData> Items { get => items; set { items = value; } }
+    public IList<ItemData> Items { get => items; set => items = value; }
     public Action<int, Item> BindItem { get; set; }
 
     public void Initialize(Action<int, Item> fun)
@@ -46,18 +44,6 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
     private void OnDestroy()
     {
         this.scrollRect.onValueChanged.RemoveListener(ReorderItemsByPos);
-    }
-
-    public void Add(ItemData val)
-    {
-        this.items.Add(val);
-        Refresh();
-    }
-
-    public void RemoveAt(int index)
-    {
-        this.items.RemoveAt(index);
-        Refresh();
     }
 
     public void Refresh()
@@ -73,6 +59,16 @@ public class ListView<ItemData, Item> : MonoBehaviour where Item : MonoBehaviour
         ShowHelper();
         this.scrollBarPosition = targetPosition;
         RefreshShownValue();
+    }
+
+    public void ScrollToIndex(int index)
+    {
+        float x = content.rect.size.y;
+        float a = maskRT.rect.size.y;
+        scrollBarPosition = 1 - Mathf.Clamp01((index / (float)items.Count * x) / (x - a) - a / 2f / x);
+        Debug.Log($"ScrollBar Position: {index} {index / (float)items.Count * x} {(x - a)} {a / 2f / x} {scrollBarPosition}");
+        scrollRect.verticalNormalizedPosition = scrollBarPosition;
+        // RefreshShownValue();
     }
 
     private void ShowHelper()

@@ -171,7 +171,7 @@ public class RuntimeResultsManager : ScriptableObject
         JumpResult jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.Gate, jumpData.Wind, jumpData.Speed);
         jump.distancePoints = hillInfo.GetDistancePoints(jump.distance);
         jump.windPoints = hillInfo.GetWindPoints(jump.wind);
-        jump.gatePoints = hillInfo.GetGatePoints(0, jump.gate);
+        jump.gatePoints = hillInfo.GetGatePoints(0, jump.gatesDiff);
         jump.totalPoints = Math.Max(0, jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints);
         if (roundIndex > 0 || subroundIndex > 0)
         {
@@ -287,5 +287,12 @@ public class RuntimeResultsManager : ScriptableObject
         }
 
         return bib;
+    }
+
+
+    private IResultsManager value;
+    public void Initialize(EventInfo eventInfo, List<int> orderedParticipants, IHillInfo hillInfo)
+    {
+        value = new ResultsManager(eventInfo, orderedParticipants, hillInfo);
     }
 }

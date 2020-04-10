@@ -64,6 +64,7 @@ public class SavesMenuPresenter
             view.HideSaveInfo();
             return;
         }
+        
         view.ShowSaveInfo();
         view.CurrentSaveName = save.name;
         view.CurrentCalendarName = save.calendar.name;

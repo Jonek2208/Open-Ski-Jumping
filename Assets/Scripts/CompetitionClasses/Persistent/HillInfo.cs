@@ -3,12 +3,18 @@ using UnityEngine;
 
 namespace Competition
 {
+    public interface IHillInfo
+    {
+        decimal GetDistancePoints(decimal distance);
+        decimal GetWindPoints(decimal wind);
+        decimal GetGatePoints(int gatesDiff);
+    }
 
     [Serializable]
-    public class HillInfo
+    public class HillInfo : IHillInfo
     {
         [SerializeField]
-        private float k; 
+        private float k;
         [SerializeField]
         private float hs;
         [SerializeField]
@@ -32,5 +38,22 @@ namespace Competition
         public decimal HeadWindFactor { get => (decimal)headWindFactor; set => headWindFactor = (float)value; }
         public decimal GateFactor { get => (decimal)gateFactor; set => gateFactor = (float)value; }
         public decimal GatesSpacing { get => (decimal)gatesSpacing; set => gatesSpacing = (float)value; }
+
+        public HillInfo(decimal kPoint, decimal hs, decimal headWindFactor, decimal tailWindFactor, decimal gateFactor, decimal gatesSpacing)
+        {
+            KPoint = kPoint;
+            Hs = hs;
+            PointsPerMeter = EventProcessor.GetPointsPerMeter(KPoint);
+            KPointPoints = EventProcessor.GetKPointPoints(KPoint);
+            HeadWindFactor = headWindFactor;
+            TailWindFactor = tailWindFactor;
+            GateFactor = gateFactor;
+            GatesSpacing = gatesSpacing;
+        }
+
+        public decimal GetDistancePoints(decimal distance) => Math.Round(KPointPoints + (distance - KPoint) * PointsPerMeter, 1);
+        public decimal GetWindPoints(decimal wind) => Math.Round(-wind * (wind >= 0 ? HeadWindFactor : TailWindFactor) * PointsPerMeter, 1);
+        public decimal GetGatePoints(int gatesDiff) => Math.Round(-gatesDiff * GatesSpacing * GateFactor * PointsPerMeter, 1);
+
     }
 }

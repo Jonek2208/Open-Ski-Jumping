@@ -22,9 +22,9 @@ namespace Competition
         public string suitBottomFrontColor;
         public string suitBottomBackColor;
         public string skisColor;
+
         public Competitor() { }
-        public Competitor Clone() { return (Competitor)this.MemberwiseClone(); }
-        public Competitor(string _lastName, string _firstName, string _countryCode, Gender _gender = Gender.Male, int _year = 2000, int _month = 1, int _day = 1,
+        public Competitor(string _lastName, string _firstName, string _countryCode, Gender _gender = Gender.Male, int _year = 1999, int _month = 1, int _day = 1,
         string _helmetColor = "000000", string _suitTopFrontColor = "000000", string _suitTopBackColor = "000000", string _suitBottomFrontColor = "000000", string _suitBottomBackColor = "000000", string _skisColor = "000000")
         {
             id = "";

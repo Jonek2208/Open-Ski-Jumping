@@ -13,7 +13,7 @@ namespace Competition
         public decimal[] judgesMarks;
         public bool[] judgesMask;
         public decimal judgesTotalPoints;
-        public int gate;
+        public int gatesDiff;
         public decimal gatePoints;
         public decimal wind;
         public decimal windPoints;
@@ -30,7 +30,7 @@ namespace Competition
             distance = _distance;
             judgesMarks = _judgesMarks;
             judgesMask = new bool[judgesMarks.Length];
-            gate = _gate;
+            gatesDiff = _gate;
             wind = _wind;
             speed = _speed;
             CalculateJudgesMarks();

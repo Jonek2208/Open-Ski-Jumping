@@ -8,17 +8,9 @@ namespace Competition
     public class Calendar
     {
         public string name;
-        public DateTime lastModified;
-        public List<string> competitorsIds;
-        public List<Team> teams;
-        public List<ClassificationInfo> classifications;
-        public List<EventInfo> events;
-        public Calendar()
-        {
-            competitorsIds = new List<string>();
-            teams = new List<Team>();
-            classifications = new List<ClassificationInfo>();
-            events = new List<EventInfo>();
-        }
+        public List<string> competitorsIds = new List<string>();
+        public List<Team> teams = new List<Team>();
+        public List<ClassificationInfo> classifications = new List<ClassificationInfo>();
+        public List<EventInfo> events=new List<EventInfo>();
     }
 }

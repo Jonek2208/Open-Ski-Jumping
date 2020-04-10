@@ -14,7 +14,7 @@ namespace DG.Tweening
 {
 	public static class DOTweenModuleUI
     {
-        #region Shortcuts 
+        #region Shortcuts
 
         #region CanvasGroup
 

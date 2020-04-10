@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public CompetitionManager competitionManager;
     public CamerasController camerasController;
     public UnityEvent OnJumpRestart;
     public UnityEvent OnPauseMenu;
