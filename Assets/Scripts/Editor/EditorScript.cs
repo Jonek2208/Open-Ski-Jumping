@@ -1,27 +1,30 @@
 ﻿#if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Competition.Runtime;
+using Data;
+using Hills;
+using ScriptableObjects;
 using UnityEditor;
-using HillProfile;
+using UnityEngine;
 
-[CustomEditor(typeof(RuntimeData), true)]
-public class DatabaseObjectEditor : Editor
+namespace Editor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(RuntimeData), true)]
+    public class DatabaseObjectEditor : UnityEditor.Editor
     {
-        RuntimeData databaseObject = (RuntimeData)target;
-        DrawDefaultInspector();
-        if (GUILayout.Button("Load Data from file"))
+        public override void OnInspectorGUI()
         {
-            databaseObject.LoadData();
-        }
-        if (GUILayout.Button("Save Data to file"))
-        {
-            databaseObject.SaveData();
+            RuntimeData databaseObject = (RuntimeData)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Load Data from file"))
+            {
+                databaseObject.LoadData();
+            }
+            if (GUILayout.Button("Save Data to file"))
+            {
+                databaseObject.SaveData();
+            }
         }
     }
-}
 
 // [CustomEditor(typeof(JumperInfo))]
 // public class JumperInfoEditor : Editor
@@ -41,61 +44,62 @@ public class DatabaseObjectEditor : Editor
 //     }
 // }
 
-[CustomEditor(typeof(MeshScript))]
-public class EditorScript : Editor
-{
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(MeshScript))]
+    public class EditorScript : UnityEditor.Editor
     {
-        MeshScript meshScript = (MeshScript)target;
-        DrawDefaultInspector();
-        if (GUILayout.Button("Generate"))
+        public override void OnInspectorGUI()
         {
-            meshScript.GenerateMesh();
+            MeshScript meshScript = (MeshScript)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Generate"))
+            {
+                meshScript.GenerateMesh();
+            }
         }
     }
-}
 
-[CustomEditor(typeof(GameEvent))]
-public class GameEventEditor : Editor
-{
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(GameEvent))]
+    public class GameEventEditor : UnityEditor.Editor
     {
-        GameEvent gameEvent = (GameEvent)target;
-        DrawDefaultInspector();
-        if (GUILayout.Button("Raise"))
+        public override void OnInspectorGUI()
         {
-            Debug.Log("RAISED EVENT");
-            gameEvent.Raise();
+            GameEvent gameEvent = (GameEvent)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Raise"))
+            {
+                Debug.Log("RAISED EVENT");
+                gameEvent.Raise();
+            }
         }
     }
-}
 
-[CustomEditor(typeof(RuntimeJumpData))]
-public class RuntimeJumpDataEditor : Editor
-{
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(RuntimeJumpData))]
+    public class RuntimeJumpDataEditor : UnityEditor.Editor
     {
-        GameEvent gameEvent = (GameEvent)target;
-        DrawDefaultInspector();
-        if (GUILayout.Button("Raise"))
+        public override void OnInspectorGUI()
         {
-            Debug.Log("RAISED EVENT");
-            gameEvent.Raise();
+            GameEvent gameEvent = (GameEvent)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Raise"))
+            {
+                Debug.Log("RAISED EVENT");
+                gameEvent.Raise();
+            }
         }
     }
-}
 
-[CustomEditor(typeof(TerrainScript))]
-public class EditorTerrainScript : Editor
-{
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(TerrainScript))]
+    public class EditorTerrainScript : UnityEditor.Editor
     {
-        TerrainScript terrainScript = (TerrainScript)target;
-        DrawDefaultInspector();
-        if (GUILayout.Button("Generate"))
+        public override void OnInspectorGUI()
         {
-            terrainScript.GenerateTerrain();
+            TerrainScript terrainScript = (TerrainScript)target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Generate"))
+            {
+                terrainScript.GenerateTerrain();
+            }
         }
     }
-}
 #endif
+}

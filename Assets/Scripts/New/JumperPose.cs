@@ -1,9 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Jumper/JumperPose")]
-public class JumperPose : ScriptableObject
+namespace New
 {
-    public float bodyAngle;
-    public float kneesAngle;
-    public float anklesAngle;
+    [CreateAssetMenu(menuName = "ScriptableObjects/Jumper/JumperPose")]
+    public class JumperPose : ScriptableObject
+    {
+        public float bodyAngle;
+        public float kneesAngle;
+        public float anklesAngle;
+    }
 }

@@ -1,3 +1,7 @@
-using Competition;
+using Competition.Persistent;
+using ListView;
 
-public class CalendarsListView : ListView<Calendar, CalendarsListItem> { }
+namespace UI.CalendarsMenu
+{
+    public class CalendarsListView : ListView<Calendar, CalendarsListItem> { }
+}

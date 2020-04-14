@@ -1,19 +1,23 @@
+using TMPro;
 using UnityEngine;
 
-public class LabelController : MonoBehaviour
+namespace ScriptableObjects
 {
-    [SerializeField] private TMPro.TMP_Text[] texts;
-    [SerializeField] private TranslatablePhrase label;
+    public class LabelController : MonoBehaviour
+    {
+        [SerializeField] private TMP_Text[] texts;
+        [SerializeField] private TranslatablePhrase label;
 
-    private void OnEnable()
-    {
-        ReplaceText();
-    }
-    public void ReplaceText()
-    {
-        foreach (var item in texts)
+        private void OnEnable()
         {
-            item.text = label.CurrentValue;
+            ReplaceText();
+        }
+        public void ReplaceText()
+        {
+            foreach (var item in texts)
+            {
+                item.text = label.CurrentValue;
+            }
         }
     }
 }

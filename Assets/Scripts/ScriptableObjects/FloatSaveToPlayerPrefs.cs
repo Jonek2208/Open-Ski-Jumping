@@ -1,17 +1,21 @@
+using ScriptableObjects.Variables;
 using UnityEngine;
 
-public class FloatSaveToPlayerPrefs : MonoBehaviour
+namespace ScriptableObjects
 {
-    public string variableName;
-    public FloatVariable value;
-
-    private void OnEnable()
+    public class FloatSaveToPlayerPrefs : MonoBehaviour
     {
-        value.Value = PlayerPrefs.GetFloat(variableName);
-    }
+        public string variableName;
+        public FloatVariable value;
 
-    private void OnDisable()
-    {
-        PlayerPrefs.SetFloat(variableName, value.Value);
+        private void OnEnable()
+        {
+            value.Value = PlayerPrefs.GetFloat(variableName);
+        }
+
+        private void OnDisable()
+        {
+            PlayerPrefs.SetFloat(variableName, value.Value);
+        }
     }
 }

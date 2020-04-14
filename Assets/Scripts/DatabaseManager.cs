@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Competition;
+using Competition.Persistent;
+using Data;
+using Hills;
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class DatabaseManager : MonoBehaviour
     public DatabaseObject<List<RoundInfoPreset>> dbRoundInfoPresets;
 
     public bool loadCalendars;
-    public DatabaseObject<List<Competition.Calendar>> dbCalendars;
+    public DatabaseObject<List<Calendar>> dbCalendars;
 
     public bool loadCompetitors;
-    public DatabaseObject<List<Competition.Competitor>> dbCompetitors;
+    public DatabaseObject<List<Competitor>> dbCompetitors;
 
     public bool loadHills;
-    public DatabaseObject<HillProfile.AllData> dbHills;
+    public DatabaseObject<AllData> dbHills;
 
     public bool loadSavesData;
     public SaveData dbSaveData;
@@ -32,21 +33,21 @@ public class DatabaseManager : MonoBehaviour
 
         if (loadSavesData)
         {
-            this.dbSaveData = SavesSystem.Load();
-            if (this.dbSaveData == null)
+            dbSaveData = SavesSystem.Load();
+            if (dbSaveData == null)
             {
-                this.dbSaveData = new SaveData(-1, new List<GameSave>());
+                dbSaveData = new SaveData(-1, new List<GameSave>());
             }
         }
     }
 
     public void Save()
     {
-        if (loadCalendars) { this.dbCalendars.SaveData(); }
-        if (loadCompetitors) { this.dbCompetitors.SaveData(); }
-        if (loadHills) { this.dbHills.SaveData(); }
+        if (loadCalendars) { dbCalendars.SaveData(); }
+        if (loadCompetitors) { dbCompetitors.SaveData(); }
+        if (loadHills) { dbHills.SaveData(); }
         if (loadRoundInfoPresets) { dbRoundInfoPresets.SaveData(); }
-        if (loadSavesData) { SavesSystem.Save(this.dbSaveData); }
+        if (loadSavesData) { SavesSystem.Save(dbSaveData); }
     }
 
 }

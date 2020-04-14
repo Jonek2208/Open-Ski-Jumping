@@ -1,8 +1,12 @@
+using ListView;
 using TMPro;
 using UnityEngine;
 
-public class SavesListItem : MonoBehaviour
+namespace UI.SavesMenu
 {
-    public ToggleExtension toggleExtension;
-    public TMP_Text valueText;
+    public class SavesListItem : MonoBehaviour
+    {
+        public ToggleExtension toggleExtension;
+        public TMP_Text valueText;
+    }
 }

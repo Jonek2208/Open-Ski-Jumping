@@ -1,12 +1,15 @@
+using Hills;
 using UnityEngine;
-using HillProfile;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Variables/HillProfileVariable")]
-
-public class HillProfileVariable : ScriptableObject
+namespace ScriptableObjects.Variables
 {
-    [SerializeField]
-    private ProfileData value;
+    [CreateAssetMenu(menuName = "ScriptableObjects/Variables/HillProfileVariable")]
 
-    public ProfileData Value { get => value; set => this.value = value; } 
+    public class HillProfileVariable : ScriptableObject
+    {
+        [SerializeField]
+        private ProfileData value;
+
+        public ProfileData Value { get => value; set => this.value = value; } 
+    }
 }

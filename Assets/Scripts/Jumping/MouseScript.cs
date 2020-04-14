@@ -1,40 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MouseScript : MonoBehaviour
+namespace Jumping
 {
-    bool cursorActive;
-    void Start()
+    public class MouseScript : MonoBehaviour
     {
-        UnlockCursor();
-        SetCursor();
-    }
-    void Update()
-    {
-        SetCursor();
-    }
-
-    void SetCursor()
-    {
-        if(!cursorActive) 
+        bool cursorActive;
+        void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            UnlockCursor();
+            SetCursor();
         }
-        else
+        void Update()
         {
-            Cursor.lockState = CursorLockMode.None;
+            SetCursor();
         }
-        Cursor.visible = cursorActive;
-    }
 
-    public void LockCursor()
-    {
-        cursorActive = false;
-    }
+        void SetCursor()
+        {
+            if(!cursorActive) 
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            Cursor.visible = cursorActive;
+        }
 
-    public void UnlockCursor()
-    {
-        cursorActive = true;
+        public void LockCursor()
+        {
+            cursorActive = false;
+        }
+
+        public void UnlockCursor()
+        {
+            cursorActive = true;
+        }
     }
 }

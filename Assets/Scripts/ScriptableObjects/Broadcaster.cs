@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Broadcaster : ScriptableObject
+namespace ScriptableObjects
 {
+    public class Broadcaster : ScriptableObject
+    {
     
+    }
 }

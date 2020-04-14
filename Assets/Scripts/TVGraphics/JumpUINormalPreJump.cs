@@ -1,134 +1,137 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using System.Globalization;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+using Competition.Persistent;
 using DG.Tweening;
-using System.Collections;
+using TMPro;
+using UI;
+using UnityEngine;
 using UnityEngine.Networking;
-using System.Linq;
+using UnityEngine.UI;
 
-public class JumpUINormalPreJump : PreJumpUIManager
+namespace TVGraphics
 {
-    public TMP_Text bib;
-    public TMP_Text jumperName;
-    public TMP_Text nextAthleteName;
-
-    public TMP_Text rank;
-    public TMP_Text total;
-    public TMP_Text[] meters;
-
-    public CountryInfo countryInfo;
-
-    public RawImage jumperImage;
-    public GameObject row1;
-    public GameObject row2;
-    public GameObject nextAthleteObj;
-
-    [SerializeField] private RectTransform rectTransform;
-    [SerializeField] private CanvasGroup canvasGroup;
-
-    private void OnEnable()
+    public class JumpUINormalPreJump : PreJumpUIManager
     {
-        InstantHide();
-    }
+        public TMP_Text bib;
+        public TMP_Text jumperName;
+        public TMP_Text nextAthleteName;
 
-    public override void Show()
-    {
-        canvasGroup.alpha = 1;
-        StartCoroutine(LoadImage());
-        SetCountry();
+        public TMP_Text rank;
+        public TMP_Text total;
+        public TMP_Text[] meters;
 
-        rectTransform.localScale = new Vector3(0, 1, 1);
-        // jumperImageTransform.localScale = new Vector3(1, 0, 1);
-        // jumperImageObj.SetActive(jumperImage.texture != null);
+        public CountryInfo countryInfo;
 
-        DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
+        public RawImage jumperImage;
+        public GameObject row1;
+        public GameObject row2;
+        public GameObject nextAthleteObj;
 
-        int jumpsCount = resultsManager.roundIndex;
-        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
-        int rank = resultsManager.lastRank[competitorId];
-        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+        [SerializeField] private RectTransform rectTransform;
+        [SerializeField] private CanvasGroup canvasGroup;
 
-        this.jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
-        this.bib.text = bib.ToString();
-
-        if (resultsManager.startListIndex + 1 < resultsManager.currentStartList.Count)
+        private void OnEnable()
         {
-            nextAthleteObj.SetActive(true);
-            int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
-            Competition.Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
-            nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
-        }
-        else
-        {
-            nextAthleteObj.SetActive(false);
+            InstantHide();
         }
 
-        if (jumpsCount == 0)
+        public override void Show()
         {
-            row2.SetActive(false);
-        }
-        else
-        {
-            row2.SetActive(true);
-            this.rank.text = rank.ToString();
+            canvasGroup.alpha = 1;
+            StartCoroutine(LoadImage());
+            SetCountry();
 
-            Competition.JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
-            Competition.JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
-            total.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
-            int xx = Mathf.Max(0, jumpsCount - meters.Length);
-            foreach (var item in meters)
+            rectTransform.localScale = new Vector3(0, 1, 1);
+            // jumperImageTransform.localScale = new Vector3(1, 0, 1);
+            // jumperImageObj.SetActive(jumperImage.texture != null);
+
+            DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
+
+            int jumpsCount = resultsManager.roundIndex;
+            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
+            int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
+            int rank = resultsManager.lastRank[competitorId];
+            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+
+            jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
+            this.bib.text = bib.ToString();
+
+            if (resultsManager.startListIndex + 1 < resultsManager.currentStartList.Count)
             {
-                if (xx < jumpsCount)
-                {
-                    item.text = $"{jumpResults.results[xx].distance:F1} m";
-                }
-                else
-                {
-                    item.text = "";
-                }
+                nextAthleteObj.SetActive(true);
+                int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
+                Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
+                nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
+            }
+            else
+            {
+                nextAthleteObj.SetActive(false);
+            }
 
-                xx++;
+            if (jumpsCount == 0)
+            {
+                row2.SetActive(false);
+            }
+            else
+            {
+                row2.SetActive(true);
+                this.rank.text = rank.ToString();
+
+                JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+                JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
+                total.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
+                int xx = Mathf.Max(0, jumpsCount - meters.Length);
+                foreach (var item in meters)
+                {
+                    if (xx < jumpsCount)
+                    {
+                        item.text = $"{jumpResults.results[xx].distance:F1} m";
+                    }
+                    else
+                    {
+                        item.text = "";
+                    }
+
+                    xx++;
+                }
             }
         }
-    }
 
-    public void SetCountry()
-    {
-        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
-        countryInfo.CountryName.text = competitor.countryCode;
-    }
-
-    IEnumerator LoadImage()
-    {
-        int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-        Competition.Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
+        public void SetCountry()
         {
-            Debug.Log(www.error);
+            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
+            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+            countryInfo.FlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
+            countryInfo.CountryName.text = competitor.countryCode;
         }
-        else
+
+        IEnumerator LoadImage()
         {
-            Debug.Log("Image succesfully loaded");
-            jumperImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
+            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Image succesfully loaded");
+                jumperImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            }
         }
-    }
 
-    public override void Hide()
-    {
-        canvasGroup.DOFade(0, 0.5f);
-    }
+        public override void Hide()
+        {
+            canvasGroup.DOFade(0, 0.5f);
+        }
 
-    public override void InstantHide()
-    {
-        canvasGroup.alpha = 0;
-    }
+        public override void InstantHide()
+        {
+            canvasGroup.alpha = 0;
+        }
 
+    }
 }

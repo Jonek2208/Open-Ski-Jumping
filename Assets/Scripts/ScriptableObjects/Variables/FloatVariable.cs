@@ -1,16 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Variables/FloatVariable")]
-public class FloatVariable : ScriptableObject
+namespace ScriptableObjects.Variables
 {
-    [SerializeField]
-    private float value;
-    public float Value
+    [CreateAssetMenu(menuName = "ScriptableObjects/Variables/FloatVariable")]
+    public class FloatVariable : ScriptableObject
     {
-        get => value;
-        set
+        [SerializeField]
+        private float value;
+        public float Value
         {
-            this.value = value;
+            get => value;
+            set
+            {
+                this.value = value;
+            }
         }
     }
 }

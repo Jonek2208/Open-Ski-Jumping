@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/JudgesUIData")]
-public class JudgesUIData : ScriptableObject
+namespace UI
 {
-    public string[] countries = new string[5];
+    [CreateAssetMenu(menuName = "ScriptableObjects/JudgesUIData")]
+    public class JudgesUIData : ScriptableObject
+    {
+        public string[] countries = new string[5];
+    }
 }

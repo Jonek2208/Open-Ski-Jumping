@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Competition;
-using UnityEngine;
+﻿using Competition.Persistent;
+using ListView;
 
-public class JumpersListView : ListView<Competitor, JumpersListItem> { }
+namespace UI.JumpersMenu
+{
+    public class JumpersListView : ListView<Competitor, JumpersListItem> { }
+}

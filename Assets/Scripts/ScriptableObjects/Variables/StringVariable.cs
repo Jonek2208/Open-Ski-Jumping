@@ -1,16 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Variables/StringVariable")]
-public class StringVariable : ScriptableObject
+namespace ScriptableObjects.Variables
 {
-    [SerializeField]
-    private string value = "";
-    public string Value
+    [CreateAssetMenu(menuName = "ScriptableObjects/Variables/StringVariable")]
+    public class StringVariable : ScriptableObject
     {
-        get => value;
-        set
+        [SerializeField]
+        private string value = "";
+        public string Value
         {
-            this.value = value;
-        } 
+            get => value;
+            set
+            {
+                this.value = value;
+            } 
+        }
     }
 }

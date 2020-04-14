@@ -1,32 +1,35 @@
+using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
-public static class ImageLoader
+namespace UI
 {
-    private static string GetImageUri(string fileName)
+    public static class ImageLoader
     {
-        var uri = new System.Uri(Path.Combine(Application.streamingAssetsPath, "images", fileName));
-        return uri.AbsoluteUri;
-    }
-
-    public static IEnumerator LoadImage(string imagePath, Texture texture)
-    {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(GetImageUri(imagePath));
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
+        private static string GetImageUri(string fileName)
         {
-            Debug.Log(www.error);
-            texture = null;
+            var uri = new Uri(Path.Combine(Application.streamingAssetsPath, "images", fileName));
+            return uri.AbsoluteUri;
         }
-        else
-        {
-            Debug.Log("Image succesfully loaded");
-            texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-        }
-    }
 
+        public static IEnumerator LoadImage(string imagePath, Texture texture)
+        {
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(GetImageUri(imagePath));
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                texture = null;
+            }
+            else
+            {
+                Debug.Log("Image succesfully loaded");
+                texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            }
+        }
+
+    }
 }

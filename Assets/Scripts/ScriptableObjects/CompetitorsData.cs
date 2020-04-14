@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class CompetitorsData : ScriptableObject
+namespace ScriptableObjects
 {
-    public List<int> startList;
-    public List<int> bibs;
+    [CreateAssetMenu]
+    public class CompetitorsData : ScriptableObject
+    {
+        public List<int> startList;
+        public List<int> bibs;
+    }
 }

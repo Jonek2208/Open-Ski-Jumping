@@ -1,16 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu]
-public class ColorVariable : ScriptableObject
+namespace ScriptableObjects.Variables
 {
-    [SerializeField]
-    private Color value;
-    public Color Value
+    [CreateAssetMenu]
+    public class ColorVariable : ScriptableObject
     {
-        get => value;
-        set
+        [SerializeField]
+        private Color value;
+        public Color Value
         {
-            this.value = value;
+            get => value;
+            set
+            {
+                this.value = value;
+            }
         }
     }
 }

@@ -1,8 +1,12 @@
+using ListView;
 using TMPro;
 using UnityEngine;
 
-public class CalendarsListItem : MonoBehaviour
+namespace UI.CalendarsMenu
 {
-    public ToggleExtension toggleExtension;
-    public TMP_Text valueText;
+    public class CalendarsListItem : MonoBehaviour
+    {
+        public ToggleExtension toggleExtension;
+        public TMP_Text valueText;
+    }
 }

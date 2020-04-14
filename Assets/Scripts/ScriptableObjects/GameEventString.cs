@@ -1,27 +1,30 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Events/GameEventString")]
-public class GameEventString : ScriptableObject
+namespace ScriptableObjects
 {
-    private List<GameEventStringListener> listeners = new List<GameEventStringListener>();
-    public void Raise(string value)
+    [CreateAssetMenu(menuName = "ScriptableObjects/Events/GameEventString")]
+    public class GameEventString : ScriptableObject
     {
-        for (int i = listeners.Count - 1; i >= 0; i--)
+        private readonly List<GameEventStringListener> listeners = new List<GameEventStringListener>();
+        public void Raise(string value)
         {
-            listeners[i].OnEventRaised(value);
+            for (int i = listeners.Count - 1; i >= 0; i--)
+            {
+                listeners[i].OnEventRaised(value);
+            }
         }
-    }
 
-    public void RegisterListener(GameEventStringListener listener)
-    {
-        if (!listeners.Contains(listener))
-        { listeners.Add(listener); }
-    }
+        public void RegisterListener(GameEventStringListener listener)
+        {
+            if (!listeners.Contains(listener))
+            { listeners.Add(listener); }
+        }
 
-    public void UnregisterListener(GameEventStringListener listener)
-    {
-        if (listeners.Contains(listener))
-        { listeners.Remove(listener); }
+        public void UnregisterListener(GameEventStringListener listener)
+        {
+            if (listeners.Contains(listener))
+            { listeners.Remove(listener); }
+        }
     }
 }

@@ -1,28 +1,32 @@
 using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JudgesMarkUI : MonoBehaviour
+namespace UI
 {
-    public JudgesMarkUIData judgesMarkUIData;
-    public Image flagImage;
-    public TMPro.TMP_Text countryText;
-    public TMPro.TMP_Text markValueText;
-    public bool state;
-    public void SetValues(decimal markValue, string countryCode, Sprite sprite, bool state)
+    public class JudgesMarkUI : MonoBehaviour
     {
-        this.markValueText.text = markValue.ToString("F1", CultureInfo.InvariantCulture);
-        this.flagImage.sprite = sprite;
-        this.countryText.text = countryCode;
-        this.state = state;
+        public JudgesMarkUIData judgesMarkUIData;
+        public Image flagImage;
+        public TMP_Text countryText;
+        public TMP_Text markValueText;
+        public bool state;
+        public void SetValues(decimal markValue, string countryCode, Sprite sprite, bool state)
+        {
+            markValueText.text = markValue.ToString("F1", CultureInfo.InvariantCulture);
+            flagImage.sprite = sprite;
+            countryText.text = countryCode;
+            this.state = state;
 
-        if (state)
-        {
-            markValueText.color = judgesMarkUIData.countedTextColor;
-        }
-        else
-        {
-            markValueText.color = judgesMarkUIData.notCountedTextColor;
+            if (state)
+            {
+                markValueText.color = judgesMarkUIData.countedTextColor;
+            }
+            else
+            {
+                markValueText.color = judgesMarkUIData.notCountedTextColor;
+            }
         }
     }
 }

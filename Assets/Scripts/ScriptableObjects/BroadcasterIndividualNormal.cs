@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class BroadcasterIndividualNormal : Broadcaster
+namespace ScriptableObjects
 {
-    public CompetitorVariable currentCompetitor;
+    public class BroadcasterIndividualNormal : Broadcaster
+    {
+        public CompetitorVariable currentCompetitor;
+    }
 }

@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-
-public class ListDisplayElement : MonoBehaviour
+namespace UI
 {
-    public ListDisplay listDisplay;
-    public int index;
-    public void OnValueChanged(bool flag)
+    public class ListDisplayElement : MonoBehaviour
     {
-        if (flag)
+        public ListDisplay listDisplay;
+        public int index;
+        public void OnValueChanged(bool flag)
         {
-            listDisplay.OnListElementClick(index);
+            if (flag)
+            {
+                listDisplay.OnListElementClick(index);
+            }
         }
     }
 }

@@ -1,55 +1,65 @@
-using System;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(Toggle))]
-public class ToggleExtension : MonoBehaviour
+namespace ListView
 {
-    [SerializeField] private Toggle toggle;
-    [SerializeField] private ToggleGroupExtension toggleGroupExtension;
-    [SerializeField] private int elementId;
-    public int ElementId { get => elementId; set => elementId = value; }
-    public Toggle Toggle { get => toggle; set => toggle = value; }
-    public ToggleGroupExtension ToggleGroupExtension { get => toggleGroupExtension; set => toggleGroupExtension = value; }
-
-    private void OnEnable()
+    [RequireComponent(typeof(Toggle))]
+    public class ToggleExtension : MonoBehaviour
     {
-        toggle.onValueChanged.AddListener(OnValueChanged);
-    }
+        [SerializeField] private Toggle toggle;
+        [SerializeField] private ToggleGroupExtension toggleGroupExtension;
+        [SerializeField] private int elementId;
 
-    private void OnDisable()
-    {
-        toggle.onValueChanged.RemoveListener(OnValueChanged);
-    }
-
-    public void OnValueChanged(bool value)
-    {
-        if (value)
+        public int ElementId
         {
-            toggleGroupExtension.SetCurrentId(elementId);
-            toggleGroupExtension.ToggleGroup.allowSwitchOff = false;
-        }
-    }
-
-    public void SetElementId(int newId)
-    {
-        if (elementId == toggleGroupExtension.CurrentValue)
-        {
-            toggleGroupExtension.ToggleGroup.allowSwitchOff = true;
+            get => elementId;
+            set => elementId = value;
         }
 
-        elementId = newId;
-        if (toggleGroupExtension.GetElementValue(newId))
+        public Toggle Toggle
         {
-            toggle.isOn = true;
-            toggleGroupExtension.ToggleGroup.allowSwitchOff = false;
+            get => toggle;
+            set => toggle = value;
         }
-        else
+
+        public ToggleGroupExtension ToggleGroupExtension
         {
-            toggle.isOn = false;
+            get => toggleGroupExtension;
+            set => toggleGroupExtension = value;
+        }
+
+        private void OnEnable()
+        {
+            toggle.onValueChanged.AddListener(OnValueChanged);
+        }
+
+        private void OnDisable()
+        {
+            toggle.onValueChanged.RemoveListener(OnValueChanged);
+        }
+
+        public void OnValueChanged(bool value)
+        {
+            toggleGroupExtension.HandleSelectionChanged(elementId, value);
+        }
+
+        public void SetElementId(int newId)
+        {
+            bool isSelected = elementId == toggleGroupExtension.CurrentValue;
+            elementId = newId;
+            if (toggleGroupExtension.AllowMultipleSelection) return;
+
+            if (isSelected) toggleGroupExtension.ToggleGroup.allowSwitchOff = true;
+            
+            if (toggleGroupExtension.GetElementValue(newId))
+            {
+                toggle.isOn = true;
+                toggleGroupExtension.ToggleGroup.allowSwitchOff = false;
+            }
+            else
+            {
+                toggle.isOn = false;
+            }
         }
     }
 }

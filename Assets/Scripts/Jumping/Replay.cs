@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Replay")]
-public class Replay : ScriptableObject
+namespace Jumping
 {
-    [SerializeField]
-    private List<ReplayFrame> frames;
-
-    public List<ReplayFrame> Frames { get => frames; set => frames = value; }
-
-    public void AddFrame(Transform[] value)
+    [CreateAssetMenu(menuName = "ScriptableObjects/Replay")]
+    public class Replay : ScriptableObject
     {
-        this.frames.Add(new ReplayFrame(value));
+        [SerializeField]
+        private List<ReplayFrame> frames;
+
+        public List<ReplayFrame> Frames { get => frames; set => frames = value; }
+
+        public void AddFrame(Transform[] value)
+        {
+            frames.Add(new ReplayFrame(value));
+        }
     }
 }

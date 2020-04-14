@@ -1,30 +1,34 @@
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
-public class DatabaseObjectJSON<T> : DatabaseObject
+
+namespace ScriptableObjects
 {
-    public string fileName;
-    public T data;
-    public bool loaded;
-
-    public override bool LoadData()
+    public class DatabaseObjectJSON<T> : DatabaseObject
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, this.fileName);
-        if (File.Exists(filePath))
+        public string fileName;
+        public T data;
+        public bool loaded;
+
+        public override bool LoadData()
         {
-            string dataAsJson = File.ReadAllText(filePath);
-            this.data = JsonConvert.DeserializeObject<T>(dataAsJson);
-            this.loaded = true;
-            return true;
+            string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+            if (File.Exists(filePath))
+            {
+                string dataAsJson = File.ReadAllText(filePath);
+                data = JsonConvert.DeserializeObject<T>(dataAsJson);
+                loaded = true;
+                return true;
+            }
+            loaded = false;
+            return false;
         }
-        this.loaded = false;
-        return false;
-    }
 
-    public override void SaveData()
-    {
-        string filePath = Path.Combine(Application.streamingAssetsPath, this.fileName);
-        string dataAsJson = JsonConvert.SerializeObject(this.data);
-        File.WriteAllText(filePath, dataAsJson);
+        public override void SaveData()
+        {
+            string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+            string dataAsJson = JsonConvert.SerializeObject(data);
+            File.WriteAllText(filePath, dataAsJson);
+        }
     }
 }

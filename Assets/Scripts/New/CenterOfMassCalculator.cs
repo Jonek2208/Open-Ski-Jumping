@@ -1,37 +1,40 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class CenterOfMassCalculator : MonoBehaviour
+namespace New
 {
-    public List<Vector3> positions = new List<Vector3>();
-    public LineRenderer line;
-    public Transform marker;
-    public GameObject rootObject;
-    private Vector3 comPosition;
-    private Rigidbody[] bodies;
-
-    void Start()
+    public class CenterOfMassCalculator : MonoBehaviour
     {
-        bodies = rootObject.GetComponentsInChildren<Rigidbody>();
-    }
+        public List<Vector3> positions = new List<Vector3>();
+        public LineRenderer line;
+        public Transform marker;
+        public GameObject rootObject;
+        private Vector3 comPosition;
+        private Rigidbody[] bodies;
 
-    void LateUpdate()
-    {
-        comPosition = Vector3.zero;
-        float massSum = 0;
-        foreach (var body in bodies)
+        void Start()
         {
-            massSum += body.mass;
-            comPosition += body.position * body.mass;
+            bodies = rootObject.GetComponentsInChildren<Rigidbody>();
         }
-        comPosition /= massSum;
-        marker.position = comPosition;
-        positions.Add(comPosition);
-    }
 
-    public void UpdateLine()
-    {
-        line.positionCount = positions.Count;
-        line.SetPositions(positions.ToArray());
+        void LateUpdate()
+        {
+            comPosition = Vector3.zero;
+            float massSum = 0;
+            foreach (var body in bodies)
+            {
+                massSum += body.mass;
+                comPosition += body.position * body.mass;
+            }
+            comPosition /= massSum;
+            marker.position = comPosition;
+            positions.Add(comPosition);
+        }
+
+        public void UpdateLine()
+        {
+            line.positionCount = positions.Count;
+            line.SetPositions(positions.ToArray());
+        }
     }
 }

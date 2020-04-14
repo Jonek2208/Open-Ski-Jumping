@@ -1,35 +1,39 @@
 using System.Collections.Generic;
+using Competition;
 using UnityEngine;
 using UnityEngine.U2D;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Data/FlagsData")]
-public class FlagsData : ScriptableObject
+namespace ScriptableObjects
 {
-    [SerializeField]
-    public Competition.CountryData data;
-    private Dictionary<string, string> countriesDict;
-    [SerializeField]
-    private SpriteAtlas flagsSpriteAtlas;
-
-    private void OnEnable()
+    [CreateAssetMenu(menuName = "ScriptableObjects/Data/FlagsData")]
+    public class FlagsData : ScriptableObject
     {
-        Debug.Log("ENABLED FLAGS MANAGER");
-        LoadCountriesData();
-    }
+        [SerializeField]
+        public CountryData data;
+        private Dictionary<string, string> countriesDict;
+        [SerializeField]
+        private SpriteAtlas flagsSpriteAtlas;
 
-    public void LoadCountriesData()
-    {
-        countriesDict = new Dictionary<string, string>();
-
-        foreach (var c in this.data.countryList)
+        private void OnEnable()
         {
-            countriesDict.Add(c.ioc, c.alpha2);
+            Debug.Log("ENABLED FLAGS MANAGER");
+            LoadCountriesData();
         }
-    }
 
-    public Sprite GetFlag(string countryCode)
-    {
-        string flagSprite = countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode].ToString() : "ioc";
-        return flagsSpriteAtlas.GetSprite(flagSprite);
+        public void LoadCountriesData()
+        {
+            countriesDict = new Dictionary<string, string>();
+
+            foreach (var c in data.countryList)
+            {
+                countriesDict.Add(c.ioc, c.alpha2);
+            }
+        }
+
+        public Sprite GetFlag(string countryCode)
+        {
+            string flagSprite = countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode] : "ioc";
+            return flagsSpriteAtlas.GetSprite(flagSprite);
+        }
     }
 }

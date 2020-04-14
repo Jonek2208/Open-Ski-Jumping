@@ -1,30 +1,32 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
-public class RuntimeImageLoader : ScriptableObject
+
+namespace UI
 {
-    public Texture texture;
-    [SerializeField]
-    private string path;
-
-    public string Path { get => path; set => path = value; }
-
-    public IEnumerator GetTexture()
+    public class RuntimeImageLoader : ScriptableObject
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(Path);
-        yield return www.SendWebRequest();
+        public Texture texture;
+        [SerializeField]
+        private string path;
 
-        if (www.isNetworkError || www.isHttpError)
+        public string Path { get => path; set => path = value; }
+
+        public IEnumerator GetTexture()
         {
-            Debug.Log(www.error);
+            UnityWebRequest www = UnityWebRequestTexture.GetTexture(Path);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Image succesfully loaded");
+                texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            }
         }
-        else
-        {
-            Debug.Log("Image succesfully loaded");
-            this.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-        }
+
     }
-
 }

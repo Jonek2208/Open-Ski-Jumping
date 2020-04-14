@@ -1,23 +1,26 @@
 #if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-[CustomPropertyDrawer(typeof(SerializableDecimal))]
-public class SerializableDecimalDrawer : PropertyDrawer
+namespace Editor
 {
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(SerializableDecimal))]
+    public class SerializableDecimalDrawer : PropertyDrawer
     {
-        var obj = property.serializedObject.targetObject;
-        var inst = (SerializableDecimal)this.fieldInfo.GetValue(obj);
-        var fieldRect = EditorGUI.PrefixLabel(position, label);
-        string text = GUI.TextField(fieldRect, inst.value.ToString());
-        if (GUI.changed)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            decimal val;
-            if (decimal.TryParse(text, out val))
+            var obj = property.serializedObject.targetObject;
+            var inst = (SerializableDecimal)fieldInfo.GetValue(obj);
+            var fieldRect = EditorGUI.PrefixLabel(position, label);
+            string text = GUI.TextField(fieldRect, inst.value.ToString());
+            if (GUI.changed)
             {
-                inst.value = val;
-                property.serializedObject.ApplyModifiedProperties();
+                decimal val;
+                if (decimal.TryParse(text, out val))
+                {
+                    inst.value = val;
+                    property.serializedObject.ApplyModifiedProperties();
+                }
             }
         }
     }

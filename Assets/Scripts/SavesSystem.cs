@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 public static class SavesSystem
 {
@@ -32,10 +31,8 @@ public static class SavesSystem
             }
             return saveData;
         }
-        else
-        {
-            Debug.Log("Loading saves error");
-            return null;
-        }
+
+        Debug.Log("Loading saves error");
+        return null;
     }
 }

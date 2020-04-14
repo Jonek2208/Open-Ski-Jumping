@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
-[System.Serializable]
-public class ReplayFrame
+namespace Jumping
 {
-    private Transform[] bodyParts;
-    public ReplayFrame(Transform[] value)
+    [Serializable]
+    public class ReplayFrame
     {
-        this.bodyParts = value;
+        private Transform[] bodyParts;
+        public ReplayFrame(Transform[] value)
+        {
+            bodyParts = value;
+        }
     }
 }

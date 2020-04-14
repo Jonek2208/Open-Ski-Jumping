@@ -1,18 +1,22 @@
 using System.Collections.Generic;
-public class MeshFunctions
+
+namespace Hills
 {
-    public static int[] FacesToTriangles(List<(int, int, int, int)> facesList)
+    public class MeshFunctions
     {
-        List<int> triangles = new List<int>();
-        foreach (var face in facesList)
+        public static int[] FacesToTriangles(List<(int, int, int, int)> facesList)
         {
-            triangles.Add(face.Item1);
-            triangles.Add(face.Item2);
-            triangles.Add(face.Item3);
-            triangles.Add(face.Item2);
-            triangles.Add(face.Item4);
-            triangles.Add(face.Item3);
+            List<int> triangles = new List<int>();
+            foreach (var face in facesList)
+            {
+                triangles.Add(face.Item1);
+                triangles.Add(face.Item2);
+                triangles.Add(face.Item3);
+                triangles.Add(face.Item2);
+                triangles.Add(face.Item4);
+                triangles.Add(face.Item3);
+            }
+            return triangles.ToArray();
         }
-        return triangles.ToArray();
     }
 }

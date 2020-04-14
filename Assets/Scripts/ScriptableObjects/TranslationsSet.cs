@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Translations/TranslationsSet")]
-
-public class TranslationsSet : ScriptableObject
+namespace ScriptableObjects
 {
-    [SerializeField] private List<TranslationLanguage> languages;
-    [SerializeField] private List<TranslatablePhrase> phrases;
-    public List<TranslationLanguage> Languages { get => languages; set => languages = value; }
-    public UnityEvent onSetLanguage;
-    public bool SetLanguage(int id)
-    {
-        if (id < 0 || languages.Count <= id) { return false; }
-        foreach (var item in phrases)
-        {
-            item.SetLanguage(languages[id].LanguageId);
-        }
-        onSetLanguage.Invoke();
-        return true;
-    }
+    [CreateAssetMenu(menuName = "ScriptableObjects/Translations/TranslationsSet")]
 
-    public void AddPhrase(TranslatablePhrase phrase)
+    public class TranslationsSet : ScriptableObject
     {
-        if (!phrases.Contains(phrase)) { phrases.Add(phrase); }
+        [SerializeField] private List<TranslationLanguage> languages;
+        [SerializeField] private List<TranslatablePhrase> phrases;
+        public List<TranslationLanguage> Languages { get => languages; set => languages = value; }
+        public UnityEvent onSetLanguage;
+        public bool SetLanguage(int id)
+        {
+            if (id < 0 || languages.Count <= id) { return false; }
+            foreach (var item in phrases)
+            {
+                item.SetLanguage(languages[id].LanguageId);
+            }
+            onSetLanguage.Invoke();
+            return true;
+        }
+
+        public void AddPhrase(TranslatablePhrase phrase)
+        {
+            if (!phrases.Contains(phrase)) { phrases.Add(phrase); }
+        }
     }
 }

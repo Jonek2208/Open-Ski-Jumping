@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
+using Competition.Persistent;
 
-namespace Competition
+namespace Jumping
 {
     public class EventRunner
     {

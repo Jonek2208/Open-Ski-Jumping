@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class GateSetter : MonoBehaviour
+namespace ScriptableObjects
 {
+    public class GateSetter : MonoBehaviour
+    {
 
+    }
 }

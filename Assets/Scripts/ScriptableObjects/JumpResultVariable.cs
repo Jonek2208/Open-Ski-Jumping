@@ -1,30 +1,34 @@
-using Competition;
+using Competition.Persistent;
+using ScriptableObjects.Variables;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class JumpResultVariable : ScriptableObject
+namespace ScriptableObjects
 {
-    private Competition.Competitor value;
-
-    public StringVariable competitorFirstName;
-    public StringVariable competitorLastName;
-    public StringVariable competitorCountryCode;
-    public FloatVariable competitorResult;
-    public IntVariable competitorRank;
-    public IntVariable competitorBib;
-
-    public void Set(Competition.Competitor competitor, int bib)
+    [CreateAssetMenu]
+    public class JumpResultVariable : ScriptableObject
     {
-        this.value = competitor;
-        this.competitorFirstName.Value = this.value.firstName;
-        this.competitorLastName.Value = this.value.lastName;
-        this.competitorCountryCode.Value = this.value.countryCode;
-        this.competitorBib.Value = bib;
-    }
+        private Competitor value;
 
-    public void SetResult(float result, int rank)
-    {
-        competitorResult.Value = result;
-        competitorRank.Value = rank;
+        public StringVariable competitorFirstName;
+        public StringVariable competitorLastName;
+        public StringVariable competitorCountryCode;
+        public FloatVariable competitorResult;
+        public IntVariable competitorRank;
+        public IntVariable competitorBib;
+
+        public void Set(Competitor competitor, int bib)
+        {
+            value = competitor;
+            competitorFirstName.Value = value.firstName;
+            competitorLastName.Value = value.lastName;
+            competitorCountryCode.Value = value.countryCode;
+            competitorBib.Value = bib;
+        }
+
+        public void SetResult(float result, int rank)
+        {
+            competitorResult.Value = result;
+            competitorRank.Value = rank;
+        }
     }
 }

@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Variables/BoolVariable")]
-public class BoolVariable : ScriptableObject
+namespace ScriptableObjects.Variables
 {
-    [SerializeField]
-    private bool value;
-    public bool Value
+    [CreateAssetMenu(menuName = "ScriptableObjects/Variables/BoolVariable")]
+    public class BoolVariable : ScriptableObject
     {
-        get => value;
-        set => this.value = value;
+        [SerializeField]
+        private bool value;
+        public bool Value
+        {
+            get => value;
+            set => this.value = value;
+        }
     }
 }

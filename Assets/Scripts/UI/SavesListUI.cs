@@ -1,126 +1,128 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Competition.Persistent;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-using Competition;
-
-public class SavesListUI : ListDisplay
+namespace UI
 {
-    public DatabaseManager databaseManager;
-
-    public TMPro.TMP_Dropdown calendarsDropdown;
-    public List<GameSave> savesList;
-    private List<Competition.Calendar> calendarsList;
-
-    public GameObject popUpObject;
-    public TMPro.TMP_InputField calendarNameInput;
-    public TMPro.TMP_Text promptText;
-
-
-    public override void ListInit()
+    public class SavesListUI : ListDisplay
     {
-        savesList = databaseManager.dbSaveData.savesList;
-        foreach (var item in savesList)
+        public DatabaseManager databaseManager;
+
+        public TMP_Dropdown calendarsDropdown;
+        public List<GameSave> savesList;
+        private List<Calendar> calendarsList;
+
+        public GameObject popUpObject;
+        public TMP_InputField calendarNameInput;
+        public TMP_Text promptText;
+
+
+        public override void ListInit()
         {
-            AddListElement(NewListElement(item));
+            savesList = databaseManager.dbSaveData.savesList;
+            foreach (var item in savesList)
+            {
+                AddListElement(NewListElement(item));
+            }
+
+            calendarsList = new List<Calendar>();
+            if (databaseManager.dbCalendars.Loaded) { calendarsList = databaseManager.dbCalendars.Data; }
+            LoadCalendarsList();
         }
 
-        calendarsList = new List<Competition.Calendar>();
-        if (databaseManager.dbCalendars.Loaded) { calendarsList = databaseManager.dbCalendars.Data; }
-        LoadCalendarsList();
-    }
-
-    public void LoadCalendarsList()
-    {
-        var optionsList = calendarsList.Select(it => new TMPro.TMP_Dropdown.OptionData(it.name));
-        calendarsDropdown.options = new List<TMPro.TMP_Dropdown.OptionData>(optionsList);
-    }
-
-    public override void ShowElementInfo(int index)
-    {
-
-    }
-
-    public GameObject NewListElement(GameSave item)
-    {
-        GameObject tmp = Instantiate(elementPrefab);
-        SetValue(tmp, item);
-        return tmp;
-    }
-
-    public void SetValue(GameObject tmp, GameSave item)
-    {
-        tmp.GetComponentInChildren<TMPro.TMP_Text>().text = item.name;
-    }
-
-    public GameSave CreateGameSaveFromCalendar(Calendar calendar)
-    {
-        GameSave gameSave = new GameSave();
-        gameSave.resultsContainer = new ResultsDatabase();
-        gameSave.calendar = calendar;
-
-        gameSave.resultsContainer.eventResults = new EventResults[gameSave.calendar.events.Count];
-        gameSave.resultsContainer.classificationResults = new ClassificationResults[gameSave.calendar.classifications.Count];
-
-        for (int i = 0; i < gameSave.resultsContainer.classificationResults.Length; i++)
+        public void LoadCalendarsList()
         {
-            gameSave.resultsContainer.classificationResults[i] = new ClassificationResults();
+            var optionsList = calendarsList.Select(it => new TMP_Dropdown.OptionData(it.name));
+            calendarsDropdown.options = new List<TMP_Dropdown.OptionData>(optionsList);
         }
 
-        return gameSave;
-    }
-
-
-    public void ShowPopUp()
-    {
-
-        promptText.text = "";
-        popUpObject.SetActive(true);
-        LoadCalendarsList();
-    }
-
-    public void ClosePopUp()
-    {
-        popUpObject.SetActive(false);
-    }
-
-    public void OnSaveButton()
-    {
-        if (calendarNameInput.text.Equals(""))
+        public override void ShowElementInfo(int index)
         {
-            promptText.text = "Save's name must not be empty!";
-        }
-        else
-        {
-            Save();
-            ClosePopUp();
-        }
-    }
 
-    public void Save()
-    {
-        GameSave gameSave = CreateGameSaveFromCalendar(calendarsList[calendarsDropdown.value]);
-        gameSave.name = calendarNameInput.text;
-        savesList.Add(gameSave);
-        AddListElement(NewListElement(gameSave));
-        SetValue(elementsList[currentIndex], savesList[currentIndex]);
-    }
-
-    public void Play()
-    {
-        if (0 <= currentIndex && currentIndex < savesList.Count)
-        {
-            databaseManager.dbSaveData.currentSaveId = currentIndex;
-            databaseManager.Save();
         }
 
-    }
+        public GameObject NewListElement(GameSave item)
+        {
+            GameObject tmp = Instantiate(elementPrefab);
+            SetValue(tmp, item);
+            return tmp;
+        }
 
-    public void Delete()
-    {
-        savesList.RemoveAt(currentIndex);
-        DeleteListElement();
-    }
+        public void SetValue(GameObject tmp, GameSave item)
+        {
+            tmp.GetComponentInChildren<TMP_Text>().text = item.name;
+        }
 
+        public GameSave CreateGameSaveFromCalendar(Calendar calendar)
+        {
+            GameSave gameSave = new GameSave();
+            gameSave.resultsContainer = new ResultsDatabase();
+            gameSave.calendar = calendar;
+
+            gameSave.resultsContainer.eventResults = new EventResults[gameSave.calendar.events.Count];
+            gameSave.resultsContainer.classificationResults = new ClassificationResults[gameSave.calendar.classifications.Count];
+
+            for (int i = 0; i < gameSave.resultsContainer.classificationResults.Length; i++)
+            {
+                gameSave.resultsContainer.classificationResults[i] = new ClassificationResults();
+            }
+
+            return gameSave;
+        }
+
+
+        public void ShowPopUp()
+        {
+
+            promptText.text = "";
+            popUpObject.SetActive(true);
+            LoadCalendarsList();
+        }
+
+        public void ClosePopUp()
+        {
+            popUpObject.SetActive(false);
+        }
+
+        public void OnSaveButton()
+        {
+            if (calendarNameInput.text.Equals(""))
+            {
+                promptText.text = "Save's name must not be empty!";
+            }
+            else
+            {
+                Save();
+                ClosePopUp();
+            }
+        }
+
+        public void Save()
+        {
+            GameSave gameSave = CreateGameSaveFromCalendar(calendarsList[calendarsDropdown.value]);
+            gameSave.name = calendarNameInput.text;
+            savesList.Add(gameSave);
+            AddListElement(NewListElement(gameSave));
+            SetValue(elementsList[currentIndex], savesList[currentIndex]);
+        }
+
+        public void Play()
+        {
+            if (0 <= currentIndex && currentIndex < savesList.Count)
+            {
+                databaseManager.dbSaveData.currentSaveId = currentIndex;
+                databaseManager.Save();
+            }
+
+        }
+
+        public void Delete()
+        {
+            savesList.RemoveAt(currentIndex);
+            DeleteListElement();
+        }
+
+    }
 }

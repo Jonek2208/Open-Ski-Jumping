@@ -1,15 +1,19 @@
 using UnityEngine;
-public class ReplayController : MonoBehaviour
-{
-    public Transform[] bodyParts;
-    public Replay replay;
-    public bool isRecording;
 
-    void Update()
+namespace Jumping
+{
+    public class ReplayController : MonoBehaviour
     {
-        if (isRecording)
+        public Transform[] bodyParts;
+        public Replay replay;
+        public bool isRecording;
+
+        void Update()
         {
-            replay.AddFrame(bodyParts);
+            if (isRecording)
+            {
+                replay.AddFrame(bodyParts);
+            }
         }
     }
 }

@@ -1,25 +1,29 @@
-using Competition;
+using Competition.Persistent;
+using ScriptableObjects.Variables;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class CompetitorVariable : ScriptableObject
+namespace ScriptableObjects
 {
-    private Competition.Competitor value;
-    public StringVariable firstName;
-    public StringVariable lastName;
-    public StringVariable countryCode;
-    public FloatVariable result;
-    public IntVariable rank;
-    public IntVariable bib;
-    public JudgesMarkInfo[] judgesMarks;
-    public FloatVariable speed;
-    public FloatVariable distance;
-
-    public void Set(Competition.Competitor competitor)
+    [CreateAssetMenu]
+    public class CompetitorVariable : ScriptableObject
     {
-        this.value = competitor;
-        this.firstName.Value = this.value.firstName;
-        this.lastName.Value = this.value.lastName;
-        this.countryCode.Value = this.value.countryCode;
+        private Competitor value;
+        public StringVariable firstName;
+        public StringVariable lastName;
+        public StringVariable countryCode;
+        public FloatVariable result;
+        public IntVariable rank;
+        public IntVariable bib;
+        public JudgesMarkInfo[] judgesMarks;
+        public FloatVariable speed;
+        public FloatVariable distance;
+
+        public void Set(Competitor competitor)
+        {
+            value = competitor;
+            firstName.Value = value.firstName;
+            lastName.Value = value.lastName;
+            countryCode.Value = value.countryCode;
+        }
     }
 }

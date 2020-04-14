@@ -1,15 +1,19 @@
+using ScriptableObjects.Variables;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Slider))]
-public class SliderController : MonoBehaviour
+namespace ScriptableObjects
 {
-    private Slider slider;
-    public FloatVariable value;
-
-    private void Start()
+    [RequireComponent(typeof(Slider))]
+    public class SliderController : MonoBehaviour
     {
-        slider = GetComponent<Slider>();
-        slider.value = value.Value;
+        private Slider slider;
+        public FloatVariable value;
+
+        private void Start()
+        {
+            slider = GetComponent<Slider>();
+            slider.value = value.Value;
+        }
     }
 }

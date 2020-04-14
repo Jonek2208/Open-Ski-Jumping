@@ -1,6 +1,10 @@
 using UnityEngine;
-public abstract class DatabaseObject : ScriptableObject
+
+namespace ScriptableObjects
 {
-    public abstract bool LoadData();
-    public abstract void SaveData();
+    public abstract class DatabaseObject : ScriptableObject
+    {
+        public abstract bool LoadData();
+        public abstract void SaveData();
+    }
 }

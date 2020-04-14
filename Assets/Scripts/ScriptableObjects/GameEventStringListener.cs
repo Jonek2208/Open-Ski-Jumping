@@ -1,24 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
-public class GameEventStringListener : MonoBehaviour
+namespace ScriptableObjects
 {
-    [System.Serializable] public class StringEvent : UnityEvent<string> { }
-    public GameEventString Event;
-    public StringEvent Response;
-
-    private void OnEnable()
+    public class GameEventStringListener : MonoBehaviour
     {
-        Event.RegisterListener(this);
-    }
+        [Serializable] public class StringEvent : UnityEvent<string> { }
+        public GameEventString Event;
+        public StringEvent Response;
 
-    private void OnDisable()
-    {
-        Event.UnregisterListener(this);
-    }
+        private void OnEnable()
+        {
+            Event.RegisterListener(this);
+        }
 
-    public void OnEventRaised(string value)
-    {
-        Response.Invoke(value);
+        private void OnDisable()
+        {
+            Event.UnregisterListener(this);
+        }
+
+        public void OnEventRaised(string value)
+        {
+            Response.Invoke(value);
+        }
     }
 }

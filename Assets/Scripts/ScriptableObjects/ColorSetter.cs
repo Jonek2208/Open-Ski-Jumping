@@ -1,15 +1,17 @@
 using UnityEngine;
-using System.Globalization;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class ColorSetter : MonoBehaviour
+namespace ScriptableObjects
 {
-    private Image image;
-    private Color color;
-
-       private void Start()
+    [RequireComponent(typeof(Image))]
+    public class ColorSetter : MonoBehaviour
     {
-        image = GetComponent<Image>();
+        private Image image;
+        private Color color;
+
+        private void Start()
+        {
+            image = GetComponent<Image>();
+        }
     }
 }

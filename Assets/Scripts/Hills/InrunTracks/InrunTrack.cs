@@ -1,90 +1,93 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "HillElements/InrunTrack")]
-public class InrunTrack : ScriptableObject
+namespace Hills.InrunTracks
 {
-    [SerializeField]
-    private Vector2[] inrunTrackVals;
-    [SerializeField]
-    private Material[] materials;
-    public Mesh Generate(float b1, Vector2[] inrunPoints)
+    [CreateAssetMenu(menuName = "HillElements/InrunTrack")]
+    public class InrunTrack : ScriptableObject
     {
-        int segmentsCount = this.inrunTrackVals.Length + 1;
-        Mesh mesh = new Mesh();
-        List<Vector3> verticesList = new List<Vector3>();
-        List<Vector2> uvsList = new List<Vector2>();
-        List<int>[] trianglesList = new List<int>[segmentsCount];
-
-
-        Vector2[] hillInrunTrackVals = GenerateRealVals(b1);
-        float[] widths = GeneratePrefLenghts(hillInrunTrackVals);
-        float[] lengths = GeneratePrefLenghts(inrunPoints);
-
-        int cnt = 0;
-        mesh.subMeshCount = this.materials.Length;
-
-        for (int j = 0; j < segmentsCount; j++)
+        [SerializeField]
+        private Vector2[] inrunTrackVals;
+        [SerializeField]
+        private Material[] materials;
+        public Mesh Generate(float b1, Vector2[] inrunPoints)
         {
-            trianglesList[j] = new List<int>();
-            for (int i = 0; i < inrunPoints.Length; i++)
+            int segmentsCount = inrunTrackVals.Length + 1;
+            Mesh mesh = new Mesh();
+            List<Vector3> verticesList = new List<Vector3>();
+            List<Vector2> uvsList = new List<Vector2>();
+            List<int>[] trianglesList = new List<int>[segmentsCount];
+
+
+            Vector2[] hillInrunTrackVals = GenerateRealVals(b1);
+            float[] widths = GeneratePrefLenghts(hillInrunTrackVals);
+            float[] lengths = GeneratePrefLenghts(inrunPoints);
+
+            int cnt = 0;
+            mesh.subMeshCount = materials.Length;
+
+            for (int j = 0; j < segmentsCount; j++)
             {
-                verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y) + new Vector3(0, hillInrunTrackVals[j].y, hillInrunTrackVals[j].x));
-                uvsList.Add(new Vector2(widths[j], lengths[i]));
-                verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y) + new Vector3(0, hillInrunTrackVals[j + 1].y, hillInrunTrackVals[j + 1].x));
-                uvsList.Add(new Vector2(widths[j + 1], lengths[i]));
-                cnt = verticesList.Count - 1;
-
-                if (i > 0)
+                trianglesList[j] = new List<int>();
+                for (int i = 0; i < inrunPoints.Length; i++)
                 {
-                    trianglesList[j].Add(cnt - 3);
-                    trianglesList[j].Add(cnt - 1);
-                    trianglesList[j].Add(cnt);
+                    verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y) + new Vector3(0, hillInrunTrackVals[j].y, hillInrunTrackVals[j].x));
+                    uvsList.Add(new Vector2(widths[j], lengths[i]));
+                    verticesList.Add(new Vector3(inrunPoints[i].x, inrunPoints[i].y) + new Vector3(0, hillInrunTrackVals[j + 1].y, hillInrunTrackVals[j + 1].x));
+                    uvsList.Add(new Vector2(widths[j + 1], lengths[i]));
+                    cnt = verticesList.Count - 1;
 
-                    trianglesList[j].Add(cnt - 3);
-                    trianglesList[j].Add(cnt);
-                    trianglesList[j].Add(cnt - 2);
+                    if (i > 0)
+                    {
+                        trianglesList[j].Add(cnt - 3);
+                        trianglesList[j].Add(cnt - 1);
+                        trianglesList[j].Add(cnt);
+
+                        trianglesList[j].Add(cnt - 3);
+                        trianglesList[j].Add(cnt);
+                        trianglesList[j].Add(cnt - 2);
+                    }
                 }
+
             }
 
-        }
+            mesh.vertices = verticesList.ToArray();
+            mesh.uv = uvsList.ToArray();
+            for (int i = 0; i < segmentsCount; i++)
+                mesh.SetTriangles(trianglesList[i].ToArray(), i);
 
-        mesh.vertices = verticesList.ToArray();
-        mesh.uv = uvsList.ToArray();
-        for (int i = 0; i < segmentsCount; i++)
-            mesh.SetTriangles(trianglesList[i].ToArray(), i);
-
-        mesh.RecalculateNormals();
+            mesh.RecalculateNormals();
         
-        return mesh;
-    }
-
-    public Material[] GetMaterials()
-    {
-        return this.materials;
-    }
-
-    private Vector2[] GenerateRealVals(float b1)
-    {
-        Vector2[] tmp = new Vector2[this.inrunTrackVals.Length + 2];
-        tmp[0] = new Vector2(-b1 / 2, this.inrunTrackVals[0].y);
-        tmp[tmp.Length - 1] = new Vector2(b1 / 2, this.inrunTrackVals[this.inrunTrackVals.Length - 1].y);
-        for (int i = 0; i < this.inrunTrackVals.Length; i++)
-        {
-            tmp[i + 1] = this.inrunTrackVals[i];
+            return mesh;
         }
-        return tmp;
-    }
 
-    private float[] GeneratePrefLenghts(Vector2[] vals)
-    {
-        float[] result = new float[vals.Length];
-        result[0] = 0;
-        for (int i = 1; i < vals.Length; i++)
+        public Material[] GetMaterials()
         {
-            result[i] = result[i - 1] + (vals[i] - vals[i - 1]).magnitude;
+            return materials;
         }
-        return result;
-    }
 
+        private Vector2[] GenerateRealVals(float b1)
+        {
+            Vector2[] tmp = new Vector2[inrunTrackVals.Length + 2];
+            tmp[0] = new Vector2(-b1 / 2, inrunTrackVals[0].y);
+            tmp[tmp.Length - 1] = new Vector2(b1 / 2, inrunTrackVals[inrunTrackVals.Length - 1].y);
+            for (int i = 0; i < inrunTrackVals.Length; i++)
+            {
+                tmp[i + 1] = inrunTrackVals[i];
+            }
+            return tmp;
+        }
+
+        private float[] GeneratePrefLenghts(Vector2[] vals)
+        {
+            float[] result = new float[vals.Length];
+            result[0] = 0;
+            for (int i = 1; i < vals.Length; i++)
+            {
+                result[i] = result[i - 1] + (vals[i] - vals[i - 1]).magnitude;
+            }
+            return result;
+        }
+
+    }
 }

@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Data/SavesRuntime")]
-public class SavesRuntime : DatabaseObject<SaveData>
+namespace Data
 {
-
-    public List<GameSave> GetData() => Data.savesList;
-    public bool Remove(GameSave item)
+    [CreateAssetMenu(menuName = "ScriptableObjects/Data/SavesRuntime")]
+    public class SavesRuntime : DatabaseObject<SaveData>
     {
-        return Data.savesList.Remove(item);
-    }
 
-    public void Add(GameSave item)
-    {
-        Data.savesList.Add(item);
-    }
+        public List<GameSave> GetData() => Data.savesList;
+        public bool Remove(GameSave item)
+        {
+            return Data.savesList.Remove(item);
+        }
 
-    public GameSave GetCurrentSave()
-    {
-        return Data.savesList[Data.currentSaveId];
+        public void Add(GameSave item)
+        {
+            Data.savesList.Add(item);
+        }
+
+        public GameSave GetCurrentSave()
+        {
+            return Data.savesList[Data.currentSaveId];
+        }
     }
 }

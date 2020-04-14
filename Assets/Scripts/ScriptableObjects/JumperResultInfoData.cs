@@ -1,28 +1,31 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/JumperResultInfoData")]
-public class JumperResultInfoData : ScriptableObject
+namespace ScriptableObjects
 {
-    public Color fontColor;
-    public Color backgroundColor;
-    public CompetitorVariable competitor;
-    public bool showNameInfo;
-    public bool showCountryInfo;
-    public bool showResultInfo;
-    public bool showRankInfo;
-    public void SetRankInfo(bool value) { showRankInfo = value; }
-    public void SetResultInfo(bool value) { showResultInfo = value; }
-    public void SetUIForRound(int roundIt)
+    [CreateAssetMenu(menuName = "ScriptableObjects/JumperResultInfoData")]
+    public class JumperResultInfoData : ScriptableObject
     {
-        if (roundIt > 0)
+        public Color fontColor;
+        public Color backgroundColor;
+        public CompetitorVariable competitor;
+        public bool showNameInfo;
+        public bool showCountryInfo;
+        public bool showResultInfo;
+        public bool showRankInfo;
+        public void SetRankInfo(bool value) { showRankInfo = value; }
+        public void SetResultInfo(bool value) { showResultInfo = value; }
+        public void SetUIForRound(int roundIt)
         {
-            showRankInfo = true;
-            showResultInfo = true;
-        }
-        else
-        {
-            showRankInfo = false;
-            showResultInfo = false;
+            if (roundIt > 0)
+            {
+                showRankInfo = true;
+                showResultInfo = true;
+            }
+            else
+            {
+                showRankInfo = false;
+                showResultInfo = false;
+            }
         }
     }
 }

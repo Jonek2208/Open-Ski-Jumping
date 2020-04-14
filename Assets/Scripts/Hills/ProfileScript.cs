@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace HillProfile
+namespace Hills
 {
-    public enum ProfileType { ICR1992, ICR1996, ICR2008 };
+    public enum ProfileType { ICR1992, ICR1996, ICR2008 }
 
-    [System.Serializable]
+    [Serializable]
     public class ProfileData
     {
         public string name;
@@ -41,7 +42,7 @@ namespace HillProfile
         public float q;
     }
 
-    [System.Serializable]
+    [Serializable]
 
     public class AllData
     {

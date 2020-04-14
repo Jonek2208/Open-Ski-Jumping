@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu]
-public class DecimalVariable : ScriptableObject
+namespace ScriptableObjects
 {
-    [SerializeField]
-    private decimal value;
-    public decimal Value
+    [CreateAssetMenu]
+    public class DecimalVariable : ScriptableObject
     {
-        get => value;
-        set => this.value = value;
+        [SerializeField]
+        private decimal value;
+        public decimal Value
+        {
+            get => value;
+            set => this.value = value;
+        }
     }
 }
