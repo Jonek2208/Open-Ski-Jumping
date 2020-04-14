@@ -56,7 +56,6 @@ namespace UI
             int red, green, blue;
             if (hex == null) { hex = "000000"; }
             TryParseHex(hex, out red, out green, out blue);
-            Debug.Log("COLOR: " + red + " " + green + " " + blue);
             currentColor = new Color(red / 255f, green / 255f, blue / 255f);
             hexColor = hex;
             image.color = currentColor;

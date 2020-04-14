@@ -9,6 +9,7 @@ using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 namespace UI.JumpersMenu
 {
@@ -30,7 +31,7 @@ namespace UI.JumpersMenu
         [SerializeField] private TMP_InputField firstNameInput;
         [SerializeField] private TMP_InputField lastNameInput;
         [SerializeField] private TMP_InputField countryCodeInput;
-        [SerializeField] private TMP_Dropdown genderDropdown;
+        [SerializeField] private SegmentedControl genderSelect;
         [SerializeField] private SimpleColorPicker helmetColorPicker;
         [SerializeField] private SimpleColorPicker suitTopFrontColorPicker;
         [SerializeField] private SimpleColorPicker suitTopBackColorPicker;
@@ -54,25 +55,25 @@ namespace UI.JumpersMenu
         public string FirstName
         {
             get => firstNameInput.text;
-            set => firstNameInput.text = value;
+            set => firstNameInput.SetTextWithoutNotify(value);
         }
 
         public string LastName
         {
             get => lastNameInput.text;
-            set => lastNameInput.text = value;
+            set => lastNameInput.SetTextWithoutNotify(value);
         }
 
         public string CountryCode
         {
             get => countryCodeInput.text;
-            set => countryCodeInput.text = value;
+            set => countryCodeInput.SetTextWithoutNotify(value);
         }
 
         public int Gender
         {
-            get => genderDropdown.value;
-            set => genderDropdown.value = value;
+            get => genderSelect.selectedSegmentIndex;
+            set => genderSelect.SetSelectedSegmentWithoutNotify(value);
         }
 
         public string SuitTopFront
@@ -114,12 +115,11 @@ namespace UI.JumpersMenu
         public string ImagePath
         {
             get => imagePathInput.text;
-            set => imagePathInput.text = value;
+            set => imagePathInput.SetTextWithoutNotify(value);
         }
 
         #endregion
 
-        public bool BlockJumperInfoCallbacks { get; set; }
         public bool BlockSelectionCallbacks { get; set; }
         public event Action OnSelectionChanged;
         public event Action OnCurrentJumperChanged;
@@ -134,9 +134,16 @@ namespace UI.JumpersMenu
                 listView.Items = jumpers;
                 FixCurrentSelection();
                 listView.Refresh();
-                listView.ScrollToIndex(toggleGroup.CurrentValue);
-                HandleSelectionChanged();
             }
+        }
+
+        public void SetJumpersWithSelection(IEnumerable<Competitor> value, Competitor jumper)
+        {
+            jumpers = value.ToList();
+            listView.Items = jumpers;
+            SelectJumper(jumper);
+            listView.Refresh();
+            listView.ScrollToIndex(toggleGroup.CurrentValue);
         }
 
         private void Start()
@@ -155,7 +162,7 @@ namespace UI.JumpersMenu
             lastNameInput.onEndEdit.AddListener(x => OnValueChanged());
             countryCodeInput.onEndEdit.AddListener(x => OnValueChanged());
             imagePathInput.onEndEdit.AddListener(x => OnValueChanged());
-            genderDropdown.onValueChanged.AddListener(x => OnValueChanged());
+            genderSelect.onValueChanged.AddListener(x => OnValueChanged());
             helmetColorPicker.OnColorChange += OnValueChanged;
             suitTopFrontColorPicker.OnColorChange += OnValueChanged;
             suitTopBackColorPicker.OnColorChange += OnValueChanged;
@@ -166,25 +173,20 @@ namespace UI.JumpersMenu
 
         private void OnValueChanged()
         {
-            if (!BlockJumperInfoCallbacks)
-            {
-                OnCurrentJumperChanged?.Invoke();
-            }
+            OnCurrentJumperChanged?.Invoke();
         }
 
         private void HandleSelectionChanged()
         {
-            if (!BlockSelectionCallbacks)
-            {
-                OnSelectionChanged?.Invoke();
-            }
+            if (!BlockSelectionCallbacks) OnSelectionChanged?.Invoke();
         }
 
         public void SelectJumper(Competitor jumper)
         {
-            int index = jumpers.IndexOf(jumper);
+            int index = (jumper == null) ? toggleGroup.CurrentValue : jumpers.IndexOf(jumper);
             index = Mathf.Clamp(index, 0, jumpers.Count - 1);
-            toggleGroup.HandleSelectionChanged(index);
+            toggleGroup.HandleSelectionChanged(index, true, false);
+
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
@@ -210,15 +212,21 @@ namespace UI.JumpersMenu
             StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
         }
 
-        private void FixCurrentSelection() =>
-            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, jumpers.Count - 1));
+        private void FixCurrentSelection()
+        {
+            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, jumpers.Count - 1), true,
+                false);
+        }
 
         private void BindListViewItem(int index, JumpersListItem item)
         {
-            item.nameText.text = $"{jumpers[index].firstName} {jumpers[index].lastName.ToUpper()}";
-            item.countryFlagText.text = jumpers[index].countryCode;
-            item.countryFlagImage.sprite = flagsData.GetFlag(jumpers[index].countryCode);
-            item.genderIconImage.sprite = genderIcons[(int) jumpers[index].gender];
+            var jumper = jumpers[index];
+            item.nameText.text = $"{jumper.firstName} {jumper.lastName.ToUpper()}";
+            item.countryFlagText.text = jumper.countryCode;
+            item.countryFlagImage.sprite = flagsData.GetFlag(jumper.countryCode);
+            if ((int) jumper.gender < 0 || (int) jumper.gender >= genderIcons.Length)
+                Debug.LogError($"Index out of range {(int) jumper.gender}");
+            item.genderIconImage.sprite = genderIcons[(int) jumper.gender];
             item.toggleExtension.SetElementId(index);
         }
     }

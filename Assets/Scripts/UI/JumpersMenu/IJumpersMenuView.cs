@@ -20,10 +20,7 @@ namespace UI.JumpersMenu
         string Helmet { get; set; }
         string Skis { get; set; }
         string ImagePath { get; set; }
-
-        bool BlockJumperInfoCallbacks { get; set; }
-        bool BlockSelectionCallbacks { get; set; }
-
+        
         event Action OnSelectionChanged;
         event Action OnCurrentJumperChanged;
         event Action OnAdd;

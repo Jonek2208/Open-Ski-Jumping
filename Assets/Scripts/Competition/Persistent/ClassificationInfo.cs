@@ -8,19 +8,27 @@ namespace Competition.Persistent
     [Serializable]
     public class ClassificationInfo
     {
-        public string name;
+        public string name = "";
+
         [JsonConverter(typeof(StringEnumConverter))]
         public EventType eventType;
-        public ClassificationType classificationType;
-        public List<int> events = new List<int>();
-        public int teamCompetitorsLimit;
-        public List<PointsTable> pointsTables = new List<PointsTable>();
 
-        public ClassificationInfo(string _name, ClassificationType _classificationType)
-        {
-            name = _name;
-            classificationType = _classificationType;
-        }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ClassificationType classificationType;
+
+        public TeamClassificationLimitType teamClassificationLimitType;
+        public int teamCompetitorsLimit;
+
+        public int medalPlaces;
+        
+        public List<int> events = new List<int>();
+        public List<PointsTable> pointsTables = new List<PointsTable>();
+    }
+
+    public enum TeamClassificationLimitType
+    {
+        All,
+        Best
     }
 
     [Serializable]

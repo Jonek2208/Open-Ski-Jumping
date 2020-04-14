@@ -35,7 +35,7 @@ namespace UI.CalendarEditor.Competitors
 
         private void Save()
         {
-            calendarFactory.Competitors = view.SelectedJumpers;
+            calendarFactory.Competitors = view.SelectedJumpers.ToList();
         }
 
         private void InitEvents()

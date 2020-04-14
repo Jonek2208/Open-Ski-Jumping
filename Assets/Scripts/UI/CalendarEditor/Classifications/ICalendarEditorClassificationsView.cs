@@ -18,9 +18,12 @@ namespace UI.CalendarEditor.Classifications
         string Name { get; set; }
         int EventType { get; set; }
         int ClassificationType { get; set; }
+        int TeamClassificationLimitType { get; set; }
+        int TeamClassificationLimit { get; set; }
 
         bool BlockJumperInfoCallbacks { get; set; }
         bool BlockSelectionCallbacks { get; set; }
+        int MedalPlaces { get; set; }
 
         event Action OnSelectionChanged;
         event Action OnCurrentClassificationChanged;
@@ -28,5 +31,7 @@ namespace UI.CalendarEditor.Classifications
         event Action OnRemove;
 
         void SelectClassification(ClassificationInfo classification);
+        void HideClassificationInfo();
+        void ShowClassificationInfo();
     }
 }

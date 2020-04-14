@@ -16,7 +16,9 @@ namespace UI
         public TMP_InputField lastNameInput;
         public TMP_InputField firstNameInput;
         public TMP_InputField countryCodeInput;
+
         public SimpleColorPicker helmetColorPicker;
+
         // public string suitTopFrontColor;
         // public string suitTopBackColor;
         // public string suitBottomFrontColor;
@@ -25,6 +27,7 @@ namespace UI
         public SimpleColorPicker suitTopBackColorPicker;
         public SimpleColorPicker suitBottomFrontColorPicker;
         public SimpleColorPicker suitBottomBackColorPicker;
+
         public SimpleColorPicker skisColorPicker;
         // public TMPro.TMP_Dropdown genderDropdown;
 
@@ -39,14 +42,18 @@ namespace UI
         // }
 
 
-
         public override void ListInit()
         {
             // LoadJumpersData(out competitorsList);
-            foreach (var competitor in competitorsList) { AddListElement(NewListElement(competitor)); }
+            foreach (var competitor in competitorsList)
+            {
+                AddListElement(NewListElement(competitor));
+            }
+
             updated = false;
             initialized = true;
         }
+
         public GameObject NewListElement(Competitor competitor)
         {
             GameObject tmp = Instantiate(elementPrefab);
@@ -56,10 +63,12 @@ namespace UI
 
         public void SetValue(GameObject tmp, Competitor competitor)
         {
-            tmp.GetComponentsInChildren<TMP_Text>()[0].text = competitor.firstName + " " + competitor.lastName.ToUpper();
+            tmp.GetComponentsInChildren<TMP_Text>()[0].text =
+                competitor.firstName + " " + competitor.lastName.ToUpper();
             tmp.GetComponentsInChildren<TMP_Text>()[1].text = competitor.countryCode;
             tmp.GetComponentsInChildren<Image>()[1].sprite = flagsData.GetFlag(competitor.countryCode);
         }
+
         public override void ShowElementInfo(int index)
         {
             firstNameInput.text = competitorsList[index].firstName;
@@ -73,11 +82,12 @@ namespace UI
             suitBottomBackColorPicker.Set(competitorsList[index].suitBottomBackColor);
             skisColorPicker.Set(competitorsList[index].skisColor);
             // genderDropdown.value = (int)(competitorsList[index].gender);
-
         }
+
         public void Add()
         {
-            Competitor competitor = new Competitor("LastName", "FirstName", "XXX", Gender.Male, 2001);
+            Competitor competitor = new Competitor
+                {lastName = "LastName", firstName = "FirstName", countryCode = "XXX"};
             competitorsList.Add(competitor);
             AddListElement(NewListElement(competitor));
             updated = false;

@@ -26,8 +26,8 @@ namespace UI
         {
             changeEventListener.enabled = false;
             nameInput.text = classificationsList[index].name;
-            dropdown1.value = (int)(classificationsList[index].classificationType) / 2;
-            dropdown2.value = (int)(classificationsList[index].classificationType) % 2;
+            dropdown1.value = (int) (classificationsList[index].classificationType) / 2;
+            dropdown2.value = (int) (classificationsList[index].classificationType) % 2;
             changeEventListener.enabled = true;
         }
 
@@ -35,7 +35,11 @@ namespace UI
         {
             ClearListElement();
             ListInit();
-            if (tmpList == null) { tmpList = new List<ClassificationInfo>(); }
+            if (tmpList == null)
+            {
+                tmpList = new List<ClassificationInfo>();
+            }
+
             foreach (var item in tmpList)
             {
                 classificationsList.Add(item);
@@ -57,7 +61,8 @@ namespace UI
 
         public void Add()
         {
-            ClassificationInfo classification = new ClassificationInfo("New Tournament", ClassificationType.Place);
+            ClassificationInfo classification = new ClassificationInfo
+                {name = "New Tournament", classificationType = ClassificationType.Place};
             classificationsList.Add(classification);
             AddListElement(NewListElement(classification));
             updated = false;
@@ -67,7 +72,8 @@ namespace UI
         {
             changeEventListener.enabled = false;
             classificationsList[currentIndex].name = nameInput.text;
-            classificationsList[currentIndex].classificationType = (ClassificationType)(2 * dropdown1.value + dropdown2.value);
+            classificationsList[currentIndex].classificationType =
+                (ClassificationType) (2 * dropdown1.value + dropdown2.value);
             changeEventListener.enabled = true;
             SetValue(elementsList[currentIndex], classificationsList[currentIndex]);
             updated = false;
@@ -79,6 +85,5 @@ namespace UI
             DeleteListElement();
             updated = false;
         }
-
     }
 }
