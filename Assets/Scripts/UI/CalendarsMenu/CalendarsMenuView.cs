@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using Data;
-using ListView;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.CalendarsMenu
+namespace OpenSkiJumping.UI.CalendarsMenu
 {
     public class CalendarsMenuView : MonoBehaviour, ICalendarsMenuView
     {
@@ -16,7 +16,8 @@ namespace UI.CalendarsMenu
         [SerializeField] private CalendarsRuntime calendarsRuntime;
 
         [SerializeField] private CalendarsListView listView;
-        [SerializeField] private ToggleGroupExtension toggleGroup;
+
+        #region CalendarInfoUI
 
         [SerializeField] private GameObject calendarInfoObj;
         [SerializeField] private TMP_Text nameText;
@@ -29,9 +30,15 @@ namespace UI.CalendarsMenu
         [SerializeField] private Button submitButton;
         [SerializeField] private Button cancelButton;
 
+        #endregion
 
-        public string CurrentCalendarName { set { nameText.text = value; } }
-        public string NewCalendarName { get { return input.text; } }
+
+        public string CurrentCalendarName
+        {
+            set => nameText.text = value;
+        }
+
+        public string NewCalendarName => input.text;
 
 
         public event Action OnSelectionChanged;
@@ -40,23 +47,38 @@ namespace UI.CalendarsMenu
         public event Action OnSubmit;
 
         private List<Calendar> calendars;
-        public Calendar SelectedCalendar { get => calendars[toggleGroup.CurrentValue]; }
+
+        public Calendar SelectedCalendar
+        {
+            get => calendars[listView.SelectedIndex];
+            set => SelectCalendar(value);
+        }
 
         private void Start()
         {
-            toggleGroup.OnValueChanged += val => { OnSelectionChanged?.Invoke(); };
+            ListViewSetup();
+            RegisterCallbacks();
+            presenter = new CalendarsMenuPresenter(this, calendarsRuntime);
+        }
+
+        private void ListViewSetup()
+        {
+            listView.OnSelectionChanged += x => { OnSelectionChanged?.Invoke(); };
+            listView.SelectionType = SelectionType.Single;
             listView.Initialize(BindListViewItem);
+        }
+
+        private void RegisterCallbacks()
+        {
             addButton.onClick.AddListener(() => OnAdd?.Invoke());
             removeButton.onClick.AddListener(() => OnRemove?.Invoke());
             submitButton.onClick.AddListener(() => OnSubmit?.Invoke());
             cancelButton.onClick.AddListener(HidePopUp);
-            presenter = new CalendarsMenuPresenter(this, calendarsRuntime);
         }
 
         private void BindListViewItem(int index, CalendarsListItem item)
         {
             item.valueText.text = calendars[index].name;
-            item.toggleExtension.SetElementId(index);
         }
 
         public IEnumerable<Calendar> Calendars
@@ -65,35 +87,33 @@ namespace UI.CalendarsMenu
             {
                 calendars = value.ToList();
                 listView.Items = calendars;
-                FixCurrentSelection();
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, calendars.Count - 1);
                 listView.Refresh();
-                OnSelectionChanged?.Invoke();
             }
         }
 
-        private void FixCurrentSelection()
-        {
-            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, calendars.Count - 1));
-        }
-
-        public void SelectCalendar(Calendar calendar)
+        private void SelectCalendar(Calendar calendar)
         {
             int index = calendars.IndexOf(calendar);
             index = Mathf.Clamp(index, 0, calendars.Count - 1);
-            toggleGroup.HandleSelectionChanged(index);
+            listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
 
-        public void ShowCalendarInfo() => calendarInfoObj.SetActive(true);
-        public void HideCalendarInfo() => calendarInfoObj.SetActive(false);
         public void ShowPopUp()
         {
             popUpRoot.SetActive(true);
             promptObj.SetActive(false);
             input.text = "";
         }
-        public void ShowPrompt() => promptObj.SetActive(true);
+
         public void HidePopUp() => popUpRoot.SetActive(false);
+        public void ShowPrompt() => promptObj.SetActive(true);
+
+        public bool CalendarInfoEnabled
+        {
+            set => calendarInfoObj.SetActive(value);
+        }
     }
 }

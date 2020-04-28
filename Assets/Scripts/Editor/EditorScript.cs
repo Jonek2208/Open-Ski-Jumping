@@ -1,12 +1,12 @@
 ﻿#if UNITY_EDITOR
-using Competition.Runtime;
-using Data;
-using Hills;
-using ScriptableObjects;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.Hills;
+using OpenSkiJumping.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace OpenSkiJumping.Editor
 {
     [CustomEditor(typeof(RuntimeData), true)]
     public class DatabaseObjectEditor : UnityEditor.Editor

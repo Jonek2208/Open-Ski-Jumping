@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hills.Guardrails;
-using Hills.InrunTracks;
-using Hills.LandingAreas;
-using Hills.Stairs;
-using ScriptableObjects.Variables;
+using OpenSkiJumping.Hills.Guardrails;
+using OpenSkiJumping.Hills.InrunTracks;
+using OpenSkiJumping.Hills.LandingAreas;
+using OpenSkiJumping.Hills.Stairs;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEditor;
 using UnityEngine;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     [Serializable]
     public class HillModel

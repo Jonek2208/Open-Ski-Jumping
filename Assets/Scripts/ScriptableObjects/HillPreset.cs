@@ -1,7 +1,7 @@
-using ScriptableObjects.Variables;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu]
     public class HillPreset : ScriptableObject

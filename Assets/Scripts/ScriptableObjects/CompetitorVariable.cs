@@ -1,8 +1,8 @@
-using Competition.Persistent;
-using ScriptableObjects.Variables;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu]
     public class CompetitorVariable : ScriptableObject

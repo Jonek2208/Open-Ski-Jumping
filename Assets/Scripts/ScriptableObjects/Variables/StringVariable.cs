@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects.Variables
+namespace OpenSkiJumping.ScriptableObjects.Variables
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Variables/StringVariable")]
     public class StringVariable : ScriptableObject

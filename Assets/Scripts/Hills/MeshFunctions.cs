@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     public class MeshFunctions
     {

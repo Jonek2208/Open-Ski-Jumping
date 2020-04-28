@@ -2,7 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class DatabaseObjectJSON<T> : DatabaseObject
     {

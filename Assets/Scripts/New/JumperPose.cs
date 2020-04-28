@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace New
+namespace OpenSkiJumping.New
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Jumper/JumperPose")]
     public class JumperPose : ScriptableObject

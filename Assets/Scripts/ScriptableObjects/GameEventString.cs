@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Events/GameEventString")]
     public class GameEventString : ScriptableObject

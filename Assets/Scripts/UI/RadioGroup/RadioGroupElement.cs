@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.RadioGroup
+namespace OpenSkiJumping.UI.RadioGroup
 {
     public class RadioGroupElement : MonoBehaviour
     {

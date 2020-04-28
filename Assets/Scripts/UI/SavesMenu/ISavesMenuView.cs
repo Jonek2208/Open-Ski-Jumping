@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace UI.SavesMenu
+namespace OpenSkiJumping.UI.SavesMenu
 {
     public interface ISavesMenuView
     {
-        GameSave SelectedSave { get; }
+        GameSave SelectedSave { get; set; }
         IEnumerable<GameSave> Saves { set; }
         Calendar SelectedCalendar { get; }
         IEnumerable<Calendar> Calendars { set; }
@@ -19,11 +19,9 @@ namespace UI.SavesMenu
         event Action OnRemove;
         event Action OnSubmit;
 
-        void SelectSave(GameSave save);
+        bool SaveInfoEnabled { set; }
         void HidePopUp();
-        void HideSaveInfo();
         void ShowPopUp();
         void ShowPrompt();
-        void ShowSaveInfo();
     }
 }

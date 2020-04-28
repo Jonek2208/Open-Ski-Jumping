@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Globalization;
-using Competition.Persistent;
 using DG.Tweening;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.UI;
 using TMPro;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace TVGraphics
+namespace OpenSkiJumping.TVGraphics
 {
     public class JumpUINormalPreJump : PreJumpUIManager
     {

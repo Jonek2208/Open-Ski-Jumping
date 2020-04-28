@@ -1,4 +1,4 @@
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class BroadcasterIndividualNormal : Broadcaster
     {

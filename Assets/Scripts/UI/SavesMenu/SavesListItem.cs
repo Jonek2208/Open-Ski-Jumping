@@ -1,12 +1,11 @@
-using ListView;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 
-namespace UI.SavesMenu
+namespace OpenSkiJumping.UI.SavesMenu
 {
-    public class SavesListItem : MonoBehaviour
+    public class SavesListItem : ListItemBehaviour
     {
-        public ToggleExtension toggleExtension;
         public TMP_Text valueText;
     }
 }

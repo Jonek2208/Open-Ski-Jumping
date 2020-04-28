@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     public class GameController : MonoBehaviour
     {

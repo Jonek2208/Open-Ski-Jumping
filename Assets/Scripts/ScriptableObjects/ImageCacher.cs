@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/ImageCacher")]
     public class ImageCacher : ScriptableObject

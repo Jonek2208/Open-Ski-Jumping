@@ -98,7 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calendarsRuntime: {fileID: 11400000, guid: ed1f9f68ad3c4fd1f8ea10c5ca56c6c6, type: 2}
   listView: {fileID: 4219402779707715104}
-  toggleGroup: {fileID: 6350075224752953288}
   calendarInfoObj: {fileID: 163674241903696085}
   nameText: {fileID: 6373722955120205599}
   addButton: {fileID: 2834938210915305242}
@@ -1147,7 +1146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!114 &6350075224752953288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,6 +1161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggleGroup: {fileID: 9166786333856612250}
   currentId: -1
+  allowMultipleSelection: 0
 --- !u!114 &4219402779707715104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,8 +1178,9 @@ MonoBehaviour:
   mask: {fileID: 227055688566526765}
   listItem: {fileID: 227055690170022718}
   scrollRect: {fileID: 227055688174228365}
-  Spacing: 0
-  Direction: 1
+  spacing: 0
+  direction: 0
+  selectionType: 0
 --- !u!1 &227055690170022717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1193,6 @@ GameObject:
   - component: {fileID: 3395942704489748445}
   - component: {fileID: 8181833391832352840}
   - component: {fileID: 2827496414909834989}
-  - component: {fileID: 3041477625153322605}
   - component: {fileID: 449910931851686479}
   m_Layer: 5
   m_Name: Prefab
@@ -1300,37 +1300,11 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8181833391832352840}
   toggleTransition: 0
   graphic: {fileID: 4263905787924936719}
-  m_Group: {fileID: 9166786333856612250}
+  m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3041477625153322605}
-        m_MethodName: OnValueChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &3041477625153322605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227055690170022717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1366d441e1951f287930e81e214b03a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toggle: {fileID: 2827496414909834989}
-  toggleGroupExtension: {fileID: 6350075224752953288}
-  elementId: 0
 --- !u!114 &449910931851686479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,7 +1317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac0cdf6f71ae7f409cc089bd622a41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleExtension: {fileID: 3041477625153322605}
+  selection: {fileID: 2827496414909834989}
+  selectionType: 0
   valueText: {fileID: 8275082647142822739}
 --- !u!1 &3554346257334250717
 GameObject:

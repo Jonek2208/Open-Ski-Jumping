@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class GameEventStringListener : MonoBehaviour
     {

@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace UI.CalendarEditor.Competitors
+namespace OpenSkiJumping.UI.CalendarEditor.Competitors
 {
     public interface ICalendarEditorJumpersView
     {
         IEnumerable<Competitor> SelectedJumpers { get; set; }
         IEnumerable<Competitor> Jumpers { set; }
 
-        event Action OnSelectionSave;
+        event Action OnDataSave;
+        event Action OnDataReload;
     }
 }

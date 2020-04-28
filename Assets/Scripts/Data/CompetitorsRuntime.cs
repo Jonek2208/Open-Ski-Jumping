@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Competition;
-using Competition.Persistent;
+using OpenSkiJumping.Competition;
+using OpenSkiJumping.Competition.Persistent;
 using UnityEngine;
 
-namespace Data
+namespace OpenSkiJumping.Data
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/CompetitorsRuntime")]
     public class CompetitorsRuntime : DatabaseObject<List<Competitor>>

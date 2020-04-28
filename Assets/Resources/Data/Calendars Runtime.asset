@@ -16,43 +16,40 @@ MonoBehaviour:
   data:
   - name: 2017/2018
     competitorsIds:
-    - AUT-M-Kraft-Stefan-0
-    - GER-M-Geiger-Karl-0
-    - JPN-M-Kobayashi-Ryoyu-0
-    - POL-M-Kubacki-Dawid-0
-    - POL-M-Stoch-Kamil-0
-    - GER-M-Leyhe-Stephan-0
-    - NOR-M-Lindvik-Marius-0
-    - SLO-M-Prevc-Peter-0
-    - NOR-M-Tande-Daniel_Andre-0
-    - AUT-M-Aschenwald-Philipp-0
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
     teams: []
     classifications:
     - name: World Cup
       eventType: 0
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
-      pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-    - name: Ski Flying World Cup
-      eventType: 0
-      classificationType: 0
+      medalPlaces: 0
       events: 
-      teamCompetitorsLimit: 0
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
     - name: Nations Cup
       eventType: 1
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      - value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: 
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
     events:
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -61,16 +58,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 1
       qualRankType: 0
       qualRankId: 0
@@ -79,23 +70,24 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 2
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 8
-        useOrdRank: 01010101
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 01010100
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 8
+          useOrdRank: 01010101
+          has95Rule: 0
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: 0
+          useOrdRank: 01010100
+          has95Rule: 0
+          reversedBibs: 0
+          reassignBibs: 0
       classifications: 02000000
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 1
       qualRankId: 0
@@ -104,23 +96,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -129,16 +108,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 1
       qualRankId: 3
@@ -147,60 +120,34 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
   - name: 2018/2019
     competitorsIds:
-    - AUT-M-Kraft-Stefan-0
-    - GER-M-Geiger-Karl-0
-    - JPN-M-Kobayashi-Ryoyu-0
-    - POL-M-Kubacki-Dawid-0
-    - POL-M-Stoch-Kamil-0
-    - GER-M-Leyhe-Stephan-0
-    - NOR-M-Lindvik-Marius-0
-    - SLO-M-Prevc-Peter-0
-    - NOR-M-Tande-Daniel_Andre-0
-    - AUT-M-Aschenwald-Philipp-0
+    - AUT-M-Kraft-Stefan#0
+    - GER-M-Geiger-Karl#0
+    - JPN-M-Kobayashi-Ryoyu#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - SLO-M-Prevc-Peter#0
+    - NOR-M-Tande-Daniel_Andre#0
+    - AUT-M-Aschenwald-Philipp#0
     teams: []
     classifications:
     - name: World Cup
       eventType: 0
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
-      pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-    - name: Ski Flying World Cup
-      eventType: 0
-      classificationType: 0
+      medalPlaces: 0
       events: 
-      teamCompetitorsLimit: 0
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-    - name: Nations Cup
-      eventType: 1
-      classificationType: 0
-      events: 
-      teamCompetitorsLimit: 0
-      pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      - value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
     events:
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -209,16 +156,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 1
       qualRankType: 0
       qualRankId: 0
@@ -227,23 +168,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 2
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 8
-        useOrdRank: 01010101
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 01010100
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 02000000
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 1
       qualRankId: 0
@@ -252,23 +180,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -277,16 +192,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 1
       qualRankId: 3
@@ -295,60 +204,65 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
   - name: 2019/2020
     competitorsIds:
-    - AUT-M-Kraft-Stefan-0
-    - GER-M-Geiger-Karl-0
-    - JPN-M-Kobayashi-Ryoyu-0
-    - POL-M-Kubacki-Dawid-0
-    - POL-M-Stoch-Kamil-0
-    - GER-M-Leyhe-Stephan-0
-    - NOR-M-Lindvik-Marius-0
-    - SLO-M-Prevc-Peter-0
-    - NOR-M-Tande-Daniel_Andre-0
-    - AUT-M-Aschenwald-Philipp-0
+    - GER-M-Geiger-Karl#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - GER-M-Leyhe-Stephan#0
+    - NOR-M-Lindvik-Marius#0
+    - SLO-M-Prevc-Peter#0
     teams: []
     classifications:
     - name: World Cup
       eventType: 0
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
     - name: Ski Flying World Cup
       eventType: 0
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
     - name: Nations Cup
       eventType: 1
       classificationType: 0
-      events: 
+      teamClassificationLimitType: 0
       teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
       pointsTables:
-      - value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      - value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      - name: 
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: 
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    - name: Four Hills Tournament
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables: []
+      leaderBibColor: ffff00
     events:
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -357,16 +271,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 1
       qualRankType: 0
       qualRankId: 0
@@ -375,23 +283,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 2
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 8
-        useOrdRank: 01010101
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 01010100
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 02000000
-    - name: 
-      hillId: Wisla HS134
+    - hillId: Wisla HS134
       eventType: 0
       qualRankType: 1
       qualRankId: 0
@@ -400,23 +295,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 0
       qualRankId: 0
@@ -425,16 +307,10 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 50
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 
-    - name: 
-      hillId: Kuusamo HS142
+    - hillId: Kuusamo HS142
       eventType: 0
       qualRankType: 1
       qualRankId: 3
@@ -443,19 +319,7 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-      - roundType: 0
-        outLimitType: 1
-        outLimit: 30
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
-      - roundType: 0
-        outLimitType: 0
-        outLimit: 0
-        useOrdRank: 
-        has95Rule: 1
-        reversedBibs: 0
-        reassignBibs: 0
+        name: 
+        roundInfos: []
       classifications: 00000000
   loaded: 1

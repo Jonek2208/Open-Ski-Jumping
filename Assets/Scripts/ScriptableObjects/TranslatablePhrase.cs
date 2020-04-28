@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Translations/TranslatablePhrase")]
     public class TranslatablePhrase : ScriptableObject

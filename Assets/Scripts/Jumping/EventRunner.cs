@@ -1,6 +1,6 @@
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     public class EventRunner
     {

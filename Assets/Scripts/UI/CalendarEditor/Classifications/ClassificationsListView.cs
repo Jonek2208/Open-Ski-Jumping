@@ -1,8 +1,7 @@
-﻿using Competition.Persistent;
-using ListView;
-using UI.JumpersMenu;
+﻿using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.ListView;
 
-namespace UI.CalendarEditor.Classifications
+namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 {
     public class ClassificationsListView : ListView<ClassificationInfo, ClassificationsListItem> { }
 }

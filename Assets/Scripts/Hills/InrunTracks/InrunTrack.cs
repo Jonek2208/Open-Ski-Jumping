@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hills.InrunTracks
+namespace OpenSkiJumping.Hills.InrunTracks
 {
     [CreateAssetMenu(menuName = "HillElements/InrunTrack")]
     public class InrunTrack : ScriptableObject

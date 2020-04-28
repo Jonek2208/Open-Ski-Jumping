@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     [Serializable]
     public class ReplayFrame

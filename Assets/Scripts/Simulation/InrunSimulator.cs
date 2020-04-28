@@ -1,7 +1,7 @@
-using Hills;
+using OpenSkiJumping.Hills;
 using UnityEngine;
 
-namespace Simulation
+namespace OpenSkiJumping.Simulation
 {
     public class InrunSimulator
     {

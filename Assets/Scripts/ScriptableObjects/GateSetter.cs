@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class GateSetter : MonoBehaviour
     {

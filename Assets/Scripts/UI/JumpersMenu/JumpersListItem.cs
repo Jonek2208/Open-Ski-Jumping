@@ -1,14 +1,12 @@
-using System;
-using ListView;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.JumpersMenu
+namespace OpenSkiJumping.UI.JumpersMenu
 {
-    public class JumpersListItem : MonoBehaviour
+    public class JumpersListItem : ListItemBehaviour
     {
-        private string jumperId;
         public ToggleExtension toggleExtension;
         public TMP_Text nameText;
         public TMP_Text countryFlagText;

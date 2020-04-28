@@ -2,7 +2,7 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Data
+namespace OpenSkiJumping.Data
 {
     public abstract class RuntimeData : ScriptableObject
     {

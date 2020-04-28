@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Competition
+namespace OpenSkiJumping.Competition
 {
     [Serializable]
     public class RoundInfo
@@ -11,7 +11,7 @@ namespace Competition
         [JsonConverter(typeof(StringEnumConverter))] public RoundType roundType;
         [JsonConverter(typeof(StringEnumConverter))] public LimitType outLimitType;
         public int outLimit;
-        public List<bool> useOrdRank;
+        public bool[] useOrdRank = new bool[4];
         public bool has95Rule;
         public bool reversedBibs;
         public bool reassignBibs;

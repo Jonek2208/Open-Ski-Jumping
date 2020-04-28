@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Competition;
-using Competition.Persistent;
+using OpenSkiJumping.Competition;
+using OpenSkiJumping.Competition.Persistent;
 using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public class ClassificationsListUI : ListDisplay
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     public enum ProfileType { ICR1992, ICR1996, ICR2008 }
 

@@ -1,8 +1,8 @@
-using ScriptableObjects.Variables;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using TMPro;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [RequireComponent(typeof(TMP_Text))]
     public class FloatText : MonoBehaviour

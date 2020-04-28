@@ -1,9 +1,9 @@
-﻿using Jumping;
-using ScriptableObjects.Variables;
+﻿using OpenSkiJumping.Jumping;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace New
+namespace OpenSkiJumping.New
 {
     public class JumperController2 : MonoBehaviour
     {

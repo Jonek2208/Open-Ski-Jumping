@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 using UnityEngine;
 
-namespace Competition.Runtime
+namespace OpenSkiJumping.Competition.Runtime
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeCompetitiorsList")]
     public class RuntimeCompetitorsList : ScriptableObject

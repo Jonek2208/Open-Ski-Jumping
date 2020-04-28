@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public class RuntimeImageLoader : ScriptableObject
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Replay")]
     public class Replay : ScriptableObject

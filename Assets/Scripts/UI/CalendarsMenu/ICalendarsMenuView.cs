@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace UI.CalendarsMenu
+namespace OpenSkiJumping.UI.CalendarsMenu
 {
     public interface ICalendarsMenuView
     {
-        Calendar SelectedCalendar { get; }
+        Calendar SelectedCalendar { get; set; }
         IEnumerable<Calendar> Calendars { set; }
         string CurrentCalendarName { set; }
         string NewCalendarName { get; }
@@ -16,11 +16,9 @@ namespace UI.CalendarsMenu
         event Action OnRemove;
         event Action OnSubmit;
 
-        void SelectCalendar(Calendar calendar);
+        bool CalendarInfoEnabled { set; }
         void HidePopUp();
-        void HideCalendarInfo();
         void ShowPopUp();
         void ShowPrompt();
-        void ShowCalendarInfo();
     }
 }

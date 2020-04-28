@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using Competition.Runtime;
-using ListView;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.ListView;
 using UnityEngine;
 
-namespace TVGraphics
+namespace OpenSkiJumping.TVGraphics
 {
     [Serializable]
     public class GraphicsData

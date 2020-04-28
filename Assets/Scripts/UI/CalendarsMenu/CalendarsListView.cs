@@ -1,7 +1,7 @@
-using Competition.Persistent;
-using ListView;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.ListView;
 
-namespace UI.CalendarsMenu
+namespace OpenSkiJumping.UI.CalendarsMenu
 {
     public class CalendarsListView : ListView<Calendar, CalendarsListItem> { }
 }

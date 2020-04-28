@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace New
+namespace OpenSkiJumping.New
 {
     public class JointAnimation : MonoBehaviour
     {

@@ -1,6 +1,6 @@
-﻿using Competition;
-using Competition.Persistent;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using OpenSkiJumping.Competition;
+using OpenSkiJumping.Competition.Persistent;
 
 namespace Tests
 {

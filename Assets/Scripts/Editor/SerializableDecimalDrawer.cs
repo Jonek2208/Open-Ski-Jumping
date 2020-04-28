@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace OpenSkiJumping.Editor
 {
     [CustomPropertyDrawer(typeof(SerializableDecimal))]
     public class SerializableDecimalDrawer : PropertyDrawer

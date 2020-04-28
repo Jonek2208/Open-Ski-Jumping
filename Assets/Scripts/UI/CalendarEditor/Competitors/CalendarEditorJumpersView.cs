@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using Data;
-using ListView;
-using ScriptableObjects;
-using UI.JumpersMenu;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ListView;
+using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.UI.JumpersMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.CalendarEditor.Competitors
+namespace OpenSkiJumping.UI.CalendarEditor.Competitors
 {
     public class CalendarEditorJumpersView : MonoBehaviour, ICalendarEditorJumpersView
     {
+        private bool initialized;
         private CalendarEditorJumpersPresenter presenter;
-
         [SerializeField] private CompetitorsRuntime jumpersRuntime;
         [SerializeField] private CalendarFactory calendarFactory;
 
@@ -32,11 +32,7 @@ namespace UI.CalendarEditor.Competitors
         public IEnumerable<Competitor> SelectedJumpers
         {
             get => selectedJumpers.ToList();
-            set
-            {
-                selectedJumpers = new HashSet<Competitor>(value);
-                listView.RefreshShownValue();
-            }
+            set => selectedJumpers = new HashSet<Competitor>(value);
         }
 
         public IEnumerable<Competitor> Jumpers
@@ -51,7 +47,7 @@ namespace UI.CalendarEditor.Competitors
 
         private void OnDisable()
         {
-            OnSelectionSave?.Invoke();
+            OnDataSave?.Invoke();
         }
 
         private void Start()
@@ -60,18 +56,32 @@ namespace UI.CalendarEditor.Competitors
             listView.Initialize(BindListViewItem);
             allElementsToggle.onValueChanged.AddListener(HandleAllElementsToggle);
             presenter = new CalendarEditorJumpersPresenter(this, jumpersRuntime, flagsData, calendarFactory);
+            allElementsToggle.SetIsOnWithoutNotify(selectedJumpers.Count > 0);
+            initialized = true;
         }
 
-        public event Action OnSelectionSave;
+        public event Action OnDataSave;
+        public event Action OnDataReload;
+        public void SelectionSave() => OnDataSave?.Invoke();
+
+        private void OnEnable()
+        {
+            if (!initialized) return;
+            OnDataReload?.Invoke();
+            listView.Reset();
+            allElementsToggle.SetIsOnWithoutNotify(selectedJumpers.Count > 0);
+        }
+
 
         private void BindListViewItem(int index, JumpersListItem item)
         {
-            item.nameText.text = $"{jumpers[index].firstName} {jumpers[index].lastName.ToUpper()}";
-            item.countryFlagText.text = jumpers[index].countryCode;
-            item.countryFlagImage.sprite = flagsData.GetFlag(jumpers[index].countryCode);
-            item.genderIconImage.sprite = genderIcons[(int) jumpers[index].gender];
+            var competitor = jumpers[index];
+            item.nameText.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
+            item.countryFlagText.text = competitor.countryCode;
+            item.countryFlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
+            item.genderIconImage.sprite = genderIcons[(int) competitor.gender];
             item.toggleExtension.SetElementId(index);
-            item.toggleExtension.Toggle.isOn = selectedJumpers.Contains(jumpers[index]);
+            item.toggleExtension.Toggle.isOn = selectedJumpers.Contains(competitor);
         }
 
         private void HandleSelectionChanged(int index, bool value)
@@ -86,7 +96,7 @@ namespace UI.CalendarEditor.Competitors
             {
                 selectedJumpers.Remove(jumper);
             }
-            
+
             allElementsToggle.SetIsOnWithoutNotify(selectedJumpers.Count > 0);
         }
 
@@ -100,7 +110,7 @@ namespace UI.CalendarEditor.Competitors
             {
                 selectedJumpers.Clear();
             }
-            
+
             listView.RefreshShownValue();
         }
     }

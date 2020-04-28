@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor
+namespace OpenSkiJumping.Editor
 {
 	public class ObjExporterScript
 	{

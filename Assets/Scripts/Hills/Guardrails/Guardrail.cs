@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hills.Guardrails
+namespace OpenSkiJumping.Hills.Guardrails
 {
     [CreateAssetMenu(menuName = "HillElements/Guardrail")]
     public class Guardrail : ScriptableObject

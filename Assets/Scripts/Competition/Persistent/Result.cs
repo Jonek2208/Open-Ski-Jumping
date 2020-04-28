@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
     public class JumpResults

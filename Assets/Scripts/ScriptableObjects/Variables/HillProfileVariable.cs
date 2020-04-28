@@ -1,7 +1,7 @@
-using Hills;
+using OpenSkiJumping.Hills;
 using UnityEngine;
 
-namespace ScriptableObjects.Variables
+namespace OpenSkiJumping.ScriptableObjects.Variables
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Variables/HillProfileVariable")]
 

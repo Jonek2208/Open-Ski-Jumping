@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ScriptableObjects;
+using OpenSkiJumping.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public abstract class ListDisplay : MonoBehaviour
     {

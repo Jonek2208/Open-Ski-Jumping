@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public static class ImageLoader
     {

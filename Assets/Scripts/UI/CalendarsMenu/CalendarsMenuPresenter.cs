@@ -1,7 +1,8 @@
-using Competition.Persistent;
-using Data;
+using System.Linq;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
 
-namespace UI.CalendarsMenu
+namespace OpenSkiJumping.UI.CalendarsMenu
 {
     public class CalendarsMenuPresenter
     {
@@ -21,7 +22,7 @@ namespace UI.CalendarsMenu
             var calendar = new Calendar {name = view.NewCalendarName};
             calendars.Add(calendar);
             PresentList();
-            view.SelectCalendar(calendar);
+            view.SelectedCalendar = calendar;
         }
 
         private void RemoveSave()
@@ -31,7 +32,7 @@ namespace UI.CalendarsMenu
             bool val = calendars.Remove(save);
 
             PresentList();
-            PresentSaveInfo();
+            PresentCalendarInfo();
         }
 
         private void PresentList()
@@ -39,16 +40,16 @@ namespace UI.CalendarsMenu
             view.Calendars = calendars.GetData();
         }
 
-        private void PresentSaveInfo()
+        private void PresentCalendarInfo()
         {
             var calendar = view.SelectedCalendar;
             if (calendar == null)
             {
-                view.HideCalendarInfo();
+                view.CalendarInfoEnabled = false;
                 return;
             }
 
-            view.ShowCalendarInfo();
+            view.CalendarInfoEnabled = true;
             view.CurrentCalendarName = calendar.name;
         }
 
@@ -72,7 +73,7 @@ namespace UI.CalendarsMenu
 
         private void InitEvents()
         {
-            view.OnSelectionChanged += PresentSaveInfo;
+            view.OnSelectionChanged += PresentCalendarInfo;
             view.OnAdd += OnAdd;
             view.OnRemove += RemoveSave;
             view.OnSubmit += OnSubmit;
@@ -81,8 +82,8 @@ namespace UI.CalendarsMenu
         private void SetInitValues()
         {
             PresentList();
-            PresentSaveInfo();
-            view.Calendars = calendars.GetData();
+            view.SelectedCalendar = calendars.GetData().First();
+            PresentCalendarInfo();
         }
 
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Competition.Runtime
+namespace OpenSkiJumping.Competition.Runtime
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeJumpData")]
     public class RuntimeJumpData : ScriptableObject

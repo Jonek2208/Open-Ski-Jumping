@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using Data;
-using ListView;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.SavesMenu
+namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesMenuView : MonoBehaviour, ISavesMenuView
     {
@@ -17,7 +17,8 @@ namespace UI.SavesMenu
         [SerializeField] private CalendarsRuntime calendarsRuntime;
 
         [SerializeField] private SavesListView listView;
-        [SerializeField] private ToggleGroupExtension toggleGroup;
+
+        #region SaveInfoUI
 
         [SerializeField] private GameObject saveInfoObj;
         [SerializeField] private TMP_Text nameText;
@@ -32,23 +33,26 @@ namespace UI.SavesMenu
         [SerializeField] private Button submitButton;
         [SerializeField] private Button cancelButton;
 
+        #endregion
+
         public event Action OnSelectionChanged;
         public event Action OnAdd;
         public event Action OnRemove;
         public event Action OnSubmit;
 
         private List<GameSave> saves;
+
         public IEnumerable<GameSave> Saves
         {
             set
             {
                 saves = value.ToList();
                 listView.Items = saves;
-                FixCurrentSelection();
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, saves.Count - 1);
                 listView.Refresh();
-                OnSelectionChanged?.Invoke();
             }
         }
+
         private List<Calendar> calendars;
         private GameSave selectedSave;
 
@@ -62,52 +66,73 @@ namespace UI.SavesMenu
             }
         }
 
-        public GameSave SelectedSave => saves[toggleGroup.CurrentValue];
-        public Calendar         SelectedCalendar => calendars[dropdown.value];
-
-
-        private void FixCurrentSelection()
+        public GameSave SelectedSave
         {
-            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, saves.Count - 1));
+            get => saves[listView.SelectedIndex];
+            set => SelectSave(value);
         }
 
-        public string CurrentSaveName { set => nameText.text = value; }
-        public string CurrentCalendarName { set => calendarText.text = value; }
+        public Calendar SelectedCalendar => calendars[dropdown.value];
+
+        public string CurrentSaveName
+        {
+            set => nameText.text = value;
+        }
+
+        public string CurrentCalendarName
+        {
+            set => calendarText.text = value;
+        }
+
         public string NewSaveName => input.text;
 
         private void Start()
         {
-            toggleGroup.OnValueChanged += val => { OnSelectionChanged?.Invoke(); };
+            ListViewSetup();
+            RegisterCallbacks();
+            presenter = new SavesMenuPresenter(this, savesRuntime, calendarsRuntime);
+        }
+
+        private void ListViewSetup()
+        {
+            listView.OnSelectionChanged += x => { OnSelectionChanged?.Invoke(); };
+            listView.SelectionType = SelectionType.Single;
             listView.Initialize(BindListViewItem);
+        }
+
+        private void RegisterCallbacks()
+        {
             addButton.onClick.AddListener(() => OnAdd?.Invoke());
             removeButton.onClick.AddListener(() => OnRemove?.Invoke());
             submitButton.onClick.AddListener(() => OnSubmit?.Invoke());
             cancelButton.onClick.AddListener(HidePopUp);
-            presenter = new SavesMenuPresenter(this, savesRuntime, calendarsRuntime);
         }
 
-        public void ShowSaveInfo() => saveInfoObj.SetActive(true);
-        public void HideSaveInfo() => saveInfoObj.SetActive(false);
         public void ShowPopUp()
         {
             popUpRoot.SetActive(true);
             promptObj.SetActive(false);
             input.text = "";
         }
-        public void ShowPrompt() => promptObj.SetActive(true);
+
         public void HidePopUp() => popUpRoot.SetActive(false);
+        public void ShowPrompt() => promptObj.SetActive(true);
+
+        public bool SaveInfoEnabled
+        {
+            set => saveInfoObj.SetActive(value);
+        }
 
         private void BindListViewItem(int index, SavesListItem item)
         {
             item.valueText.text = saves[index].name;
-            item.toggleExtension.SetElementId(index);
         }
 
-        public void SelectSave(GameSave save)
+        private void SelectSave(GameSave save)
         {
             int index = saves.IndexOf(save);
             index = Mathf.Clamp(index, 0, saves.Count - 1);
-            toggleGroup.HandleSelectionChanged(index);
+            listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }

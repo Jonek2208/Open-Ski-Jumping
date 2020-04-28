@@ -1,7 +1,7 @@
-﻿using Competition.Persistent;
-using ListView;
+﻿using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.ListView;
 
-namespace UI.JumpersMenu
+namespace OpenSkiJumping.UI.JumpersMenu
 {
     public class JumpersListView : ListView<Competitor, JumpersListItem> { }
 }

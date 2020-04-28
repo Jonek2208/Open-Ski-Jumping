@@ -1,12 +1,12 @@
 using System;
-using Competition.Runtime;
-using Hills;
-using New;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.Hills;
+using OpenSkiJumping.New;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     public class JudgesController : MonoBehaviour
     {

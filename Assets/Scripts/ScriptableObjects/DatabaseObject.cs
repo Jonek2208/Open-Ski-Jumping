@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public abstract class DatabaseObject : ScriptableObject
     {

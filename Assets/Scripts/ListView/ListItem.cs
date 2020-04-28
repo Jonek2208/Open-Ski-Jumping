@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace ListView
+namespace OpenSkiJumping.ListView
 {
-    public class ListItem : MonoBehaviour
+    public class ListItem : ListItemBehaviour
     {
         public ToggleExtension toggleExtension;
         public void UpdateContent(int index, IList<ResultData> val)

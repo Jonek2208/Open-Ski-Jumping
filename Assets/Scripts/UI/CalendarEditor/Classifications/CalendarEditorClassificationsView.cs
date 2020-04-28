@@ -1,25 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using ListView;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-namespace UI.CalendarEditor.Classifications
+namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 {
     public class CalendarEditorClassificationsView : MonoBehaviour, ICalendarEditorClassificationsView
     {
+        private bool initialized;
         private CalendarEditorClassificationsPresenter presenter;
 
         [SerializeField] private CalendarFactory calendarFactory;
+        [SerializeField] private PointsTablesRuntime pointsTablesData;
+
         [SerializeField] private Sprite[] eventTypeIcons;
         [SerializeField] private Sprite[] classificationTypeIcons;
 
         [SerializeField] private ClassificationsListView listView;
-        [SerializeField] private ToggleGroupExtension toggleGroup;
 
         #region ClassificationInfoUI
 
@@ -32,6 +35,7 @@ namespace UI.CalendarEditor.Classifications
         [SerializeField] private TMP_InputField limitInput;
         [SerializeField] private SegmentedControl limitTypeSelect;
         [SerializeField] private TMP_InputField medalPlacesInput;
+        [SerializeField] private SimpleColorPicker bibColor;
 
 
         [SerializeField] private GameObject indTableObj;
@@ -45,11 +49,13 @@ namespace UI.CalendarEditor.Classifications
 
         #endregion
 
-        public ClassificationInfo SelectedClassification => classifications[toggleGroup.CurrentValue];
-
         private List<ClassificationInfo> classifications;
-        private IEnumerable<PointsTable> pointsTablesIndividual;
-        private IEnumerable<PointsTable> pointsTablesTeam;
+
+        public ClassificationInfo SelectedClassification
+        {
+            get => classifications[listView.SelectedIndex];
+            set => SelectClassification(value);
+        }
 
         public IEnumerable<ClassificationInfo> Classifications
         {
@@ -57,31 +63,48 @@ namespace UI.CalendarEditor.Classifications
             {
                 classifications = value.ToList();
                 listView.Items = classifications;
-                FixCurrentSelection();
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, classifications.Count - 1);
                 listView.Refresh();
             }
         }
 
-        public PointsTable SelectedPointsTableIndividual { get; set; }
+        private List<PointsTable> pointsTables;
 
-        public IEnumerable<PointsTable> PointsTablesIndividual
+        public IEnumerable<PointsTable> PointsTables
         {
-            get => pointsTablesIndividual;
-            set => pointsTablesIndividual = value;
+            set
+            {
+                pointsTables = value.ToList();
+                teamPointsTableDropdown.ClearOptions();
+                teamPointsTableDropdown.AddOptions(pointsTables.Select(item => item.name).ToList());
+                indPointsTableDropdown.ClearOptions();
+                indPointsTableDropdown.AddOptions(pointsTables.Select(item => item.name).ToList());
+            }
         }
 
-        public PointsTable SelectedPointsTableTeam { get; set; }
-
-        public IEnumerable<PointsTable> PointsTablesTeam
+        public PointsTable SelectedPointsTableIndividual
         {
-            get => pointsTablesTeam;
-            set => pointsTablesTeam = value;
+            get => pointsTables[indPointsTableDropdown.value];
+            set => SelectPointsTable(value, indPointsTableDropdown);
+        }
+
+        public PointsTable SelectedPointsTableTeam
+        {
+            get => pointsTables[teamPointsTableDropdown.value];
+            set => SelectPointsTable(value, teamPointsTableDropdown);
+        }
+
+        private void SelectPointsTable(PointsTable value, TMP_Dropdown dropdown)
+        {
+            int index = (value == null) ? dropdown.value : pointsTables.FindIndex(item => item.name == value.name);
+            index = Mathf.Clamp(index, 0, pointsTables.Count - 1);
+            dropdown.SetValueWithoutNotify(index);
         }
 
         public string Name
         {
             get => nameInput.text;
-            set => nameInput.text = value;
+            set => nameInput.SetTextWithoutNotify(value);
         }
 
         public int EventType
@@ -108,46 +131,52 @@ namespace UI.CalendarEditor.Classifications
         public int TeamClassificationLimit
         {
             get => int.Parse(limitInput.text);
-            set => limitInput.text = value.ToString();
+            set => limitInput.SetTextWithoutNotify(value.ToString());
         }
 
         public int MedalPlaces
         {
             get => int.Parse(medalPlacesInput.text);
-            set => medalPlacesInput.text = value.ToString();
+            set => medalPlacesInput.SetTextWithoutNotify(value.ToString());
         }
 
-        public bool BlockJumperInfoCallbacks { get; set; }
-        public bool BlockSelectionCallbacks { get; set; }
+        public string BibColor
+        {
+            get => bibColor.ToHex;
+            set => bibColor.SetValueWithoutNotify(value);
+        }
 
         public event Action OnSelectionChanged;
         public event Action OnCurrentClassificationChanged;
         public event Action OnAdd;
         public event Action OnRemove;
+        public event Action OnDataSave;
+        public event Action OnDataReload;
 
         private void Start()
         {
-            toggleGroup.OnValueChanged += x => { HandleSelectionChanged(); };
-            listView.Initialize(BindListViewItem);
-            addButton.onClick.AddListener(() => OnAdd?.Invoke());
-            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
+            ListViewSetup();
             RegisterCallbacks();
-            presenter = new CalendarEditorClassificationsPresenter(this, calendarFactory);
+            presenter = new CalendarEditorClassificationsPresenter(this, calendarFactory, pointsTablesData);
+            initialized = true;
         }
 
-        private void FixCurrentSelection()
+        private void OnDisable()
         {
-            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, classifications.Count - 1));
+            OnDataSave?.Invoke();
         }
 
-
-        private void HandleSelectionChanged()
+        private void ListViewSetup()
         {
-            if (!BlockSelectionCallbacks) OnSelectionChanged?.Invoke();
+            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
+            listView.SelectionType = SelectionType.Single;
+            listView.Initialize(BindListViewItem);
         }
 
         private void RegisterCallbacks()
         {
+            addButton.onClick.AddListener(() => OnAdd?.Invoke());
+            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
             nameInput.onEndEdit.AddListener(arg => OnValueChanged());
             eventTypeSelect.onValueChanged.AddListener(arg => OnValueChanged());
             eventTypeSelect.onValueChanged.AddListener(arg => ShowClassificationInfo());
@@ -158,25 +187,32 @@ namespace UI.CalendarEditor.Classifications
             limitInput.onEndEdit.AddListener(arg => OnValueChanged());
             indPointsTableDropdown.onValueChanged.AddListener(arg => OnValueChanged());
             teamPointsTableDropdown.onValueChanged.AddListener(arg => OnValueChanged());
+            bibColor.OnColorChange += OnValueChanged;
         }
 
-        private void OnValueChanged()
-        {
-            if (!BlockJumperInfoCallbacks) OnCurrentClassificationChanged?.Invoke();
-        }
+        private void OnValueChanged() => OnCurrentClassificationChanged?.Invoke();
 
-        public void SelectClassification(ClassificationInfo classification)
+        private void SelectClassification(ClassificationInfo classification)
         {
-            int index = (classification == null) ? toggleGroup.CurrentValue : classifications.IndexOf(classification);
+            int index = (classification == null) ? listView.SelectedIndex : classifications.IndexOf(classification);
             index = Mathf.Clamp(index, 0, classifications.Count - 1);
-            toggleGroup.HandleSelectionChanged(index);
+            listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
 
-        public void HideClassificationInfo() => classificationInfoObj.SetActive(false);
+        public bool ClassificationInfoEnabled
+        {
+            set
+            {
+                if (value) ShowClassificationInfo();
+                else HideClassificationInfo();
+            }
+        }
 
-        public void ShowClassificationInfo()
+        private void HideClassificationInfo() => classificationInfoObj.SetActive(false);
+
+        private void ShowClassificationInfo()
         {
             classificationInfoObj.SetActive(true);
             if (SelectedClassification.classificationType == Competition.ClassificationType.Place)
@@ -200,9 +236,16 @@ namespace UI.CalendarEditor.Classifications
         {
             var classificationInfo = classifications[index];
             item.nameText.text = $"{classificationInfo.name}";
+            item.bibImage.color = SimpleColorPicker.Hex2Color(classificationInfo.leaderBibColor);
             item.classificationTypeImage.sprite = classificationTypeIcons[(int) classificationInfo.classificationType];
             item.eventTypeImage.sprite = eventTypeIcons[(int) classificationInfo.eventType];
-            item.toggleExtension.SetElementId(index);
+        }
+
+        public void OnEnable()
+        {
+            if (!initialized) return;
+            OnDataReload?.Invoke();
+            listView.Reset();
         }
     }
 }

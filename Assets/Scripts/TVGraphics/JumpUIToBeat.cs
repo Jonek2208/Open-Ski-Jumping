@@ -1,9 +1,9 @@
 using DG.Tweening;
-using ScriptableObjects.Variables;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using TMPro;
 using UnityEngine;
 
-namespace TVGraphics
+namespace OpenSkiJumping.TVGraphics
 {
     public class JumpUIToBeat : ToBeatUIManager
     {

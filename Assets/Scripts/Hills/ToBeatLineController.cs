@@ -1,8 +1,8 @@
-using Competition.Runtime;
-using ScriptableObjects.Variables;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     public class ToBeatLineController : MonoBehaviour
     {

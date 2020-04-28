@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace Competition
+namespace OpenSkiJumping.Competition
 {
     public class JumpData
     {

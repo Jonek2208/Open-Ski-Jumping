@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     [CreateAssetMenu(menuName = "HillElements/Hill")]
     public class Hill : ScriptableObject

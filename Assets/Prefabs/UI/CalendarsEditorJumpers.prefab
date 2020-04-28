@@ -2437,8 +2437,9 @@ MonoBehaviour:
   mask: {fileID: 9013221264309902251}
   listItem: {fileID: 3686737784667094937}
   scrollRect: {fileID: 8668665011082720594}
-  Spacing: 0
-  Direction: 1
+  spacing: 0
+  direction: 0
+  selectionType: 0
 --- !u!1 &6667628657189614411
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,7 +2727,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7468028389556756987}
+        m_MethodName: OnValueChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!114 &7468028389556756987
 MonoBehaviour:
@@ -2755,6 +2767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a3282d49dc3b06d94559a29b278ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selection: {fileID: 2946216172183833694}
+  selectionType: 0
   toggleExtension: {fileID: 7468028389556756987}
   nameText: {fileID: 4547821857749159358}
   countryFlagText: {fileID: 5482329264031256873}
@@ -4686,16 +4700,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 946841175730334430, guid: d728128927244aec1aff99c416fca332,
-        type: 3}
-      propertyPath: texts.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 946841175730334430, guid: d728128927244aec1aff99c416fca332,
-        type: 3}
-      propertyPath: texts.Array.data[0]
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 946841175730334430, guid: d728128927244aec1aff99c416fca332,
         type: 3}

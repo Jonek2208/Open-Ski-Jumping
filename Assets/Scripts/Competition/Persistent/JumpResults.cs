@@ -1,6 +1,6 @@
 using System;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
     public class JumpResult

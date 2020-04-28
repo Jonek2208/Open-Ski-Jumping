@@ -1,11 +1,11 @@
-using Competition.Persistent;
-using Competition.Runtime;
-using Data;
-using ScriptableObjects.Variables;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Competition
+namespace OpenSkiJumping.Competition
 {
     public class CompetitionRunner : MonoBehaviour
     {

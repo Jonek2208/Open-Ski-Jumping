@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
-using Competition;
-using Competition.Persistent;
-using Data;
-using ScriptableObjects;
+using OpenSkiJumping.Competition;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ScriptableObjects;
 
-namespace UI.JumpersMenu
+namespace OpenSkiJumping.UI.JumpersMenu
 {
     public class JumpersMenuPresenter
     {
@@ -27,7 +28,7 @@ namespace UI.JumpersMenu
             Competitor jumper = new Competitor();
             jumpers.Add(jumper);
             PresentList();
-            view.SelectJumper(jumper);
+            view.SelectedJumper = jumper;
             PresentJumperInfo();
         }
 
@@ -42,7 +43,7 @@ namespace UI.JumpersMenu
             bool val = jumpers.Remove(jumper);
 
             PresentList();
-            view.SelectJumper(null);
+            view.SelectedJumper = null;
             PresentJumperInfo();
         }
 
@@ -56,11 +57,11 @@ namespace UI.JumpersMenu
             var jumper = view.SelectedJumper;
             if (jumper == null)
             {
-                view.HideJumperInfo();
+                view.JumperInfoEnabled = false;
                 return;
             }
 
-            view.ShowJumperInfo();
+            view.JumperInfoEnabled = true;
 
             view.FirstName = jumper.firstName;
             view.LastName = jumper.lastName;
@@ -98,7 +99,7 @@ namespace UI.JumpersMenu
             view.LoadImage(jumper.imagePath);
             jumpers.Recalculate(jumper);
             PresentList();
-            view.SelectJumper(jumper);
+            view.SelectedJumper = jumper;
         }
 
         private void InitEvents()
@@ -112,6 +113,7 @@ namespace UI.JumpersMenu
         private void SetInitValues()
         {
             PresentList();
+            view.SelectedJumper = jumpers.GetData().OrderBy(item => item.countryCode).First();
             PresentJumperInfo();
         }
     }

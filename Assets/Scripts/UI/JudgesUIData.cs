@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/JudgesUIData")]
     public class JudgesUIData : ScriptableObject

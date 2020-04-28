@@ -1,9 +1,9 @@
-﻿using Competition.Runtime;
-using ScriptableObjects;
-using UI;
+﻿using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.UI;
 using UnityEngine;
 
-namespace TVGraphics
+namespace OpenSkiJumping.TVGraphics
 {
     public interface ITVGraphics
     {

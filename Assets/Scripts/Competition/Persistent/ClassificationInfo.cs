@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
     public class ClassificationInfo
@@ -23,6 +23,7 @@ namespace Competition.Persistent
         
         public List<int> events = new List<int>();
         public List<PointsTable> pointsTables = new List<PointsTable>();
+        public string leaderBibColor = "ffff00";
     }
 
     public enum TeamClassificationLimitType

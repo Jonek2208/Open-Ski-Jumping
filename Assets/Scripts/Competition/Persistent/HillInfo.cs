@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     public interface IHillInfo
     {

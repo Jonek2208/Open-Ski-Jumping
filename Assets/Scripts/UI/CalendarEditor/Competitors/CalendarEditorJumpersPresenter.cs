@@ -1,8 +1,8 @@
 using System.Linq;
-using Data;
-using ScriptableObjects;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ScriptableObjects;
 
-namespace UI.CalendarEditor.Competitors
+namespace OpenSkiJumping.UI.CalendarEditor.Competitors
 {
     public class CalendarEditorJumpersPresenter
     {
@@ -20,12 +20,13 @@ namespace UI.CalendarEditor.Competitors
             this.calendarFactory = calendarFactory;
 
             InitEvents();
+            SelectJumpers();
             PresentList();
         }
 
-        private void SetInitValues()
+        private void SelectJumpers()
         {
-            throw new System.NotImplementedException();
+            view.SelectedJumpers = calendarFactory.Competitors;
         }
 
         private void PresentList()
@@ -40,10 +41,17 @@ namespace UI.CalendarEditor.Competitors
 
         private void InitEvents()
         {
-            //     view.OnSelectionChanged += PresentJumperInfo;
-            //     view.OnAdd += CreateNewJumper;
-            //     view.OnRemove += RemoveJumper;
-            //     view.OnCurrentJumperChanged += SaveJumperInfo;
+            view.OnDataSave += Save;
+            view.OnDataReload += () =>
+            {
+                SelectJumpers();
+                PresentList();
+            };
+
+            // view.OnSelectionChanged += PresentJumperInfo;
+            // view.OnAdd += CreateNewJumper;
+            // view.OnRemove += RemoveJumper;
+            // view.OnCurrentJumperChanged += SaveJumperInfo;
         }
     }
 }

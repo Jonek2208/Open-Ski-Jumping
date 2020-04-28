@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Jumping
+namespace OpenSkiJumping.Jumping
 {
     [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour

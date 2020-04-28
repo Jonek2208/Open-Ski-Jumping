@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using Competition;
-using Competition.Persistent;
-using Data;
-using ScriptableObjects;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public class JumpersCreatorListUI : ListDisplay
     {
@@ -75,12 +74,12 @@ namespace UI
             lastNameInput.text = competitorsList[index].lastName;
             countryCodeInput.text = competitorsList[index].countryCode;
             // Debug.Log("SHOWING: " + competitorsList[index].helmetColor + " " + competitorsList[index].suitTopFrontColor + " " + competitorsList[index].skisColor);
-            helmetColorPicker.Set(competitorsList[index].helmetColor);
-            suitTopFrontColorPicker.Set(competitorsList[index].suitTopFrontColor);
-            suitTopBackColorPicker.Set(competitorsList[index].suitTopBackColor);
-            suitBottomFrontColorPicker.Set(competitorsList[index].suitBottomFrontColor);
-            suitBottomBackColorPicker.Set(competitorsList[index].suitBottomBackColor);
-            skisColorPicker.Set(competitorsList[index].skisColor);
+            helmetColorPicker.SetValueWithoutNotify(competitorsList[index].helmetColor);
+            suitTopFrontColorPicker.SetValueWithoutNotify(competitorsList[index].suitTopFrontColor);
+            suitTopBackColorPicker.SetValueWithoutNotify(competitorsList[index].suitTopBackColor);
+            suitBottomFrontColorPicker.SetValueWithoutNotify(competitorsList[index].suitBottomFrontColor);
+            suitBottomBackColorPicker.SetValueWithoutNotify(competitorsList[index].suitBottomBackColor);
+            skisColorPicker.SetValueWithoutNotify(competitorsList[index].skisColor);
             // genderDropdown.value = (int)(competitorsList[index].gender);
         }
 

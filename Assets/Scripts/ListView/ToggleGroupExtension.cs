@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ListView
+namespace OpenSkiJumping.ListView
 {
     [RequireComponent(typeof(ToggleGroup))]
     public class ToggleGroupExtension : MonoBehaviour

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Competition;
+using OpenSkiJumping.Competition;
 using UnityEngine;
 using UnityEngine.U2D;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/FlagsData")]
     public class FlagsData : ScriptableObject

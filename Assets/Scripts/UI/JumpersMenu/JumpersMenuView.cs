@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
-using Data;
-using JetBrains.Annotations;
-using ListView;
-using ScriptableObjects;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.ListView;
+using OpenSkiJumping.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-namespace UI.JumpersMenu
+namespace OpenSkiJumping.UI.JumpersMenu
 {
     public class JumpersMenuView : MonoBehaviour, IJumpersMenuView
     {
@@ -23,7 +22,6 @@ namespace UI.JumpersMenu
         [SerializeField] private Sprite[] genderIcons;
 
         [SerializeField] private JumpersListView listView;
-        [SerializeField] private ToggleGroupExtension toggleGroup;
 
         #region JumperInfoUI
 
@@ -45,9 +43,13 @@ namespace UI.JumpersMenu
 
         #endregion
 
-        private Competitor selectedJumper;
-        public Competitor SelectedJumper => jumpers[toggleGroup.CurrentValue];
+        public Competitor SelectedJumper
+        {
+            get => jumpers[listView.SelectedIndex];
+            set => SelectJumper(value);
+        }
 
+        public UnityEngine.UIElements.ListView xd;
         private List<Competitor> jumpers;
 
         #region JumperInfoProps
@@ -79,37 +81,37 @@ namespace UI.JumpersMenu
         public string SuitTopFront
         {
             get => suitTopFrontColorPicker.ToHex;
-            set => suitTopFrontColorPicker.Set(value);
+            set => suitTopFrontColorPicker.SetValueWithoutNotify(value);
         }
 
         public string SuitTopBack
         {
             get => suitTopBackColorPicker.ToHex;
-            set => suitTopBackColorPicker.Set(value);
+            set => suitTopBackColorPicker.SetValueWithoutNotify(value);
         }
 
         public string SuitBottomFront
         {
             get => suitBottomFrontColorPicker.ToHex;
-            set => suitBottomFrontColorPicker.Set(value);
+            set => suitBottomFrontColorPicker.SetValueWithoutNotify(value);
         }
 
         public string SuitBottomBack
         {
             get => suitBottomBackColorPicker.ToHex;
-            set => suitBottomBackColorPicker.Set(value);
+            set => suitBottomBackColorPicker.SetValueWithoutNotify(value);
         }
 
         public string Helmet
         {
             get => helmetColorPicker.ToHex;
-            set => helmetColorPicker.Set(value);
+            set => helmetColorPicker.SetValueWithoutNotify(value);
         }
 
         public string Skis
         {
             get => skisColorPicker.ToHex;
-            set => skisColorPicker.Set(value);
+            set => skisColorPicker.SetValueWithoutNotify(value);
         }
 
         public string ImagePath
@@ -120,11 +122,15 @@ namespace UI.JumpersMenu
 
         #endregion
 
-        public bool BlockSelectionCallbacks { get; set; }
         public event Action OnSelectionChanged;
         public event Action OnCurrentJumperChanged;
         public event Action OnAdd;
         public event Action OnRemove;
+
+        public bool JumperInfoEnabled
+        {
+            set => jumperInfoObj.SetActive(value);
+        }
 
         public IEnumerable<Competitor> Jumpers
         {
@@ -132,32 +138,29 @@ namespace UI.JumpersMenu
             {
                 jumpers = value.ToList();
                 listView.Items = jumpers;
-                FixCurrentSelection();
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, jumpers.Count - 1);
                 listView.Refresh();
             }
         }
 
-        public void SetJumpersWithSelection(IEnumerable<Competitor> value, Competitor jumper)
-        {
-            jumpers = value.ToList();
-            listView.Items = jumpers;
-            SelectJumper(jumper);
-            listView.Refresh();
-            listView.ScrollToIndex(toggleGroup.CurrentValue);
-        }
-
         private void Start()
         {
-            toggleGroup.OnValueChanged += x => { HandleSelectionChanged(); };
-            listView.Initialize(BindListViewItem);
-            addButton.onClick.AddListener(() => OnAdd?.Invoke());
-            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
+            ListViewSetup();
             RegisterCallbacks();
             presenter = new JumpersMenuPresenter(this, jumpersRuntime, flagsData);
         }
 
+        private void ListViewSetup()
+        {
+            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
+            listView.SelectionType = SelectionType.Single;
+            listView.Initialize(BindListViewItem);
+        }
+
         private void RegisterCallbacks()
         {
+            addButton.onClick.AddListener(() => OnAdd?.Invoke());
+            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
             firstNameInput.onEndEdit.AddListener(x => OnValueChanged());
             lastNameInput.onEndEdit.AddListener(x => OnValueChanged());
             countryCodeInput.onEndEdit.AddListener(x => OnValueChanged());
@@ -171,28 +174,16 @@ namespace UI.JumpersMenu
             skisColorPicker.OnColorChange += OnValueChanged;
         }
 
-        private void OnValueChanged()
-        {
-            OnCurrentJumperChanged?.Invoke();
-        }
+        private void OnValueChanged() => OnCurrentJumperChanged?.Invoke();
 
-        private void HandleSelectionChanged()
+        private void SelectJumper(Competitor jumper)
         {
-            if (!BlockSelectionCallbacks) OnSelectionChanged?.Invoke();
-        }
-
-        public void SelectJumper(Competitor jumper)
-        {
-            int index = (jumper == null) ? toggleGroup.CurrentValue : jumpers.IndexOf(jumper);
+            int index = (jumper == null) ? listView.SelectedIndex : jumpers.IndexOf(jumper);
             index = Mathf.Clamp(index, 0, jumpers.Count - 1);
-            toggleGroup.HandleSelectionChanged(index, true, false);
-
+            listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
-
-        public void HideJumperInfo() => jumperInfoObj.SetActive(false);
-        public void ShowJumperInfo() => jumperInfoObj.SetActive(true);
 
         private void SetJumperImage(Sprite value, bool succeeded)
         {
@@ -208,15 +199,9 @@ namespace UI.JumpersMenu
 
         public void LoadImage(string path)
         {
-            Debug.Log($"LoadingImage {path}");
             StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
         }
-
-        private void FixCurrentSelection()
-        {
-            toggleGroup.HandleSelectionChanged(Mathf.Clamp(toggleGroup.CurrentValue, 0, jumpers.Count - 1), true,
-                false);
-        }
+        
 
         private void BindListViewItem(int index, JumpersListItem item)
         {
@@ -224,10 +209,7 @@ namespace UI.JumpersMenu
             item.nameText.text = $"{jumper.firstName} {jumper.lastName.ToUpper()}";
             item.countryFlagText.text = jumper.countryCode;
             item.countryFlagImage.sprite = flagsData.GetFlag(jumper.countryCode);
-            if ((int) jumper.gender < 0 || (int) jumper.gender >= genderIcons.Length)
-                Debug.LogError($"Index out of range {(int) jumper.gender}");
             item.genderIconImage.sprite = genderIcons[(int) jumper.gender];
-            item.toggleExtension.SetElementId(index);
         }
     }
 }

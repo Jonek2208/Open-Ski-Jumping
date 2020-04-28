@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class LabelController : MonoBehaviour
     {

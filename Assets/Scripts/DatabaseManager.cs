@@ -1,53 +1,29 @@
 ﻿using System.Collections.Generic;
-using Competition.Persistent;
-using Data;
-using Hills;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.Hills;
 using UnityEngine;
 
-public class DatabaseManager : MonoBehaviour
+namespace OpenSkiJumping
 {
-    public List<RuntimeData> objects;
-    public bool loadRoundInfoPresets;
-    public DatabaseObject<List<RoundInfoPreset>> dbRoundInfoPresets;
-
-    public bool loadCalendars;
-    public DatabaseObject<List<Calendar>> dbCalendars;
-
-    public bool loadCompetitors;
-    public DatabaseObject<List<Competitor>> dbCompetitors;
-
-    public bool loadHills;
-    public DatabaseObject<AllData> dbHills;
-
-    public bool loadSavesData;
-    public SaveData dbSaveData;
-
-
-    private void Awake()
+    public class DatabaseManager : MonoBehaviour
     {
-        foreach (var item in objects) { item.LoadData(); }
-        if (loadCalendars) { dbCalendars.LoadData(); }
-        if (loadCompetitors) { dbCompetitors.LoadData(); }
-        if (loadHills) { dbHills.LoadData(); }
-        if (loadRoundInfoPresets) { dbRoundInfoPresets.LoadData(); }
+        public List<RuntimeData> objects;
 
-        if (loadSavesData)
+        private void Awake()
         {
-            dbSaveData = SavesSystem.Load();
-            if (dbSaveData == null)
+            foreach (var item in objects)
             {
-                dbSaveData = new SaveData(-1, new List<GameSave>());
+                item.LoadData();
+            }
+        }
+
+        public void Save()
+        {
+            foreach (var item in objects)
+            {
+                item.SaveData();
             }
         }
     }
-
-    public void Save()
-    {
-        if (loadCalendars) { dbCalendars.SaveData(); }
-        if (loadCompetitors) { dbCompetitors.SaveData(); }
-        if (loadHills) { dbHills.SaveData(); }
-        if (loadRoundInfoPresets) { dbRoundInfoPresets.SaveData(); }
-        if (loadSavesData) { SavesSystem.Save(dbSaveData); }
-    }
-
 }

@@ -1,9 +1,9 @@
-using Competition.Runtime;
 using DG.Tweening;
+using OpenSkiJumping.Competition.Runtime;
 using TMPro;
 using UnityEngine;
 
-namespace TVGraphics
+namespace OpenSkiJumping.TVGraphics
 {
     public class JumpUISpeed : SpeedUIManager
     {

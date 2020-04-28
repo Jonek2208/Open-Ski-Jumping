@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
     public class Competitor

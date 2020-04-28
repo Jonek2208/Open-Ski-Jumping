@@ -1,7 +1,8 @@
-using Competition.Persistent;
-using Data;
+using System.Linq;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
 
-namespace UI.SavesMenu
+namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesMenuPresenter
     {
@@ -41,7 +42,7 @@ namespace UI.SavesMenu
             GameSave save = CreateGameSaveFromCalendar(view.NewSaveName, view.SelectedCalendar);
             saves.Add(save);
             PresentList();
-            view.SelectSave(save);
+            view.SelectedSave = save;
         }
 
         private void RemoveSave()
@@ -64,11 +65,11 @@ namespace UI.SavesMenu
             var save = view.SelectedSave;
             if (save == null)
             {
-                view.HideSaveInfo();
+                view.SaveInfoEnabled = false;
                 return;
             }
-        
-            view.ShowSaveInfo();
+
+            view.SaveInfoEnabled = true;
             view.CurrentSaveName = save.name;
             view.CurrentCalendarName = save.calendar.name;
         }
@@ -102,6 +103,7 @@ namespace UI.SavesMenu
         private void SetInitValues()
         {
             PresentList();
+            view.SelectedSave = saves.GetData().First();
             PresentSaveInfo();
             view.Calendars = calendars.GetData();
         }

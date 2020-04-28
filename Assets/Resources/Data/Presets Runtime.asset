@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53b1efd35e94e0587edf60f1c4b069d, type: 3}
+  m_Name: Presets Runtime
+  m_EditorClassIdentifier: 
+  fileName: presets.json
+  data:
+  - name: Individual2Rounds
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  - name: IndividualKO
+    roundInfos:
+    - roundType: 1
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 1
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 1
+      reassignBibs: 0
+  - name: Individual2Rounds15
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 15
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  - name: IndividualKO15
+    roundInfos:
+    - roundType: 1
+      outLimitType: 1
+      outLimit: 15
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 1
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 1
+      reassignBibs: 0
+  - name: Qualification
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 50
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  - name: QualificationKO
+    roundInfos:
+    - roundType: 0
+      outLimitType: 2
+      outLimit: 50
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  - name: QualificationFlying
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 40
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  - name: Individual4Rounds
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 1
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+  loaded: 1

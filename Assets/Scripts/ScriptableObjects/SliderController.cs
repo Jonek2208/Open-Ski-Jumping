@@ -1,8 +1,8 @@
-using ScriptableObjects.Variables;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [RequireComponent(typeof(Slider))]
     public class SliderController : MonoBehaviour

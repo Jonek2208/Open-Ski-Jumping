@@ -1,10 +1,10 @@
-using Competition;
-using Competition.Persistent;
-using Competition.Runtime;
-using New;
+using OpenSkiJumping.Competition;
+using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.New;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     public class SkiJumperDataController : MonoBehaviour
     {

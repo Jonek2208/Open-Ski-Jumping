@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Competition.Persistent
+namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
     public class ClassificationResults

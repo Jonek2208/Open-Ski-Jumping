@@ -1,6 +1,6 @@
-using ListView;
+using OpenSkiJumping.ListView;
 
-namespace UI.SavesMenu
+namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesListView : ListView<GameSave, SavesListItem> { }
 }

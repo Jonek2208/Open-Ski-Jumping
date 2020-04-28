@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects.Variables
+namespace OpenSkiJumping.ScriptableObjects.Variables
 {
     [CreateAssetMenu]
     public class ColorVariable : ScriptableObject

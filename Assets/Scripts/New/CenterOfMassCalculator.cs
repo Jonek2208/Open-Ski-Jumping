@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace New
+namespace OpenSkiJumping.New
 {
     public class CenterOfMassCalculator : MonoBehaviour
     {

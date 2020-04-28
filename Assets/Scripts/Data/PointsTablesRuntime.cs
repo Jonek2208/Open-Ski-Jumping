@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 using UnityEngine;
 
-namespace Data
+namespace OpenSkiJumping.Data
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/PointsTablesRuntime")]
     public class PointsTablesRuntime : DatabaseObject<List<PointsTable>>

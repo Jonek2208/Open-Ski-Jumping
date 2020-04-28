@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace OpenSkiJumping.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/JumperResultInfoData")]
     public class JumperResultInfoData : ScriptableObject

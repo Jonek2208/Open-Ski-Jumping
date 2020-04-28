@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 using UnityEngine;
 
-namespace UI.CalendarEditor
+namespace OpenSkiJumping.UI.CalendarEditor
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/CalendarFactory")]
     public class CalendarFactory : ScriptableObject
@@ -16,6 +16,17 @@ namespace UI.CalendarEditor
         {
             get => events;
             set => events = value;
+        }
+
+        public void MoveEvent(EventInfo item, int val)
+        {
+            int index = Events.IndexOf(item);
+            if (index < 0 || index + val < 0 || Events.Count <= index + val) return;
+            var buf = Events[index + val];
+            Events[index + val] = Events[index];
+            Events[index] = buf;
+            Events[index].name = $"{index + 1} {Events[index].hillId}";
+            Events[index + val].name = $"{index + val + 1} {Events[index].hillId}";
         }
 
         public List<ClassificationInfo> Classifications

@@ -1,12 +1,11 @@
-using ListView;
+using OpenSkiJumping.ListView;
 using TMPro;
 using UnityEngine;
 
-namespace UI.CalendarsMenu
+namespace OpenSkiJumping.UI.CalendarsMenu
 {
-    public class CalendarsListItem : MonoBehaviour
+    public class CalendarsListItem : ListItemBehaviour
     {
-        public ToggleExtension toggleExtension;
         public TMP_Text valueText;
     }
 }

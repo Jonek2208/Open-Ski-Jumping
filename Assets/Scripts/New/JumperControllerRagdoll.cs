@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace New
+namespace OpenSkiJumping.New
 {
     public enum JumperState { Gate, Inrun, TakeOff, Flight, PreLanding, Landing, Outrun, Braking, Crash }
 

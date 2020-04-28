@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Data
+namespace OpenSkiJumping.Data
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/SavesRuntime")]
     public class SavesRuntime : DatabaseObject<SaveData>

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI
+namespace OpenSkiJumping.UI
 {
     public class ListDisplayElement : MonoBehaviour
     {

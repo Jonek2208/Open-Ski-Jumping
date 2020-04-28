@@ -1,22 +1,25 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class SerializableDecimal : ISerializationCallbackReceiver
+namespace OpenSkiJumping
 {
-    public decimal value;
-    [SerializeField]
-    private int[] data;
+    [Serializable]
+    public class SerializableDecimal : ISerializationCallbackReceiver
+    {
+        public decimal value;
+        [SerializeField]
+        private int[] data;
 
-    public void OnBeforeSerialize()
-    {
-        data = decimal.GetBits(value);
-    }
-    public void OnAfterDeserialize()
-    {
-        if (data != null && data.Length == 4)
+        public void OnBeforeSerialize()
         {
-            value = new decimal(data);
+            data = decimal.GetBits(value);
+        }
+        public void OnAfterDeserialize()
+        {
+            if (data != null && data.Length == 4)
+            {
+                value = new decimal(data);
+            }
         }
     }
 }

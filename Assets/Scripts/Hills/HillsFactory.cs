@@ -1,11 +1,11 @@
 using System;
-using Hills.Guardrails;
-using Hills.InrunTracks;
-using Hills.LandingAreas;
-using Hills.Stairs;
+using OpenSkiJumping.Hills.Guardrails;
+using OpenSkiJumping.Hills.InrunTracks;
+using OpenSkiJumping.Hills.LandingAreas;
+using OpenSkiJumping.Hills.Stairs;
 using UnityEngine;
 
-namespace Hills
+namespace OpenSkiJumping.Hills
 {
     [CreateAssetMenu(menuName = "HillElements/HillsFactory")]
     public class HillsFactory : ScriptableObject

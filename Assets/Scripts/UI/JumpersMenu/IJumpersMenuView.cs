@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Competition.Persistent;
+using OpenSkiJumping.Competition.Persistent;
 
-namespace UI.JumpersMenu
+namespace OpenSkiJumping.UI.JumpersMenu
 {
     public interface IJumpersMenuView
     {
-        Competitor SelectedJumper { get; }
+        Competitor SelectedJumper { get; set; }
         IEnumerable<Competitor> Jumpers { set; }
 
         string FirstName { get; set; }
@@ -25,10 +25,8 @@ namespace UI.JumpersMenu
         event Action OnCurrentJumperChanged;
         event Action OnAdd;
         event Action OnRemove;
-
-        void SelectJumper(Competitor jumper);
-        void HideJumperInfo();
-        void ShowJumperInfo();
+        
+        bool JumperInfoEnabled { set; }
         void LoadImage(string path);
     }
 }
