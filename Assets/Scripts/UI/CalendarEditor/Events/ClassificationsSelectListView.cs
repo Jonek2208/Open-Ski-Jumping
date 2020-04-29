@@ -1,7 +1,8 @@
 using OpenSkiJumping.ListView;
-using OpenSkiJumping.Competition.Persistent;
 
 namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
-    public class ClassificationsSelectListView : ListView<ClassificationInfo, ClassificationsSelectListItem> { }
+    public class ClassificationsSelectListView : ListView<ClassificationData, ClassificationsSelectListItem>
+    {
+    }
 }

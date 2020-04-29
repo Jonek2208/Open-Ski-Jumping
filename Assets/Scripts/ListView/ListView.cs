@@ -20,39 +20,39 @@ namespace OpenSkiJumping.ListView
 
     public class ListView<TItemData, TItem> : MonoBehaviour where TItem : ListItemBehaviour
     {
+        private const int NumBuffer = 2;
+        private readonly Dictionary<int, int[]> itemDict = new Dictionary<int, int[]>();
+        private readonly List<RectTransform> listItemRect = new List<RectTransform>();
+        private readonly List<TItem> listItems = new List<TItem>();
+        private float containerHalfSize;
         [SerializeField] private RectTransform content;
-        [SerializeField] private Mask mask;
-        [SerializeField] private RectTransform listItem;
-        [SerializeField] private ScrollRect scrollRect;
-        [SerializeField] private float spacing;
         [SerializeField] private ListDirection direction = ListDirection.Vertical;
-        [SerializeField] private SelectionType selectionType;
 
-        public SelectionType SelectionType
-        {
-            get => this.selectionType;
-            set => this.selectionType = value;
-        }
-
-        public int SelectedIndex { get; set; } = -1;
-        public TItem SelectedItem => SelectedIndex == -1 ? null : listItems[SelectedIndex];
-        public event Action<int> OnSelectionChanged;
+        [SerializeField] private IList<TItemData> items = new List<TItemData>();
+        [SerializeField] private RectTransform listItem;
+        [SerializeField] private Mask mask;
 
 
         private RectTransform maskRT;
-        private int numVisible;
-        private const int NumBuffer = 2;
-        private float containerHalfSize;
-        private float prefabSize;
-
-        [SerializeField] private IList<TItemData> items = new List<TItemData>();
-        private Dictionary<int, int[]> itemDict = new Dictionary<int, int[]>();
-        private List<RectTransform> listItemRect = new List<RectTransform>();
-        private List<TItem> listItems = new List<TItem>();
         private int numItems;
-        private Vector3 startPos;
+        private int numVisible;
         private Vector3 offsetVec;
+        private float prefabSize;
         private float scrollBarPosition = 1;
+        [SerializeField] private ScrollRect scrollRect;
+        [SerializeField] private SelectionType selectionType;
+        [SerializeField] private float spacing;
+        private Vector3 startPos;
+
+        public SelectionType SelectionType
+        {
+            get => selectionType;
+            set => selectionType = value;
+        }
+
+        public int SelectedIndex { get; set; } = -1;
+
+        public TItem SelectedItem => SelectedIndex == -1 ? null : listItems[SelectedIndex];
 
         public IList<TItemData> Items
         {
@@ -61,6 +61,14 @@ namespace OpenSkiJumping.ListView
         }
 
         public Action<int, TItem> BindItem { get; set; }
+
+        public void ClampSelectedIndex()
+        {
+            SelectedIndex = Mathf.Max(0, SelectedIndex);
+            SelectedIndex = Mathf.Min(SelectedIndex, items.Count - 1);
+        }
+
+        public event Action<int> OnSelectionChanged;
 
         public void Initialize(Action<int, TItem> fun)
         {
@@ -78,7 +86,7 @@ namespace OpenSkiJumping.ListView
         {
             if (numItems == 0) SelectedIndex = -1;
             ShowHelper();
-            float tmp = scrollBarPosition;
+            var tmp = scrollBarPosition;
             scrollBarPosition = tmp;
             RefreshShownValue();
         }
@@ -92,9 +100,10 @@ namespace OpenSkiJumping.ListView
 
         public void ScrollToIndex(int index)
         {
-            float x = content.rect.size.y;
-            float a = maskRT.rect.size.y;
-            scrollBarPosition = 1 - Mathf.Clamp01((index / (float) items.Count * x) / (x - a) - a / 2f / x);
+            if (items.Count == 0) return;
+            var x = content.rect.size.y;
+            var a = maskRT.rect.size.y;
+            scrollBarPosition = 1 - Mathf.Clamp01(index / (float) items.Count * x / (x - a) - a / 2f / x);
             scrollRect.verticalNormalizedPosition = scrollBarPosition;
         }
 
@@ -103,15 +112,15 @@ namespace OpenSkiJumping.ListView
             scrollBarPosition = 1;
             maskRT = mask.GetComponent<RectTransform>();
             content.anchoredPosition3D = new Vector3(0, 0, 0);
-            Vector2 prefabScale = listItem.rect.size;
+            var prefabScale = listItem.rect.size;
             prefabSize = (direction == ListDirection.Horizontal ? prefabScale.x : prefabScale.y) + spacing;
             content.sizeDelta = direction == ListDirection.Horizontal
-                ? (new Vector2(prefabSize * items.Count, prefabScale.y))
-                : (new Vector2(prefabScale.x, prefabSize * items.Count));
+                ? new Vector2(prefabSize * items.Count, prefabScale.y)
+                : new Vector2(prefabScale.x, prefabSize * items.Count);
             var rect = content.rect;
             containerHalfSize = direction == ListDirection.Horizontal
-                ? (rect.size.x * 0.5f)
-                : (rect.size.y * 0.5f);
+                ? rect.size.x * 0.5f
+                : rect.size.y * 0.5f;
 
             var rectRT = maskRT.rect;
             numVisible =
@@ -119,37 +128,34 @@ namespace OpenSkiJumping.ListView
                                 prefabSize);
 
             offsetVec = direction == ListDirection.Horizontal ? Vector3.right : Vector3.down;
-            startPos = content.anchoredPosition3D - (offsetVec * containerHalfSize) +
-                       (offsetVec * ((direction == ListDirection.Horizontal ? prefabScale.x : prefabScale.y) * 0.5f));
+            startPos = content.anchoredPosition3D - offsetVec * containerHalfSize +
+                       offsetVec * ((direction == ListDirection.Horizontal ? prefabScale.x : prefabScale.y) * 0.5f);
             numItems = Mathf.Min(items.Count, numVisible + NumBuffer);
 
-            for (int i = 0; i < Mathf.Min(numItems, listItems.Count); i++)
+            for (var i = 0; i < Mathf.Min(numItems, listItems.Count); i++)
             {
-                GameObject obj = listItems[i].gameObject;
-                RectTransform t = listItemRect[i];
-                t.anchoredPosition3D = startPos + (offsetVec * i * prefabSize);
+                var obj = listItems[i].gameObject;
+                var t = listItemRect[i];
+                t.anchoredPosition3D = startPos + offsetVec * i * prefabSize;
                 obj.SetActive(true);
             }
 
-            for (int i = listItems.Count; i < numItems; i++)
+            for (var i = listItems.Count; i < numItems; i++)
             {
-                GameObject obj = Instantiate(listItem.gameObject, content.transform);
-                RectTransform t = obj.GetComponent<RectTransform>();
-                t.anchoredPosition3D = startPos + (offsetVec * i * prefabSize);
+                var obj = Instantiate(listItem.gameObject, content.transform);
+                var t = obj.GetComponent<RectTransform>();
+                t.anchoredPosition3D = startPos + offsetVec * i * prefabSize;
                 listItemRect.Add(t);
                 itemDict.Add(t.GetInstanceID(), new[] {i, i});
                 obj.SetActive(true);
 
-                TItem li = obj.GetComponentInChildren<TItem>();
+                var li = obj.GetComponentInChildren<TItem>();
                 li.OnSelect += HandleSelectionChanged;
                 listItems.Add(li);
                 MakeItem(i, li);
             }
 
-            for (int i = numItems; i < listItems.Count; i++)
-            {
-                listItems[i].gameObject.SetActive(false);
-            }
+            for (var i = numItems; i < listItems.Count; i++) listItems[i].gameObject.SetActive(false);
 
             listItem.gameObject.SetActive(false);
         }
@@ -163,21 +169,21 @@ namespace OpenSkiJumping.ListView
         public void RefreshShownValue()
         {
             if (numItems == 0) return;
-            float normPos = scrollBarPosition;
+            var normPos = scrollBarPosition;
             if (direction == ListDirection.Vertical) normPos = 1f - normPos;
-            int numOutOfView = Mathf.CeilToInt(normPos * (items.Count - numVisible));
-            int firstIndex = Mathf.Max(0, numOutOfView - NumBuffer);
-            int originalIndex = firstIndex % numItems;
+            var numOutOfView = Mathf.CeilToInt(normPos * (items.Count - numVisible));
+            var firstIndex = Mathf.Max(0, numOutOfView - NumBuffer);
+            var originalIndex = firstIndex % numItems;
 
-            int newIndex = firstIndex;
-            for (int i = originalIndex; i < numItems; i++)
+            var newIndex = firstIndex;
+            for (var i = originalIndex; i < numItems; i++)
             {
                 MoveItemByIndex(listItemRect[i], newIndex);
                 MakeItem(newIndex, listItems[i]);
                 newIndex++;
             }
 
-            for (int i = 0; i < originalIndex; i++)
+            for (var i = 0; i < originalIndex; i++)
             {
                 MoveItemByIndex(listItemRect[i], newIndex);
                 MakeItem(newIndex, listItems[i]);
@@ -187,9 +193,9 @@ namespace OpenSkiJumping.ListView
 
         private void MoveItemByIndex(RectTransform item, int index)
         {
-            int id = item.GetInstanceID();
+            var id = item.GetInstanceID();
             itemDict[id][0] = index;
-            item.anchoredPosition3D = startPos + (offsetVec * index * prefabSize);
+            item.anchoredPosition3D = startPos + offsetVec * index * prefabSize;
         }
 
         private void MakeItem(int index, TItem item)
@@ -205,7 +211,7 @@ namespace OpenSkiJumping.ListView
         private void HandleSelectionChanged(int index)
         {
             if (selectionType == SelectionType.None) return;
-            
+
             if (index != SelectedIndex)
             {
                 SelectedIndex = index;

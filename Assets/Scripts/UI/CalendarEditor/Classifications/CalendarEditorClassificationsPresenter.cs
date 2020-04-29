@@ -31,7 +31,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         private void CreateNewClassification()
         {
             var classification = new ClassificationInfo();
-            calendarFactory.Classifications.Add(classification);
+            calendarFactory.AddClassification(classification);
             PresentList();
             view.SelectedClassification = classification;
             PresentClassificationInfo();
@@ -42,7 +42,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             var item = view.SelectedClassification;
             if (item == null) return;
 
-            var val = calendarFactory.Classifications.Remove(item);
+            var val = calendarFactory.RemoveClassification(item);
 
             PresentList();
             view.SelectedClassification = null;
@@ -109,7 +109,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         {
             view.PointsTables = pointsTables.GetData();
             PresentList();
-            view.SelectedClassification = calendarFactory.Classifications.First();
+            view.SelectedClassification = calendarFactory.Classifications.FirstOrDefault();
             PresentClassificationInfo();
         }
     }

@@ -12,35 +12,20 @@ namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesMenuView : MonoBehaviour, ISavesMenuView
     {
-        private SavesMenuPresenter presenter;
-        [SerializeField] private SavesRuntime savesRuntime;
+        private List<Calendar> calendars;
         [SerializeField] private CalendarsRuntime calendarsRuntime;
 
         [SerializeField] private SavesListView listView;
+        private SavesMenuPresenter presenter;
 
-        #region SaveInfoUI
-
-        [SerializeField] private GameObject saveInfoObj;
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private TMP_Text calendarText;
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-
-        [SerializeField] private GameObject popUpRoot;
-        [SerializeField] private GameObject promptObj;
-        [SerializeField] private TMP_InputField input;
-        [SerializeField] private TMP_Dropdown dropdown;
-        [SerializeField] private Button submitButton;
-        [SerializeField] private Button cancelButton;
-
-        #endregion
+        private List<GameSave> saves;
+        [SerializeField] private SavesRuntime savesRuntime;
+        private GameSave selectedSave;
 
         public event Action OnSelectionChanged;
         public event Action OnAdd;
         public event Action OnRemove;
         public event Action OnSubmit;
-
-        private List<GameSave> saves;
 
         public IEnumerable<GameSave> Saves
         {
@@ -52,9 +37,6 @@ namespace OpenSkiJumping.UI.SavesMenu
                 listView.Refresh();
             }
         }
-
-        private List<Calendar> calendars;
-        private GameSave selectedSave;
 
         public IEnumerable<Calendar> Calendars
         {
@@ -68,7 +50,7 @@ namespace OpenSkiJumping.UI.SavesMenu
 
         public GameSave SelectedSave
         {
-            get => saves[listView.SelectedIndex];
+            get => listView.SelectedIndex < 0 ? null : saves[listView.SelectedIndex];
             set => SelectSave(value);
         }
 
@@ -85,6 +67,28 @@ namespace OpenSkiJumping.UI.SavesMenu
         }
 
         public string NewSaveName => input.text;
+
+        public void ShowPopUp()
+        {
+            popUpRoot.SetActive(true);
+            promptObj.SetActive(false);
+            input.text = "";
+        }
+
+        public void HidePopUp()
+        {
+            popUpRoot.SetActive(false);
+        }
+
+        public void ShowPrompt()
+        {
+            promptObj.SetActive(true);
+        }
+
+        public bool SaveInfoEnabled
+        {
+            set => saveInfoObj.SetActive(value);
+        }
 
         private void Start()
         {
@@ -108,21 +112,6 @@ namespace OpenSkiJumping.UI.SavesMenu
             cancelButton.onClick.AddListener(HidePopUp);
         }
 
-        public void ShowPopUp()
-        {
-            popUpRoot.SetActive(true);
-            promptObj.SetActive(false);
-            input.text = "";
-        }
-
-        public void HidePopUp() => popUpRoot.SetActive(false);
-        public void ShowPrompt() => promptObj.SetActive(true);
-
-        public bool SaveInfoEnabled
-        {
-            set => saveInfoObj.SetActive(value);
-        }
-
         private void BindListViewItem(int index, SavesListItem item)
         {
             item.valueText.text = saves[index].name;
@@ -130,11 +119,28 @@ namespace OpenSkiJumping.UI.SavesMenu
 
         private void SelectSave(GameSave save)
         {
-            int index = saves.IndexOf(save);
+            var index = saves.IndexOf(save);
             index = Mathf.Clamp(index, 0, saves.Count - 1);
             listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
+
+        #region SaveInfoUI
+
+        [SerializeField] private GameObject saveInfoObj;
+        [SerializeField] private TMP_Text nameText;
+        [SerializeField] private TMP_Text calendarText;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
+
+        [SerializeField] private GameObject popUpRoot;
+        [SerializeField] private GameObject promptObj;
+        [SerializeField] private TMP_InputField input;
+        [SerializeField] private TMP_Dropdown dropdown;
+        [SerializeField] private Button submitButton;
+        [SerializeField] private Button cancelButton;
+
+        #endregion
     }
 }

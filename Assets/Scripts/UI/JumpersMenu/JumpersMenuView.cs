@@ -14,14 +14,116 @@ namespace OpenSkiJumping.UI.JumpersMenu
 {
     public class JumpersMenuView : MonoBehaviour, IJumpersMenuView
     {
-        private JumpersMenuPresenter presenter;
+        [SerializeField] private FlagsData flagsData;
+        [SerializeField] private Sprite[] genderIcons;
+        [SerializeField] private ImageCacher imageCacher;
+        private List<Competitor> jumpers;
 
         [SerializeField] private CompetitorsRuntime jumpersRuntime;
-        [SerializeField] private FlagsData flagsData;
-        [SerializeField] private ImageCacher imageCacher;
-        [SerializeField] private Sprite[] genderIcons;
 
         [SerializeField] private JumpersListView listView;
+        private JumpersMenuPresenter presenter;
+
+        public UnityEngine.UIElements.ListView xd;
+
+        public Competitor SelectedJumper
+        {
+            get => listView.SelectedIndex < 0 ? null : jumpers[listView.SelectedIndex];
+            set => SelectJumper(value);
+        }
+
+        public event Action OnSelectionChanged;
+        public event Action OnCurrentJumperChanged;
+        public event Action OnAdd;
+        public event Action OnRemove;
+
+        public bool JumperInfoEnabled
+        {
+            set => jumperInfoObj.SetActive(value);
+        }
+
+        public IEnumerable<Competitor> Jumpers
+        {
+            set
+            {
+                jumpers = value.ToList();
+                listView.Items = jumpers;
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, jumpers.Count - 1);
+                listView.Refresh();
+            }
+        }
+
+        public void LoadImage(string path)
+        {
+            StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
+        }
+
+        private void Start()
+        {
+            ListViewSetup();
+            RegisterCallbacks();
+            presenter = new JumpersMenuPresenter(this, jumpersRuntime, flagsData);
+        }
+
+        private void ListViewSetup()
+        {
+            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
+            listView.SelectionType = SelectionType.Single;
+            listView.Initialize(BindListViewItem);
+        }
+
+        private void RegisterCallbacks()
+        {
+            addButton.onClick.AddListener(() => OnAdd?.Invoke());
+            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
+            firstNameInput.onEndEdit.AddListener(x => OnValueChanged());
+            lastNameInput.onEndEdit.AddListener(x => OnValueChanged());
+            countryCodeInput.onEndEdit.AddListener(x => OnValueChanged());
+            imagePathInput.onEndEdit.AddListener(x => OnValueChanged());
+            genderSelect.onValueChanged.AddListener(x => OnValueChanged());
+            helmetColorPicker.OnColorChange += OnValueChanged;
+            suitTopFrontColorPicker.OnColorChange += OnValueChanged;
+            suitTopBackColorPicker.OnColorChange += OnValueChanged;
+            suitBottomFrontColorPicker.OnColorChange += OnValueChanged;
+            suitBottomBackColorPicker.OnColorChange += OnValueChanged;
+            skisColorPicker.OnColorChange += OnValueChanged;
+        }
+
+        private void OnValueChanged()
+        {
+            OnCurrentJumperChanged?.Invoke();
+        }
+
+        private void SelectJumper(Competitor jumper)
+        {
+            var index = jumper == null ? listView.SelectedIndex : jumpers.IndexOf(jumper);
+            index = Mathf.Clamp(index, 0, jumpers.Count - 1);
+            listView.SelectedIndex = index;
+            listView.ScrollToIndex(index);
+            listView.RefreshShownValue();
+        }
+
+        private void SetJumperImage(Sprite value, bool succeeded)
+        {
+            if (!succeeded)
+            {
+                image.enabled = false;
+                return;
+            }
+
+            image.enabled = true;
+            image.sprite = value;
+        }
+
+
+        private void BindListViewItem(int index, JumpersListItem item)
+        {
+            var jumper = jumpers[index];
+            item.nameText.text = $"{jumper.firstName} {jumper.lastName.ToUpper()}";
+            item.countryFlagText.text = jumper.countryCode;
+            item.countryFlagImage.sprite = flagsData.GetFlag(jumper.countryCode);
+            item.genderIconImage.sprite = genderIcons[(int) jumper.gender];
+        }
 
         #region JumperInfoUI
 
@@ -42,15 +144,6 @@ namespace OpenSkiJumping.UI.JumpersMenu
         [SerializeField] private Button removeButton;
 
         #endregion
-
-        public Competitor SelectedJumper
-        {
-            get => jumpers[listView.SelectedIndex];
-            set => SelectJumper(value);
-        }
-
-        public UnityEngine.UIElements.ListView xd;
-        private List<Competitor> jumpers;
 
         #region JumperInfoProps
 
@@ -121,95 +214,5 @@ namespace OpenSkiJumping.UI.JumpersMenu
         }
 
         #endregion
-
-        public event Action OnSelectionChanged;
-        public event Action OnCurrentJumperChanged;
-        public event Action OnAdd;
-        public event Action OnRemove;
-
-        public bool JumperInfoEnabled
-        {
-            set => jumperInfoObj.SetActive(value);
-        }
-
-        public IEnumerable<Competitor> Jumpers
-        {
-            set
-            {
-                jumpers = value.ToList();
-                listView.Items = jumpers;
-                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, jumpers.Count - 1);
-                listView.Refresh();
-            }
-        }
-
-        private void Start()
-        {
-            ListViewSetup();
-            RegisterCallbacks();
-            presenter = new JumpersMenuPresenter(this, jumpersRuntime, flagsData);
-        }
-
-        private void ListViewSetup()
-        {
-            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
-            listView.SelectionType = SelectionType.Single;
-            listView.Initialize(BindListViewItem);
-        }
-
-        private void RegisterCallbacks()
-        {
-            addButton.onClick.AddListener(() => OnAdd?.Invoke());
-            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
-            firstNameInput.onEndEdit.AddListener(x => OnValueChanged());
-            lastNameInput.onEndEdit.AddListener(x => OnValueChanged());
-            countryCodeInput.onEndEdit.AddListener(x => OnValueChanged());
-            imagePathInput.onEndEdit.AddListener(x => OnValueChanged());
-            genderSelect.onValueChanged.AddListener(x => OnValueChanged());
-            helmetColorPicker.OnColorChange += OnValueChanged;
-            suitTopFrontColorPicker.OnColorChange += OnValueChanged;
-            suitTopBackColorPicker.OnColorChange += OnValueChanged;
-            suitBottomFrontColorPicker.OnColorChange += OnValueChanged;
-            suitBottomBackColorPicker.OnColorChange += OnValueChanged;
-            skisColorPicker.OnColorChange += OnValueChanged;
-        }
-
-        private void OnValueChanged() => OnCurrentJumperChanged?.Invoke();
-
-        private void SelectJumper(Competitor jumper)
-        {
-            int index = (jumper == null) ? listView.SelectedIndex : jumpers.IndexOf(jumper);
-            index = Mathf.Clamp(index, 0, jumpers.Count - 1);
-            listView.SelectedIndex = index;
-            listView.ScrollToIndex(index);
-            listView.RefreshShownValue();
-        }
-
-        private void SetJumperImage(Sprite value, bool succeeded)
-        {
-            if (!succeeded)
-            {
-                image.enabled = false;
-                return;
-            }
-
-            image.enabled = true;
-            image.sprite = value;
-        }
-
-        public void LoadImage(string path)
-        {
-            StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
-        }
-        
-
-        private void BindListViewItem(int index, JumpersListItem item)
-        {
-            var jumper = jumpers[index];
-            item.nameText.text = $"{jumper.firstName} {jumper.lastName.ToUpper()}";
-            item.countryFlagText.text = jumper.countryCode;
-            item.countryFlagImage.sprite = flagsData.GetFlag(jumper.countryCode);
-            item.genderIconImage.sprite = genderIcons[(int) jumper.gender];
-        }
     }
 }

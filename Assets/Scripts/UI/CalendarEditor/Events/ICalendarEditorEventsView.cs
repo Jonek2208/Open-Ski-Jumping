@@ -13,19 +13,20 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         EventRoundsInfo SelectedRoundsInfo { get; set; }
         IEnumerable<EventRoundsInfo> RoundsInfos { set; }
 
-        IEnumerable<ClassificationInfo> SelectedClassifications { get; set; }
-        IEnumerable<ClassificationInfo> Classifications { set; }
+        IEnumerable<ClassificationData> SelectedClassifications { get; set; }
+        IEnumerable<ClassificationData> Classifications { set; }
 
         IEnumerable<ProfileData> Hills { set; }
         ProfileData SelectedHill { get; set; }
 
         int EventType { get; set; }
         int QualRankType { get; set; }
-        string QualRankId { get; set; }
+        int QualRankId { get; set; }
         int OrdRankType { get; set; }
-        string OrdRankId { get; set; }
+        int OrdRankId { get; set; }
         int InLimitType { get; set; }
         int InLimit { get; set; }
+        bool EventInfoEnabled { set; }
 
         event Action OnSelectionChanged;
         event Action OnCurrentEventChanged;
@@ -33,7 +34,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         event Action OnRemove;
         event Action OnMoveUp;
         event Action OnMoveDown;
+        event Action OnDuplicate;
         event Action OnDataReload;
-        bool EventInfoEnabled { set; }
     }
 }

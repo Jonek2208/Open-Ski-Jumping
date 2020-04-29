@@ -13,21 +13,21 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
 {
     public class CalendarEditorJumpersView : MonoBehaviour, ICalendarEditorJumpersView
     {
-        private bool initialized;
-        private CalendarEditorJumpersPresenter presenter;
-        [SerializeField] private CompetitorsRuntime jumpersRuntime;
+        [SerializeField] private Toggle allElementsToggle;
         [SerializeField] private CalendarFactory calendarFactory;
 
         [SerializeField] private FlagsData flagsData;
         [SerializeField] private Sprite[] genderIcons;
-
-        [SerializeField] private JumpersListView listView;
-        [SerializeField] private ToggleGroupExtension toggleGroup;
-        [SerializeField] private Toggle allElementsToggle;
+        private bool initialized;
 
         private List<Competitor> jumpers;
+        [SerializeField] private CompetitorsRuntime jumpersRuntime;
+
+        [SerializeField] private JumpersListView listView;
+        private CalendarEditorJumpersPresenter presenter;
 
         private HashSet<Competitor> selectedJumpers = new HashSet<Competitor>();
+        [SerializeField] private ToggleGroupExtension toggleGroup;
 
         public IEnumerable<Competitor> SelectedJumpers
         {
@@ -45,6 +45,9 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
             }
         }
 
+        public event Action OnDataSave;
+        public event Action OnDataReload;
+
         private void OnDisable()
         {
             OnDataSave?.Invoke();
@@ -60,9 +63,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
             initialized = true;
         }
 
-        public event Action OnDataSave;
-        public event Action OnDataReload;
-        public void SelectionSave() => OnDataSave?.Invoke();
+        public void SelectionSave()
+        {
+            OnDataSave?.Invoke();
+        }
 
         private void OnEnable()
         {
@@ -81,7 +85,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
             item.countryFlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
             item.genderIconImage.sprite = genderIcons[(int) competitor.gender];
             item.toggleExtension.SetElementId(index);
-            item.toggleExtension.Toggle.isOn = selectedJumpers.Contains(competitor);
+            item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedJumpers.Contains(competitor));
         }
 
         private void HandleSelectionChanged(int index, bool value)
@@ -103,13 +107,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
         private void HandleAllElementsToggle(bool value)
         {
             if (value)
-            {
-                foreach (var jumper in jumpers) selectedJumpers.Add(jumper);
-            }
+                foreach (var jumper in jumpers)
+                    selectedJumpers.Add(jumper);
             else
-            {
                 selectedJumpers.Clear();
-            }
 
             listView.RefreshShownValue();
         }

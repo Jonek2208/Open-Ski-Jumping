@@ -8,29 +8,29 @@ namespace OpenSkiJumping.Competition.Persistent
     [Serializable]
     public class EventInfo
     {
-        public string name;
-        public string hillId;
+        public List<int> classifications = new List<int>();
 
         [JsonConverter(typeof(StringEnumConverter))]
         public EventType eventType;
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RankType qualRankType;
-
-        public string qualRankId;
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public LimitType inLimitType;
+        public string hillId;
 
         public int inLimit;
 
         [JsonConverter(typeof(StringEnumConverter))]
+        public LimitType inLimitType;
+
+        public int ordRankId;
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public RankType ordRankType;
 
-        public string ordRankId;
+        public int qualRankId;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public RankType qualRankType;
+
         public EventRoundsInfo roundInfos;
-        
-        public List<ClassificationInfo> classifications;
     }
 
     [Serializable]
@@ -39,7 +39,7 @@ namespace OpenSkiJumping.Competition.Persistent
         public string name = "";
         public List<RoundInfo> roundInfos = new List<RoundInfo>();
         public int Count => roundInfos.Count;
-        
+
         public RoundInfo this[int index]
         {
             get => roundInfos[index];

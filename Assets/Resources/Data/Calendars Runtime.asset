@@ -68,25 +68,25 @@ MonoBehaviour:
       inLimitType: 0
       inLimit: 0
       ordRankType: 2
-      ordRankId: 2
+      ordRankId: 1
       roundInfos:
-        name: 
+        name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
-          outLimit: 8
-          useOrdRank: 01010101
-          has95Rule: 0
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
         - roundType: 0
           outLimitType: 0
-          outLimit: 0
-          useOrdRank: 01010100
-          has95Rule: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
-      classifications: 02000000
+      classifications: 
     - hillId: Wisla HS134
       eventType: 0
       qualRankType: 1
@@ -146,6 +146,19 @@ MonoBehaviour:
       - name: 
         value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
       leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Team
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
     events:
     - hillId: Wisla HS134
       eventType: 0
@@ -156,8 +169,22 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-        name: 
-        roundInfos: []
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
       classifications: 
     - hillId: Wisla HS134
       eventType: 1
@@ -166,11 +193,25 @@ MonoBehaviour:
       inLimitType: 0
       inLimit: 0
       ordRankType: 2
-      ordRankId: 2
+      ordRankId: 1
       roundInfos:
-        name: 
-        roundInfos: []
-      classifications: 02000000
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+      classifications: 01000000
     - hillId: Wisla HS134
       eventType: 0
       qualRankType: 1
@@ -180,8 +221,22 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-        name: 
-        roundInfos: []
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
       classifications: 00000000
     - hillId: Kuusamo HS142
       eventType: 0
@@ -192,8 +247,22 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-        name: 
-        roundInfos: []
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
       classifications: 
     - hillId: Kuusamo HS142
       eventType: 0
@@ -204,8 +273,22 @@ MonoBehaviour:
       ordRankType: 2
       ordRankId: 0
       roundInfos:
-        name: 
-        roundInfos: []
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
       classifications: 00000000
   - name: 2019/2020
     competitorsIds:
@@ -225,9 +308,9 @@ MonoBehaviour:
       medalPlaces: 0
       events: 
       pointsTables:
-      - name: 
+      - name: Individual
         value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      leaderBibColor: ffff00
+      leaderBibColor: ffff44
     - name: Ski Flying World Cup
       eventType: 0
       classificationType: 0
@@ -236,9 +319,9 @@ MonoBehaviour:
       medalPlaces: 0
       events: 
       pointsTables:
-      - name: 
+      - name: Individual
         value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      leaderBibColor: ffff00
+      leaderBibColor: ffcc66
     - name: Nations Cup
       eventType: 1
       classificationType: 0
@@ -247,11 +330,11 @@ MonoBehaviour:
       medalPlaces: 0
       events: 
       pointsTables:
-      - name: 
+      - name: Individual
         value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
-      - name: 
-        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
-      leaderBibColor: ffff00
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff88
     - name: Four Hills Tournament
       eventType: 0
       classificationType: 1
@@ -260,7 +343,7 @@ MonoBehaviour:
       medalPlaces: 0
       events: 
       pointsTables: []
-      leaderBibColor: ffff00
+      leaderBibColor: 77ff77
     events:
     - hillId: Wisla HS134
       eventType: 0

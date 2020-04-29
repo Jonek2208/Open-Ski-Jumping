@@ -13,47 +13,23 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 {
     public class CalendarEditorClassificationsView : MonoBehaviour, ICalendarEditorClassificationsView
     {
-        private bool initialized;
-        private CalendarEditorClassificationsPresenter presenter;
-
         [SerializeField] private CalendarFactory calendarFactory;
-        [SerializeField] private PointsTablesRuntime pointsTablesData;
+
+        private List<ClassificationInfo> classifications;
+        [SerializeField] private Sprite[] classificationTypeIcons;
 
         [SerializeField] private Sprite[] eventTypeIcons;
-        [SerializeField] private Sprite[] classificationTypeIcons;
+        private bool initialized;
 
         [SerializeField] private ClassificationsListView listView;
 
-        #region ClassificationInfoUI
-
-        [SerializeField] private GameObject classificationInfoObj;
-        [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private SegmentedControl eventTypeSelect;
-        [SerializeField] private SegmentedControl classificationTypeSelect;
-        [SerializeField] private TMP_Dropdown indPointsTableDropdown;
-        [SerializeField] private TMP_Dropdown teamPointsTableDropdown;
-        [SerializeField] private TMP_InputField limitInput;
-        [SerializeField] private SegmentedControl limitTypeSelect;
-        [SerializeField] private TMP_InputField medalPlacesInput;
-        [SerializeField] private SimpleColorPicker bibColor;
-
-
-        [SerializeField] private GameObject indTableObj;
-        [SerializeField] private GameObject teamTableObj;
-        [SerializeField] private GameObject limitObj;
-        [SerializeField] private GameObject medalsObj;
-
-
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-
-        #endregion
-
-        private List<ClassificationInfo> classifications;
+        private List<PointsTable> pointsTables;
+        [SerializeField] private PointsTablesRuntime pointsTablesData;
+        private CalendarEditorClassificationsPresenter presenter;
 
         public ClassificationInfo SelectedClassification
         {
-            get => classifications[listView.SelectedIndex];
+            get => listView.SelectedIndex < 0 ? null : classifications[listView.SelectedIndex];
             set => SelectClassification(value);
         }
 
@@ -63,12 +39,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             {
                 classifications = value.ToList();
                 listView.Items = classifications;
-                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, classifications.Count - 1);
+                listView.ClampSelectedIndex();
                 listView.Refresh();
             }
         }
-
-        private List<PointsTable> pointsTables;
 
         public IEnumerable<PointsTable> PointsTables
         {
@@ -92,13 +66,6 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         {
             get => pointsTables[teamPointsTableDropdown.value];
             set => SelectPointsTable(value, teamPointsTableDropdown);
-        }
-
-        private void SelectPointsTable(PointsTable value, TMP_Dropdown dropdown)
-        {
-            int index = (value == null) ? dropdown.value : pointsTables.FindIndex(item => item.name == value.name);
-            index = Mathf.Clamp(index, 0, pointsTables.Count - 1);
-            dropdown.SetValueWithoutNotify(index);
         }
 
         public string Name
@@ -150,8 +117,25 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         public event Action OnCurrentClassificationChanged;
         public event Action OnAdd;
         public event Action OnRemove;
-        public event Action OnDataSave;
         public event Action OnDataReload;
+
+        public bool ClassificationInfoEnabled
+        {
+            set
+            {
+                if (value) ShowClassificationInfo();
+                else HideClassificationInfo();
+            }
+        }
+
+        private void SelectPointsTable(PointsTable value, TMP_Dropdown dropdown)
+        {
+            var index = value == null ? dropdown.value : pointsTables.FindIndex(item => item.name == value.name);
+            index = Mathf.Clamp(index, 0, pointsTables.Count - 1);
+            dropdown.SetValueWithoutNotify(index);
+        }
+
+        public event Action OnDataSave;
 
         private void Start()
         {
@@ -190,27 +174,25 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             bibColor.OnColorChange += OnValueChanged;
         }
 
-        private void OnValueChanged() => OnCurrentClassificationChanged?.Invoke();
+        private void OnValueChanged()
+        {
+            OnCurrentClassificationChanged?.Invoke();
+        }
 
         private void SelectClassification(ClassificationInfo classification)
         {
-            int index = (classification == null) ? listView.SelectedIndex : classifications.IndexOf(classification);
-            index = Mathf.Clamp(index, 0, classifications.Count - 1);
-            listView.SelectedIndex = index;
-            listView.ScrollToIndex(index);
+            listView.SelectedIndex =
+                classification == null ? listView.SelectedIndex : classifications.IndexOf(classification);
+
+            listView.ClampSelectedIndex();
+            listView.ScrollToIndex(listView.SelectedIndex);
             listView.RefreshShownValue();
         }
 
-        public bool ClassificationInfoEnabled
+        private void HideClassificationInfo()
         {
-            set
-            {
-                if (value) ShowClassificationInfo();
-                else HideClassificationInfo();
-            }
+            classificationInfoObj.SetActive(false);
         }
-
-        private void HideClassificationInfo() => classificationInfoObj.SetActive(false);
 
         private void ShowClassificationInfo()
         {
@@ -247,5 +229,30 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             OnDataReload?.Invoke();
             listView.Reset();
         }
+
+        #region ClassificationInfoUI
+
+        [SerializeField] private GameObject classificationInfoObj;
+        [SerializeField] private TMP_InputField nameInput;
+        [SerializeField] private SegmentedControl eventTypeSelect;
+        [SerializeField] private SegmentedControl classificationTypeSelect;
+        [SerializeField] private TMP_Dropdown indPointsTableDropdown;
+        [SerializeField] private TMP_Dropdown teamPointsTableDropdown;
+        [SerializeField] private TMP_InputField limitInput;
+        [SerializeField] private SegmentedControl limitTypeSelect;
+        [SerializeField] private TMP_InputField medalPlacesInput;
+        [SerializeField] private SimpleColorPicker bibColor;
+
+
+        [SerializeField] private GameObject indTableObj;
+        [SerializeField] private GameObject teamTableObj;
+        [SerializeField] private GameObject limitObj;
+        [SerializeField] private GameObject medalsObj;
+
+
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
+
+        #endregion
     }
 }

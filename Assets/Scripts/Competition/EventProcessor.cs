@@ -9,16 +9,12 @@ namespace OpenSkiJumping.Competition
     {
         public static List<int> GetCompetitors(Calendar calendar, ResultsDatabase resultsDatabase)
         {
-            int eventId = resultsDatabase.eventIndex;
-            EventInfo eventInfo = calendar.events[eventId];
-            EventResults eventResults = resultsDatabase.eventResults[eventId];
+            var eventId = resultsDatabase.eventIndex;
+            var eventInfo = calendar.events[eventId];
+            var eventResults = resultsDatabase.eventResults[eventId];
             List<int> competitorsList;
             ResultsProcessor qualRankProcessor;
             ResultsProcessor ordRankProcessor;
-            Dictionary<string, int> classificationsDict = calendar.classifications.Select((item, index) => (item.name, index))
-                .ToDictionary(it => it.name, it => it.index);
-            Dictionary<string, int> eventsDict = calendar.events.Select((item, index) => (item.name, index))
-                .ToDictionary(it => it.name, it => it.index);
 
             if (eventInfo.qualRankType == RankType.None)
             {
@@ -28,40 +24,31 @@ namespace OpenSkiJumping.Competition
             else
             {
                 if (eventInfo.qualRankType == RankType.Event)
-                {
-                    qualRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventsDict[eventInfo.qualRankId]]);
-                }
+                    qualRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.qualRankId]);
                 else
-                {
                     qualRankProcessor =
-                        new ClassificationResultsProcessor(resultsDatabase.classificationResults[classificationsDict[eventInfo.qualRankId]]);
-                }
+                        new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.qualRankId]);
 
                 competitorsList = qualRankProcessor.GetTrimmedFinalResults(eventResults.participants,
                     eventInfo.inLimitType, eventInfo.inLimit);
             }
 
-            if (eventInfo.ordRankType == RankType.None)
-            {
-                return competitorsList;
-            }
+            if (eventInfo.ordRankType == RankType.None) return competitorsList;
 
             if (eventInfo.ordRankType == RankType.Event)
-            {
-                ordRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventsDict[eventInfo.ordRankId]]);
-            }
-            else
-            {
                 ordRankProcessor =
-                    new ClassificationResultsProcessor(resultsDatabase.classificationResults[classificationsDict[eventInfo.ordRankId]]);
-            }
+                    new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.ordRankId]);
+            else
+                ordRankProcessor =
+                    new ClassificationResultsProcessor(
+                        resultsDatabase.classificationResults[eventInfo.ordRankId]);
 
             return ordRankProcessor.GetFinalResultsWithCompetitorsList(competitorsList);
         }
 
         public static JumpResult GetJumpResult(JumpData jumpData, IHillInfo hillInfo)
         {
-            JumpResult jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.GatesDiff, jumpData.Wind,
+            var jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.GatesDiff, jumpData.Wind,
                 jumpData.Speed);
             jump.distancePoints = hillInfo.GetDistancePoints(jump.distance);
             jump.windPoints = hillInfo.GetWindPoints(jump.wind);

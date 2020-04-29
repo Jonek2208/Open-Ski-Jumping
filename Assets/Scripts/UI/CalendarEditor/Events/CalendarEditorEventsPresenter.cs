@@ -1,18 +1,16 @@
-using System;
 using System.Linq;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using UnityEngine.UIElements;
 
 namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
     public class CalendarEditorEventsPresenter
     {
-        private readonly ICalendarEditorEventsView view;
         private readonly CalendarFactory calendarFactory;
         private readonly HillsRuntime hills;
         private readonly PresetsRuntime presets;
+        private readonly ICalendarEditorEventsView view;
 
         public CalendarEditorEventsPresenter(ICalendarEditorEventsView view, CalendarFactory calendarFactory,
             HillsRuntime hills, PresetsRuntime presets)
@@ -34,14 +32,27 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 
         private void CreateNewEvent()
         {
-            var item = new EventInfo
-            {
-                name = $"{calendarFactory.Events.Count + 1} {hills.GetData().First().name}",
-                hillId = hills.GetData().First().name
-            };
+            var item = new EventInfo {hillId = hills.GetData().First().name};
             calendarFactory.Events.Add(item);
             PresentList();
             view.SelectedEvent = item;
+            PresentEventInfo();
+        }
+
+        private void DuplicateEvent()
+        {
+            var item = view.SelectedEvent;
+            if (item == null) return;
+            var duplicated = new EventInfo
+            {
+                hillId = item.hillId, classifications = item.classifications, eventType = item.eventType,
+                inLimit = item.inLimit, roundInfos = item.roundInfos, inLimitType = item.inLimitType,
+                ordRankId = item.inLimit, ordRankType = item.ordRankType, qualRankId = item.inLimit,
+                qualRankType = item.ordRankType
+            };
+            calendarFactory.Events.Add(duplicated);
+            PresentList();
+            view.SelectedEvent = duplicated;
             PresentEventInfo();
         }
 
@@ -77,8 +88,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             view.InLimit = item.inLimit;
             view.SelectedRoundsInfo = item.roundInfos;
             view.SelectedHill = hills.GetProfileData(item.hillId);
-            view.SelectedClassifications = item.classifications;
-            view.Classifications = calendarFactory.Classifications;
+            view.SelectedClassifications = calendarFactory.GetClassificationDataFromIds(item.classifications);
         }
 
         private void SaveEventInfo()
@@ -95,7 +105,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             item.inLimit = view.InLimit;
             item.roundInfos = view.SelectedRoundsInfo;
             item.hillId = view.SelectedHill.name;
-            item.classifications = view.SelectedClassifications.ToList();
+            item.classifications = view.SelectedClassifications.Select(it => it.Id).ToList();
             PresentList();
             view.SelectedEvent = item;
         }
@@ -103,6 +113,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         private void InitEvents()
         {
             view.OnSelectionChanged += PresentEventInfo;
+            view.OnDuplicate += DuplicateEvent;
             view.OnAdd += CreateNewEvent;
             view.OnRemove += RemoveEvent;
             view.OnMoveUp += () => MoveEvent(-1);
@@ -125,10 +136,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         private void SetInitValues()
         {
             PresentList();
-            view.SelectedEvent = calendarFactory.Events.First();
+            view.SelectedEvent = calendarFactory.Events.FirstOrDefault();
             view.RoundsInfos = presets.GetData();
             view.Hills = hills.GetData();
-            view.Classifications = calendarFactory.Classifications;
+            view.Classifications = calendarFactory.GetClassificationData();
             PresentEventInfo();
         }
     }

@@ -12,25 +12,11 @@ namespace OpenSkiJumping.UI.CalendarsMenu
 {
     public class CalendarsMenuView : MonoBehaviour, ICalendarsMenuView
     {
-        private CalendarsMenuPresenter presenter;
+        private List<Calendar> calendars;
         [SerializeField] private CalendarsRuntime calendarsRuntime;
 
         [SerializeField] private CalendarsListView listView;
-
-        #region CalendarInfoUI
-
-        [SerializeField] private GameObject calendarInfoObj;
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-
-        [SerializeField] private GameObject popUpRoot;
-        [SerializeField] private GameObject promptObj;
-        [SerializeField] private TMP_InputField input;
-        [SerializeField] private Button submitButton;
-        [SerializeField] private Button cancelButton;
-
-        #endregion
+        private CalendarsMenuPresenter presenter;
 
 
         public string CurrentCalendarName
@@ -46,12 +32,43 @@ namespace OpenSkiJumping.UI.CalendarsMenu
         public event Action OnRemove;
         public event Action OnSubmit;
 
-        private List<Calendar> calendars;
-
         public Calendar SelectedCalendar
         {
-            get => calendars[listView.SelectedIndex];
+            get => listView.SelectedIndex < 0 ? null : calendars[listView.SelectedIndex];
             set => SelectCalendar(value);
+        }
+
+        public IEnumerable<Calendar> Calendars
+        {
+            set
+            {
+                calendars = value.ToList();
+                listView.Items = calendars;
+                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, calendars.Count - 1);
+                listView.Refresh();
+            }
+        }
+
+        public void ShowPopUp()
+        {
+            popUpRoot.SetActive(true);
+            promptObj.SetActive(false);
+            input.text = "";
+        }
+
+        public void HidePopUp()
+        {
+            popUpRoot.SetActive(false);
+        }
+
+        public void ShowPrompt()
+        {
+            promptObj.SetActive(true);
+        }
+
+        public bool CalendarInfoEnabled
+        {
+            set => calendarInfoObj.SetActive(value);
         }
 
         private void Start()
@@ -81,39 +98,28 @@ namespace OpenSkiJumping.UI.CalendarsMenu
             item.valueText.text = calendars[index].name;
         }
 
-        public IEnumerable<Calendar> Calendars
-        {
-            set
-            {
-                calendars = value.ToList();
-                listView.Items = calendars;
-                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, calendars.Count - 1);
-                listView.Refresh();
-            }
-        }
-
         private void SelectCalendar(Calendar calendar)
         {
-            int index = calendars.IndexOf(calendar);
+            var index = calendars.IndexOf(calendar);
             index = Mathf.Clamp(index, 0, calendars.Count - 1);
             listView.SelectedIndex = index;
             listView.ScrollToIndex(index);
             listView.RefreshShownValue();
         }
 
-        public void ShowPopUp()
-        {
-            popUpRoot.SetActive(true);
-            promptObj.SetActive(false);
-            input.text = "";
-        }
+        #region CalendarInfoUI
 
-        public void HidePopUp() => popUpRoot.SetActive(false);
-        public void ShowPrompt() => promptObj.SetActive(true);
+        [SerializeField] private GameObject calendarInfoObj;
+        [SerializeField] private TMP_Text nameText;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
 
-        public bool CalendarInfoEnabled
-        {
-            set => calendarInfoObj.SetActive(value);
-        }
+        [SerializeField] private GameObject popUpRoot;
+        [SerializeField] private GameObject promptObj;
+        [SerializeField] private TMP_InputField input;
+        [SerializeField] private Button submitButton;
+        [SerializeField] private Button cancelButton;
+
+        #endregion
     }
 }

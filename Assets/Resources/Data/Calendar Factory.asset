@@ -12,55 +12,265 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f632ac2a44400a9353abb9004308de, type: 3}
   m_Name: Calendar Factory
   m_EditorClassIdentifier: 
-  competitors: []
+  competitors:
+  - id: AUT-M-Kraft-Stefan#0
+    lastName: Kraft
+    firstName: Stefan
+    countryCode: AUT
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: f69686
+    suitTopFrontColor: 115566
+    suitTopBackColor: 115566
+    suitBottomFrontColor: 115566
+    suitBottomBackColor: 115566
+    skisColor: cdde74
+  - id: GER-M-Geiger-Karl#0
+    lastName: Geiger
+    firstName: Karl
+    countryCode: GER
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: f69686
+    suitTopFrontColor: 000000
+    suitTopBackColor: 000000
+    suitBottomFrontColor: 000000
+    suitBottomBackColor: 000000
+    skisColor: cdde74
+  - id: JPN-M-Kobayashi-Ryoyu#0
+    lastName: Kobayashi
+    firstName: Ryoyu
+    countryCode: JPN
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: 0131b9
+    suitTopFrontColor: 000000
+    suitTopBackColor: 000000
+    suitBottomFrontColor: 000000
+    suitBottomBackColor: 000000
+    skisColor: ef94b5
+  - id: POL-M-Kubacki-Dawid#0
+    lastName: Kubacki
+    firstName: Dawid
+    countryCode: POL
+    teamId: 0
+    gender: 0
+    imagePath: kubacki.png
+    helmetColor: f69686
+    suitTopFrontColor: be3f38
+    suitTopBackColor: be3f38
+    suitBottomFrontColor: be3f38
+    suitBottomBackColor: be3f38
+    skisColor: ef94b5
+  - id: POL-M-Stoch-Kamil#0
+    lastName: Stoch
+    firstName: Kamil
+    countryCode: POL
+    teamId: 0
+    gender: 0
+    imagePath: stoch.png
+    helmetColor: dddddd
+    suitTopFrontColor: 115566
+    suitTopBackColor: 115566
+    suitBottomFrontColor: 115566
+    suitBottomBackColor: 115566
+    skisColor: cdde74
+  - id: SLO-M-Prevc-Peter#0
+    lastName: Prevc
+    firstName: Peter
+    countryCode: SLO
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: 000000
+    suitTopFrontColor: 000000
+    suitTopBackColor: 000000
+    suitBottomFrontColor: 000000
+    suitBottomBackColor: 000000
+    skisColor: 000000
+  - id: NOR-M-Tande-Daniel_Andre#0
+    lastName: Tande
+    firstName: Daniel Andre
+    countryCode: NOR
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: dddddd
+    suitTopFrontColor: 090907
+    suitTopBackColor: 090907
+    suitBottomFrontColor: 090907
+    suitBottomBackColor: 090907
+    skisColor: ef94b5
+  - id: AUT-M-Aschenwald-Philipp#0
+    lastName: Aschenwald
+    firstName: Philipp
+    countryCode: AUT
+    teamId: 0
+    gender: 0
+    imagePath: 
+    helmetColor: bb2222
+    suitTopFrontColor: 115566
+    suitTopBackColor: 115566
+    suitBottomFrontColor: 115566
+    suitBottomBackColor: 115566
+    skisColor: cdde74
   classifications:
+  - name: World Cup
+    eventType: 0
+    classificationType: 0
+    teamClassificationLimitType: 0
+    teamCompetitorsLimit: 0
+    medalPlaces: 0
+    events: 
+    pointsTables:
+    - name: 
+      value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+    leaderBibColor: ffff00
   - name: Nations Cup
     eventType: 1
     classificationType: 0
     teamClassificationLimitType: 0
-    teamCompetitorsLimit: 5
+    teamCompetitorsLimit: 0
+    medalPlaces: 0
     events: 
-    pointsTables: []
-  - name: World Cup
-    eventType: 1
-    classificationType: 1
-    teamClassificationLimitType: 1
-    teamCompetitorsLimit: 2
-    events: 
-    pointsTables: []
-  - name: Four Hills Tournament
+    pointsTables:
+    - name: Individual
+      value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+    - name: Team
+      value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+    leaderBibColor: ffff00
+  events:
+  - hillId: Wisla HS134
     eventType: 0
-    classificationType: 1
-    teamClassificationLimitType: 0
-    teamCompetitorsLimit: 0
-    events: 
-    pointsTables: []
-  - name: FIS Team Tour
+    qualRankType: 0
+    qualRankId: 0
+    inLimitType: 0
+    inLimit: 0
+    ordRankType: 2
+    ordRankId: 0
+    roundInfos:
+      name: Individual2Rounds
+      roundInfos:
+      - roundType: 0
+        outLimitType: 1
+        outLimit: 30
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+      - roundType: 0
+        outLimitType: 0
+        outLimit: -1
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+    classifications: 
+  - hillId: Wisla HS134
     eventType: 1
-    classificationType: 1
-    teamClassificationLimitType: 1
-    teamCompetitorsLimit: 0
-    events: 
-    pointsTables: []
-  - name: Raw Air
-    eventType: 1
-    classificationType: 1
-    teamClassificationLimitType: 0
-    teamCompetitorsLimit: 0
-    events: 
-    pointsTables: []
-  - name: SFWCh
-    eventType: 1
-    classificationType: 2
-    teamClassificationLimitType: 0
-    teamCompetitorsLimit: 0
-    events: 
-    pointsTables: []
-  - name: XD Cup
-    eventType: 1
-    classificationType: 0
-    teamClassificationLimitType: 0
-    teamCompetitorsLimit: 0
-    events: 
-    pointsTables: []
-  events: []
+    qualRankType: 0
+    qualRankId: 0
+    inLimitType: 0
+    inLimit: 0
+    ordRankType: 2
+    ordRankId: 1
+    roundInfos:
+      name: Individual2Rounds
+      roundInfos:
+      - roundType: 0
+        outLimitType: 1
+        outLimit: 30
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+      - roundType: 0
+        outLimitType: 0
+        outLimit: -1
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+    classifications: 01000000
+  - hillId: Wisla HS134
+    eventType: 0
+    qualRankType: 1
+    qualRankId: 0
+    inLimitType: 0
+    inLimit: 0
+    ordRankType: 2
+    ordRankId: 0
+    roundInfos:
+      name: Individual2Rounds
+      roundInfos:
+      - roundType: 0
+        outLimitType: 1
+        outLimit: 30
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+      - roundType: 0
+        outLimitType: 0
+        outLimit: -1
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+    classifications: 00000000
+  - hillId: Kuusamo HS142
+    eventType: 0
+    qualRankType: 0
+    qualRankId: 0
+    inLimitType: 0
+    inLimit: 0
+    ordRankType: 2
+    ordRankId: 0
+    roundInfos:
+      name: Individual2Rounds
+      roundInfos:
+      - roundType: 0
+        outLimitType: 1
+        outLimit: 30
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+      - roundType: 0
+        outLimitType: 0
+        outLimit: -1
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+    classifications: 
+  - hillId: Kuusamo HS142
+    eventType: 0
+    qualRankType: 1
+    qualRankId: 3
+    inLimitType: 0
+    inLimit: 0
+    ordRankType: 2
+    ordRankId: 0
+    roundInfos:
+      name: Individual2Rounds
+      roundInfos:
+      - roundType: 0
+        outLimitType: 1
+        outLimit: 30
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+      - roundType: 0
+        outLimitType: 0
+        outLimit: -1
+        useOrdRank: 
+        has95Rule: 1
+        reversedBibs: 0
+        reassignBibs: 0
+    classifications: 00000000
+  classificationDataList: []

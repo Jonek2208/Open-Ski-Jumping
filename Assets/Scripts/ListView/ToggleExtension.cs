@@ -6,9 +6,9 @@ namespace OpenSkiJumping.ListView
     [RequireComponent(typeof(Toggle))]
     public class ToggleExtension : MonoBehaviour
     {
+        [SerializeField] private int elementId;
         [SerializeField] private Toggle toggle;
         [SerializeField] private ToggleGroupExtension toggleGroupExtension;
-        [SerializeField] private int elementId;
 
         public int ElementId
         {
@@ -45,20 +45,20 @@ namespace OpenSkiJumping.ListView
 
         public void SetElementId(int newId)
         {
-            bool isSelected = elementId == toggleGroupExtension.CurrentValue;
+            var isSelected = elementId == toggleGroupExtension.CurrentValue;
             elementId = newId;
             if (toggleGroupExtension.AllowMultipleSelection) return;
 
             if (isSelected) toggleGroupExtension.ToggleGroup.allowSwitchOff = true;
-            
+
             if (toggleGroupExtension.GetElementValue(newId))
             {
-                toggle.isOn = true;
+                toggle.SetIsOnWithoutNotify(true);
                 toggleGroupExtension.ToggleGroup.allowSwitchOff = false;
             }
             else
             {
-                toggle.isOn = false;
+                toggle.SetIsOnWithoutNotify(false);
             }
         }
     }

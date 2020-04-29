@@ -24,7 +24,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
         {
             calendarFactory.Competitors =
                 calendarToLoad.competitorsIds.Select(item => competitorsRuntime.GetJumperById(item)).ToList();
-            calendarFactory.Classifications = calendarToLoad.classifications;
+            calendarFactory.LoadClassifications(calendarToLoad.classifications);
             calendarFactory.Events = calendarToLoad.events;
         }
 
@@ -71,6 +71,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
 
         public void LoadEventsMenu()
         {
+            calendarFactory.RecalculateEvents();
             jumpersMenu.gameObject.SetActive(false);
             classificationsMenu.gameObject.SetActive(false);
             eventsMenu.gameObject.SetActive(true);
