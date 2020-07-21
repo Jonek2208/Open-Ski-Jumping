@@ -11,6 +11,7 @@ namespace OpenSkiJumping.ScriptableObjects
         [SerializeField]
         public CountryData data;
         private Dictionary<string, string> countriesDict;
+        private Dictionary<string, string> countriesEnglishDict;
         [SerializeField]
         private SpriteAtlas flagsSpriteAtlas;
 
@@ -23,10 +24,12 @@ namespace OpenSkiJumping.ScriptableObjects
         public void LoadCountriesData()
         {
             countriesDict = new Dictionary<string, string>();
+            countriesEnglishDict = new Dictionary<string, string>();
 
             foreach (var c in data.countryList)
             {
                 countriesDict.Add(c.ioc, c.alpha2);
+                countriesEnglishDict.Add(c.ioc, c.en);
             }
         }
 
@@ -38,7 +41,7 @@ namespace OpenSkiJumping.ScriptableObjects
 
         public string GetEnglishName(string countryCode)
         {
-            return countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode] : countryCode;
+            return countriesEnglishDict.ContainsKey(countryCode) ? countriesEnglishDict[countryCode] : countryCode;
         }
     }
 }

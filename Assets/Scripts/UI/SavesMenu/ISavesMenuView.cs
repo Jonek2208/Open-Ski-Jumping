@@ -14,6 +14,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         string CurrentCalendarName { set; }
         string NewSaveName { get; }
 
+        event Action OnDataReload;
         event Action OnSelectionChanged;
         event Action OnAdd;
         event Action OnRemove;

@@ -78,7 +78,6 @@ namespace OpenSkiJumping.Competition
 
         public void OnCompetitionStart()
         {
-            onCompetitionStart.Invoke();
             var save = savesRepository.GetCurrentSave();
             var eventId = save.resultsContainer.eventIndex;
 
@@ -106,6 +105,7 @@ namespace OpenSkiJumping.Competition
             hillInfo = hillsRepository.GetHillInfo(hillId);
             resultsManager.Initialize(save.calendar.events[eventId], orderedParticipants, eventParticipants, hillInfo);
 
+            onCompetitionStart.Invoke();
             OnRoundStart();
             OnSubroundStart();
             OnJumpStart();
@@ -113,15 +113,15 @@ namespace OpenSkiJumping.Competition
 
         public void OnRoundStart()
         {
-            onRoundStart.Invoke();
             resultsManager.RoundInit();
+            onRoundStart.Invoke();
             OnSubroundStart();
         }
 
         public void OnSubroundStart()
         {
-            onSubroundStart.Invoke();
             resultsManager.SubroundInit();
+            onSubroundStart.Invoke();
             OnJumpStart();
         }
 

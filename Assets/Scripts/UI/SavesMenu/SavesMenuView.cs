@@ -15,6 +15,7 @@ namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesMenuView : MonoBehaviour, ISavesMenuView
     {
+        private bool initialized;
         private List<Calendar> calendars;
         private SavesMenuPresenter presenter;
 
@@ -89,6 +90,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         }
 
         public string NewSaveName => input.text;
+        public event Action OnDataReload;
 
         public void ShowPopUp()
         {
@@ -117,6 +119,14 @@ namespace OpenSkiJumping.UI.SavesMenu
             ListViewSetup();
             RegisterCallbacks();
             presenter = new SavesMenuPresenter(this, savesRuntime, calendarsRuntime, competitorsRuntime);
+            initialized = true;
+        }
+        
+        private void OnEnable()
+        {
+            if (!initialized) return;
+            OnDataReload?.Invoke();
+            listView.Reset();
         }
 
         private void ListViewSetup()

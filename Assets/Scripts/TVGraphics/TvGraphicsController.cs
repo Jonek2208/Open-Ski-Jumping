@@ -7,6 +7,7 @@ using OpenSkiJumping.Data;
 using OpenSkiJumping.TVGraphics.SideResults;
 using TMPro;
 using UnityEngine;
+using EventType = OpenSkiJumping.Competition.EventType;
 
 namespace OpenSkiJumping.TVGraphics
 {
@@ -61,11 +62,20 @@ namespace OpenSkiJumping.TVGraphics
             }
         }
 
-        public void Start()
+        public void OnCompetitionStart()
         {
             var save = savesRepository.GetCurrentSave();
             currentEvent = save.calendar.events[save.resultsContainer.eventIndex];
-            
+
+            if (currentEvent.eventType == EventType.Individual)
+            {
+                current = 0;
+            }
+            else if (currentEvent.eventType == EventType.Team)
+            {
+                current = 1;
+            }
+        
             SetMastersActive();
             hillNameText.text = currentEvent.hillId;
         }

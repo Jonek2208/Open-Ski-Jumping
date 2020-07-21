@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.ScriptableObjects;
 using UnityEngine;
 
 namespace OpenSkiJumping.UI.CalendarEditor
@@ -16,6 +17,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
     [CreateAssetMenu(menuName = "ScriptableObjects/CalendarFactory")]
     public class CalendarFactory : ScriptableObject
     {
+        [SerializeField] private FlagsData flagsData;
         [SerializeField] private List<ClassificationData> classificationDataList;
         [SerializeField] private List<ClassificationInfo> classifications;
         [SerializeField] private List<Competitor> competitors;
@@ -116,7 +118,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
                 events = Events.ToList(), classifications = Classifications.ToList(),
                 competitorsIds = competitors.Select(it => it.id).ToList(),
                 teams = competitors.GroupBy(it => it.countryCode).Select(it => new Team
-                        {countryCode = it.Key, teamName = it.Key, competitorsIds = it.Select(comp => comp.id ).ToList()})
+                        {countryCode = it.Key, teamName = flagsData.GetEnglishName(it.Key), competitorsIds = it.Select(comp => comp.id ).ToList()})
                     .ToList()
             };
         }

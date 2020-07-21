@@ -92,6 +92,7 @@ namespace OpenSkiJumping.UI.SavesMenu
             view.OnAdd += OnAdd;
             view.OnRemove += RemoveSave;
             view.OnSubmit += OnSubmit;
+            view.OnDataReload += SetInitValues;
         }
 
         private void SetInitValues()
