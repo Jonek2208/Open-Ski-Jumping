@@ -17,20 +17,16 @@ namespace OpenSkiJumping.Competition.Persistent
         public decimal windPoints;
         public decimal speed;
         public JumpResultState state;
-        public JumpResult()
-        {
-            judgesMask = new bool[5];
-        }
 
-        public JumpResult(decimal _distance, decimal[] _judgesMarks, int _gate, decimal _wind, decimal _speed)
+        public JumpResult(decimal distance, decimal[] judgesMarks, int gate, decimal wind, decimal speed)
         {
             // competitorId = _competitorId;
-            distance = _distance;
-            judgesMarks = _judgesMarks;
-            judgesMask = new bool[judgesMarks.Length];
-            gatesDiff = _gate;
-            wind = _wind;
-            speed = _speed;
+            this.distance = distance;
+            this.judgesMarks = judgesMarks;
+            judgesMask = new bool[this.judgesMarks.Length];
+            gatesDiff = gate;
+            this.wind = wind;
+            this.speed = speed;
             CalculateJudgesMarks();
         }
 

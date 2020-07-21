@@ -5,7 +5,7 @@ using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,23 +15,80 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
     public class CalendarEditorEventsView : MonoBehaviour, ICalendarEditorEventsView
     {
-        [SerializeField] private CalendarFactory calendarFactory;
+        private bool initialized;
+        private CalendarEditorEventsPresenter presenter;
 
-        private List<EventInfo> events;
+        [SerializeField] private CalendarFactory calendarFactory;
 
         [SerializeField] private Sprite[] eventTypeIcons;
         [SerializeField] private HillsRuntime hillsRuntime;
-        private bool initialized;
-
-        [SerializeField] private EventsListView listView;
-        private CalendarEditorEventsPresenter presenter;
         [SerializeField] private PresetsRuntime presets;
+
+
+        #region UIFields
+
+        [Header("UI Fields")] [SerializeField] private EventsListView listView;
+
+        [SerializeField] private GameObject eventInfoObj;
+
+        [SerializeField] private SegmentedControl eventTypeSelect;
+        [SerializeField] private TMP_Dropdown presetsDropdown;
+        [SerializeField] private TMP_Dropdown hillsDropdown;
+
+        [SerializeField] private ToggleGroupExtension classificationToggleGroupExtension;
+        [SerializeField] private ClassificationsSelectListView classificationsListView;
+
+        [SerializeField] private SegmentedControl ordRankSelect;
+        [SerializeField] private TMP_Dropdown ordRankDropdown;
+
+        [SerializeField] private SegmentedControl qualRankSelect;
+        [SerializeField] private TMP_Dropdown qualRankDropdown;
+
+        [SerializeField] private GameObject optionalDataGO;
+        [SerializeField] private GameObject preQualLimitGO;
+
+        [SerializeField] private SegmentedControl inLimitSelect;
+        [SerializeField] private TMP_InputField inLimitInput;
+
+        [SerializeField] private SegmentedControl preQualRankSelect;
+        [SerializeField] private TMP_Dropdown preQualRankDropdown;
+        [SerializeField] private SegmentedControl preQualLimitSelect;
+        [SerializeField] private TMP_InputField preQualLimitInput;
+
+
+        [SerializeField] private Button duplicateButton;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
+        [SerializeField] private Button moveUpButton;
+        [SerializeField] private Button moveDownButton;
+
+        #endregion
+
+        #region Events
+
+        public event Action OnSelectionChanged;
+        public event Action OnCurrentEventChanged;
+        public event Action OnAdd;
+        public event Action OnRemove;
+        public event Action OnMoveUp;
+        public event Action OnMoveDown;
+        public event Action OnDuplicate;
+        public event Action OnDataReload;
+
+        #endregion
+
+        private List<EventInfo> events;
         private List<EventRoundsInfo> presetsList;
+        private List<ClassificationData> classifications;
+        private HashSet<ClassificationData> selectedClassifications = new HashSet<ClassificationData>();
+        private List<ProfileData> hills;
+
+        #region Properties
 
         public EventInfo SelectedEvent
         {
             get => listView.SelectedIndex < 0 ? null : events[listView.SelectedIndex];
-            set => SelectEvent(value);
+            set => listView.SelectItem(value);
         }
 
         public IEnumerable<EventInfo> Events
@@ -61,22 +118,46 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             }
         }
 
+        public IEnumerable<ClassificationData> SelectedClassifications
+        {
+            get => selectedClassifications.ToList();
+            set
+            {
+                selectedClassifications = new HashSet<ClassificationData>(value);
+                classificationsListView.Refresh();
+            }
+        }
+
+        public IEnumerable<ClassificationData> Classifications
+        {
+            set
+            {
+                classifications = value.ToList();
+                classificationsListView.Items = classifications;
+                classificationsListView.Refresh();
+            }
+        }
+
+        public ProfileData SelectedHill
+        {
+            get => hillsDropdown.value < 0 ? null : hills[hillsDropdown.value];
+            set => SelectHill(value);
+        }
+
+        public IEnumerable<ProfileData> Hills
+        {
+            set
+            {
+                hills = value.ToList();
+                hillsDropdown.ClearOptions();
+                hillsDropdown.AddOptions(value.Select(item => item.name).ToList());
+            }
+        }
+
         public int EventType
         {
             get => eventTypeSelect.selectedSegmentIndex;
             set => eventTypeSelect.SetSelectedSegmentWithoutNotify(value);
-        }
-
-        public int QualRankType
-        {
-            get => qualRankSelect.selectedSegmentIndex;
-            set => qualRankSelect.SetSelectedSegmentWithoutNotify(value);
-        }
-
-        public int QualRankId
-        {
-            get => qualRankDropdown.value;
-            set => qualRankDropdown.SetValueWithoutNotify(value);
         }
 
         public int OrdRankType
@@ -91,6 +172,18 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             set => ordRankDropdown.SetValueWithoutNotify(value);
         }
 
+        public int QualRankType
+        {
+            get => qualRankSelect.selectedSegmentIndex;
+            set => qualRankSelect.SetSelectedSegmentWithoutNotify(value);
+        }
+
+        public int QualRankId
+        {
+            get => qualRankDropdown.value;
+            set => qualRankDropdown.SetValueWithoutNotify(value);
+        }
+
         public int InLimitType
         {
             get => inLimitSelect.selectedSegmentIndex;
@@ -103,14 +196,30 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             set => inLimitInput.SetTextWithoutNotify(value.ToString());
         }
 
-        public event Action OnSelectionChanged;
-        public event Action OnCurrentEventChanged;
-        public event Action OnAdd;
-        public event Action OnRemove;
-        public event Action OnMoveUp;
-        public event Action OnMoveDown;
-        public event Action OnDuplicate;
-        public event Action OnDataReload;
+        public int PreQualRankType
+        {
+            get => preQualRankSelect.selectedSegmentIndex;
+            set => preQualRankSelect.SetSelectedSegmentWithoutNotify(value);
+        }
+
+        public int PreQualRankId
+        {
+            get => preQualRankDropdown.value;
+            set => preQualRankDropdown.SetValueWithoutNotify(value);
+        }
+
+        public int PreQualLimitType
+        {
+            get => preQualLimitSelect.selectedSegmentIndex;
+            set => preQualLimitSelect.SetSelectedSegmentWithoutNotify(value);
+        }
+
+        public int PreQualLimit
+        {
+            get => int.Parse(preQualLimitInput.text);
+            set => preQualLimitInput.SetTextWithoutNotify(value.ToString());
+        }
+
 
         public bool EventInfoEnabled
         {
@@ -121,77 +230,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             }
         }
 
-        private void SelectEvent(EventInfo value)
-        {
-            listView.SelectedIndex = value == null ? listView.SelectedIndex : events.IndexOf(value);
-            listView.ClampSelectedIndex();
-            listView.ScrollToIndex(listView.SelectedIndex);
-            listView.RefreshShownValue();
-        }
-
-
-        private void SelectPreset(EventRoundsInfo value)
-        {
-            var index = value == null
-                ? presetsDropdown.value
-                : presetsList.FindIndex(item => item.name == value.name);
-            index = Mathf.Clamp(index, 0, presetsList.Count - 1);
-            presetsDropdown.SetValueWithoutNotify(index);
-        }
-
-        private void ShowInfo()
-        {
-            eventInfoObj.SetActive(true);
-            // if (SelectedClassification.classificationType == Competition.ClassificationType.Place)
-            // {
-            //     indTableObj.SetActive(true);
-            //     teamTableObj.SetActive(SelectedClassification.eventType == Competition.EventType.Team);
-            // }
-            // else
-            // {
-            //     indTableObj.SetActive(false);
-            //     teamTableObj.SetActive(false);
-            // }
-            //
-            inLimitInput.gameObject.SetActive(SelectedEvent.inLimitType != LimitType.None);
-
-            qualRankDropdown.gameObject.SetActive(SelectedEvent.qualRankType != RankType.None);
-            if (SelectedEvent.qualRankType == RankType.Classification)
-            {
-                qualRankDropdown.ClearOptions();
-                qualRankDropdown.AddOptions(classifications.Select(item => item.Name).ToList());
-            }
-
-            if (SelectedEvent.qualRankType == RankType.Event)
-            {
-                qualRankDropdown.ClearOptions();
-                qualRankDropdown.AddOptions(events.Select((item, index) => $"{index + 1} {item.hillId}").ToList());
-            }
-
-            qualRankDropdown.SetValueWithoutNotify(SelectedEvent.qualRankId);
-
-
-            ordRankDropdown.gameObject.SetActive(SelectedEvent.ordRankType != RankType.None);
-            if (SelectedEvent.ordRankType == RankType.Classification)
-            {
-                ordRankDropdown.ClearOptions();
-                ordRankDropdown.AddOptions(classifications.Select(item => item.Name).ToList());
-            }
-
-            if (SelectedEvent.ordRankType == RankType.Event)
-            {
-                ordRankDropdown.ClearOptions();
-                ordRankDropdown.AddOptions(events.Select((item, index) => $"{index + 1} {item.hillId}").ToList());
-            }
-
-            ordRankDropdown.SetValueWithoutNotify(SelectedEvent.ordRankId);
-        }
-
-        private void HideInfo()
-        {
-            eventInfoObj.SetActive(false);
-        }
-
+        #endregion
 
         private void Start()
         {
@@ -206,6 +245,60 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             if (!initialized) return;
             OnDataReload?.Invoke();
             listView.Reset();
+        }
+        private void SelectPreset(EventRoundsInfo value)
+        {
+            var index = value == null
+                ? presetsDropdown.value
+                : presetsList.FindIndex(item => item.name == value.name);
+            index = Mathf.Clamp(index, 0, presetsList.Count - 1);
+            presetsDropdown.SetValueWithoutNotify(index);
+        }
+
+        private void ShowInfo()
+        {
+            eventInfoObj.SetActive(true);
+
+            SetUpRankTypeDropdown(ordRankDropdown, SelectedEvent.ordRankType, SelectedEvent.ordRankId);
+            SetUpRankTypeDropdown(qualRankDropdown, SelectedEvent.qualRankType, SelectedEvent.qualRankId);
+
+            if (SelectedEvent.qualRankType == RankType.None)
+            {
+                optionalDataGO.SetActive(false);
+                return;
+            }
+
+            optionalDataGO.SetActive(true);
+            inLimitInput.gameObject.SetActive(SelectedEvent.inLimitType != LimitType.None);
+            SetUpRankTypeDropdown(preQualRankDropdown, SelectedEvent.preQualRankType, SelectedEvent.preQualRankId);
+            if (SelectedEvent.preQualRankType == RankType.None)
+            {
+                preQualLimitGO.SetActive(false);
+                return;
+            }
+
+            preQualLimitGO.SetActive(true);
+            preQualLimitInput.gameObject.SetActive(SelectedEvent.preQualLimitType != LimitType.None);
+        }
+
+        private void HideInfo() => eventInfoObj.SetActive(false);
+
+        private void SetUpRankTypeDropdown(TMP_Dropdown dropdown, RankType type, int rankId)
+        {
+            dropdown.gameObject.SetActive(type != RankType.None);
+            if (type == RankType.None) return;
+            dropdown.ClearOptions();
+            if (type == RankType.Classification)
+            {
+                dropdown.AddOptions(classifications.Select(item => item.name).ToList());
+            }
+            else if (type == RankType.Event)
+            {
+                dropdown.AddOptions(events.Take(SelectedEvent.id)
+                    .Select((item, index) => $"{index + 1} {item.hillId}").ToList());
+            }
+
+            dropdown.SetValueWithoutNotify(rankId);
         }
 
         private void ListViewSetup()
@@ -228,23 +321,27 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             moveUpButton.onClick.AddListener(() => OnMoveUp?.Invoke());
             moveDownButton.onClick.AddListener(() => OnMoveDown?.Invoke());
 
-            eventTypeSelect.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            eventTypeSelect.onValueChanged.AddListener(arg => ShowInfo());
+            RegisterSegmentedControlCallbacks(eventTypeSelect);
+            RegisterSegmentedControlCallbacks(qualRankSelect);
+            RegisterSegmentedControlCallbacks(inLimitSelect);
+            RegisterSegmentedControlCallbacks(preQualLimitSelect);
+            RegisterSegmentedControlCallbacks(preQualRankSelect);
+            RegisterSegmentedControlCallbacks(ordRankSelect);
 
             presetsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
             hillsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-
-            inLimitSelect.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            inLimitSelect.onValueChanged.AddListener(arg => ShowInfo());
+            hillsDropdown.onValueChanged.AddListener(arg => ShowInfo());
             inLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
-
-            qualRankSelect.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            qualRankSelect.onValueChanged.AddListener(arg => ShowInfo());
             qualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-
-            ordRankSelect.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            ordRankSelect.onValueChanged.AddListener(arg => ShowInfo());
+            preQualLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            preQualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
             ordRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+        }
+
+        private void RegisterSegmentedControlCallbacks(SegmentedControl item)
+        {
+            item.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            item.onValueChanged.AddListener(arg => ShowInfo());
         }
 
         private void BindListViewItem(int index, EventsListItem item)
@@ -258,7 +355,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         private void BindClassificationsListViewItem(int index, ClassificationsSelectListItem item)
         {
             var classification = classifications[index];
-            item.nameText.text = $"{classification.Name}";
+            item.nameText.text = $"{classification.name}";
             item.toggleExtension.SetElementId(index);
             item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedClassifications.Contains(classification));
         }
@@ -281,94 +378,11 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             // allElementsToggle.SetIsOnWithoutNotify(selectedClassifications.Count > 0);
         }
 
-        #region EventInfoUI
-
-        [SerializeField] private GameObject eventInfoObj;
-
-        [SerializeField] private SegmentedControl eventTypeSelect;
-        [SerializeField] private TMP_Dropdown presetsDropdown;
-        [SerializeField] private TMP_Dropdown hillsDropdown;
-
-        [SerializeField] private ToggleGroupExtension classificationToggleGroupExtension;
-        [SerializeField] private ClassificationsSelectListView classificationsListView;
-
-        [SerializeField] private SegmentedControl inLimitSelect;
-        [SerializeField] private TMP_InputField inLimitInput;
-        [SerializeField] private SegmentedControl qualRankSelect;
-        [SerializeField] private TMP_Dropdown qualRankDropdown;
-        [SerializeField] private SegmentedControl ordRankSelect;
-        [SerializeField] private TMP_Dropdown ordRankDropdown;
-
-        // [SerializeField] private GameObject indTableObj;
-        // [SerializeField] private GameObject teamTableObj;
-        // [SerializeField] private GameObject limitObj;
-        // [SerializeField] private GameObject medalsObj;
-
-
-        [SerializeField] private Button duplicateButton;
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-        [SerializeField] private Button moveUpButton;
-        [SerializeField] private Button moveDownButton;
-
-        #endregion
-
-
-        #region ClassificationsSelectListView
-
-        private List<ClassificationData> classifications;
-        private HashSet<ClassificationData> selectedClassifications = new HashSet<ClassificationData>();
-
-        public IEnumerable<ClassificationData> SelectedClassifications
-        {
-            get => selectedClassifications.ToList();
-            set
-            {
-                selectedClassifications = new HashSet<ClassificationData>(value);
-                classificationsListView.Refresh();
-            }
-        }
-
-        public IEnumerable<ClassificationData> Classifications
-        {
-            set
-            {
-                classifications = value.ToList();
-                classificationsListView.Items = classifications;
-                classificationsListView.Refresh();
-            }
-        }
-
-        #endregion
-
-
-        #region Hills
-
-        private List<ProfileData> hills;
-
-        public IEnumerable<ProfileData> Hills
-        {
-            set
-            {
-                hills = value.ToList();
-                hillsDropdown.ClearOptions();
-                hillsDropdown.AddOptions(value.Select(item => item.name).ToList());
-            }
-        }
-
-        public ProfileData SelectedHill
-        {
-            get => hillsDropdown.value < 0 ? null : hills[hillsDropdown.value];
-            set => SelectHill(value);
-        }
-
         private void SelectHill(ProfileData value)
         {
             if (value == null) return;
             var index = hills.IndexOf(value);
             hillsDropdown.SetValueWithoutNotify(index);
         }
-
-        #endregion
     }
 }

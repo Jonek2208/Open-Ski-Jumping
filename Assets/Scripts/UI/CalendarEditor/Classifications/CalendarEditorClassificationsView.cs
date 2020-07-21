@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,19 +13,36 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 {
     public class CalendarEditorClassificationsView : MonoBehaviour, ICalendarEditorClassificationsView
     {
-        [SerializeField] private CalendarFactory calendarFactory;
-
-        private List<ClassificationInfo> classifications;
-        [SerializeField] private Sprite[] classificationTypeIcons;
-
-        [SerializeField] private Sprite[] eventTypeIcons;
         private bool initialized;
+        private CalendarEditorClassificationsPresenter presenter;
+        [SerializeField] private CalendarFactory calendarFactory;
+        [SerializeField] private PointsTablesRuntime pointsTablesData;
+        [SerializeField] private Sprite[] classificationTypeIcons;
+        [SerializeField] private Sprite[] eventTypeIcons;
 
+        [Header("UI Fields")] 
         [SerializeField] private ClassificationsListView listView;
+        [SerializeField] private GameObject classificationInfoObj;
+        [SerializeField] private TMP_InputField nameInput;
+        [SerializeField] private SegmentedControl eventTypeSelect;
+        [SerializeField] private SegmentedControl classificationTypeSelect;
+        [SerializeField] private TMP_Dropdown indPointsTableDropdown;
+        [SerializeField] private TMP_Dropdown teamPointsTableDropdown;
+        [SerializeField] private TMP_InputField limitInput;
+        [SerializeField] private SegmentedControl limitTypeSelect;
+        [SerializeField] private TMP_InputField medalPlacesInput;
+        [SerializeField] private SimpleColorPicker bibColor;
+
+        [SerializeField] private GameObject indTableObj;
+        [SerializeField] private GameObject teamTableObj;
+        [SerializeField] private GameObject limitObj;
+        [SerializeField] private GameObject medalsObj;
+
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
 
         private List<PointsTable> pointsTables;
-        [SerializeField] private PointsTablesRuntime pointsTablesData;
-        private CalendarEditorClassificationsPresenter presenter;
+        private List<ClassificationInfo> classifications;
 
         public ClassificationInfo SelectedClassification
         {
@@ -161,22 +178,23 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         {
             addButton.onClick.AddListener(() => OnAdd?.Invoke());
             removeButton.onClick.AddListener(() => OnRemove?.Invoke());
-            nameInput.onEndEdit.AddListener(arg => OnValueChanged());
-            eventTypeSelect.onValueChanged.AddListener(arg => OnValueChanged());
-            eventTypeSelect.onValueChanged.AddListener(arg => ShowClassificationInfo());
-            classificationTypeSelect.onValueChanged.AddListener(arg => OnValueChanged());
-            classificationTypeSelect.onValueChanged.AddListener(arg => ShowClassificationInfo());
-            limitTypeSelect.onValueChanged.AddListener(arg => OnValueChanged());
-            limitTypeSelect.onValueChanged.AddListener(arg => ShowClassificationInfo());
-            limitInput.onEndEdit.AddListener(arg => OnValueChanged());
-            indPointsTableDropdown.onValueChanged.AddListener(arg => OnValueChanged());
-            teamPointsTableDropdown.onValueChanged.AddListener(arg => OnValueChanged());
-            bibColor.OnColorChange += OnValueChanged;
+            nameInput.onEndEdit.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+
+            RegisterSegmentedControlCallbacks(eventTypeSelect);
+            RegisterSegmentedControlCallbacks(classificationTypeSelect);
+            RegisterSegmentedControlCallbacks(limitTypeSelect);
+
+            limitInput.onEndEdit.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+            medalPlacesInput.onEndEdit.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+            indPointsTableDropdown.onValueChanged.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+            teamPointsTableDropdown.onValueChanged.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+            bibColor.OnColorChange += () => OnCurrentClassificationChanged?.Invoke();
         }
 
-        private void OnValueChanged()
+        private void RegisterSegmentedControlCallbacks(SegmentedControl item)
         {
-            OnCurrentClassificationChanged?.Invoke();
+            item.onValueChanged.AddListener(arg => OnCurrentClassificationChanged?.Invoke());
+            item.onValueChanged.AddListener(arg => ShowClassificationInfo());
         }
 
         private void SelectClassification(ClassificationInfo classification)
@@ -189,10 +207,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             listView.RefreshShownValue();
         }
 
-        private void HideClassificationInfo()
-        {
-            classificationInfoObj.SetActive(false);
-        }
+        private void HideClassificationInfo() => classificationInfoObj.SetActive(false);
 
         private void ShowClassificationInfo()
         {
@@ -229,30 +244,5 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             OnDataReload?.Invoke();
             listView.Reset();
         }
-
-        #region ClassificationInfoUI
-
-        [SerializeField] private GameObject classificationInfoObj;
-        [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private SegmentedControl eventTypeSelect;
-        [SerializeField] private SegmentedControl classificationTypeSelect;
-        [SerializeField] private TMP_Dropdown indPointsTableDropdown;
-        [SerializeField] private TMP_Dropdown teamPointsTableDropdown;
-        [SerializeField] private TMP_InputField limitInput;
-        [SerializeField] private SegmentedControl limitTypeSelect;
-        [SerializeField] private TMP_InputField medalPlacesInput;
-        [SerializeField] private SimpleColorPicker bibColor;
-
-
-        [SerializeField] private GameObject indTableObj;
-        [SerializeField] private GameObject teamTableObj;
-        [SerializeField] private GameObject limitObj;
-        [SerializeField] private GameObject medalsObj;
-
-
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-
-        #endregion
     }
 }

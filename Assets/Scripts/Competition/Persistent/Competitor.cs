@@ -18,7 +18,7 @@ namespace OpenSkiJumping.Competition.Persistent
 
         public DateTime birthdate = new DateTime(1999, 1, 1);
         public string imagePath = "";
-        public string helmetColor = "";
+        public string helmetColor = "000000";
         public string suitTopFrontColor = "000000";
         public string suitTopBackColor = "000000";
         public string suitBottomFrontColor = "000000";

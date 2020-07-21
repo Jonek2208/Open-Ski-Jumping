@@ -193,7 +193,7 @@ namespace OpenSkiJumping.Jumping
         public void OnJumperStart()
         {
             jumpData.ResetValues();
-            jumpData.Gate = currentGate;
+            jumpData.GatesDiff = 0;
         }
 
         public void OnSpeedMeasurement(float speed)

@@ -26,6 +26,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         int OrdRankId { get; set; }
         int InLimitType { get; set; }
         int InLimit { get; set; }
+        int PreQualRankType { get; set; }
+        int PreQualRankId { get; set; }
+        int PreQualLimitType { get; set; }
+        int PreQualLimit { get; set; }
         bool EventInfoEnabled { set; }
 
         event Action OnSelectionChanged;

@@ -8,24 +8,17 @@ namespace OpenSkiJumping.Competition
     [Serializable]
     public class RoundInfo
     {
-        [JsonConverter(typeof(StringEnumConverter))] public RoundType roundType;
-        [JsonConverter(typeof(StringEnumConverter))] public LimitType outLimitType;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public RoundType roundType;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public LimitType outLimitType;
+
         public int outLimit;
-        public bool[] useOrdRank = new bool[4];
-        public bool has95Rule;
-        public bool reversedBibs;
-        public bool reassignBibs;
-        public RoundInfo() { }
-        public RoundInfo(RoundType _roundType, LimitType _outlimitType, int _outLimit, bool _reassignBibs = false, bool _has95Rule = true)
-        {
-            roundType = _roundType;
-            outLimitType = _outlimitType;
-            outLimit = _outLimit;
-            has95Rule = _has95Rule;
-            reversedBibs = (roundType == RoundType.KO ? true : false);
-            reassignBibs = _reassignBibs;
-        }
+        public List<bool> useOrdRank = new List<bool> {false, false, false, false};
+        public bool disableJudgesMarks = false;
+        public bool has95Rule = true;
+        public bool reversedBibs = false;
+        public bool reassignBibs = false;
     }
-
-
 }

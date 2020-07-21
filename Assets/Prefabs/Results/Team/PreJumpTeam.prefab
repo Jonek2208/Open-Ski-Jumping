@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5714463374689997944}
   - component: {fileID: 6917991773280382394}
-  - component: {fileID: 8993310979012112410}
+  - component: {fileID: 8223880043778644328}
   m_Layer: 5
   m_Name: Jumper Image
   m_TagString: Untagged
@@ -239,7 +239,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087819866936582701}
   m_CullTransparentMesh: 0
---- !u!114 &8993310979012112410
+--- !u!114 &8223880043778644328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1087819866936582701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -257,13 +257,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 3b53a362595775ef98078fbf9bb5f4a5, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1295087840688045051
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,8 +1898,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flagsData: {fileID: 11400000, guid: 94f547efcb34a33049603d5e07a748ea, type: 2}
   resultsManager: {fileID: 11400000, guid: 2263c123852116d44925a3188e8ded51, type: 2}
-  participants: {fileID: 11400000, guid: 216d6d41cd63f8e4195dd46244d82213, type: 2}
-  competitors: {fileID: 11400000, guid: 802a8a092b40468ceadc74f448195634, type: 2}
+  competitors: {fileID: 11400000, guid: a37b188b5d0732ffda2e4a5f63ff3a24, type: 2}
+  imageCacher: {fileID: 11400000, guid: 1144001d1e894d218b065bb608653ac5, type: 2}
+  jumperImage: {fileID: 8223880043778644328}
   bibTeam: {fileID: 2093532168830398677}
   bibJumper: {fileID: 7542267031463386027}
   teamName: {fileID: 7067432030361169193}
@@ -1908,7 +1912,6 @@ MonoBehaviour:
   meters:
   - {fileID: 1884988843115292129}
   countryInfo: {fileID: 8787902761721594330}
-  jumperImage: {fileID: 8993310979012112410}
   row1: {fileID: 1798578788795929263}
   rankObj: {fileID: 7076675613054297316}
   nextAthleteObj: {fileID: 8826829316499663157}

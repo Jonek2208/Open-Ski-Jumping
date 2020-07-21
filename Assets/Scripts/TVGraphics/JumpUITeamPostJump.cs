@@ -4,6 +4,7 @@ using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace OpenSkiJumping.TVGraphics
 {
@@ -13,7 +14,7 @@ namespace OpenSkiJumping.TVGraphics
         public TMP_Text bibJumper;
         public TMP_Text teamName;
         public TMP_Text jumperName;
-        public TMP_Text rank;
+        [FormerlySerializedAs("rank")] public TMP_Text rankText;
         public TMP_Text totalTeam;
         public TMP_Text totalJumper;
         public TMP_Text[] meters;
@@ -32,10 +33,10 @@ namespace OpenSkiJumping.TVGraphics
         }
 
 
-        public void SetCountry()
+        private void SetCountry()
         {
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            Team team = competitors.teams[participants.participants[competitorId].id];
+            var id = resultsManager.Value.GetCurrentCompetitorId();
+            var team = competitors.teams[id];
             countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
             countryInfo.CountryName.text = team.countryCode;
         }
@@ -49,30 +50,30 @@ namespace OpenSkiJumping.TVGraphics
             judgesMarksTransform.localScale = new Vector3(1, 0, 1);
             DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f)).Append(judgesMarksTransform.DOScaleY(1, 0.5f));
 
-            int jumpsCount = resultsManager.roundIndex + 1;
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
-            int rank = resultsManager.results[competitorId].Rank;
-            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-            Team team = competitors.teams[participants.participants[competitorId].id];
-            JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
+            var jumpsCount = resultsManager.Value.RoundIndex + 1;
+            var competitorId = resultsManager.Value.GetCurrentCompetitorLocalId();
+            var bib = resultsManager.Value.Results[competitorId].Bibs[resultsManager.Value.RoundIndex];
+            var rank = resultsManager.Value.CompetitorRank(competitorId);
+            var competitor = competitors.competitors[resultsManager.Value.OrderedParticipants[competitorId].competitors[resultsManager.Value.SubroundIndex]];
+            var team = competitors.teams[resultsManager.Value.OrderedParticipants[competitorId].id];
+            var jumpResults = resultsManager.Value.Results[competitorId].Results[resultsManager.Value.SubroundIndex];
 
             teamName.text = team.teamName.ToUpper();
             jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
             bibTeam.text = bib.ToString();
-            bibJumper.text = (resultsManager.subroundIndex + 1).ToString();
-            this.rank.text = rank.ToString();
+            bibJumper.text = (resultsManager.Value.SubroundIndex + 1).ToString();
+            rankText.text = rank.ToString();
 
-            int xx = jumpsCount - meters.Length;
-            int offset = Mathf.Max(0, meters.Length - jumpsCount);
+            var xx = jumpsCount - meters.Length;
+            var offset = Mathf.Max(0, meters.Length - jumpsCount);
 
-            JumpResult jump = jumpResults.results[resultsManager.roundIndex];
-            totalTeam.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
-            totalJumper.text = resultsManager.results[competitorId].TotalResults[resultsManager.subroundIndex].ToString("F1", CultureInfo.InvariantCulture);
+            var jump = jumpResults.results[resultsManager.Value.RoundIndex];
+            totalTeam.text = resultsManager.Value.Results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
+            totalJumper.text = resultsManager.Value.Results[competitorId].TotalResults[resultsManager.Value.SubroundIndex].ToString("F1", CultureInfo.InvariantCulture);
             wind.SetValues(jump.windPoints);
             gate.SetValues(jump.gatePoints);
 
-            for (int i = 0; i < judgesMarks.Length; i++)
+            for (var i = 0; i < judgesMarks.Length; i++)
             {
                 judgesMarks[i].SetValues(jump.judgesMarks[i], judgesUIData.countries[i], flagsData.GetFlag(judgesUIData.countries[i]), jump.judgesMask[i]);
             }

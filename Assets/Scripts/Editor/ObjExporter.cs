@@ -164,5 +164,5 @@ namespace OpenSkiJumping.Editor
 			}
 		}
 	}
-#endif
 }
+#endif

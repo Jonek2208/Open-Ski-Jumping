@@ -30,9 +30,11 @@ namespace OpenSkiJumping.UI.CalendarEditor
 
         private void SaveToCalendar(Calendar calendarToSave)
         {
-            calendarToSave.competitorsIds = calendarFactory.Competitors.Select(item => item.id).ToList();
-            calendarToSave.classifications = calendarFactory.Classifications;
-            calendarToSave.events = calendarFactory.Events;
+            var newCalendar = calendarFactory.CreateCalendar();
+            calendarToSave.competitorsIds = newCalendar.competitorsIds;
+            calendarToSave.classifications = newCalendar.classifications;
+            calendarToSave.teams = newCalendar.teams;
+            calendarToSave.events = newCalendar.events;
         }
 
         public void LoadCalendarEditor()
@@ -48,6 +50,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
         {
             if (calendar == null) return;
             jumpersMenu.SelectionSave();
+
             SaveToCalendar(calendar);
             jumpersMenu.gameObject.SetActive(false);
             classificationsMenu.gameObject.SetActive(false);

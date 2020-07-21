@@ -9,7 +9,6 @@ namespace OpenSkiJumping.ScriptableObjects
     public class SkiJumperDataController : MonoBehaviour
     {
         public RuntimeResultsManager resultsManager;
-        public RuntimeParticipantsList participants;
         public RuntimeCompetitorsList competitors;
         public JumperController2 jumperController;
         public GameObject jumperMale;
@@ -24,8 +23,8 @@ namespace OpenSkiJumping.ScriptableObjects
 
         public void GetValues()
         {
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
+            var id = resultsManager.Value.GetCurrentJumperId();
+            competitor = competitors.competitors[id];
         }
 
         public void SetValues()

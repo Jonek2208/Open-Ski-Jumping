@@ -9,8 +9,8 @@ namespace OpenSkiJumping.UI.CalendarEditor
     [Serializable]
     public struct ClassificationData
     {
-        public string Name { get; set; }
-        public int Id { get; set; }
+        public string name;
+        public int id;
     }
 
     [CreateAssetMenu(menuName = "ScriptableObjects/CalendarFactory")]
@@ -46,18 +46,34 @@ namespace OpenSkiJumping.UI.CalendarEditor
             // Events[index + val].name = $"{index + val + 1} {Events[index].hillId}";
         }
 
+        public void AddEvent(EventInfo item)
+        {
+            item.id = events.Count;
+            events.Add(item);
+        }
+
+        public bool RemoveEvent(EventInfo item)
+        {
+            var index = events.IndexOf(item);
+            if (index < 0) return false;
+            events.RemoveAt(index);
+            for (var i = index; i < events.Count; i++) events[i].id = i;
+            return true;
+        }
+
         public void RecalculateEvents()
         {
-            var map = classificationDataList.Where(item => item.Id >= 0)
+            for (var i = 0; i < events.Count; i++) events[i].id = i;
+            var map = classificationDataList.Where(item => item.id >= 0)
                 .Select((item, index) => (item, index))
-                .ToDictionary(x => x.item.Id, x => x.index);
+                .ToDictionary(x => x.item.id, x => x.index);
 
             foreach (var item in events)
                 item.classifications =
                     item.classifications.Where(it => map.ContainsKey(it)).Select(it => map[it]).ToList();
 
             for (var i = 0; i < classificationDataList.Count; i++)
-                classificationDataList[i] = new ClassificationData {Name = classifications[i].name, Id = i};
+                classificationDataList[i] = new ClassificationData {name = classifications[i].name, id = i};
         }
 
         public bool RemoveClassification(ClassificationInfo item)
@@ -73,19 +89,19 @@ namespace OpenSkiJumping.UI.CalendarEditor
         public void AddClassification(ClassificationInfo item)
         {
             classifications.Add(item);
-            classificationDataList.Add(new ClassificationData {Name = "", Id = -1});
+            classificationDataList.Add(new ClassificationData {name = "", id = -1});
         }
 
         public void LoadClassifications(List<ClassificationInfo> data)
         {
             classifications = data;
-            classificationDataList = data.Select((item, index) => new ClassificationData {Name = item.name, Id = index})
+            classificationDataList = data.Select((item, index) => new ClassificationData {name = item.name, id = index})
                 .ToList();
         }
 
         public IEnumerable<ClassificationData> GetClassificationDataFromIds(List<int> ids)
         {
-            return ids.Select(it => new ClassificationData {Name = Classifications[it].name, Id = it});
+            return ids.Select(it => new ClassificationData {name = Classifications[it].name, id = it});
         }
 
         public IEnumerable<ClassificationData> GetClassificationData()
@@ -98,7 +114,10 @@ namespace OpenSkiJumping.UI.CalendarEditor
             return new Calendar
             {
                 events = Events.ToList(), classifications = Classifications.ToList(),
-                competitorsIds = competitors.Select(it => it.id).ToList()
+                competitorsIds = competitors.Select(it => it.id).ToList(),
+                teams = competitors.GroupBy(it => it.countryCode).Select(it => new Team
+                        {countryCode = it.Key, teamName = it.Key, competitorsIds = it.Select(comp => comp.id ).ToList()})
+                    .ToList()
             };
         }
     }

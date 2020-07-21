@@ -1,5 +1,5 @@
 ﻿using OpenSkiJumping.Competition.Persistent;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 
 namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 {

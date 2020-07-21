@@ -8,6 +8,7 @@ namespace OpenSkiJumping.Competition.Persistent
     {
         public List<HillInfo> hillInfos;
         public int eventIndex;
+        public int roundIndex;
         public EventResults[] eventResults;
         public ClassificationResults[] classificationResults;
 

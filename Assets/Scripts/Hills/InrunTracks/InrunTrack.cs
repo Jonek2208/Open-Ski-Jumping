@@ -48,7 +48,6 @@ namespace OpenSkiJumping.Hills.InrunTracks
                         trianglesList[j].Add(cnt - 2);
                     }
                 }
-
             }
 
             mesh.vertices = verticesList.ToArray();

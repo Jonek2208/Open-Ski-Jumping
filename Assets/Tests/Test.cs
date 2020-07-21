@@ -1,15 +1,25 @@
 ﻿using NUnit.Framework;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
 
-namespace Tests
+namespace OpenSkiJumping.Tests
 {
     public class Test
     {
+        public class MockJumpData : IJumpData
+        {
+            public decimal Distance { get; set; }
+            public decimal[] JudgesMarks { get; set; }
+            public int GatesDiff { get; set; }
+            public decimal Wind { get; set; }
+            public decimal Speed { get; set; }
+        }
+        
         [Test]
         public void JumpCalcTest_TailWind()
         {
-            JumpData jumpData = new JumpData
+            IJumpData jumpData = new MockJumpData
             {
                 Speed = 95.5m,
                 Distance = 120.5m,
@@ -32,7 +42,7 @@ namespace Tests
         [Test]
         public void JumpCalcTest_HeadWind()
         {
-            JumpData jumpData = new JumpData
+            IJumpData jumpData = new MockJumpData
             {
                 Speed = 84.4m,
                 Distance = 103.0m,

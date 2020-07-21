@@ -2,24 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
 
 namespace OpenSkiJumping.Competition
 {
     public static class EventProcessor
     {
-        public static List<int> GetCompetitors(Calendar calendar, ResultsDatabase resultsDatabase)
+        public static IEnumerable<int> GetCompetitors(Calendar calendar, ResultsDatabase resultsDatabase)
         {
             var eventId = resultsDatabase.eventIndex;
             var eventInfo = calendar.events[eventId];
             var eventResults = resultsDatabase.eventResults[eventId];
-            List<int> competitorsList;
+            IEnumerable<int> competitorsList;
             ResultsProcessor qualRankProcessor;
             ResultsProcessor ordRankProcessor;
 
             if (eventInfo.qualRankType == RankType.None)
             {
                 //Add all registred participants
-                competitorsList = eventResults.participants.Select((val, ind) => ind).ToList();
+                competitorsList = eventResults.participants.Select(x => x.id);
             }
             else
             {
@@ -36,17 +37,15 @@ namespace OpenSkiJumping.Competition
             if (eventInfo.ordRankType == RankType.None) return competitorsList;
 
             if (eventInfo.ordRankType == RankType.Event)
-                ordRankProcessor =
-                    new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.ordRankId]);
+                ordRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.ordRankId]);
             else
                 ordRankProcessor =
-                    new ClassificationResultsProcessor(
-                        resultsDatabase.classificationResults[eventInfo.ordRankId]);
+                    new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.ordRankId]);
 
             return ordRankProcessor.GetFinalResultsWithCompetitorsList(competitorsList);
         }
 
-        public static JumpResult GetJumpResult(JumpData jumpData, IHillInfo hillInfo)
+        public static JumpResult GetJumpResult(IJumpData jumpData, IHillInfo hillInfo)
         {
             var jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.GatesDiff, jumpData.Wind,
                 jumpData.Speed);

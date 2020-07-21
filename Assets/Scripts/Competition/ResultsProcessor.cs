@@ -2,42 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
+using UnityEngine;
 
 namespace OpenSkiJumping.Competition
 {
     public abstract class ResultsProcessor
     {
-        protected virtual List<int> TrimRankingToLimit(List<(decimal, int)> results, LimitType inLimitType = LimitType.None, int inLimit = 0)
+        private static IEnumerable<int> TrimRankingToLimit(IEnumerable<(decimal, int)> results,
+            LimitType inLimitType = LimitType.None,
+            int inLimit = 0)
         {
-            List<int> competitorsList = new List<int>();
-
+            var resultsList = results.ToList();
             switch (inLimitType)
             {
-                case LimitType.None:
-                    competitorsList = results.Select(it => it.Item2).ToList();
-                    break;
                 case LimitType.Normal:
-                    decimal minPoints = results[Math.Min(results.Count, inLimit) - 1].Item1;
-                    competitorsList = results.Where(it => it.Item1 >= minPoints).Select(it => it.Item2).ToList();
-                    break;
+                {
+                    var minPoints = resultsList[Math.Min(resultsList.Count, inLimit) - 1].Item1;
+                    return resultsList.Where(it => it.Item1 >= minPoints).Select(it => it.Item2);
+                }
                 case LimitType.Exact:
-                    int cnt = Math.Min(results.Count, inLimit);
-                    competitorsList = results.Take(cnt).Select(it => it.Item2).ToList();
-                    break;
+                {
+                    var cnt = Math.Min(resultsList.Count, inLimit);
+                    return resultsList.Take(cnt).Select(it => it.Item2);
+                }
+                default:
+                    return resultsList.Select(it => it.Item2);
             }
-
-            return competitorsList;
         }
 
-        public abstract List<int> GetFinalResultsWithCompetitorsList(List<int> competitorsList);
-        public abstract List<(decimal, int)> GetFinalResultsWithTotalPoints();
+        public abstract IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors);
+        protected abstract IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints();
 
-        public virtual List<int> GetTrimmedFinalResults(List<Participant> participants, LimitType inLimitType, int inLimit)
+        public IEnumerable<int> GetTrimmedFinalResults(IEnumerable<Participant> participants, LimitType inLimitType,
+            int inLimit)
         {
-            List<(decimal, int)> tempList = GetFinalResultsWithTotalPoints();
-            // remove not registred participants
+            var tempList = GetFinalResultsWithTotalPoints();
+            // remove not registered participants
             var lookup = participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
-            tempList = tempList.Where(it => lookup.ContainsKey(it.Item2)).ToList();
+            tempList = tempList.Where(it => lookup.ContainsKey(it.Item2));
 
             // trim list to inLimit 
             return TrimRankingToLimit(tempList, inLimitType, inLimit);
@@ -46,64 +48,63 @@ namespace OpenSkiJumping.Competition
 
     public class EventResultsProcessor : ResultsProcessor
     {
-        private readonly EventResults eventResults;
-        public EventResultsProcessor(EventResults eventResults)
+        private readonly EventResults results;
+
+        public EventResultsProcessor(EventResults results)
         {
-            this.eventResults = eventResults;
+            this.results = results;
         }
 
-        public override List<int> GetFinalResultsWithCompetitorsList(List<int> competitorsList)
+        public override IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors)
         {
-            List<(decimal, int, int)> tmpList = new List<(decimal, int, int)>();
+            var tmpList = new List<(decimal, int, int)>();
+            var competitorsList = competitors.ToList();
             var map = competitorsList.Select((val, index) => (val, index)).ToDictionary(x => x.val, x => x.index);
-            bool[] selected = new bool[competitorsList.Count];
-            int it = 0;
+            var selected = new bool[competitorsList.Count];
+            var it = 0;
 
-            for (int i = 0; i < eventResults.allroundResults.Count; i++)
+            foreach (var localId in results.allroundResults)
             {
-                int localId = eventResults.allroundResults[i];
-                int globalId = eventResults.competitorIds[localId];
+                var globalId = results.competitorIds[localId];
+                if (!map.ContainsKey(globalId)) continue;
 
-                if (map.ContainsKey(globalId)) //check if id from ORE is in current event competitors list
-                {
-                    selected[map[globalId]] = true;
-                    decimal points = eventResults.results[localId].TotalPoints;
-                    tmpList.Add((points, it++, map[globalId]));
-                }
+                selected[map[globalId]] = true;
+                var points = results.results[localId].TotalPoints;
+                tmpList.Add((points, it++, map[globalId]));
             }
 
-            for (int i = 0; i < competitorsList.Count; i++)
-            {
-                if (!selected[i]) { tmpList.Add((0m, it++, i)); }
-            }
+            for (var i = 0; i < competitorsList.Count; i++)
+                if (!selected[i])
+                    tmpList.Add((0m, it++, i));
 
-            return tmpList.OrderByDescending(item => item).Select(item => item.Item3).ToList();
+            return tmpList.OrderByDescending(item => item).Select(item => item.Item3);
         }
 
-        public override List<(decimal, int)> GetFinalResultsWithTotalPoints()
+        protected override IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints()
         {
-            return eventResults.finalResults.Select(it => (eventResults.results[it].TotalPoints, eventResults.competitorIds[it])).ToList();
+            return results.finalResults.Select(it => (results.results[it].TotalPoints, results.competitorIds[it]));
         }
     }
 
     public class ClassificationResultsProcessor : ResultsProcessor
     {
-        private readonly ClassificationResults classificationResults;
-        public ClassificationResultsProcessor(ClassificationResults classificationResults)
+        private readonly ClassificationResults results;
+
+        public ClassificationResultsProcessor(ClassificationResults results)
         {
-            this.classificationResults = classificationResults;
+            this.results = results;
         }
 
-        public override List<int> GetFinalResultsWithCompetitorsList(List<int> competitorsList)
+        public override IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors)
         {
-            return competitorsList.Select((val, ind) => (val, ind))
-                .OrderByDescending(item => (classificationResults.totalResults[competitorsList[item.ind]], item.ind))
-                .Select(item => item.val).ToList();
+            var competitorsList = competitors.ToList();
+            foreach(var it in competitorsList) Debug.Log($"{it}: {results.totalResults[it]}");
+            return competitorsList.OrderByDescending(it => (results.totalResults[it], it));
         }
 
-        public override List<(decimal, int)> GetFinalResultsWithTotalPoints()
+        protected override IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints()
         {
-            return classificationResults.totalSortedResults.Select(it => (classificationResults.totalResults[it], it)).ToList();
+            return results.totalSortedResults.Select(it => (results.totalResults[it], it));
         }
     }
 }

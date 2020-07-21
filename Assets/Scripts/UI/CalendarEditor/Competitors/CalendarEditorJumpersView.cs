@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using OpenSkiJumping.ListView;
 using OpenSkiJumping.ScriptableObjects;
 using OpenSkiJumping.UI.JumpersMenu;
+using OpenSkiJumping.UI.ListView;
 using UnityEngine;
 using UnityEngine.UI;
 

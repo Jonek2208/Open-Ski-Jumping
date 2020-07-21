@@ -2,490 +2,574 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
 
 namespace OpenSkiJumping.Competition
 {
-    public class JumpData
-    {
-        public decimal Distance { get; set; }
-        public decimal[] JudgesMarks { get; set; }
-        public int GatesDiff { get; set; }
-        public decimal Wind { get; set; }
-        public decimal Speed { get; set; }
-
-        public void ResetValues()
-        {
-            GatesDiff = 0;
-            Speed = 0;
-            Distance = 0;
-            Wind = 0;
-            for (int i = 0; i < JudgesMarks.Length; i++) { JudgesMarks[i] = 0; }
-        }
-    }
     public interface IResultsManager
     {
-        void RegisterJump(JumpData jumpData);
+        List<Participant> OrderedParticipants { get; }
+        Result[] Results { get; }
+        int[] LastRank { get; }
+        List<int> StartList { get; }
+        int StartListIndex { get; }
+        int SubroundIndex { get; }
+        int RoundIndex { get; }
+        void RegisterJump(IJumpData jumpData);
         void SubroundInit();
         void RoundInit();
         bool SubroundFinish();
         bool RoundFinish();
-        Result[] Results { get; }
-        int[] LastRank { get; }
-        List<int> startList { get; }
-        int StartListIndex { get; }
-        int SubroundIndex { get; }
-        int RoundIndex { get; }
+        bool JumpFinish();
+        Result GetResultByRank(int rank);
+        int GetIdByRank(int rank);
+        JumpResults GetResultById(int primaryId, int secondaryId);
+        int GetCurrentCompetitorId();
+        int GetCurrentCompetitorLocalId();
+        int GetCurrentJumperId();
+        int CompetitorRank(int id);
     }
 
     public class ResultsManager : IResultsManager
     {
         private readonly EventInfo eventInfo;
-        private readonly List<int> orderedParticipants;
         private readonly IHillInfo hillInfo;
+
+        private SortedList<(decimal points, int bib, int round), int> allRoundResults;
+        private SortedList<(int state, decimal points, int bib), int> finalResults;
+        private SortedList<(decimal points, int bib), int> losersResults;
+
+
+        private int competitorsCount;
+        private int[] koState;
+        private int maxBib;
+        private int maxLosers;
+        private int roundsCount;
+        private int subRoundsCount;
+
+        public ResultsManager(EventInfo eventInfo, List<Participant> orderedParticipants, IHillInfo hillInfo)
+        {
+            this.eventInfo = eventInfo;
+            OrderedParticipants = orderedParticipants;
+            this.hillInfo = hillInfo;
+
+            InitializeValues();
+        }
+
+        private void InitializeValues()
+        {
+            competitorsCount = OrderedParticipants.Count;
+            Results = new Result[competitorsCount];
+            LastRank = new int[competitorsCount];
+            roundsCount = eventInfo.roundInfos.Count;
+            subRoundsCount = eventInfo.eventType == EventType.Individual ? 1 : 4;
+
+            for (var index = 0; index < Results.Length; index++)
+            {
+                Results[index] = new Result();
+                var item = Results[index];
+                item.TotalResults = new decimal[subRoundsCount];
+                item.Results = new JumpResults[subRoundsCount];
+                for (var i = 0; i < subRoundsCount; i++) item.Results[i] = new JumpResults();
+
+                item.Bibs = new int[roundsCount];
+            }
+
+            finalResults =
+                new SortedList<(int state, decimal points, int bib), int>(
+                    Comparer<(int state, decimal points, int bib)>.Create(finalResultsComp));
+            allRoundResults =
+                new SortedList<(decimal points, int bib, int round), int>(
+                    Comparer<(decimal points, int bib, int round)>.Create(allRoundResultsComp));
+            losersResults =
+                new SortedList<(decimal points, int bib), int>(
+                    Comparer<(decimal points, int bib)>.Create(losersResultsComp));
+
+            koState = new int[competitorsCount];
+        }
+
         public int StartListIndex { get; private set; }
         public int SubroundIndex { get; private set; }
         public int RoundIndex { get; private set; }
+
         public List<int> StartList { get; private set; }
-        private SortedList<(int, decimal, int), int> finalResults;
-        private SortedList<(decimal, int, int), int> allroundResults;
+        public List<Participant> OrderedParticipants { get; }
+
         public Result[] Results { get; private set; }
 
         public int[] LastRank { get; private set; }
 
-        public List<int> startList { get; private set; }
-
-
-
-        private int subroundsCount;
-        private int roundsCount;
-        private int[] koState;
-        private int maxLosers;
-        private SortedList<(decimal, int), int> losersResults;
-        private int maxBib;
-
-        public ResultsManager(EventInfo eventInfo, List<int> orderedParticipants, IHillInfo hillInfo)
-        {
-            this.eventInfo = eventInfo;
-            this.orderedParticipants = orderedParticipants;
-            this.hillInfo = hillInfo;
-        }
-
         public void SubroundInit()
         {
-            RoundInfo currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
             IEnumerable<int> tmp;
-            if (RoundIndex > 0 || SubroundIndex > 0)
+
+            //first sub-round
+            if (RoundIndex == 0 && SubroundIndex == 0)
             {
-                if (currentRoundInfo.useOrdRank[SubroundIndex])
-                { tmp = finalResults.Select(item => item.Value).OrderBy(item => item); }
-                else
-                { tmp = finalResults.Select(item => item.Value).Reverse(); }
+                tmp = Enumerable.Range(0, competitorsCount).Reverse();
             }
             else
             {
-                tmp = Enumerable.Range(0, orderedParticipants.Count);
+                tmp = currentRoundInfo.useOrdRank[SubroundIndex]
+                    ? finalResults.Select(item => item.Value).OrderBy(item => item)
+                    : finalResults.Select(item => item.Value).Reverse();
             }
 
-            switch (currentRoundInfo.roundType)
+            finalResults.Clear();
+            for (var i = 0; i < competitorsCount; i++) koState[i] = 0;
+
+            var tmpList = tmp.ToList();
+
+            if (currentRoundInfo.roundType == RoundType.Normal)
             {
-                case RoundType.Normal:
-                    StartList = tmp.ToList();
-                    break;
-                case RoundType.KO:
-                    int len = finalResults.Count;
-                    for (int i = 0; i < len / 2; i++)
-                    {
-                        StartList.Add(finalResults.Values[(len + 1) / 2 + i]);
-                        StartList.Add(finalResults.Values[(len + 1) / 2 - i - 1]);
-                    }
-                    if (len % 2 == 1)
-                    { StartList.Add(finalResults.Values[0]); }
-
-                    koState = new int[orderedParticipants.Count];
-                    maxLosers = Math.Max(0, currentRoundInfo.outLimit - (StartList.Count + 1) / 2);
-
-                    Comparison<Tuple<decimal, int>> compLoser = (x, y) => (x.Item1 == y.Item1 ? x.Item2.CompareTo(y.Item2) : y.Item1.CompareTo(x.Item1));
-                    // losersResults = new SortedList<Tuple<decimal, int>, int>(Comparer<Tuple<decimal, int>>.Create(compLoser));
-                    break;
+                StartList = tmpList;
+                return;
             }
+
+            StartList = Enumerable.Range(0, tmpList.Count).Select(it => tmpList[KOIndex(it, tmpList.Count)]).ToList();
+            maxLosers = Math.Max(0, currentRoundInfo.outLimit - (StartList.Count + 1) / 2);
         }
 
         public void RoundInit()
         {
-            RoundInfo currentRoundInfo = eventInfo.roundInfos[RoundIndex];
-
-            for (int i = 0; i < finalResults.Count; i++)
+            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+            //first round
+            if (RoundIndex == 0)
             {
-                int it = finalResults.Values[i];
-                if (RoundIndex == 0 || currentRoundInfo.reassignBibs)
+                for (var i = 0; i < competitorsCount; i++)
+                    Results[i].Bibs[RoundIndex] = currentRoundInfo.reversedBibs ? i + 1 : competitorsCount - i;
+            }
+            //reassign bibs
+            else if (currentRoundInfo.reassignBibs)
+            {
+                for (var i = 0; i < finalResults.Count; i++)
                 {
+                    var it = finalResults.Values[i];
                     if (currentRoundInfo.reversedBibs)
-                    { Results[it].Bibs[RoundIndex] = i + 1; }
+                        Results[it].Bibs[RoundIndex] = i + 1;
                     else
-                    { Results[it].Bibs[RoundIndex] = finalResults.Count - i; }
-                }
-                else
-                {
-                    int lastRoundBib = Results[it].Bibs[RoundIndex - 1];
-                    Results[it].Bibs[RoundIndex] = lastRoundBib;
+                        Results[it].Bibs[RoundIndex] = finalResults.Count - i;
                 }
             }
-
-            Comparison<Tuple<int, decimal, int>> comp;
-            if (currentRoundInfo.reversedBibs)
-            { comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1)); }
+            //bibs from previous round
             else
-            { comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1)); }
-            Comparer<Tuple<int, decimal, int>> comparer = Comparer<Tuple<int, decimal, int>>.Create(comp);
-            // finalResults = new SortedList<Tuple<int, decimal, int>, int>(comparer);
+            {
+                for (var i = 0; i < finalResults.Count; i++)
+                {
+                    var id = finalResults.Values[i];
+                    var lastRoundBib = Results[id].Bibs[RoundIndex - 1];
+                    Results[id].Bibs[RoundIndex] = lastRoundBib;
+                }
+            }
         }
+
+        public bool JumpFinish()
+        {
+            StartListIndex++;
+            return StartListIndex < StartList.Count;
+        }
+
+        public Result GetResultByRank(int rank)
+        {
+            return Results[allRoundResults.Values[rank]];
+        }
+
+        public int GetIdByRank(int rank)
+        {
+            return allRoundResults.Values[rank];
+        }
+
+        public JumpResults GetResultById(int primaryId, int secondaryId)
+        {
+            return Results[primaryId].Results[secondaryId];
+        }
+
+        public int GetCurrentCompetitorId() => OrderedParticipants[StartList[StartListIndex]].id;
+        public int GetCurrentCompetitorLocalId() => StartList[StartListIndex];
+        public int GetCurrentJumperId() => OrderedParticipants[StartList[StartListIndex]].competitors[SubroundIndex];
+
 
         public bool SubroundFinish()
         {
             LastRank = Results.Select(item => item.Rank).ToArray();
             SubroundIndex++;
             StartListIndex = 0;
-            if (SubroundIndex < subroundsCount) { return true; }
-            return false;
+            return SubroundIndex < subRoundsCount;
         }
 
         public bool RoundFinish()
         {
             RoundIndex++;
             SubroundIndex = 0;
-            if (RoundIndex < roundsCount) { return true; }
-            return false;
+            return RoundIndex < roundsCount;
+        }
+
+        public void RegisterJump(IJumpData jumpData)
+        {
+            var jump = EventProcessor.GetJumpResult(jumpData, hillInfo);
+            if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();
+
+            AddResult(StartList[StartListIndex], SubroundIndex, jump);
+            AddToAllRoundResults();
+            AddToFinalResults();
         }
 
         private void AddResult(int primaryIndex, int secondaryIndex, JumpResult jump)
         {
-            int id = StartList[StartListIndex];
-            Results[id].Results[secondaryIndex].results.Add(jump);
-            Results[id].TotalResults[secondaryIndex] = Results[id].Results[secondaryIndex].results.Sum(item => item.totalPoints);
-            Results[id].TotalPoints = Results[id].TotalResults.Sum();
+            Results[primaryIndex].Results[secondaryIndex].results.Add(jump);
+            Results[primaryIndex].TotalResults[secondaryIndex] =
+                Results[primaryIndex].Results[secondaryIndex].results.Sum(item => item.totalPoints);
+            Results[primaryIndex].TotalPoints = Results[primaryIndex].TotalResults.Sum();
         }
 
-        public void RegisterJump(JumpData jumpData)
+        public int CompetitorRank(int id)
         {
-            JumpResult jump = EventProcessor.GetJumpResult(jumpData, hillInfo);
-            if (RoundIndex > 0 || SubroundIndex > 0)
-            { RemoveFromAllroundResults(); }
-            AddResult(StartListIndex, SubroundIndex, jump);
-            AddToAllroundResults();
-            AddToFinalResults();
+            var key = (koState[id], Results[id].TotalPoints, -1);
+            int lo = 0, hi = finalResults.Count;
+            while (lo < hi)
+            {
+                var index = lo + (hi - lo) / 2;
+                var el = finalResults.Keys[index];
+                if (finalResults.Comparer.Compare(el, key) >= 0)
+                    hi = index;
+                else
+                    lo = index + 1;
+            }
+
+            return hi + 1;
         }
 
         private void AddToFinalResults()
         {
-            int id = StartList[StartListIndex];
-            int bib = Results[id].Bibs[RoundIndex];
-
             if (eventInfo.roundInfos[RoundIndex].roundType == RoundType.KO && StartListIndex % 2 == 1)
             {
-                finalResults.Remove((0, id, bib));
-
-                int id2 = StartList[StartListIndex - 1];
-                int bib2 = Results[id2].Bibs[RoundIndex];
-                int loserId = id2, winnerId = id;
-
-                if (Results[id2].TotalPoints > Results[id].TotalPoints)
-                {
-                    winnerId = id2;
-                    loserId = id;
-                }
-
-                int loserBib = Results[loserId].Bibs[RoundIndex];
-                int winnerBib = Results[winnerId].Bibs[RoundIndex];
-
-                Results[winnerId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.None;
-                Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
-
-                finalResults.Add((0, Results[winnerId].TotalPoints, winnerBib), winnerId);
-
-                losersResults.Add((Results[loserId].TotalPoints, loserBib), loserId);
-                int loserRank = losersResults.IndexOfKey((Results[loserId].TotalPoints, loserBib));
-                if (loserRank < maxLosers)
-                {
-                    if (losersResults.Count > maxLosers)
-                    {
-                        var lastLoser = losersResults.Keys[maxLosers];
-                        int lastLoserId = losersResults.Values[maxLosers];
-                        koState[lastLoserId] = 1;
-                        Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
-                        finalResults.Remove((0, lastLoser.Item1, lastLoser.Item2));
-                        finalResults.Add((1, lastLoser.Item1, lastLoser.Item2), lastLoserId);
-                    }
-                    finalResults.Add((0, Results[loserId].TotalPoints, loserBib), loserId);
-                }
-                else
-                {
-                    koState[loserId] = 1;
-                    finalResults.Add((1, Results[loserId].TotalPoints, loserBib), loserId);
-                }
+                AddSecondKOJumper();
             }
             else
             {
-                finalResults.Add((0, Results[id].TotalPoints, bib), id);
-                Results[id].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.Advanced;
+                var id = StartList[StartListIndex];
+                var bibCode = Results[id].Bibs[RoundIndex];
+                finalResults.Add((0, Results[id].TotalPoints, bibCode), id);
             }
         }
 
-
-        private void AddToAllroundResults()
+        private void AddToAllRoundResults()
         {
-            int competitorId = StartList[StartListIndex];
-            int subroundNum = RoundIndex * subroundsCount + SubroundIndex;
-
-            allroundResults.Add((Results[competitorId].TotalPoints, subroundNum, Results[competitorId].Bibs[RoundIndex]), competitorId);
+            var competitorId = StartList[StartListIndex];
+            var subroundNum = RoundIndex * subRoundsCount + SubroundIndex;
+            var bibCode = GetBibCode(Results[competitorId].Bibs[RoundIndex]);
+            allRoundResults.Add((Results[competitorId].TotalPoints, subroundNum, bibCode), competitorId);
 
             // Update rank
-            for (int i = 0; i < Math.Min(orderedParticipants.Count, allroundResults.Count); i++)
-            {
-                if (i > 0 && allroundResults.Keys[i].Item1 == allroundResults.Keys[i - 1].Item1)
-                {
-                    Results[allroundResults.Values[i]].Rank = Results[allroundResults.Values[i - 1]].Rank;
-                }
+            for (var i = 0; i < Math.Min(competitorsCount, allRoundResults.Count); i++)
+                if (i > 0 && allRoundResults.Keys[i].points == allRoundResults.Keys[i - 1].points)
+                    Results[allRoundResults.Values[i]].Rank = Results[allRoundResults.Values[i - 1]].Rank;
                 else
-                {
-                    Results[allroundResults.Values[i]].Rank = i + 1;
-                }
-            }
+                    Results[allRoundResults.Values[i]].Rank = i + 1;
         }
 
-        private void RemoveFromAllroundResults()
+        private void RemoveFromAllRoundResults()
         {
-            int competitorId = StartList[StartListIndex];
-            int subroundNum = RoundIndex * subroundsCount + SubroundIndex - 1;
-            int bibRoundIndex = (SubroundIndex > 0 ? RoundIndex : RoundIndex - 1);
-            allroundResults.Remove((Results[competitorId].TotalPoints, subroundNum, Results[competitorId].Bibs[bibRoundIndex]));
+            var competitorId = StartList[StartListIndex];
+            var subroundNum = RoundIndex * subRoundsCount + SubroundIndex - 1;
+            var bibRoundIndex = SubroundIndex > 0 ? RoundIndex : RoundIndex - 1;
+            var bibCode = GetBibCode(Results[competitorId].Bibs[bibRoundIndex]);
+            allRoundResults.Remove((Results[competitorId].TotalPoints, subroundNum, bibCode));
         }
 
-
-        private int GetBibCode(int bib)
+        private void AddSecondKOJumper()
         {
-            if (eventInfo.roundInfos[RoundIndex].reversedBibs)
+            var id1 = StartList[StartListIndex - 1];
+            var id2 = StartList[StartListIndex];
+            var bibCode1 = GetBibCode(Results[id1].Bibs[RoundIndex]);
+            var bibCode2 = GetBibCode(Results[id2].Bibs[RoundIndex]);
+
+            finalResults.Remove((0, id1, bibCode1));
+
+            int loserId = id1, winnerId = id2;
+            int loserBib = bibCode1, winnerBib = bibCode2;
+
+            if (Results[id1].TotalPoints > Results[id2].TotalPoints)
             {
-                return maxBib - bib;
+                winnerId = id1;
+                winnerBib = bibCode1;
+                loserId = id2;
+                loserBib = bibCode2;
             }
 
-            return bib;
+            finalResults.Add((0, Results[winnerId].TotalPoints, winnerBib), winnerId);
+
+            Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
+            losersResults.Add((Results[loserId].TotalPoints, loserBib), loserId);
+            var loserRank = losersResults.IndexOfKey((Results[loserId].TotalPoints, loserBib));
+
+            //lost
+            if (loserRank >= maxLosers)
+            {
+                koState[loserId] = 1;
+                finalResults.Add((1, Results[loserId].TotalPoints, loserBib), loserId);
+            }
+            //lucky loser
+            else
+            {
+                //remove last lucky loser
+                if (losersResults.Count > maxLosers)
+                {
+                    var (lastLoserPoints, lastLoserBib) = losersResults.Keys[maxLosers];
+                    var lastLoserId = losersResults.Values[maxLosers];
+                    koState[lastLoserId] = 1;
+                    Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
+
+                    finalResults.Remove((0, lastLoserPoints, lastLoserBib));
+                    finalResults.Add((1, lastLoserPoints, lastLoserBib), lastLoserId);
+                }
+
+                finalResults.Add((0, Results[loserId].TotalPoints, loserBib), loserId);
+            }
         }
 
+        private readonly Comparison<(int state, decimal points, int bib)> finalResultsComp = (x, y) =>
+            x.state == y.state
+                ? x.points == y.points
+                    ? x.bib.CompareTo(y.bib)
+                    : y.points.CompareTo(x.points)
+                : x.state.CompareTo(y.state);
 
+        private readonly Comparison<(decimal points, int bib, int round)> allRoundResultsComp = (x, y) =>
+            x.points == y.points
+                ? x.bib == y.bib
+                    ? y.round.CompareTo(x.round)
+                    : x.bib.CompareTo(y.bib)
+                : y.points.CompareTo(x.points);
+
+        private readonly Comparison<(decimal points, int bib)> losersResultsComp = (x, y) =>
+            x.points == y.points
+                ? x.bib.CompareTo(y.bib)
+                : y.points.CompareTo(x.points);
+
+        private int GetBibCode(int bib) =>
+            eventInfo.roundInfos[RoundIndex].reversedBibs ? bib : competitorsCount - bib;
+
+        private static int KOIndex(int index, int length)
+        {
+            var halfLen = length / 2;
+            var halfIndex = index / 2;
+
+            if (index == 2 * halfLen) return index;
+            if (index % 2 == 0)
+                return halfLen - 1 - halfIndex;
+            return halfLen + halfIndex;
+        }
     }
-
 }
-
-
-// [CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeResultsManager")]
-// public class RuntimeResultsManager : ScriptableObject
+//
+// using System;
+// using System.Collections.Generic;
+//
+// namespace CompCal
 // {
-//     public RuntimeEventInfo eventInfo;
-//     public RuntimeHillInfo hillInfo;
-//     public RuntimeJumpData jumpData;
-
-//     public Result[] results;
-//     public List<int> currentStartList;
-
-//     [SerializeField]
-//     private List<(int, int)> resultsWithRank;
-//     private int[] ordRankOrder;
-//     private SortedList<(int, decimal, int), int> finalResults;
-//     private SortedList<(decimal, int, int), int> allroundResults;
-//     public SortedList<(decimal, int, int), int> AllroundResults { get => allroundResults; }
-//     private SortedList<(decimal, int), int> losersResults;
-//     private int maxLosers;
-//     private int[] koState;
-//     public int[] lastRank;
-//     private int maxBib;
-//     private int competitorsCount;
-//     public int roundsCount;
-//     public int subroundsCount;
-
-//     public int startListIndex;
-//     public int roundIndex;
-//     public int subroundIndex;
-//     public bool resetOnStart;
-
-//     public void CompetitionInit()
+//     [Serializable]
+//     public class Result
 //     {
-//         if (resetOnStart)
+//         public List<JumpResult> rounds = new List<JumpResult>();
+//         public decimal total;
+//         public int rank;
+//         public int lastRank;
+//
+//         public void AddResult(JumpResult jmp)
 //         {
-//             startListIndex = 0;
-//             roundIndex = 0;
-//             subroundIndex = 0;
+//             rounds.Add(jmp);
+//             total += rounds[rounds.Count - 1].totalPoints;
 //         }
-
-//         roundsCount = eventInfo.value.roundInfos.Count;
-//         subroundsCount = (eventInfo.value.eventType == Competition.EventType.Individual ? 1 : 4);
-
-//         competitorsCount = results.Length;
-
-//         lastRank = new int[competitorsCount];
-
-//         foreach (var item in results)
-//         {
-//             item.TotalResults = new decimal[subroundsCount];
-//             item.Results = new JumpResults[subroundsCount];
-//             for (int i = 0; i < subroundsCount; i++)
-//             {
-//                 item.Results[i] = new JumpResults();
-//             }
-
-//             item.Bibs = new int[roundsCount];
-//         }
-
-//         allroundResults = new SortedList<(decimal, int, int), int>();
-//         Comparison<(int, decimal, int)> comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1));
-//         Comparer<(int, decimal, int)> comparer = Comparer<(int, decimal, int)>.Create(comp);
-//         finalResults = new SortedList<(int, decimal, int), int>(comparer);
-//         // roundResults = new List<JumpResult>[competitorsList.Count];
-//         // totalResults = new decimal[competitorsList.Count];
-//         // rank = new int[competitorsList.Count];
-//         // bibs = new List<int>[competitorsList.Count];
-//         // lastRank = new int[competitorsList.Count];
-//         Comparison<(decimal, int, int)> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
-//         allroundResults = new SortedList<(decimal, int, int), int>(Comparer<(decimal, int, int)>.Create(comp2));
-//         // losersResults = new SortedList<(int, decimal, int), int>();
-//         // startLists = new List<int>[roundsCount];
-
-//         //Temporary
-//         ordRankOrder = results.Select((item, index) => index).ToArray();
 //     }
-
-//     #region InitFunctions
-//     public void SubroundInit()
+//
+//     [Serializable]
+//     public class SortedResults
 //     {
-//         Debug.Log($"SUBROUND INIT: {subroundIndex}");
-
-//         RoundInfo currentRoundInfo = eventInfo.value.roundInfos[roundIndex];
-//         if (roundIndex > 0 || subroundIndex > 0)
+//         public SortedList<Tuple<int, decimal, int>, int> finalResults;
+//         public SortedList<Tuple<decimal, int, int>, int> allroundResults;
+//         public int[] rank;
+//         int round;
+//
+//         public SortedResults(int comprtitorsCount)
 //         {
-//             if (currentRoundInfo.useOrdRank[subroundIndex])
+//             rank = new int[comprtitorsCount];
+//             Comparison<Tuple<int, decimal, int>> comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1));
+//             finalResults = new SortedList<Tuple<int, decimal, int>, int>(Comparer<Tuple<int, decimal, int>>.Create(comp));
+//             Comparison<Tuple<decimal, int, int>> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
+//             allroundResults = new SortedList<Tuple<decimal, int, int>, int>(Comparer<Tuple<decimal, int, int>>.Create(comp2));
+//         }
+//         public void AddResult(int competitorId, Result res, JumpResult jmp, int bib, int lastBib = 0)
+//         {
+//             if (lastBib > 0)
 //             {
-//                 currentStartList = finalResults.Select(item => item.Value).OrderBy(item => item).ToList();
+//                 allroundResults.Remove(Tuple.Create(res.total, round - 1, lastBib));
 //             }
-//             else
+//
+//             res.AddResult(jmp);
+//
+//             allroundResults.Add(Tuple.Create(res.total, round, bib), competitorId);
+//
+//             for (int i = 0; i < allroundResults.Count; i++)
 //             {
-//                 currentStartList = finalResults.Select(item => item.Value).Reverse().ToList();
+//                 if (i > 0 && allroundResults.Keys[i].Item1 == allroundResults.Keys[i - 1].Item1)
+//                 { rank[allroundResults.Values[i]] = rank[allroundResults.Values[i - 1]]; }
+//                 else
+//                 { rank[allroundResults.Values[i]] = i + 1; }
 //             }
 //         }
-//         else
+//     }
+//
+//     [Serializable]
+//     public class EventResultsInd
+//     {
+//         public int eventId;
+//         public List<int> competitorsList;
+//         public List<int>[] startLists;
+//         public Result[] results;
+//         public List<int>[] bibs;
+//         public SortedResults sortedResults;
+//         public int[] lastRank;
+//
+//         public EventResultsInd(List<int> competitorsList, int roundsCount)
 //         {
-//             currentStartList = Enumerable.Range(0, competitorsCount).ToList();
+//             this.competitorsList = competitorsList;
+//             this.results = new Result[this.competitorsList.Count];
+//             this.bibs = new List<int>[this.competitorsList.Count];
+//             this.sortedResults = new SortedResults(competitorsList.Count);
+//             this.startLists = new List<int>[roundsCount];
+//             for (int i = 0; i < this.competitorsList.Count; i++) { bibs[i] = new List<int>(); }
 //         }
-
-//         finalResults.Clear();
 //     }
-
-//     public void RoundInit()
+//
+//     [Serializable]
+//     public class EventResultsTeam
 //     {
-//         Debug.Log($"ROUND INIT: {roundIndex}");
-
-//         //Temporary
-//         for (int i = 0; i < results.Length; i++)
+//         public int eventId;
+//         public List<Team> teamsList;
+//         public List<int>[] startLists;
+//         public Result[] results;
+//         public List<int>[] bibs;
+//         public SortedResults sortedResults;
+//         public int[] lastRank;
+//
+//         public EventResultsTeam(List<Team> teamsList, int roundsCount)
 //         {
-//             results[i].Bibs[roundIndex] = i + 1;
+//             this.sortedResults = new SortedResults(this.teamsList.Count);
+//             this.teamsList = teamsList;
+//             this.results = new Result[this.teamsList.Count];
+//             this.bibs = new List<int>[this.teamsList.Count];
+//             this.lastRank = new int[this.teamsList.Count];
+//             this.startLists = new List<int>[roundsCount];
+//             for (int i = 0; i < this.teamsList.Count; i++) { bibs[i] = new List<int>(); }
 //         }
 //     }
-
-//     #endregion
-
-//     #region FinishFunctions
-//     public bool JumpFinish()
+//
+//     [Serializable]
+//     public class EventResults
 //     {
-//         startListIndex++;
-//         if (startListIndex < currentStartList.Count) { return true; }
-//         return false;
-//     }
-
-//     public bool SubroundFinish()
-//     {
-//         Debug.Log($"SUBROUND FINISH: {subroundIndex}");
-
-//         lastRank = results.Select(item => item.Rank).ToArray();
-
-//         subroundIndex++;
-//         startListIndex = 0;
-//         if (subroundIndex < subroundsCount) { return true; }
-//         return false;
-//     }
-
-//     public bool RoundFinish()
-//     {
-//         Debug.Log($"ROUND FINISH: {subroundIndex}");
-
-//         //Calculate next round
-
-//         roundIndex++;
-//         subroundIndex = 0;
-//         if (roundIndex < roundsCount) { return true; }
-//         return false;
-//     }
-
-//     #endregion
-
-
-
-//     private void AddResult(int primaryIndex, int secondaryIndex, JumpResult jump)
-//     {
-//         int id = currentStartList[startListIndex];
-//         Debug.Assert(results[id].Results[secondaryIndex].results != null);
-//         results[id].Results[secondaryIndex].results.Add(jump);
-
-//         results[id].TotalResults[secondaryIndex] = results[id].Results[secondaryIndex].results.Sum(item => item.totalPoints);
-//         results[id].TotalPoints = results[id].TotalResults.Sum();
-//     }
-
-//     public void RegisterJump()
-//     {
-//         JumpResult jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.Gate, jumpData.Wind, jumpData.Speed);
-//         jump.distancePoints = hillInfo.GetDistancePoints(jump.distance);
-//         jump.windPoints = hillInfo.GetWindPoints(jump.wind);
-//         jump.gatePoints = hillInfo.GetGatePoints(0, jump.gate);
-//         jump.totalPoints = Math.Max(0, jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints);
-//         if (roundIndex > 0 || subroundIndex > 0)
+//         public List<JumpResult>[] roundResults;
+//         public decimal[] totalResults;
+//         public SortedList<Tuple<int, decimal, int>, int> finalResults;
+//         public SortedList<Tuple<decimal, int, int>, int> allroundResults;
+//         public SortedList<Tuple<decimal, int>, int> losersResults;
+//         public List<int> competitorsList;
+//         public List<int>[] startLists;
+//         public int[] koState;
+//         public List<int>[] bibs;
+//         public int[] rank;
+//         public int[] lastRank;
+//         public int maxLosers;
+//
+//         public EventResults(List<int> _competitorsList, int roundsCount)
 //         {
-//             RemoveFromAllroundResults();
-//         }
-
-//         AddResult(startListIndex, subroundIndex, jump);
-//         DebugAllRoundResults();
-//         AddToAllroundResults();
-//         DebugAllRoundResults();
-//         AddToFinalResults();
-//         Debug.Log(results[currentStartList[startListIndex]].TotalPoints);
-//     }
-
-//     private void AddToFinalResults()
-//     {
-//         int id = currentStartList[startListIndex];
-//         int bib = results[id].Bibs[roundIndex];
-
-//         if (eventInfo.value.roundInfos[roundIndex].roundType == RoundType.KO && startListIndex % 2 == 1)
-//         {
-//             finalResults.Remove((0, id, bib));
-
-//             int id2 = currentStartList[startListIndex - 1];
-//             int bib2 = results[id2].Bibs[roundIndex];
-//             int loserId = id2, winnerId = id;
-
-//             if (results[id2].TotalPoints > results[id].TotalPoints)
+//             competitorsList = _competitorsList;
+//             Comparison<Tuple<int, decimal, int>> comp = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? x.Item3.CompareTo(y.Item3) : y.Item2.CompareTo(x.Item2)) : x.Item1.CompareTo(y.Item1));
+//             Comparer<Tuple<int, decimal, int>> comparer = Comparer<Tuple<int, decimal, int>>.Create(comp);
+//             finalResults = new SortedList<Tuple<int, decimal, int>, int>(comparer);
+//             roundResults = new List<JumpResult>[competitorsList.Count];
+//             totalResults = new decimal[competitorsList.Count];
+//             rank = new int[competitorsList.Count];
+//             bibs = new List<int>[competitorsList.Count];
+//             lastRank = new int[competitorsList.Count];
+//             Comparison<Tuple<decimal, int, int>> comp2 = (x, y) => (x.Item1 == y.Item1 ? (x.Item2 == y.Item2 ? y.Item3.CompareTo(x.Item3) : x.Item2.CompareTo(y.Item2)) : y.Item1.CompareTo(x.Item1));
+//             allroundResults = new SortedList<Tuple<decimal, int, int>, int>(Comparer<Tuple<decimal, int, int>>.Create(comp2));
+//             losersResults = new SortedList<Tuple<decimal, int>, int>();
+//             startLists = new List<int>[roundsCount];
+//             for (int i = 0; i < competitorsList.Count; i++)
 //             {
-//                 winnerId = id2;
-//                 loserId = id;
+//                 roundResults[i] = new List<JumpResult>();
+//                 bibs[i] = new List<int>();
 //             }
-
-//             int loserBib = results[loserId].Bibs[roundIndex];
-//             int winnerBib = results[winnerId].Bibs[roundIndex];
-
-//             results[winnerId].Results[subroundIndex].results[roundIndex].state = JumpResultState.None;
-//             results[loserId].Results[subroundIndex].results[roundIndex].state = JumpResultState.KoLoser;
-
-//             finalResults.Add((0, results[winnerId].TotalPoints, winnerBib), winnerId);
-
-//             losersResults.Add((results[loserId].TotalPoints, loserBib), loserId);
-//             int loserRank = losersResults.IndexOfKey((results[loserId].TotalPoints, loserBib));
+//         }
+//
+//         public void AddResult(int competitorId, JumpResult jmp)
+//         {
+//             int round = roundResults[competitorId].Count;
+//             if (round > 0)
+//             {
+//                 allroundResults.Remove(Tuple.Create(totalResults[competitorId], round - 1, bibs[competitorId][round - 1]));
+//             }
+//
+//             roundResults[competitorId].Add(jmp);
+//             totalResults[competitorId] += jmp.totalPoints;
+//
+//             allroundResults.Add(Tuple.Create(totalResults[competitorId], round, bibs[competitorId][round]), competitorId);
+//
+//             // Update rank
+//             for (int i = 0; i < Math.Min(competitorsList.Count, allroundResults.Count); i++)
+//             {
+//                 if (i > 0 && allroundResults.Keys[i].Item1 == allroundResults.Keys[i - 1].Item1)
+//                 {
+//                     rank[allroundResults.Values[i]] = rank[allroundResults.Values[i - 1]];
+//                 }
+//                 else
+//                 {
+//                     rank[allroundResults.Values[i]] = i + 1;
+//                 }
+//             }
+//
+//         }
+//
+//         public int CompetitorRankKo(int competitorId)
+//         {
+//             var key = Tuple.Create(koState[competitorId], totalResults[competitorId], -1);
+//             int lo = 0, hi = finalResults.Count;
+//             while (lo < hi)
+//             {
+//                 int index = lo + (hi - lo) / 2;
+//                 var el = finalResults.Keys[index];
+//                 if (finalResults.Comparer.Compare(el, key) >= 0) { hi = index; }
+//                 else { lo = index + 1; }
+//             }
+//             return hi + 1;
+//         }
+//         public void AddNormalResult(int competitorId)
+//         {
+//             finalResults.Add(Tuple.Create(0, totalResults[competitorId], bibs[competitorId][bibs[competitorId].Count - 1]), competitorId);
+//         }
+//         public void AddKoResult(int competitorId)
+//         {
+//             finalResults.Add(Tuple.Create(0, totalResults[competitorId], bibs[competitorId][bibs[competitorId].Count - 1]), competitorId);
+//         }
+//         public void AddKoResult(int competitorId1, int competitorId2)
+//         {
+//             finalResults.Remove(Tuple.Create(0, totalResults[competitorId1], bibs[competitorId1][bibs[competitorId1].Count - 1]));
+//             int loserId = competitorId1, winnerId = competitorId2;
+//             if (totalResults[competitorId1] > totalResults[competitorId2])
+//             {
+//                 winnerId = competitorId1;
+//                 loserId = competitorId2;
+//             }
+//
+//             int loserBib = bibs[loserId][bibs[loserId].Count - 1];
+//             int winnerBib = bibs[winnerId][bibs[winnerId].Count - 1];
+//
+//             finalResults.Add(Tuple.Create(0, totalResults[winnerId], winnerBib), winnerId);
+//
+//             losersResults.Add(Tuple.Create(totalResults[loserId], loserBib), loserId);
+//             int loserRank = losersResults.IndexOfKey(Tuple.Create(totalResults[loserId], loserBib));
 //             if (loserRank < maxLosers)
 //             {
 //                 if (losersResults.Count > maxLosers)
@@ -493,70 +577,17 @@ namespace OpenSkiJumping.Competition
 //                     var lastLoser = losersResults.Keys[maxLosers];
 //                     int lastLoserId = losersResults.Values[maxLosers];
 //                     koState[lastLoserId] = 1;
-//                     results[loserId].Results[subroundIndex].results[roundIndex].state = JumpResultState.KoLoser;
-//                     finalResults.Remove((0, lastLoser.Item1, lastLoser.Item2));
-//                     finalResults.Add((1, lastLoser.Item1, lastLoser.Item2), lastLoserId);
+//                     finalResults.Remove(Tuple.Create(0, lastLoser.Item1, lastLoser.Item2));
+//                     finalResults.Add(Tuple.Create(1, lastLoser.Item1, lastLoser.Item2), lastLoserId);
 //                 }
-//                 finalResults.Add((0, results[loserId].TotalPoints, loserBib), loserId);
+//                 finalResults.Add(Tuple.Create(0, totalResults[loserId], loserBib), loserId);
 //             }
 //             else
 //             {
 //                 koState[loserId] = 1;
-//                 finalResults.Add((1, results[loserId].TotalPoints, loserBib), loserId);
-//             }
-//         }
-//         else
-//         {
-//             finalResults.Add((0, results[id].TotalPoints, bib), id);
-//             results[id].Results[subroundIndex].results[roundIndex].state = JumpResultState.Advanced;
-//         }
-//     }
-
-//     private void DebugAllRoundResults()
-//     {
-//         Debug.Log($"DEGUG ALLROUND RESULTS {startListIndex} {subroundIndex} {roundIndex}");
-//         foreach (var item in allroundResults)
-//         {
-//             Debug.Log($"{results[item.Value].Rank} {item.Key.Item1} {item.Key.Item2} {item.Key.Item3} {item.Value}");
-//         }
-//     }
-
-//     private void AddToAllroundResults()
-//     {
-//         int competitorId = currentStartList[startListIndex];
-//         int subroundNum = roundIndex * subroundsCount + subroundIndex;
-
-//         allroundResults.Add((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[roundIndex]), competitorId);
-
-//         // Update rank
-//         for (int i = 0; i < Math.Min(competitorsCount, allroundResults.Count); i++)
-//         {
-//             if (i > 0 && allroundResults.Keys[i].Item1 == allroundResults.Keys[i - 1].Item1)
-//             {
-//                 results[allroundResults.Values[i]].Rank = results[allroundResults.Values[i - 1]].Rank;
-//             }
-//             else
-//             {
-//                 results[allroundResults.Values[i]].Rank = i + 1;
+//                 finalResults.Add(Tuple.Create(1, totalResults[loserId], loserBib), loserId);
 //             }
 //         }
 //     }
-
-//     private void RemoveFromAllroundResults()
-//     {
-//         int competitorId = currentStartList[startListIndex];
-//         int subroundNum = roundIndex * subroundsCount + subroundIndex - 1;
-//         int bibRoundIndex = (subroundIndex > 0 ? roundIndex : roundIndex - 1);
-//         allroundResults.Remove((results[competitorId].TotalPoints, subroundNum, results[competitorId].Bibs[bibRoundIndex]));
-//     }
-
-//     private int GetBibCode(int bib)
-//     {
-//         if (eventInfo.value.roundInfos[roundIndex].reversedBibs)
-//         {
-//             return maxBib - bib;
-//         }
-
-//         return bib;
-//     }
+//
 // }

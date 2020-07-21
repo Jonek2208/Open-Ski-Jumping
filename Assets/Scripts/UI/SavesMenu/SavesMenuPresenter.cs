@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Linq.Expressions;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
+using OpenSkiJumping.UI.TournamentMenu;
 
 namespace OpenSkiJumping.UI.SavesMenu
 {
@@ -9,46 +11,38 @@ namespace OpenSkiJumping.UI.SavesMenu
         private readonly ISavesMenuView view;
         private readonly SavesRuntime saves;
         private readonly CalendarsRuntime calendars;
-        public SavesMenuPresenter(ISavesMenuView view, SavesRuntime saves, CalendarsRuntime calendars)
+        private readonly CompetitorsRuntime competitorsRuntime;
+
+        public SavesMenuPresenter(ISavesMenuView view, SavesRuntime saves, CalendarsRuntime calendars, CompetitorsRuntime competitorsRuntime)
         {
             this.view = view;
             this.saves = saves;
             this.calendars = calendars;
+            this.competitorsRuntime = competitorsRuntime;
 
             InitEvents();
             SetInitValues();
         }
 
-        private GameSave CreateGameSaveFromCalendar(string name, Calendar calendar)
-        {
-            GameSave gameSave = new GameSave
-            {
-                name = name, resultsContainer = new ResultsDatabase(), calendar = calendar
-            };
 
-            gameSave.resultsContainer.eventResults = new EventResults[gameSave.calendar.events.Count];
-            gameSave.resultsContainer.classificationResults = new ClassificationResults[gameSave.calendar.classifications.Count];
-
-            for (int i = 0; i < gameSave.resultsContainer.classificationResults.Length; i++)
-            {
-                gameSave.resultsContainer.classificationResults[i] = new ClassificationResults();
-            }
-
-            return gameSave;
-        }
 
         private void CreateNewSave()
         {
-            GameSave save = CreateGameSaveFromCalendar(view.NewSaveName, view.SelectedCalendar);
+            GameSave save = new GameSave(view.NewSaveName, view.SelectedCalendar, competitorsRuntime);
             saves.Add(save);
             PresentList();
             view.SelectedSave = save;
+            PresentSaveInfo();
         }
 
         private void RemoveSave()
         {
             var save = view.SelectedSave;
-            if (save == null) { return; }
+            if (save == null)
+            {
+                return;
+            }
+
             bool val = saves.Remove(save);
 
             PresentList();
@@ -103,10 +97,9 @@ namespace OpenSkiJumping.UI.SavesMenu
         private void SetInitValues()
         {
             PresentList();
-            view.SelectedSave = saves.GetData().First();
+            view.SelectedSave = saves.GetData().FirstOrDefault();
             PresentSaveInfo();
             view.Calendars = calendars.GetData();
         }
-
     }
 }

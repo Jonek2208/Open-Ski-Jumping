@@ -13,12 +13,13 @@ namespace OpenSkiJumping.Editor
     {
         public override void OnInspectorGUI()
         {
-            RuntimeData databaseObject = (RuntimeData)target;
+            RuntimeData databaseObject = (RuntimeData) target;
             DrawDefaultInspector();
             if (GUILayout.Button("Load Data from file"))
             {
                 databaseObject.LoadData();
             }
+
             if (GUILayout.Button("Save Data to file"))
             {
                 databaseObject.SaveData();
@@ -49,7 +50,7 @@ namespace OpenSkiJumping.Editor
     {
         public override void OnInspectorGUI()
         {
-            MeshScript meshScript = (MeshScript)target;
+            MeshScript meshScript = (MeshScript) target;
             DrawDefaultInspector();
             if (GUILayout.Button("Generate"))
             {
@@ -63,7 +64,7 @@ namespace OpenSkiJumping.Editor
     {
         public override void OnInspectorGUI()
         {
-            GameEvent gameEvent = (GameEvent)target;
+            GameEvent gameEvent = (GameEvent) target;
             DrawDefaultInspector();
             if (GUILayout.Button("Raise"))
             {
@@ -78,7 +79,7 @@ namespace OpenSkiJumping.Editor
     {
         public override void OnInspectorGUI()
         {
-            GameEvent gameEvent = (GameEvent)target;
+            GameEvent gameEvent = (GameEvent) target;
             DrawDefaultInspector();
             if (GUILayout.Button("Raise"))
             {
@@ -93,7 +94,7 @@ namespace OpenSkiJumping.Editor
     {
         public override void OnInspectorGUI()
         {
-            TerrainScript terrainScript = (TerrainScript)target;
+            TerrainScript terrainScript = (TerrainScript) target;
             DrawDefaultInspector();
             if (GUILayout.Button("Generate"))
             {
@@ -101,5 +102,5 @@ namespace OpenSkiJumping.Editor
             }
         }
     }
-#endif
 }
+#endif

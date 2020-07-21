@@ -1,4 +1,4 @@
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
 

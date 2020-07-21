@@ -35,5 +35,10 @@ namespace OpenSkiJumping.ScriptableObjects
             string flagSprite = countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode] : "ioc";
             return flagsSpriteAtlas.GetSprite(flagSprite);
         }
+
+        public string GetEnglishName(string countryCode)
+        {
+            return countriesDict.ContainsKey(countryCode) ? countriesDict[countryCode] : countryCode;
+        }
     }
 }

@@ -6,16 +6,12 @@ namespace OpenSkiJumping.Hills.Stairs
     [CreateAssetMenu(menuName = "HillElements/InrunStairs")]
     public class InrunStairs : ScriptableObject
     {
-
-        [SerializeField]
-        float stepAngleDeg;
+        [SerializeField] float stepAngleDeg;
         float stepAngleRad;
 
-        [SerializeField]
-        float stepWidth;
+        [SerializeField] float stepWidth;
 
-        [SerializeField]
-        private Material material;
+        [SerializeField] private Material material;
 
         public Mesh Generate(int side, Vector2 A, Vector2 B, float b1, int gates)
         {
@@ -30,8 +26,8 @@ namespace OpenSkiJumping.Hills.Stairs
 
             for (int i = 0; i < gates + 1; i++)
             {
-                Vector2 pos = B + (A - B) * (i / (float)(gates - 1));
-                Vector2 pos0 = B + (A - B) * ((i - 1) / (float)(gates - 1));
+                Vector2 pos = B + (A - B) * (i / (float) (gates - 1));
+                Vector2 pos0 = B + (A - B) * ((i - 1) / (float) (gates - 1));
 
                 verticesList.Add(new Vector3(pos0.x, pos0.y, -(b1 / 2 + stepWidth) + offset));
                 uvsList.Add(new Vector2((pos0 - B).x + (pos0 - B).y, 0));
@@ -67,15 +63,13 @@ namespace OpenSkiJumping.Hills.Stairs
                 trianglesList.Add(x - 5);
                 trianglesList.Add(x - 7);
                 trianglesList.Add(x - 8);
-
-
             }
 
 
             for (int i = 0; i < gates + 2; i++)
             {
-                Vector2 pos = B + (A - B) * ((i - 1) / (float)(gates - 1));
-                Vector2 pos0 = B + (A - B) * ((i - 2) / (float)(gates - 1));
+                Vector2 pos = B + (A - B) * ((i - 1) / (float) (gates - 1));
+                Vector2 pos0 = B + (A - B) * ((i - 2) / (float) (gates - 1));
 
                 if (i > 0)
                 {
@@ -103,40 +97,6 @@ namespace OpenSkiJumping.Hills.Stairs
                 }
             }
 
-
-
-            // for (int i = 0; i < pos.Length - 1; i++)
-            // {
-            //     if (i > 0)
-            //     {
-            //         float deltaY = pos[i].y - pos[i - 1].y, deltaX = pos[i].x - pos[i - 1].x;
-            //         verticesList.Add(new Vector3(pos[i - 1].x, pos[i].y, -(profileData.b1 / 2 + width) + offset));
-            //         uvsList.Add(new Vector2(pos[i - 1].x, pos[i].y));
-            //         verticesList.Add(new Vector3(pos[i - 1].x, pos[i].y, -profileData.b1 / 2 + offset));
-            //         uvsList.Add(new Vector2(pos[i - 1].x, pos[i].y));
-            //     }
-
-
-            //     verticesList.Add(new Vector3(pos[i].x, pos[i].y, -(profileData.b1 / 2 + width) + offset));
-            //     uvsList.Add(new Vector2(pos[i].x, pos[i].y));
-            //     verticesList.Add(new Vector3(pos[i].x, pos[i].y, -profileData.b1 / 2 + offset));
-            //     uvsList.Add(new Vector2(pos[i].x, pos[i].y));
-
-            //     int x = verticesList.Count;
-            //     if (i > 0)
-            //     {
-            //         trianglesList.Add(x - 5);
-            //         trianglesList.Add(x - 3);
-            //         trianglesList.Add(x - 1);
-
-            //         trianglesList.Add(x - 6);
-            //         trianglesList.Add(x - 2);
-            //         trianglesList.Add(x - 4);
-            //     }
-
-            // }
-
-
             mesh.vertices = verticesList.ToArray();
             mesh.uv = uvsList.ToArray();
             mesh.triangles = trianglesList.ToArray();
@@ -148,7 +108,5 @@ namespace OpenSkiJumping.Hills.Stairs
         {
             return material;
         }
-
-
     }
 }

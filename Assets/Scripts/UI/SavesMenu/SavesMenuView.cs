@@ -3,24 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace OpenSkiJumping.UI.SavesMenu
 {
     public class SavesMenuView : MonoBehaviour, ISavesMenuView
     {
         private List<Calendar> calendars;
-        [SerializeField] private CalendarsRuntime calendarsRuntime;
-
-        [SerializeField] private SavesListView listView;
         private SavesMenuPresenter presenter;
 
-        private List<GameSave> saves;
+        [SerializeField] private CalendarsRuntime calendarsRuntime;
+        [SerializeField] private SavesListView listView;
         [SerializeField] private SavesRuntime savesRuntime;
-        private GameSave selectedSave;
+        [SerializeField] private CompetitorsRuntime competitorsRuntime;
+        [SerializeField] private Object competitionScene;
+        
+        #region SaveInfoUI
+
+        [SerializeField] private GameObject saveInfoObj;
+        [SerializeField] private TMP_Text nameText;
+        [SerializeField] private TMP_Text calendarText;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
+
+        [SerializeField] private GameObject popUpRoot;
+        [SerializeField] private GameObject promptObj;
+        [SerializeField] private TMP_InputField input;
+        [SerializeField] private TMP_Dropdown dropdown;
+        [SerializeField] private Button submitButton;
+        [SerializeField] private Button cancelButton;
+        [SerializeField] private Button playButton;
+
+        #endregion
+
+        private List<GameSave> saves;
 
         public event Action OnSelectionChanged;
         public event Action OnAdd;
@@ -33,7 +55,7 @@ namespace OpenSkiJumping.UI.SavesMenu
             {
                 saves = value.ToList();
                 listView.Items = saves;
-                listView.SelectedIndex = Mathf.Clamp(listView.SelectedIndex, 0, saves.Count - 1);
+                listView.ClampSelectedIndex();
                 listView.Refresh();
             }
         }
@@ -51,7 +73,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         public GameSave SelectedSave
         {
             get => listView.SelectedIndex < 0 ? null : saves[listView.SelectedIndex];
-            set => SelectSave(value);
+            set => listView.SelectItem(value);
         }
 
         public Calendar SelectedCalendar => calendars[dropdown.value];
@@ -94,7 +116,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         {
             ListViewSetup();
             RegisterCallbacks();
-            presenter = new SavesMenuPresenter(this, savesRuntime, calendarsRuntime);
+            presenter = new SavesMenuPresenter(this, savesRuntime, calendarsRuntime, competitorsRuntime);
         }
 
         private void ListViewSetup()
@@ -104,43 +126,25 @@ namespace OpenSkiJumping.UI.SavesMenu
             listView.Initialize(BindListViewItem);
         }
 
+        private void PlaySave()
+        {
+            savesRuntime.Data.currentSaveId = listView.SelectedIndex;
+            
+            SceneManager.LoadScene(competitionScene.name);
+        }
+
         private void RegisterCallbacks()
         {
             addButton.onClick.AddListener(() => OnAdd?.Invoke());
             removeButton.onClick.AddListener(() => OnRemove?.Invoke());
             submitButton.onClick.AddListener(() => OnSubmit?.Invoke());
             cancelButton.onClick.AddListener(HidePopUp);
+            playButton.onClick.AddListener(PlaySave);
         }
 
         private void BindListViewItem(int index, SavesListItem item)
         {
             item.valueText.text = saves[index].name;
         }
-
-        private void SelectSave(GameSave save)
-        {
-            var index = saves.IndexOf(save);
-            index = Mathf.Clamp(index, 0, saves.Count - 1);
-            listView.SelectedIndex = index;
-            listView.ScrollToIndex(index);
-            listView.RefreshShownValue();
-        }
-
-        #region SaveInfoUI
-
-        [SerializeField] private GameObject saveInfoObj;
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private TMP_Text calendarText;
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-
-        [SerializeField] private GameObject popUpRoot;
-        [SerializeField] private GameObject promptObj;
-        [SerializeField] private TMP_InputField input;
-        [SerializeField] private TMP_Dropdown dropdown;
-        [SerializeField] private Button submitButton;
-        [SerializeField] private Button cancelButton;
-
-        #endregion
     }
 }

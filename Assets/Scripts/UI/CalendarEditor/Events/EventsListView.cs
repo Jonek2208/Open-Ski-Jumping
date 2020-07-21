@@ -1,7 +1,9 @@
 ﻿using OpenSkiJumping.Competition.Persistent;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 
 namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
-    public class EventsListView : ListView<EventInfo, EventsListItem> { }
+    public class EventsListView : ListView<EventInfo, EventsListItem>
+    {
+    }
 }

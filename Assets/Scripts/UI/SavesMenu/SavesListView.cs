@@ -1,4 +1,4 @@
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 
 namespace OpenSkiJumping.UI.SavesMenu
 {

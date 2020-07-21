@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Globalization;
 using DG.Tweening;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 
 namespace OpenSkiJumping.TVGraphics
 {
@@ -24,7 +21,6 @@ namespace OpenSkiJumping.TVGraphics
 
         public CountryInfo countryInfo;
 
-        public RawImage jumperImage;
         public GameObject row1;
         public GameObject rankObj;
         public GameObject nextAthleteObj;
@@ -41,7 +37,7 @@ namespace OpenSkiJumping.TVGraphics
         public override void Show()
         {
             canvasGroup.alpha = 1;
-            StartCoroutine(LoadImage());
+            LoadImage();
             SetCountry();
 
             rectTransform.localScale = new Vector3(0, 1, 1);
@@ -50,23 +46,26 @@ namespace OpenSkiJumping.TVGraphics
 
             DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
 
-            int jumpsCount = resultsManager.roundIndex;
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            int bib = resultsManager.results[competitorId].Bibs[resultsManager.roundIndex];
-            int rank = resultsManager.lastRank[competitorId];
-            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-            Team team = competitors.teams[participants.participants[competitorId].id];
+            int jumpsCount = resultsManager.Value.RoundIndex;
+            int competitorId = resultsManager.Value.GetCurrentCompetitorLocalId();
+            int bib = resultsManager.Value.Results[competitorId].Bibs[resultsManager.Value.RoundIndex];
+            int rank = resultsManager.Value.LastRank[competitorId];
+            Competitor competitor = competitors.competitors[
+                resultsManager.Value.OrderedParticipants[competitorId].competitors[resultsManager.Value.SubroundIndex]];
+            Team team = competitors.teams[resultsManager.Value.OrderedParticipants[competitorId].id];
 
             teamName.text = team.teamName.ToUpper();
             jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
             bibTeam.text = bib.ToString();
-            bibJumper.text = (resultsManager.subroundIndex + 1).ToString();
+            bibJumper.text = (resultsManager.Value.SubroundIndex + 1).ToString();
 
-            if (resultsManager.startListIndex + 1 < resultsManager.currentStartList.Count)
+            if (resultsManager.Value.StartListIndex + 1 < resultsManager.Value.StartList.Count)
             {
                 nextAthleteObj.SetActive(true);
-                int nextCompetitorId = resultsManager.currentStartList[resultsManager.startListIndex + 1];
-                Competitor nextCompetitor = competitors.competitors[participants.participants[nextCompetitorId].competitors[resultsManager.subroundIndex]];
+                int nextCompetitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex + 1];
+                Competitor nextCompetitor = competitors.competitors[
+                    resultsManager.Value.OrderedParticipants[nextCompetitorId]
+                        .competitors[resultsManager.Value.SubroundIndex]];
                 nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
             }
             else
@@ -74,7 +73,7 @@ namespace OpenSkiJumping.TVGraphics
                 nextAthleteObj.SetActive(false);
             }
 
-            if (jumpsCount == 0 && resultsManager.subroundIndex == 0)
+            if (jumpsCount == 0 && resultsManager.Value.SubroundIndex == 0)
             {
                 totalTeam.text = "";
                 rankObj.SetActive(false);
@@ -83,19 +82,25 @@ namespace OpenSkiJumping.TVGraphics
             {
                 rankObj.SetActive(true);
                 this.rank.text = rank.ToString();
-                totalTeam.text = resultsManager.results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
+                totalTeam.text = resultsManager.Value.Results[competitorId].TotalPoints
+                    .ToString("F1", CultureInfo.InvariantCulture);
             }
 
             if (jumpsCount == 0)
             {
                 totalJumper.text = "";
-                foreach (var item in meters) { item.text = ""; }
+                foreach (var item in meters)
+                {
+                    item.text = "";
+                }
             }
             else
             {
-                JumpResults jumpResults = resultsManager.results[competitorId].Results[resultsManager.subroundIndex];
-                JumpResult jump = jumpResults.results[resultsManager.roundIndex - 1];
-                totalJumper.text = resultsManager.results[competitorId].TotalResults[resultsManager.subroundIndex].ToString("F1", CultureInfo.InvariantCulture);
+                JumpResults jumpResults = resultsManager.Value.Results[competitorId]
+                    .Results[resultsManager.Value.SubroundIndex];
+                JumpResult jump = jumpResults.results[resultsManager.Value.RoundIndex - 1];
+                totalJumper.text = resultsManager.Value.Results[competitorId]
+                    .TotalResults[resultsManager.Value.SubroundIndex].ToString("F1", CultureInfo.InvariantCulture);
                 int xx = Mathf.Max(0, jumpsCount - meters.Length);
                 foreach (var item in meters)
                 {
@@ -113,31 +118,14 @@ namespace OpenSkiJumping.TVGraphics
             }
         }
 
-        public void SetCountry()
+        private void SetCountry()
         {
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            Team team = competitors.teams[participants.participants[competitorId].id];
+            var id = resultsManager.Value.GetCurrentCompetitorId();
+            var team = competitors.teams[id];
             countryInfo.FlagImage.sprite = flagsData.GetFlag(team.countryCode);
             countryInfo.CountryName.text = team.countryCode;
         }
 
-        IEnumerator LoadImage()
-        {
-            int competitorId = resultsManager.currentStartList[resultsManager.startListIndex];
-            Competitor competitor = competitors.competitors[participants.participants[competitorId].competitors[resultsManager.subroundIndex]];
-            UnityWebRequest www = UnityWebRequestTexture.GetTexture(competitor.imagePath);
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Image succesfully loaded");
-                jumperImage.texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            }
-        }
 
         public override void Hide()
         {
@@ -148,6 +136,5 @@ namespace OpenSkiJumping.TVGraphics
         {
             canvasGroup.alpha = 0;
         }
-
     }
 }

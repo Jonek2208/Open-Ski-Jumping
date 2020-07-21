@@ -1,7 +1,9 @@
-﻿using OpenSkiJumping.Competition.Runtime;
+﻿using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.ScriptableObjects;
 using OpenSkiJumping.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace OpenSkiJumping.TVGraphics
 {
@@ -12,31 +14,51 @@ namespace OpenSkiJumping.TVGraphics
         void InstantHide();
     }
 
-    public abstract class PreJumpUIManager : MonoBehaviour, ITVGraphics
+    public abstract class JumpUIManager : MonoBehaviour, ITVGraphics
     {
-        public FlagsData flagsData;
-        public RuntimeResultsManager resultsManager;
-        public RuntimeParticipantsList participants;
-        public RuntimeCompetitorsList competitors;
+        [SerializeField] protected FlagsData flagsData;
+        [SerializeField] protected RuntimeResultsManager resultsManager;
+        [SerializeField] protected RuntimeCompetitorsList competitors;
         public abstract void Hide();
         public abstract void Show();
         public abstract void InstantHide();
+
+        protected Competitor GetCompetitorById(int id, int subround)
+        {
+            return competitors.competitors[resultsManager.Value.OrderedParticipants[id].competitors[subround]];
+        }
     }
 
-    public abstract class PostJumpUIManager : MonoBehaviour, ITVGraphics
+    public abstract class PreJumpUIManager : JumpUIManager
     {
-        public FlagsData flagsData;
-        public RuntimeResultsManager resultsManager;
-        public RuntimeParticipantsList participants;
-        public RuntimeCompetitorsList competitors;
-        public JudgesMarkUI[] judgesMarks;
-        public CompensationUI wind;
-        public CompensationUI gate;
+        [SerializeField] protected ImageCacher imageCacher;
+        [SerializeField] private Image jumperImage;
 
-        public abstract void Hide();
-        public abstract void Show();
-        public abstract void InstantHide();
+        protected void LoadImage()
+        {
+            int id = resultsManager.Value.GetCurrentJumperId();
+            var path = competitors.competitors[id].imagePath;
+            StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
+        }
 
+        private void SetJumperImage(Sprite value, bool succeeded)
+        {
+            if (!succeeded)
+            {
+                jumperImage.enabled = false;
+                return;
+            }
+
+            jumperImage.enabled = true;
+            jumperImage.sprite = value;
+        }
+    }
+
+    public abstract class PostJumpUIManager : JumpUIManager
+    {
+        [SerializeField] protected JudgesMarkUI[] judgesMarks;
+        [SerializeField] protected CompensationUI wind;
+        [SerializeField] protected CompensationUI gate;
     }
 
     public abstract class SpeedUIManager : MonoBehaviour, ITVGraphics
@@ -44,7 +66,6 @@ namespace OpenSkiJumping.TVGraphics
         public abstract void Hide();
         public abstract void Show();
         public abstract void InstantHide();
-
     }
 
     public abstract class ToBeatUIManager : MonoBehaviour, ITVGraphics
@@ -52,6 +73,5 @@ namespace OpenSkiJumping.TVGraphics
         public abstract void Hide();
         public abstract void Show();
         public abstract void InstantHide();
-
     }
 }

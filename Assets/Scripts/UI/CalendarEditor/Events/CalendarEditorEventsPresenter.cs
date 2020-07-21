@@ -33,7 +33,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         private void CreateNewEvent()
         {
             var item = new EventInfo {hillId = hills.GetData().First().name};
-            calendarFactory.Events.Add(item);
+            calendarFactory.AddEvent(item);
             PresentList();
             view.SelectedEvent = item;
             PresentEventInfo();
@@ -47,10 +47,12 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             {
                 hillId = item.hillId, classifications = item.classifications, eventType = item.eventType,
                 inLimit = item.inLimit, roundInfos = item.roundInfos, inLimitType = item.inLimitType,
-                ordRankId = item.inLimit, ordRankType = item.ordRankType, qualRankId = item.inLimit,
-                qualRankType = item.ordRankType
+                ordRankId = item.ordRankId, ordRankType = item.ordRankType, qualRankId = item.qualRankId,
+                qualRankType = item.qualRankType, preQualRankType = item.preQualRankType,
+                preQualRankId = item.preQualRankId, preQualLimitType = item.preQualLimitType,
+                preQualLimit = item.preQualLimit
             };
-            calendarFactory.Events.Add(duplicated);
+            calendarFactory.AddEvent(duplicated);
             PresentList();
             view.SelectedEvent = duplicated;
             PresentEventInfo();
@@ -61,7 +63,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             var item = view.SelectedEvent;
             if (item == null) return;
 
-            var val = calendarFactory.Events.Remove(item);
+            var val = calendarFactory.RemoveEvent(item);
 
             PresentList();
             view.SelectedEvent = null;
@@ -80,12 +82,16 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             view.EventInfoEnabled = true;
 
             view.EventType = (int) item.eventType;
-            view.QualRankType = (int) item.qualRankType;
-            view.QualRankId = item.qualRankId;
             view.OrdRankType = (int) item.ordRankType;
             view.OrdRankId = item.ordRankId;
+            view.QualRankType = (int) item.qualRankType;
+            view.QualRankId = item.qualRankId;
             view.InLimitType = (int) item.inLimitType;
             view.InLimit = item.inLimit;
+            view.PreQualRankType = (int) item.preQualRankType;
+            view.PreQualRankId = item.preQualRankId;
+            view.PreQualLimitType = (int) item.preQualLimitType;
+            view.PreQualLimit = item.preQualLimit;
             view.SelectedRoundsInfo = item.roundInfos;
             view.SelectedHill = hills.GetProfileData(item.hillId);
             view.SelectedClassifications = calendarFactory.GetClassificationDataFromIds(item.classifications);
@@ -97,15 +103,19 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             if (item == null) return;
 
             item.eventType = (EventType) view.EventType;
-            item.qualRankType = (RankType) view.QualRankType;
-            item.qualRankId = view.QualRankId;
             item.ordRankType = (RankType) view.OrdRankType;
             item.ordRankId = view.OrdRankId;
+            item.qualRankType = (RankType) view.QualRankType;
+            item.qualRankId = view.QualRankId;
             item.inLimitType = (LimitType) view.InLimitType;
             item.inLimit = view.InLimit;
+            item.preQualRankType = (RankType) view.PreQualRankType;
+            item.preQualRankId = view.PreQualRankId;
+            item.preQualLimitType = (LimitType) view.PreQualLimitType;
+            item.preQualLimit = view.PreQualLimit;
             item.roundInfos = view.SelectedRoundsInfo;
             item.hillId = view.SelectedHill.name;
-            item.classifications = view.SelectedClassifications.Select(it => it.Id).ToList();
+            item.classifications = view.SelectedClassifications.Select(it => it.id).ToList();
             PresentList();
             view.SelectedEvent = item;
         }

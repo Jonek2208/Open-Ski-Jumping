@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using OpenSkiJumping.ListView;
+using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
