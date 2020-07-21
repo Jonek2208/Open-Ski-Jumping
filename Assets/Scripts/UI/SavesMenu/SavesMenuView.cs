@@ -22,7 +22,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         [SerializeField] private SavesListView listView;
         [SerializeField] private SavesRuntime savesRuntime;
         [SerializeField] private CompetitorsRuntime competitorsRuntime;
-        [SerializeField] private Object competitionScene;
+        [SerializeField] private int competitionSceneIndex;
         
         #region SaveInfoUI
 
@@ -130,7 +130,7 @@ namespace OpenSkiJumping.UI.SavesMenu
         {
             savesRuntime.Data.currentSaveId = listView.SelectedIndex;
             
-            SceneManager.LoadScene(competitionScene.name);
+            SceneManager.LoadScene(competitionSceneIndex);
         }
 
         private void RegisterCallbacks()

@@ -10,10 +10,12 @@ namespace OpenSkiJumping.ScriptableObjects.Variables
         public float Value
         {
             get => value;
-            set
-            {
-                this.value = value;
-            }
+            set => this.value = value;
+        }
+
+        public void Set(string val)
+        {
+            float.TryParse(val, out value);
         }
     }
 }
