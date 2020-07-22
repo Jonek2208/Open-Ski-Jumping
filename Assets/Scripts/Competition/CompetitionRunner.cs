@@ -7,6 +7,7 @@ using OpenSkiJumping.Hills;
 using OpenSkiJumping.TVGraphics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace OpenSkiJumping.Competition
 {
@@ -28,6 +29,8 @@ namespace OpenSkiJumping.Competition
         public UnityEvent onNewJumper;
         public UnityEvent onJumpStart;
         public UnityEvent onJumpFinish;
+        [SerializeField] private int tournamentMenuSceneIndex;
+        
 
         private void Start()
         {
@@ -74,6 +77,10 @@ namespace OpenSkiJumping.Competition
         public void OnCompetitionFinish()
         {
             onCompetitionFinish.Invoke();
+            var save = savesRepository.GetCurrentSave();
+            save.resultsContainer.eventIndex++;
+            savesRepository.SaveData();
+            SceneManager.LoadScene(tournamentMenuSceneIndex);
         }
 
         public void OnCompetitionStart()

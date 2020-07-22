@@ -116,10 +116,10 @@ namespace OpenSkiJumping.Competition
                     : finalResults.Select(item => item.Value).Reverse();
             }
 
-            finalResults.Clear();
             for (var i = 0; i < competitorsCount; i++) koState[i] = 0;
 
             var tmpList = tmp.ToList();
+            finalResults.Clear();
 
             if (currentRoundInfo.roundType == RoundType.Normal)
             {

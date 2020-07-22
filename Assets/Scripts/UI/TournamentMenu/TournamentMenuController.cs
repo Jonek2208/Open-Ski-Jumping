@@ -17,6 +17,8 @@ namespace OpenSkiJumping.UI.TournamentMenu
         [SerializeField] private GameObject jumpersListGO;
         [SerializeField] private GameObject teamsListGO;
         [SerializeField] private int competitionSceneIndex;
+        [SerializeField] private int mainMenuSceneIndex;
+        
 
         private void Awake()
         {
@@ -50,6 +52,11 @@ namespace OpenSkiJumping.UI.TournamentMenu
         public void LoadCompetition()
         {
             SceneManager.LoadScene(competitionSceneIndex);
+        }
+
+        public void LoadMainMenu()
+        {
+            SceneManager.LoadScene(mainMenuSceneIndex);
         }
     }
 }
