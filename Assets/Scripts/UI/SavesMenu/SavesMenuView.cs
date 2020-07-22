@@ -5,11 +5,8 @@ using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.UI.ListView;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace OpenSkiJumping.UI.SavesMenu
 {
@@ -23,7 +20,8 @@ namespace OpenSkiJumping.UI.SavesMenu
         [SerializeField] private SavesListView listView;
         [SerializeField] private SavesRuntime savesRuntime;
         [SerializeField] private CompetitorsRuntime competitorsRuntime;
-        [SerializeField] private int competitionSceneIndex;
+        [SerializeField] private MainMenuController menuController;
+        
         
         #region SaveInfoUI
 
@@ -138,9 +136,8 @@ namespace OpenSkiJumping.UI.SavesMenu
 
         private void PlaySave()
         {
-            savesRuntime.Data.currentSaveId = listView.SelectedIndex;
-            
-            SceneManager.LoadScene(competitionSceneIndex);
+            savesRuntime.Data.currentSaveId = listView.SelectedIndex; 
+            menuController.LoadTournamentMenu();
         }
 
         private void RegisterCallbacks()

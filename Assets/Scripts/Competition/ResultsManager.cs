@@ -112,7 +112,7 @@ namespace OpenSkiJumping.Competition
             else
             {
                 tmp = currentRoundInfo.useOrdRank[SubroundIndex]
-                    ? finalResults.Select(item => item.Value).OrderBy(item => item)
+                    ? finalResults.Select(item => item.Value).OrderBy(item => item).Reverse()
                     : finalResults.Select(item => item.Value).Reverse();
             }
 
@@ -177,7 +177,7 @@ namespace OpenSkiJumping.Competition
 
         public int GetIdByRank(int rank)
         {
-            return allRoundResults.Values[rank];
+            return finalResults.Values[rank];
         }
 
         public JumpResults GetResultById(int primaryId, int secondaryId)

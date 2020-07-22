@@ -8,7 +8,8 @@ namespace OpenSkiJumping.UI.TournamentMenu.TeamSquad
         private readonly TournamentMenuData model;
         private readonly ITournamentMenuController menuController;
 
-        public TeamSquadPresenter(ITeamSquadView view, TournamentMenuData model, ITournamentMenuController menuController)
+        public TeamSquadPresenter(ITeamSquadView view, TournamentMenuData model,
+            ITournamentMenuController menuController)
         {
             this.view = view;
             this.model = model;
@@ -27,7 +28,8 @@ namespace OpenSkiJumping.UI.TournamentMenu.TeamSquad
         {
             var item = view.SelectedCompetitorData;
             if (item == null) return;
-            model.ChangeCompetitorPriority(item, item.calendarId + targetValue);
+            
+            model.ChangeCompetitorPriority(item, item.teamId + targetValue);
             PresentList();
             view.SelectedCompetitorData = item;
         }

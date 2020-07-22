@@ -23,11 +23,11 @@ namespace OpenSkiJumping.UI.TournamentMenu.TeamSquad
         [SerializeField] private Color[] bibColors;
 
 
-        private List<CompetitorData> classifications;
+        private List<CompetitorData> competitors;
 
         public CompetitorData SelectedCompetitorData
         {
-            get => listView.SelectedIndex < 0 ? null : classifications[listView.SelectedIndex];
+            get => listView.SelectedIndex < 0 ? null : competitors[listView.SelectedIndex];
             set => listView.SelectItem(value);
         }
 
@@ -35,8 +35,8 @@ namespace OpenSkiJumping.UI.TournamentMenu.TeamSquad
         {
             set
             {
-                classifications = value.ToList();
-                listView.Items = classifications;
+                competitors = value.ToList();
+                listView.Items = competitors;
                 listView.ClampSelectedIndex();
                 listView.Refresh();
             }
@@ -79,12 +79,12 @@ namespace OpenSkiJumping.UI.TournamentMenu.TeamSquad
 
         private void BindListViewItem(int index, TeamSquadListItem listItem)
         {
-            var item = classifications[index];
+            var item = competitors[index];
             listItem.nameText.text = $"{item.competitor.firstName} {item.competitor.lastName.ToUpper()}";
-            if (item.calendarId < 4)
+            if (index < 4)
             {
                 listItem.bibImage.sprite = iconsData.GetBibIcon(1);
-                listItem.bibImage.color = bibColors[item.calendarId];
+                listItem.bibImage.color = bibColors[index];
             }
             else
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
+using OpenSkiJumping.Data;
 using UnityEngine;
 
 namespace OpenSkiJumping.UI.TournamentMenu
@@ -19,6 +20,7 @@ namespace OpenSkiJumping.UI.TournamentMenu
     public class CompetitorData
     {
         public int calendarId;
+        public int teamId;
         public bool registered;
         public Competitor competitor;
     }
@@ -36,12 +38,8 @@ namespace OpenSkiJumping.UI.TournamentMenu
     [CreateAssetMenu(menuName = "ScriptableObjects/TournamentMenuData")]
     public class TournamentMenuData : ScriptableObject
     {
-        [SerializeField] private List<ClassificationData> classifications;
-        [SerializeField] private List<CompetitorData> competitors;
-        [SerializeField] private List<TeamData> teams;
-        [SerializeField] private GameSave gameSave;
-
-        public Calendar Calendar => gameSave.calendar;
+        [SerializeField] private SavesRuntime savesRuntime;
+        public Calendar Calendar => GameSave.calendar;
 
         public string GetRank(RankType rankType, int id)
         {
@@ -57,39 +55,23 @@ namespace OpenSkiJumping.UI.TournamentMenu
             return Calendar.events;
         }
 
-        public List<ClassificationData> Classifications
-        {
-            get => classifications;
-            set => classifications = value;
-        }
+        public List<ClassificationData> Classifications => GameSave.classificationsData;
 
-        public List<CompetitorData> Competitors
-        {
-            get => competitors;
-            set => competitors = value;
-        }
+        public List<CompetitorData> Competitors => GameSave.competitors;
 
-        public List<TeamData> Teams
-        {
-            get => teams;
-            set => teams = value.Where(data => data.competitors.Count >= 4).ToList();
-        }
+        public List<TeamData> Teams => GameSave.teams.Where(data => data.competitors.Count >= 4).ToList();
 
-        public GameSave GameSave
-        {
-            get => gameSave;
-            set => gameSave = value;
-        }
+        public GameSave GameSave => savesRuntime.GetCurrentSave();
 
         public TeamData EditedTeam { get; set; }
         public EventInfo SelectedEventCalendar { get; set; }
 
         public void ChangeClassificationPriority(ClassificationData item, int value)
         {
-            if (0 > value || value >= classifications.Count) return;
-            var buf = classifications[value];
-            classifications[value] = item;
-            classifications[item.priority] = buf;
+            if (0 > value || value >= GameSave.classificationsData.Count) return;
+            var buf = GameSave.classificationsData[value];
+            GameSave.classificationsData[value] = item;
+            GameSave.classificationsData[item.priority] = buf;
             buf.priority = item.priority;
             item.priority = value;
         }
@@ -99,20 +81,20 @@ namespace OpenSkiJumping.UI.TournamentMenu
             if (0 > value || value >= EditedTeam.competitors.Count) return;
             var buf = EditedTeam.competitors[value];
             EditedTeam.competitors[value] = item;
-            EditedTeam.competitors[item.calendarId] = buf;
-            buf.calendarId = item.calendarId;
-            item.calendarId = value;
+            EditedTeam.competitors[item.teamId] = buf;
+            buf.teamId = item.teamId;
+            item.teamId = value;
         }
 
         public EventInfo GetCurrentEvent()
         {
-            var currentId = gameSave.resultsContainer.eventIndex;
-            return gameSave.calendar.events[currentId];
+            var currentId = GameSave.resultsContainer.eventIndex;
+            return GameSave.calendar.events[currentId];
         }
 
         public int GetCurrentEventId()
         {
-            return gameSave.resultsContainer.eventIndex;
+            return GameSave.resultsContainer.eventIndex;
         }
     }
 }

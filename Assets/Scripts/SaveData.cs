@@ -44,12 +44,15 @@ namespace OpenSkiJumping
                 .ToList();
 
             var competitorsByCountry = competitors.ToLookup(it => it.competitor.countryCode, it => it);
-            
+
             teams = calendar.teams.Select((item, index) => new TeamData
             {
                 calendarId = index, registered = true, team = item,
                 competitors = competitorsByCountry[item.countryCode].Select((it, ind) => new CompetitorData
-                    {calendarId = it.calendarId, competitor = it.competitor, registered = it.registered}).ToList()
+                    {
+                        calendarId = it.calendarId, teamId = ind, competitor = it.competitor, registered = it.registered
+                    })
+                    .ToList()
             }).ToList();
 
             for (int i = 0; i < calendar.classifications.Count; i++)

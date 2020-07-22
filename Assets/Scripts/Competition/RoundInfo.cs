@@ -15,7 +15,7 @@ namespace OpenSkiJumping.Competition
         public LimitType outLimitType;
 
         public int outLimit;
-        public List<bool> useOrdRank = new List<bool> {false, false, false, false};
+        public List<bool> useOrdRank = new List<bool>();
         public bool disableJudgesMarks = false;
         public bool has95Rule = true;
         public bool reversedBibs = false;

@@ -9,7 +9,7 @@ namespace OpenSkiJumping.Competition.Persistent
     public class EventInfo
     {
         public int id;
-        
+
         public List<int> classifications = new List<int>();
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -61,8 +61,9 @@ namespace OpenSkiJumping.Competition.Persistent
     {
         public string name = "";
         public List<RoundInfo> roundInfos = new List<RoundInfo>();
-        public int Count => roundInfos.Count;
+        [JsonIgnore] public int Count => roundInfos.Count;
 
+        [JsonIgnore]
         public RoundInfo this[int index]
         {
             get => roundInfos[index];

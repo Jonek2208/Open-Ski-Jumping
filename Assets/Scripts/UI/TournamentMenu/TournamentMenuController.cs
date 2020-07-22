@@ -1,10 +1,7 @@
 using System;
 using OpenSkiJumping.Data;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using EventType = OpenSkiJumping.Competition.EventType;
-using Object = UnityEngine.Object;
 
 namespace OpenSkiJumping.UI.TournamentMenu
 {
@@ -16,18 +13,7 @@ namespace OpenSkiJumping.UI.TournamentMenu
         [SerializeField] private GameObject teamSquadGO;
         [SerializeField] private GameObject jumpersListGO;
         [SerializeField] private GameObject teamsListGO;
-        [SerializeField] private int competitionSceneIndex;
-        [SerializeField] private int mainMenuSceneIndex;
-        
-
-        private void Awake()
-        {
-            var currentSave = saves.GetCurrentSave();
-            tournamentMenuData.GameSave = currentSave;
-            tournamentMenuData.Classifications = currentSave.classificationsData;
-            tournamentMenuData.Competitors = currentSave.competitors;
-            tournamentMenuData.Teams = currentSave.teams;
-        }
+        [SerializeField] private MainMenuController menuController;
 
         private void Start()
         {
@@ -51,12 +37,12 @@ namespace OpenSkiJumping.UI.TournamentMenu
 
         public void LoadCompetition()
         {
-            SceneManager.LoadScene(competitionSceneIndex);
+            menuController.LoadTournament();
         }
 
         public void LoadMainMenu()
         {
-            SceneManager.LoadScene(mainMenuSceneIndex);
+            menuController.LoadMainMenu();
         }
     }
 }

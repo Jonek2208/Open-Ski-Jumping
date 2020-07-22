@@ -1,26 +1,36 @@
 ﻿using System.Collections.Generic;
-using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
-using OpenSkiJumping.Hills;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace OpenSkiJumping
 {
     public class DatabaseManager : MonoBehaviour
     {
-        public List<RuntimeData> objects;
+        [FormerlySerializedAs("objects")] public List<RuntimeData> objectsToLoad;
+        public List<RuntimeData> objectsToSave;
 
         private void Awake()
         {
-            foreach (var item in objects)
+            Load();
+        }
+
+        private void OnDestroy()
+        {
+            Save();
+        }
+
+        private void Load()
+        {
+            foreach (var item in objectsToLoad)
             {
                 item.LoadData();
             }
         }
 
-        public void Save()
+        private void Save()
         {
-            foreach (var item in objects)
+            foreach (var item in objectsToSave)
             {
                 item.SaveData();
             }
