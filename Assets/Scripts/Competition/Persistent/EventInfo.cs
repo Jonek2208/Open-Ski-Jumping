@@ -8,14 +8,17 @@ namespace OpenSkiJumping.Competition.Persistent
     [Serializable]
     public class EventInfo
     {
-        public int id;
-
         public List<int> classifications = new List<int>();
 
         [JsonConverter(typeof(StringEnumConverter))]
         public EventType eventType;
 
         public string hillId;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public HillSurface hillSurface = HillSurface.Snow;
+
+        public int id;
         public EventRoundsInfo roundInfos;
 
         #region OrdRank

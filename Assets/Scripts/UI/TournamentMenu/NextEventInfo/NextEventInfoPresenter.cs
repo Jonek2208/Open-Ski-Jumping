@@ -2,8 +2,8 @@ namespace OpenSkiJumping.UI.TournamentMenu.NextEventInfo
 {
     public class NextEventInfoPresenter
     {
-        private readonly INextEventInfoView view;
         private readonly TournamentMenuData model;
+        private readonly INextEventInfoView view;
 
         public NextEventInfoPresenter(INextEventInfoView view, TournamentMenuData model)
         {
@@ -21,6 +21,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.NextEventInfo
         private void SetInitValues()
         {
             var currentEvent = model.GetCurrentEvent();
+            if (currentEvent == null) return;
             var currentEventId = model.GetCurrentEventId();
             view.Hill = $"{currentEventId + 1}. {currentEvent.hillId}";
             view.EventType = currentEvent.eventType;

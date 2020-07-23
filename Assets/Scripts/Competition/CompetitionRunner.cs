@@ -4,7 +4,6 @@ using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
-using OpenSkiJumping.TVGraphics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -13,24 +12,25 @@ namespace OpenSkiJumping.Competition
 {
     public class CompetitionRunner : MonoBehaviour
     {
-        [SerializeField] private SavesRuntime savesRepository;
-        [SerializeField] private HillsRuntime hillsRepository;
-        [SerializeField] private MeshScript hill;
         [SerializeField] private RuntimeCompetitorsList competitors;
-        [SerializeField] private RuntimeResultsManager resultsManager;
+        [SerializeField] private MeshScript hill;
         [SerializeField] private IHillInfo hillInfo;
+        [SerializeField] private HillsFactory hillsFactory;
+        [SerializeField] private HillsRuntime hillsRepository;
+        public UnityEvent onCompetitionFinish;
 
         public UnityEvent onCompetitionStart;
-        public UnityEvent onCompetitionFinish;
-        public UnityEvent onRoundStart;
-        public UnityEvent onRoundFinish;
-        public UnityEvent onSubroundStart;
-        public UnityEvent onSubroundFinish;
-        public UnityEvent onNewJumper;
-        public UnityEvent onJumpStart;
         public UnityEvent onJumpFinish;
+        public UnityEvent onJumpStart;
+        public UnityEvent onNewJumper;
+        public UnityEvent onRoundFinish;
+        public UnityEvent onRoundStart;
+        public UnityEvent onSubroundFinish;
+        public UnityEvent onSubroundStart;
+        [SerializeField] private RuntimeResultsManager resultsManager;
+        [SerializeField] private SavesRuntime savesRepository;
         [SerializeField] private int tournamentMenuSceneIndex;
-        
+
 
         private void Start()
         {
@@ -77,6 +77,7 @@ namespace OpenSkiJumping.Competition
         public void OnCompetitionFinish()
         {
             onCompetitionFinish.Invoke();
+
             var save = savesRepository.GetCurrentSave();
             save.resultsContainer.eventIndex++;
             savesRepository.SaveData();
@@ -87,8 +88,10 @@ namespace OpenSkiJumping.Competition
         {
             var save = savesRepository.GetCurrentSave();
             var eventId = save.resultsContainer.eventIndex;
+            var currentEventInfo = save.calendar.events[eventId];
 
             hill.profileData.Value = hillsRepository.GetProfileData(save.calendar.events[eventId].hillId);
+            hill.landingAreaSO = hillsFactory.landingAreas[(int) currentEventInfo.hillSurface].Value;
             hill.GenerateMesh();
             competitors.competitors = save.competitors.Select(it => it.competitor).ToList();
             competitors.teams = save.teams.Select(it => it.team).ToList();

@@ -11,27 +11,27 @@ namespace OpenSkiJumping.UI.TournamentMenu
     [Serializable]
     public class ClassificationData
     {
+        public ClassificationInfo classification;
         public int priority;
         public bool useBib;
-        public ClassificationInfo classification;
     }
 
     [Serializable]
     public class CompetitorData
     {
         public int calendarId;
-        public int teamId;
-        public bool registered;
         public Competitor competitor;
+        public bool registered;
+        public int teamId;
     }
 
     [Serializable]
     public class TeamData
     {
         public int calendarId;
+        public List<CompetitorData> competitors;
         public bool registered;
         public Team team;
-        public List<CompetitorData> competitors;
         public IEnumerable<Competitor> GetTeamMembers() => competitors.Take(4).Select(it => it.competitor);
     }
 
@@ -40,6 +40,17 @@ namespace OpenSkiJumping.UI.TournamentMenu
     {
         [SerializeField] private SavesRuntime savesRuntime;
         public Calendar Calendar => GameSave.calendar;
+
+        public List<ClassificationData> Classifications => GameSave.classificationsData;
+
+        public List<CompetitorData> Competitors => GameSave.competitors;
+
+        public List<TeamData> Teams => GameSave.teams.Where(data => data.competitors.Count >= 4).ToList();
+
+        public GameSave GameSave => savesRuntime.GetCurrentSave();
+
+        public TeamData EditedTeam { get; set; }
+        public EventInfo SelectedEventCalendar { get; set; }
 
         public string GetRank(RankType rankType, int id)
         {
@@ -54,17 +65,6 @@ namespace OpenSkiJumping.UI.TournamentMenu
         {
             return Calendar.events;
         }
-
-        public List<ClassificationData> Classifications => GameSave.classificationsData;
-
-        public List<CompetitorData> Competitors => GameSave.competitors;
-
-        public List<TeamData> Teams => GameSave.teams.Where(data => data.competitors.Count >= 4).ToList();
-
-        public GameSave GameSave => savesRuntime.GetCurrentSave();
-
-        public TeamData EditedTeam { get; set; }
-        public EventInfo SelectedEventCalendar { get; set; }
 
         public void ChangeClassificationPriority(ClassificationData item, int value)
         {
@@ -89,7 +89,10 @@ namespace OpenSkiJumping.UI.TournamentMenu
         public EventInfo GetCurrentEvent()
         {
             var currentId = GameSave.resultsContainer.eventIndex;
-            return GameSave.calendar.events[currentId];
+
+            if (currentId >= 0 && GameSave.calendar.events.Count > currentId)
+                return GameSave.calendar.events[currentId];
+            return null;
         }
 
         public int GetCurrentEventId()

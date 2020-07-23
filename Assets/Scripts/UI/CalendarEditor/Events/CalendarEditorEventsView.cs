@@ -15,14 +15,174 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
     public class CalendarEditorEventsView : MonoBehaviour, ICalendarEditorEventsView
     {
-        private bool initialized;
-        private CalendarEditorEventsPresenter presenter;
-
         [SerializeField] private CalendarFactory calendarFactory;
+        private List<ClassificationData> classifications;
+
+        private List<EventInfo> events;
 
         [SerializeField] private Sprite[] eventTypeIcons;
+        private List<ProfileData> hills;
         [SerializeField] private HillsRuntime hillsRuntime;
+        private bool initialized;
+        private CalendarEditorEventsPresenter presenter;
         [SerializeField] private PresetsRuntime presets;
+        private List<EventRoundsInfo> presetsList;
+        private HashSet<ClassificationData> selectedClassifications = new HashSet<ClassificationData>();
+
+        private void Start()
+        {
+            ListViewSetup();
+            RegisterCallbacks();
+            presenter = new CalendarEditorEventsPresenter(this, calendarFactory, hillsRuntime, presets);
+            initialized = true;
+        }
+
+        private void OnEnable()
+        {
+            if (!initialized) return;
+            OnDataReload?.Invoke();
+            listView.Reset();
+        }
+
+        private void SelectPreset(EventRoundsInfo value)
+        {
+            var index = value == null
+                ? presetsDropdown.value
+                : presetsList.FindIndex(item => item.name == value.name);
+            index = Mathf.Clamp(index, 0, presetsList.Count - 1);
+            presetsDropdown.SetValueWithoutNotify(index);
+        }
+
+        private void ShowInfo()
+        {
+            eventInfoObj.SetActive(true);
+
+            SetUpRankTypeDropdown(ordRankDropdown, SelectedEvent.ordRankType, SelectedEvent.ordRankId);
+            SetUpRankTypeDropdown(qualRankDropdown, SelectedEvent.qualRankType, SelectedEvent.qualRankId);
+
+            if (SelectedEvent.qualRankType == RankType.None)
+            {
+                optionalDataGO.SetActive(false);
+                return;
+            }
+
+            optionalDataGO.SetActive(true);
+            inLimitInput.gameObject.SetActive(SelectedEvent.inLimitType != LimitType.None);
+            SetUpRankTypeDropdown(preQualRankDropdown, SelectedEvent.preQualRankType, SelectedEvent.preQualRankId);
+            if (SelectedEvent.preQualRankType == RankType.None)
+            {
+                preQualLimitGO.SetActive(false);
+                return;
+            }
+
+            preQualLimitGO.SetActive(true);
+            preQualLimitInput.gameObject.SetActive(SelectedEvent.preQualLimitType != LimitType.None);
+        }
+
+        private void HideInfo() => eventInfoObj.SetActive(false);
+
+        private void SetUpRankTypeDropdown(TMP_Dropdown dropdown, RankType type, int rankId)
+        {
+            dropdown.gameObject.SetActive(type != RankType.None);
+            if (type == RankType.None) return;
+            dropdown.ClearOptions();
+            if (type == RankType.Classification)
+            {
+                dropdown.AddOptions(classifications.Select(item => item.name).ToList());
+            }
+            else if (type == RankType.Event)
+            {
+                dropdown.AddOptions(events.Take(SelectedEvent.id)
+                    .Select((item, index) => $"{index + 1} {item.hillId}").ToList());
+            }
+
+            dropdown.SetValueWithoutNotify(rankId);
+        }
+
+        private void ListViewSetup()
+        {
+            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
+            listView.SelectionType = SelectionType.Single;
+            listView.Initialize(BindListViewItem);
+
+            classificationToggleGroupExtension.OnSelectionChanged += HandleClassificationsSelectionChanged;
+            classificationsListView.SelectionType = SelectionType.None;
+            classificationsListView.Initialize(BindClassificationsListViewItem);
+            // allElementsToggle.onValueChanged.AddListener(HandleAllElementsToggle);
+        }
+
+        private void RegisterCallbacks()
+        {
+            duplicateButton.onClick.AddListener(() => OnDuplicate?.Invoke());
+            addButton.onClick.AddListener(() => OnAdd?.Invoke());
+            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
+            moveUpButton.onClick.AddListener(() => OnMoveUp?.Invoke());
+            moveDownButton.onClick.AddListener(() => OnMoveDown?.Invoke());
+
+            RegisterSegmentedControlCallbacks(eventTypeSelect);
+            RegisterSegmentedControlCallbacks(qualRankSelect);
+            RegisterSegmentedControlCallbacks(inLimitSelect);
+            RegisterSegmentedControlCallbacks(preQualLimitSelect);
+            RegisterSegmentedControlCallbacks(preQualRankSelect);
+            RegisterSegmentedControlCallbacks(ordRankSelect);
+            RegisterSegmentedControlCallbacks(hillSurfaceSelect);
+
+            presetsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            hillsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            hillsDropdown.onValueChanged.AddListener(arg => ShowInfo());
+            inLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            qualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            preQualLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            preQualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            ordRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+        }
+
+        private void RegisterSegmentedControlCallbacks(SegmentedControl item)
+        {
+            item.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+            item.onValueChanged.AddListener(arg => ShowInfo());
+        }
+
+        private void BindListViewItem(int index, EventsListItem item)
+        {
+            var eventInfo = events[index];
+            item.idText.text = $"{index + 1}";
+            item.nameText.text = $"{eventInfo.hillId}";
+            item.eventTypeImage.sprite = eventTypeIcons[(int) eventInfo.eventType];
+        }
+
+        private void BindClassificationsListViewItem(int index, ClassificationsSelectListItem item)
+        {
+            var classification = classifications[index];
+            item.nameText.text = $"{classification.name}";
+            item.toggleExtension.SetElementId(index);
+            item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedClassifications.Contains(classification));
+        }
+
+        private void HandleClassificationsSelectionChanged(int index, bool value)
+        {
+            var item = classifications[index];
+            if (value)
+            {
+                if (!selectedClassifications.Contains(item))
+                    selectedClassifications.Add(item);
+            }
+            else
+            {
+                selectedClassifications.Remove(item);
+            }
+
+            OnCurrentEventChanged?.Invoke();
+
+            // allElementsToggle.SetIsOnWithoutNotify(selectedClassifications.Count > 0);
+        }
+
+        private void SelectHill(ProfileData value)
+        {
+            if (value == null) return;
+            var index = hills.IndexOf(value);
+            hillsDropdown.SetValueWithoutNotify(index);
+        }
 
 
         #region UIFields
@@ -34,6 +194,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         [SerializeField] private SegmentedControl eventTypeSelect;
         [SerializeField] private TMP_Dropdown presetsDropdown;
         [SerializeField] private TMP_Dropdown hillsDropdown;
+
+        [SerializeField] private SegmentedControl hillSurfaceSelect;
 
         [SerializeField] private ToggleGroupExtension classificationToggleGroupExtension;
         [SerializeField] private ClassificationsSelectListView classificationsListView;
@@ -76,12 +238,6 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         public event Action OnDataReload;
 
         #endregion
-
-        private List<EventInfo> events;
-        private List<EventRoundsInfo> presetsList;
-        private List<ClassificationData> classifications;
-        private HashSet<ClassificationData> selectedClassifications = new HashSet<ClassificationData>();
-        private List<ProfileData> hills;
 
         #region Properties
 
@@ -220,6 +376,12 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             set => preQualLimitInput.SetTextWithoutNotify(value.ToString());
         }
 
+        public int HillSurface
+        {
+            get => hillSurfaceSelect.selectedSegmentIndex;
+            set => hillSurfaceSelect.SetSelectedSegmentWithoutNotify(value);
+        }
+
 
         public bool EventInfoEnabled
         {
@@ -231,158 +393,5 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
         }
 
         #endregion
-
-        private void Start()
-        {
-            ListViewSetup();
-            RegisterCallbacks();
-            presenter = new CalendarEditorEventsPresenter(this, calendarFactory, hillsRuntime, presets);
-            initialized = true;
-        }
-
-        private void OnEnable()
-        {
-            if (!initialized) return;
-            OnDataReload?.Invoke();
-            listView.Reset();
-        }
-        private void SelectPreset(EventRoundsInfo value)
-        {
-            var index = value == null
-                ? presetsDropdown.value
-                : presetsList.FindIndex(item => item.name == value.name);
-            index = Mathf.Clamp(index, 0, presetsList.Count - 1);
-            presetsDropdown.SetValueWithoutNotify(index);
-        }
-
-        private void ShowInfo()
-        {
-            eventInfoObj.SetActive(true);
-
-            SetUpRankTypeDropdown(ordRankDropdown, SelectedEvent.ordRankType, SelectedEvent.ordRankId);
-            SetUpRankTypeDropdown(qualRankDropdown, SelectedEvent.qualRankType, SelectedEvent.qualRankId);
-
-            if (SelectedEvent.qualRankType == RankType.None)
-            {
-                optionalDataGO.SetActive(false);
-                return;
-            }
-
-            optionalDataGO.SetActive(true);
-            inLimitInput.gameObject.SetActive(SelectedEvent.inLimitType != LimitType.None);
-            SetUpRankTypeDropdown(preQualRankDropdown, SelectedEvent.preQualRankType, SelectedEvent.preQualRankId);
-            if (SelectedEvent.preQualRankType == RankType.None)
-            {
-                preQualLimitGO.SetActive(false);
-                return;
-            }
-
-            preQualLimitGO.SetActive(true);
-            preQualLimitInput.gameObject.SetActive(SelectedEvent.preQualLimitType != LimitType.None);
-        }
-
-        private void HideInfo() => eventInfoObj.SetActive(false);
-
-        private void SetUpRankTypeDropdown(TMP_Dropdown dropdown, RankType type, int rankId)
-        {
-            dropdown.gameObject.SetActive(type != RankType.None);
-            if (type == RankType.None) return;
-            dropdown.ClearOptions();
-            if (type == RankType.Classification)
-            {
-                dropdown.AddOptions(classifications.Select(item => item.name).ToList());
-            }
-            else if (type == RankType.Event)
-            {
-                dropdown.AddOptions(events.Take(SelectedEvent.id)
-                    .Select((item, index) => $"{index + 1} {item.hillId}").ToList());
-            }
-
-            dropdown.SetValueWithoutNotify(rankId);
-        }
-
-        private void ListViewSetup()
-        {
-            listView.OnSelectionChanged += x => OnSelectionChanged?.Invoke();
-            listView.SelectionType = SelectionType.Single;
-            listView.Initialize(BindListViewItem);
-
-            classificationToggleGroupExtension.OnSelectionChanged += HandleClassificationsSelectionChanged;
-            classificationsListView.SelectionType = SelectionType.None;
-            classificationsListView.Initialize(BindClassificationsListViewItem);
-            // allElementsToggle.onValueChanged.AddListener(HandleAllElementsToggle);
-        }
-
-        private void RegisterCallbacks()
-        {
-            duplicateButton.onClick.AddListener(() => OnDuplicate?.Invoke());
-            addButton.onClick.AddListener(() => OnAdd?.Invoke());
-            removeButton.onClick.AddListener(() => OnRemove?.Invoke());
-            moveUpButton.onClick.AddListener(() => OnMoveUp?.Invoke());
-            moveDownButton.onClick.AddListener(() => OnMoveDown?.Invoke());
-
-            RegisterSegmentedControlCallbacks(eventTypeSelect);
-            RegisterSegmentedControlCallbacks(qualRankSelect);
-            RegisterSegmentedControlCallbacks(inLimitSelect);
-            RegisterSegmentedControlCallbacks(preQualLimitSelect);
-            RegisterSegmentedControlCallbacks(preQualRankSelect);
-            RegisterSegmentedControlCallbacks(ordRankSelect);
-
-            presetsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            hillsDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            hillsDropdown.onValueChanged.AddListener(arg => ShowInfo());
-            inLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            qualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            preQualLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            preQualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            ordRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-        }
-
-        private void RegisterSegmentedControlCallbacks(SegmentedControl item)
-        {
-            item.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
-            item.onValueChanged.AddListener(arg => ShowInfo());
-        }
-
-        private void BindListViewItem(int index, EventsListItem item)
-        {
-            var eventInfo = events[index];
-            item.idText.text = $"{index + 1}";
-            item.nameText.text = $"{eventInfo.hillId}";
-            item.eventTypeImage.sprite = eventTypeIcons[(int) eventInfo.eventType];
-        }
-
-        private void BindClassificationsListViewItem(int index, ClassificationsSelectListItem item)
-        {
-            var classification = classifications[index];
-            item.nameText.text = $"{classification.name}";
-            item.toggleExtension.SetElementId(index);
-            item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedClassifications.Contains(classification));
-        }
-
-        private void HandleClassificationsSelectionChanged(int index, bool value)
-        {
-            var item = classifications[index];
-            if (value)
-            {
-                if (!selectedClassifications.Contains(item))
-                    selectedClassifications.Add(item);
-            }
-            else
-            {
-                selectedClassifications.Remove(item);
-            }
-
-            OnCurrentEventChanged?.Invoke();
-
-            // allElementsToggle.SetIsOnWithoutNotify(selectedClassifications.Count > 0);
-        }
-
-        private void SelectHill(ProfileData value)
-        {
-            if (value == null) return;
-            var index = hills.IndexOf(value);
-            hillsDropdown.SetValueWithoutNotify(index);
-        }
     }
 }

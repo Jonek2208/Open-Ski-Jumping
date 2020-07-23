@@ -14,9 +14,9 @@ namespace OpenSkiJumping.Competition
     [Serializable]
     public class Country
     {
-        public string ioc;
         public string alpha2;
         public string en;
+        public string ioc;
     }
 
     [Serializable]
@@ -26,10 +26,48 @@ namespace OpenSkiJumping.Competition
         public List<string> spritesList;
     }
 
-    public enum Gender { Male, Female }
-    public enum LimitType { None, Normal, Exact }
-    public enum RoundType { Normal, KO }
-    public enum EventType { Individual, Team }
-    public enum ClassificationType { Place, Points, Medal }
-    public enum RankType { None, Event, Classification }
+    public enum HillSurface
+    {
+        Snow,
+        Matting
+    }
+
+    public enum Gender
+    {
+        Male,
+        Female
+    }
+
+    public enum LimitType
+    {
+        None,
+        Normal,
+        Exact
+    }
+
+    public enum RoundType
+    {
+        Normal,
+        KO
+    }
+
+    public enum EventType
+    {
+        Individual,
+        Team
+    }
+
+    public enum ClassificationType
+    {
+        Place,
+        Points,
+        Medal
+    }
+
+    public enum RankType
+    {
+        None,
+        Event,
+        Classification
+    }
 }

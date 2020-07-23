@@ -1,6 +1,7 @@
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.Jumping;
 using OpenSkiJumping.New;
 using UnityEngine;
 
@@ -8,18 +9,18 @@ namespace OpenSkiJumping.ScriptableObjects
 {
     public class SkiJumperDataController : MonoBehaviour
     {
-        public RuntimeResultsManager resultsManager;
-        public RuntimeCompetitorsList competitors;
-        public JumperController2 jumperController;
-        public GameObject jumperMale;
-        public GameObject jumperFemale;
         public Competitor competitor;
+        public RuntimeCompetitorsList competitors;
         public Material helmetMaterial;
-        public Material suitTopFrontMaterial;
-        public Material suitTopBackMaterial;
-        public Material suitBottomFrontMaterial;
-        public Material suitBottomBackMaterial;
+        public JumperController2 jumperController;
+        public JumperModel jumperFemale;
+        public JumperModel jumperMale;
+        public RuntimeResultsManager resultsManager;
         public Material skisMaterial;
+        public Material suitBottomBackMaterial;
+        public Material suitBottomFrontMaterial;
+        public Material suitTopBackMaterial;
+        public Material suitTopFrontMaterial;
 
         public void GetValues()
         {
@@ -29,9 +30,9 @@ namespace OpenSkiJumping.ScriptableObjects
 
         public void SetValues()
         {
-            jumperMale.SetActive(competitor.gender == Gender.Male);
-            jumperFemale.SetActive(competitor.gender == Gender.Female);
-            jumperController.modelObject = (competitor.gender == Gender.Male ? jumperMale : jumperFemale);
+            jumperMale.gameObject.SetActive(competitor.gender == Gender.Male);
+            jumperFemale.gameObject.SetActive(competitor.gender == Gender.Female);
+            jumperController.jumperModel = (competitor.gender == Gender.Male ? jumperMale : jumperFemale);
             // helmetMaterial.SetColor("_Color", competitor.helmetColor);
             // suitTopFrontMaterial.SetColor("_Color", skiJumperData.suitTopFrontColor);
             // suitTopBackMaterial.SetColor("_Color", skiJumperData.suitTopBackColor);

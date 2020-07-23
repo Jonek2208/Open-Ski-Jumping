@@ -14,30 +14,29 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class HillModel
     {
-        public GameObject inrun;
-        public GameObject landingArea;
-
         //Hill construction
         public GameObject gateStairs;
-        public GameObject startGate;
-        public GameObject inrunConstruction;
-        public GameObject outrun;
-        Mesh inrunMesh;
-        Mesh landingAreaMesh;
 
         Mesh gateStairsMesh;
-        Mesh startGateMesh;
+        public GameObject inrun;
+        public GameObject inrunConstruction;
 
         Mesh inrunConstructionMesh;
+        Mesh inrunMesh;
+
+        public Vector3 jumperPosition;
+        public Quaternion jumperRotation;
+        public GameObject landingArea;
+        Mesh landingAreaMesh;
+
+        public LineRenderer[] lineRenderers;
+        public GameObject outrun;
+        public GameObject startGate;
+        Mesh startGateMesh;
 
         //Meshes
         public GameObject terrain;
         public Terrain[] terrains;
-
-        public LineRenderer[] lineRenderers;
-
-        public Vector3 jumperPosition;
-        public Quaternion jumperRotation;
     }
 
 
@@ -45,32 +44,29 @@ namespace OpenSkiJumping.Hills
     public class ModelData
     {
         public GameObject gObj;
-        [HideInInspector]
-        public Mesh mesh;
         public Material[] materials;
+
+        [HideInInspector] public Mesh mesh;
     }
 
-    public enum TerrainBase { currentTerrain, PerlinNoise, flat }
+    public enum TerrainBase
+    {
+        currentTerrain,
+        PerlinNoise,
+        flat
+    }
 
     public class MeshScript : MonoBehaviour
     {
-        [Header("Hill data")]
-        public bool saveMesh;
-        public InrunTrack inrunTrackSO;
+        public Material daySkybox;
+        public ModelData digitsMarks;
+
+
+        /* Stairs */
+        [Space] [Header("Stairs")] public ModelData gateStairsL;
+
+        public ModelData gateStairsR;
         public GateStairs gateStairsSO;
-        public LandingArea landingAreaSO;
-        public Guardrail inrunGuardrailSO;
-        public Guardrail InrunOuterGuardrailSO;
-        public Guardrail LandingAreaGuardrailSO;
-
-        public HillProfileVariable profileData;
-
-        public Hill hill;
-
-        /* Settings */
-        [Space]
-        [Header("Settings")]
-        public bool generateTerrain;
         public bool generateGateStairsL;
         public bool generateGateStairsR;
         public bool generateInrunStairsL;
@@ -78,68 +74,69 @@ namespace OpenSkiJumping.Hills
         public bool generateLandingAreaGuardrailL;
         public bool generateLandingAreaGuardrailR;
 
-        [Range(0.01f, 1)]
-        public float inrunStairsStepHeigth;
+        /* Settings */
+        [Space] [Header("Settings")] public bool generateTerrain;
 
-        [Range(0.0001f, 1)]
-        public float inrunStairsAngle;
+        public Hill hill;
 
         /* Hill profile */
-        [Space]
-        [Header("Hill profile")]
-        public HillModel[] hills;
+        [Space] [Header("Hill profile")] public HillModel[] hills;
+
         public ModelData inrun;
-        public ModelData landingArea;
+        public ModelData inrunConstruction;
 
+        /* Guardrails */
+        [Space] [Header("Guardrails")] public ModelData inrunGuardrailL;
 
-        /* Stairs */
-        [Space]
-        [Header("Stairs")]
-        public ModelData gateStairsL;
-        public ModelData gateStairsR;
+        public ModelData inrunGuardrailR;
+        public Guardrail inrunGuardrailSO;
+        public GameObject inrunLampPrefab;
+        public ModelData inrunOuterGuardrailL;
+        public ModelData inrunOuterGuardrailR;
+        public Guardrail InrunOuterGuardrailSO;
+
+        [Range(0.0001f, 1)] public float inrunStairsAngle;
+
         public ModelData inrunStairsL;
         public ModelData inrunStairsR;
 
-        /* Guardrails */
-        [Space]
-        [Header("Guardrails")]
-        public ModelData inrunGuardrailL;
-        public ModelData inrunGuardrailR;
-        public ModelData inrunOuterGuardrailL;
-        public ModelData inrunOuterGuardrailR;
-        public ModelData landingAreaGuardrailL;
-        public ModelData landingAreaGuardrailR;
-        public ModelData outrunGuardrail;
+        [Range(0.01f, 1)] public float inrunStairsStepHeigth;
 
-        /* Hill construction */
-        [Space]
-        [Header("Hill construction")]
-        public GameObject startGate;
-        public ModelData inrunConstruction;
-        public ModelData digitsMarks;
-        public GameObject lampPrefab;
-        public GameObject inrunLampPrefab;
 
-        /* Terrain */
-        [Space]
-        [Header("Terrain")]
-        public GameObject terrainObject;
-        private Terrain[] terrains;
+        [Range(0, 1)] public float inrunTerrain;
+
+        public InrunTrack inrunTrackSO;
         public Vector3 jumperPosition;
         public Quaternion jumperRotation;
+        public GameObject lampPrefab;
 
+        List<GameObject> lamps;
+        public ModelData landingArea;
+        public ModelData landingAreaGuardrailL;
+        public ModelData landingAreaGuardrailR;
+        public Guardrail LandingAreaGuardrailSO;
+        public LandingArea landingAreaSO;
+        public Material nightSkybox;
+        public ModelData outrunGuardrail;
 
-        [Range(0, 1)]
-        public float inrunTerrain;
+        public HillProfileVariable profileData;
 
+        [Header("Hill data")] public bool saveMesh;
 
-        public TerrainBase terrainBase;
+        /* Hill construction */
+        [Space] [Header("Hill construction")] public GameObject startGate;
 
         //Lighting
 
         public Light sunLight;
-        public Material daySkybox;
-        public Material nightSkybox;
+
+
+        public TerrainBase terrainBase;
+
+        /* Terrain */
+        [Space] [Header("Terrain")] public GameObject terrainObject;
+
+        private Terrain[] terrains;
         public int time;
 
         public void SetGate(Hill hill, int nr)
@@ -152,6 +149,11 @@ namespace OpenSkiJumping.Hills
         {
             hill.SetValues(profileData.Value);
             inrunTerrain = profileData.Value.terrainSteepness;
+            generateGateStairsL = profileData.Value.gateStairsLeft;
+            generateGateStairsR = profileData.Value.gateStairsRight;
+            generateInrunStairsL = profileData.Value.inrunStairsLeft;
+            generateInrunStairsR = profileData.Value.inrunStairsRight;
+            inrunStairsAngle = profileData.Value.inrunStairsAngle;
 
             GenerateInrunCollider();
             GenerateInrunTrack();
@@ -184,13 +186,16 @@ namespace OpenSkiJumping.Hills
                 foreach (var terr in terrains)
                 {
                     Vector3 center = terr.GetComponent<Transform>().position;
-                    float[,] tab = new float[terr.terrainData.heightmapResolution, terr.terrainData.heightmapResolution];
+                    float[,] tab = new float[terr.terrainData.heightmapResolution,
+                        terr.terrainData.heightmapResolution];
                     for (int i = 0; i < terr.terrainData.heightmapResolution; i++)
                     {
                         for (int j = 0; j < terr.terrainData.heightmapResolution; j++)
                         {
-                            float x = (float)(j) / (terr.terrainData.heightmapResolution - 1) * (terr.terrainData.size.x) + center.x;
-                            float z = (float)(i) / (terr.terrainData.heightmapResolution - 1) * (terr.terrainData.size.z) + center.z;
+                            float x = (float) (j) / (terr.terrainData.heightmapResolution - 1) *
+                                (terr.terrainData.size.x) + center.x;
+                            float z = (float) (i) / (terr.terrainData.heightmapResolution - 1) *
+                                (terr.terrainData.size.z) + center.z;
 
 
                             float hillY = 0;
@@ -233,7 +238,10 @@ namespace OpenSkiJumping.Hills
                             {
                                 terrainY = terr.terrainData.GetHeight(j, i) + center.y;
                             }
-                            float blendFactor = Mathf.SmoothStep(0, 1, Mathf.Clamp01(new Vector2(Mathf.Clamp01((Mathf.Abs(z) - b) / offset), Mathf.Clamp01(c / offset)).magnitude));
+
+                            float blendFactor = Mathf.SmoothStep(0, 1,
+                                Mathf.Clamp01(new Vector2(Mathf.Clamp01((Mathf.Abs(z) - b) / offset),
+                                    Mathf.Clamp01(c / offset)).magnitude));
                             float y = hillY * (1 - blendFactor) + terrainY * blendFactor;
 
                             // y += (Mathf.Abs((Mathf.Abs(z) - b)) <= 50 ? 2 * Mathf.Abs((Mathf.Abs(z) - b)) : 100) * 0.5f);
@@ -282,7 +290,6 @@ namespace OpenSkiJumping.Hills
                 sunLight.intensity = 1f;
                 RenderSettings.skybox = daySkybox;
             }
-
         }
 
         public void GetTerrain()
@@ -290,9 +297,8 @@ namespace OpenSkiJumping.Hills
             terrains = terrainObject.GetComponentsInChildren<Terrain>();
         }
 
-        List<GameObject> lamps;
-
-        public void ObjectUpdate(GameObject gameObject, Mesh mesh, Material material, Vector3[] vertices, int[] triangles, Vector2[] uvs, bool hasCollider)
+        public void ObjectUpdate(GameObject gameObject, Mesh mesh, Material material, Vector3[] vertices,
+            int[] triangles, Vector2[] uvs, bool hasCollider)
         {
             mesh.vertices = vertices;
             mesh.triangles = triangles;
@@ -319,6 +325,7 @@ namespace OpenSkiJumping.Hills
                 triangles.Add(face.Item4);
                 triangles.Add(face.Item3);
             }
+
             return triangles.ToArray();
         }
 
@@ -340,7 +347,8 @@ namespace OpenSkiJumping.Hills
             for (int i = 0; i < hill.inrunPoints.Length; i++)
             {
                 vertices[2 * i] = new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, -profileData.Value.b1 / 2);
-                vertices[2 * i + 1] = new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, profileData.Value.b1 / 2);
+                vertices[2 * i + 1] =
+                    new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, profileData.Value.b1 / 2);
                 uvs[2 * i] = new Vector2(len[i], -profileData.Value.b1);
                 uvs[2 * i + 1] = new Vector2(len[i], profileData.Value.b1);
             }
@@ -354,6 +362,7 @@ namespace OpenSkiJumping.Hills
                 triangles[6 * i + 4] = 2 * i + 2;
                 triangles[6 * i + 5] = 2 * i + 3;
             }
+
             mesh.vertices = vertices;
             mesh.triangles = triangles;
             mesh.uv = uvs;
@@ -371,8 +380,15 @@ namespace OpenSkiJumping.Hills
 
             for (int i = 0; i < hill.landingAreaPoints.Length; i++)
             {
-                b[i] = hill.landingAreaPoints[i].x <= hill.K.x ? (profileData.Value.b2 / 2) + hill.landingAreaPoints[i].x / hill.K.x * ((profileData.Value.bK - profileData.Value.b2) / 2) :
-                    hill.landingAreaPoints[i].x >= hill.U.x ? (profileData.Value.bU / 2) : (profileData.Value.bK / 2) + (hill.landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.Value.bU - profileData.Value.bK) / 2);
+                b[i] = hill.landingAreaPoints[i].x <= hill.K.x
+                    ?
+                    (profileData.Value.b2 / 2) + hill.landingAreaPoints[i].x / hill.K.x *
+                    ((profileData.Value.bK - profileData.Value.b2) / 2)
+                    :
+                    hill.landingAreaPoints[i].x >= hill.U.x
+                        ? (profileData.Value.bU / 2)
+                        : (profileData.Value.bK / 2) + (hill.landingAreaPoints[i].x - hill.K.x) /
+                        (hill.U.x - hill.K.x) * ((profileData.Value.bU - profileData.Value.bK) / 2);
             }
 
             for (int i = 0; i < hill.landingAreaPoints.Length; i++)
@@ -406,7 +422,8 @@ namespace OpenSkiJumping.Hills
             // const float width = 5f;
             // Func<float, float> width = (xx => 5f);
 
-            Func<float, float> width = (xx => 0.5f / hill.A.y / hill.A.y * (xx - hill.A.x) * (xx - hill.A.x) * (xx - hill.A.x) + 3f);
+            Func<float, float> width = (xx =>
+                0.5f / hill.A.y / hill.A.y * (xx - hill.A.x) * (xx - hill.A.x) * (xx - hill.A.x) + 3f);
 
             float criticalPointX = Mathf.Lerp(hill.GatePoint(-1).x, hill.T.x, inrunStairsAngle);
             Vector2 p1 = hill.inrunPoints.Last(it => it.x > criticalPointX);
@@ -423,8 +440,22 @@ namespace OpenSkiJumping.Hills
             tmpList.AddRange(hill.inrunPoints.Where(it => it.x <= hill.GatePoint(-1).x));
 
             float[] len = new float[tmpList.Count];
-            float[] b0 = (!generateGateStairsL ? tmpList.Select(it => -(hill.b1 / 2 + 0.7f)).ToArray() : tmpList.Select(it => -(it.x > hill.GatePoint(-1).x ? (it.x > criticalPoint.x ? hill.b1 / 2 + 0.7f : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth, (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x))) : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray());
-            float[] b1 = (!generateGateStairsR ? tmpList.Select(it => hill.b1 / 2 + 0.7f).ToArray() : tmpList.Select(it => (it.x > hill.GatePoint(-1).x ? (it.x > criticalPoint.x ? hill.b1 / 2 + 0.7f : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth, (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x))) : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray());
+            float[] b0 = (!generateGateStairsL
+                ? tmpList.Select(it => -(hill.b1 / 2 + 0.7f)).ToArray()
+                : tmpList.Select(it => -(it.x > hill.GatePoint(-1).x
+                    ? (it.x > criticalPoint.x
+                        ? hill.b1 / 2 + 0.7f
+                        : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth,
+                            (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x)))
+                    : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray());
+            float[] b1 = (!generateGateStairsR
+                ? tmpList.Select(it => hill.b1 / 2 + 0.7f).ToArray()
+                : tmpList.Select(it => (it.x > hill.GatePoint(-1).x
+                    ? (it.x > criticalPoint.x
+                        ? hill.b1 / 2 + 0.7f
+                        : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth,
+                            (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x)))
+                    : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray());
 
             for (int i = 1; i < tmpList.Count; i++)
             {
@@ -464,6 +495,7 @@ namespace OpenSkiJumping.Hills
                     facesList.Add((x - 8, x - 7, x - (tmp + 8), x - (tmp + 7)));
                 }
             }
+
             // take-off table
             verticesList.Add(new Vector3(0, 0, b0[0]));
             uvsList.Add(new Vector2(-2, 0));
@@ -525,7 +557,6 @@ namespace OpenSkiJumping.Hills
 
             if (generate)
             {
-
                 float width = 0.7f;
                 float heightDiff = (generate2 ? hill.B.y - hill.T.y : hill.A.y - hill.T.y);
                 // Debug.Log(heightDiff);
@@ -537,7 +568,10 @@ namespace OpenSkiJumping.Hills
                 {
                     while (it < hill.inrunPoints.Length - 2 && (hill.inrunPoints[it + 1].y < i * stepHeight)) it++;
 
-                    pos[i] = new Vector2((stepHeight * i - hill.inrunPoints[it].y) / (hill.inrunPoints[it + 1].y - hill.inrunPoints[it].y) * (hill.inrunPoints[it + 1].x - hill.inrunPoints[it].x) + hill.inrunPoints[it].x, stepHeight * i);
+                    pos[i] = new Vector2(
+                        (stepHeight * i - hill.inrunPoints[it].y) /
+                        (hill.inrunPoints[it + 1].y - hill.inrunPoints[it].y) *
+                        (hill.inrunPoints[it + 1].x - hill.inrunPoints[it].x) + hill.inrunPoints[it].x, stepHeight * i);
                 }
 
                 float b = profileData.Value.b1 / 2;
@@ -612,12 +646,11 @@ namespace OpenSkiJumping.Hills
                         trianglesList.Add(x - 2);
                         trianglesList.Add(x - 4);
                     }
-
                 }
-
             }
 
-            Vector3[] vertices = verticesList.ToArray(); ;
+            Vector3[] vertices = verticesList.ToArray();
+            ;
             Vector2[] uvs = uvsList.ToArray();
             int[] triangles = trianglesList.ToArray();
             ObjectUpdate(inrunStairs.gObj, mesh, inrunStairs.materials[0], vertices, triangles, uvs, false);
@@ -625,7 +658,8 @@ namespace OpenSkiJumping.Hills
 
         public void GenerateLandingArea()
         {
-            Mesh mesh = landingAreaSO.Generate(hill.landingAreaPoints, hill.w, hill.l1, hill.l2, hill.b2, hill.bK, hill.bU, hill.P, hill.K, hill.L, hill.U);
+            Mesh mesh = landingAreaSO.Generate(hill.landingAreaPoints, hill.w, hill.l1, hill.l2, hill.b2, hill.bK,
+                hill.bU, hill.P, hill.K, hill.L, hill.U);
             landingArea.gObj.GetComponent<MeshFilter>().mesh = mesh;
             landingArea.gObj.GetComponent<MeshRenderer>().materials = landingAreaSO.GetMaterials();
         }
@@ -638,9 +672,12 @@ namespace OpenSkiJumping.Hills
             List<(int, int, int, int)> facesList = new List<(int, int, int, int)>();
             float[] b = new float[hill.landingAreaPoints.Length];
 
-            int pLen = Mathf.RoundToInt(hill.w - hill.l1), kLen = Mathf.RoundToInt(hill.w), lLen = Mathf.RoundToInt(hill.w + hill.l2);
+            int pLen = Mathf.RoundToInt(hill.w - hill.l1),
+                kLen = Mathf.RoundToInt(hill.w),
+                lLen = Mathf.RoundToInt(hill.w + hill.l2);
             int uLen = 0;
-            while ((hill.landingAreaPoints[uLen + 1] - hill.U).magnitude < (hill.landingAreaPoints[uLen] - hill.U).magnitude) uLen++;
+            while ((hill.landingAreaPoints[uLen + 1] - hill.U).magnitude <
+                   (hill.landingAreaPoints[uLen] - hill.U).magnitude) uLen++;
 
             int mn = kLen / 2;
             int mx = Mathf.Min(uLen, lLen + 5);
@@ -648,16 +685,29 @@ namespace OpenSkiJumping.Hills
 
             for (int i = mn; i <= mx; i++)
             {
-                b[i] = hill.landingAreaPoints[i].x <= hill.K.x ? (profileData.Value.b2 / 2) + hill.landingAreaPoints[i].x / hill.K.x * ((profileData.Value.bK - profileData.Value.b2) / 2) :
-                    hill.landingAreaPoints[i].x >= hill.U.x ? (profileData.Value.bU / 2) : (profileData.Value.bK / 2) + (hill.landingAreaPoints[i].x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.Value.bU - profileData.Value.bK) / 2);
+                b[i] = hill.landingAreaPoints[i].x <= hill.K.x
+                    ?
+                    (profileData.Value.b2 / 2) + hill.landingAreaPoints[i].x / hill.K.x *
+                    ((profileData.Value.bK - profileData.Value.b2) / 2)
+                    :
+                    hill.landingAreaPoints[i].x >= hill.U.x
+                        ? (profileData.Value.bU / 2)
+                        : (profileData.Value.bK / 2) + (hill.landingAreaPoints[i].x - hill.K.x) /
+                        (hill.U.x - hill.K.x) * ((profileData.Value.bU - profileData.Value.bK) / 2);
             }
-            Vector2[] pts = { new Vector2(0, 1), new Vector2(0.25f, 1), new Vector2(0.5f, 1), new Vector2(0.75f, 1),
-                new Vector2(0, 0.75f), new Vector2(0.25f, 0.75f), new Vector2(0.5f, 0.75f), new Vector2(0.75f, 0.75f), new Vector2(0, 0.5f), new Vector2(0.25f, 0.5f) };
+
+            Vector2[] pts =
+            {
+                new Vector2(0, 1), new Vector2(0.25f, 1), new Vector2(0.5f, 1), new Vector2(0.75f, 1),
+                new Vector2(0, 0.75f), new Vector2(0.25f, 0.75f), new Vector2(0.5f, 0.75f), new Vector2(0.75f, 0.75f),
+                new Vector2(0, 0.5f), new Vector2(0.25f, 0.5f)
+            };
             float sx = 0.15f, sy = 0.25f;
 
             for (int i = mn; i < mx; i++)
             {
-                Vector3 pos = new Vector3(hill.landingAreaPoints[i].x, hill.landingAreaPoints[i].y + 0.3f, b[i] - 0.02f);
+                Vector3 pos = new Vector3(hill.landingAreaPoints[i].x, hill.landingAreaPoints[i].y + 0.3f,
+                    b[i] - 0.02f);
                 string num = i.ToString();
                 for (int j = 0; j < num.Length; j++)
                 {
@@ -691,9 +741,14 @@ namespace OpenSkiJumping.Hills
                 guardrail.gObj.GetComponent<MeshRenderer>().material = null;
                 return;
             }
+
             int sgn = (side == 0 ? -1 : 1);
-            Vector3[] points = hill.landingAreaPoints.Select(it => new Vector3(it.x, it.y, sgn * (it.x <= hill.K.x ? (profileData.Value.b2 / 2) + it.x / hill.K.x * ((profileData.Value.bK - profileData.Value.b2) / 2) :
-                it.x >= hill.U.x ? (profileData.Value.bU / 2) : (profileData.Value.bK / 2) + (it.x - hill.K.x) / (hill.U.x - hill.K.x) * ((profileData.Value.bU - profileData.Value.bK) / 2)))).ToArray();
+            Vector3[] points = hill.landingAreaPoints.Select(it => new Vector3(it.x, it.y,
+                sgn * (it.x <= hill.K.x ? (profileData.Value.b2 / 2) +
+                                          it.x / hill.K.x * ((profileData.Value.bK - profileData.Value.b2) / 2) :
+                    it.x >= hill.U.x ? (profileData.Value.bU / 2) :
+                    (profileData.Value.bK / 2) + (it.x - hill.K.x) / (hill.U.x - hill.K.x) *
+                    ((profileData.Value.bU - profileData.Value.bK) / 2)))).ToArray();
 
             Mesh mesh = LandingAreaGuardrailSO.Generate(points, side);
             guardrail.gObj.GetComponent<MeshFilter>().mesh = mesh;
@@ -710,7 +765,9 @@ namespace OpenSkiJumping.Hills
             }
 
             int sgn = (side == 0 ? -1 : 1);
-            Vector3[] points = hill.inrunPoints.Where(it => it.x >= hill.B.x).Select(it => new Vector3(it.x, it.y, sgn * (hill.b1 / 2 - 2 * inrunGuardrailSO.Width))).Reverse().ToArray();
+            Vector3[] points = hill.inrunPoints.Where(it => it.x >= hill.B.x)
+                .Select(it => new Vector3(it.x, it.y, sgn * (hill.b1 / 2 - 2 * inrunGuardrailSO.Width))).Reverse()
+                .ToArray();
 
             Mesh mesh = inrunGuardrailSO.Generate(points, side);
             guardrail.gObj.GetComponent<MeshFilter>().mesh = mesh;
@@ -740,7 +797,13 @@ namespace OpenSkiJumping.Hills
             float[] b;
             if (generate2)
             {
-                b = tmpList.Select(it => (it.x > hill.GatePoint(-1).x ? (it.x > criticalPoint.x ? hill.b1 / 2 + 0.7f : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth, (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x))) : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray();
+                b = tmpList.Select(it =>
+                    (it.x > hill.GatePoint(-1).x
+                        ? (it.x > criticalPoint.x
+                            ? hill.b1 / 2 + 0.7f
+                            : Mathf.Lerp(hill.b1 / 2 + 0.7f, hill.b1 / 2 + gateStairsSO.StepWidth,
+                                (it.x - criticalPointX) / (criticalPointX - hill.GatePoint(-1).x)))
+                        : (hill.b1 / 2 + gateStairsSO.StepWidth))).ToArray();
             }
             else
             {
@@ -748,7 +811,8 @@ namespace OpenSkiJumping.Hills
             }
 
             int sgn = (side == 0 ? -1 : 1);
-            Vector3[] points = tmpList.Select((val, ind) => new Vector3(val.x, val.y, sgn * b[ind])).Reverse().ToArray();
+            Vector3[] points = tmpList.Select((val, ind) => new Vector3(val.x, val.y, sgn * b[ind])).Reverse()
+                .ToArray();
 
             Mesh mesh = InrunOuterGuardrailSO.Generate(points, side);
             guardrail.gObj.GetComponent<MeshFilter>().mesh = mesh;
@@ -770,16 +834,17 @@ namespace OpenSkiJumping.Hills
         {
             for (int i = 0; i < hill.inrunPoints.Length; i += 5)
             {
-                lamps.Add(Instantiate(inrunLampPrefab, new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, 2), Quaternion.identity));
+                lamps.Add(Instantiate(inrunLampPrefab, new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y, 2),
+                    Quaternion.identity));
                 // lamps.Add(Instantiate(inrunLampPrefab, new Vector3(hill.inrunPoints[i].x, hill.inrunPoints[i].y + 1f, -2), Quaternion.identity));
             }
 
             for (int i = 0; i < hill.landingAreaPoints.Length; i += 80)
             {
-                lamps.Add(Instantiate(lampPrefab, new Vector3(hill.landingAreaPoints[i].x, hill.landingAreaPoints[i].y, 45), Quaternion.identity));
+                lamps.Add(Instantiate(lampPrefab,
+                    new Vector3(hill.landingAreaPoints[i].x, hill.landingAreaPoints[i].y, 45), Quaternion.identity));
             }
         }
-
 
 
         public void SaveMesh(GameObject gObj, string name, bool isCollider = false)
