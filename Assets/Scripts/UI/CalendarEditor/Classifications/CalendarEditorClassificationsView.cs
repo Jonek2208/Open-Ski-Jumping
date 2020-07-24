@@ -232,7 +232,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         private void BindListViewItem(int index, ClassificationsListItem item)
         {
             var classificationInfo = classifications[index];
-            item.nameText.text = $"{classificationInfo.name}";
+            item.nameText.text = classificationInfo.name;
             item.bibImage.color = SimpleColorPicker.Hex2Color(classificationInfo.leaderBibColor);
             item.classificationTypeImage.sprite = classificationTypeIcons[(int) classificationInfo.classificationType];
             item.eventTypeImage.sprite = eventTypeIcons[(int) classificationInfo.eventType];

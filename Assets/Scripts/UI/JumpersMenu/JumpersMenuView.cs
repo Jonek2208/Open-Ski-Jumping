@@ -24,8 +24,6 @@ namespace OpenSkiJumping.UI.JumpersMenu
         [SerializeField] private JumpersListView listView;
         private JumpersMenuPresenter presenter;
 
-        public UnityEngine.UIElements.ListView xd;
-
         public Competitor SelectedJumper
         {
             get => listView.SelectedIndex < 0 ? null : jumpers[listView.SelectedIndex];

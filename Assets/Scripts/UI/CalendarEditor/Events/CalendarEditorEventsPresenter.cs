@@ -32,7 +32,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 
         private void CreateNewEvent()
         {
-            var item = new EventInfo {hillId = hills.GetData().First().name};
+            var item = new EventInfo {hillId = hills.GetSortedData().First().name};
             calendarFactory.AddEvent(item);
             PresentList();
             view.SelectedEvent = item;
@@ -151,7 +151,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             PresentList();
             view.SelectedEvent = calendarFactory.Events.FirstOrDefault();
             view.RoundsInfos = presets.GetData();
-            view.Hills = hills.GetData();
+            view.Hills = hills.GetSortedData();
             view.Classifications = calendarFactory.GetClassificationData();
             PresentEventInfo();
         }

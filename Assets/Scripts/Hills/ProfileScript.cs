@@ -13,7 +13,7 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class ProfileData
     {
-        public string name;
+        public string name = "";
         public float terrainSteepness;
         public ProfileType type;
 
@@ -46,11 +46,18 @@ namespace OpenSkiJumping.Hills
         public float d;
         public float q;
 
-        public bool gateStairsLeft;
-        public bool gateStairsRight;
-        public bool inrunStairsLeft;
-        public bool inrunStairsRight;
-        public float inrunStairsAngle;
+        public bool gateStairsLeft = true;
+        public bool gateStairsRight = true;
+        public bool inrunStairsLeft = true;
+        public bool inrunStairsRight = true;
+        public float inrunStairsAngle = 0.001f;
+        
+        public ProfileData Clone()
+        {
+            var other =  (ProfileData) MemberwiseClone();
+            other.name = string.Copy(name);
+            return other;
+        }
     }
 
     [Serializable]
