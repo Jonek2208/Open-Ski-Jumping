@@ -11,6 +11,5 @@ namespace OpenSkiJumping.Competition.Persistent
         public List<Result> results;
         public List<int> finalResults;
         public List<int> allroundResults;
-        public List<int>[] startLists;
     }
 }

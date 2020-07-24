@@ -18,9 +18,10 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
         string QualLimit { set; }
         string PreQualRank { set; }
         string PreQualLimit { set; }
-        
-        bool EventInfoEnabled { set; }
-        
+        string HillSurface { set; }
+
+        void DataReload();
+
         event Action OnDataReload;
     }
 }

@@ -38,9 +38,15 @@ namespace OpenSkiJumping
             classificationsData = calendar.classifications.Select((it, ind) =>
                 new ClassificationData {useBib = false, priority = ind, classification = it}).ToList();
 
+            var teamsDict = calendar.teams.Select((it, ind) => (it.countryCode, ind))
+                .ToDictionary(it => it.countryCode, it => it.ind);
+
             competitors = calendar.competitorsIds.Select((item, index) =>
                     new CompetitorData
-                        {calendarId = index, registered = true, competitor = competitorsRuntime.GetJumperById(item)})
+                    {
+                        calendarId = index, registered = true, competitor = competitorsRuntime.GetJumperById(item),
+                        teamId = teamsDict[competitorsRuntime.GetJumperById(item).countryCode]
+                    })
                 .ToList();
 
             var competitorsByCountry = competitors.ToLookup(it => it.competitor.countryCode, it => it);

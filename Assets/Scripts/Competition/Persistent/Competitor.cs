@@ -11,12 +11,11 @@ namespace OpenSkiJumping.Competition.Persistent
         public string lastName = "";
         public string firstName = "";
         public string countryCode = "";
-        public int teamId;
 
         [JsonConverter(typeof(StringEnumConverter))]
         public Gender gender;
 
-        public DateTime birthdate = new DateTime(1999, 1, 1);
+        public DateTime birthdate = new DateTime(1999, 8, 22);
         public string imagePath = "";
         public string helmetColor = "000000";
         public string suitTopFrontColor = "000000";

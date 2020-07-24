@@ -38,6 +38,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
             view.QualLimit = GetInLimit(item.inLimitType, item.inLimit);
             view.PreQualRank = model.GetRank(item.preQualRankType, item.preQualRankId);
             view.PreQualLimit = GetInLimit(item.preQualLimitType, item.preQualLimit);
+            view.HillSurface = item.hillSurface.ToString();
         }
 
         private void InitEvents()

@@ -18,7 +18,6 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
 {
     public class CalendarEventInfoView : MonoBehaviour, ICalendarEventInfoView
     {
-        private bool initialized;
         private CalendarEventInfoPresenter presenter;
 
         [SerializeField] private TournamentMenuData tournamentMenuData;
@@ -35,6 +34,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
         [SerializeField] private TMP_Text qualLimitText;
         [SerializeField] private TMP_Text preQualRankText;
         [SerializeField] private TMP_Text preQualLimitText;
+        [SerializeField] private TMP_Text hillSurfaceText;
 
         [SerializeField] private GameObject eventInfoObj;
 
@@ -42,15 +42,15 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
 
         #endregion
 
-        public bool EventInfoEnabled
+
+        public void DataReload()
         {
-            set => eventInfoObj.SetActive(value);
+            OnDataReload?.Invoke();
         }
 
         public event Action OnDataReload;
 
         private List<ClassificationInfo> classifications;
-
 
         public EventRoundsInfo RoundsInfo
         {
@@ -102,20 +102,17 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
             set => preQualLimitText.text = value;
         }
 
+        public string HillSurface
+        {
+            set => hillSurfaceText.text = value;
+        }
 
-        private void Start()
+
+        public void Initialize()
         {
             ListViewSetup();
             presenter = new CalendarEventInfoPresenter(this, tournamentMenuData);
-            initialized = true;
         }
-
-        private void OnEnable()
-        {
-            if (!initialized) return;
-            OnDataReload?.Invoke();
-        }
-        
 
         private void ListViewSetup()
         {
@@ -123,10 +120,14 @@ namespace OpenSkiJumping.UI.TournamentMenu.CalendarEventInfo
             classificationsListView.Initialize(BindClassificationsListViewItem);
         }
 
-        private void BindClassificationsListViewItem(int index, ClassificationsListItem item)
+        private void BindClassificationsListViewItem(int index, ClassificationsListItem listItem)
         {
-            var classification = classifications[index];
-            item.name = classification.name;
+            var item = classifications[index];
+            
+            listItem.nameText.text = item.name;
+            listItem.classificationTypeImage.sprite = iconsData.GetClassificationTypeIcon(item.classificationType);
+            listItem.eventTypeImage.sprite = iconsData.GetEventTypeIcon(item.eventType);
+            listItem.bibImage.color = SimpleColorPicker.Hex2Color(item.leaderBibColor);
         }
     }
 }

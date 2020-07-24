@@ -13,10 +13,10 @@ namespace OpenSkiJumping.Competition.Runtime
 
         [SerializeField] private RuntimeJumpData jumpData;
 
-        public void Initialize(EventInfo eventInfo, List<int> orderedParticipants, List<Participant> participants,
+        public void Initialize(EventInfo eventInfo, List<Participant> orderedParticipants,
             IHillInfo hillInfo)
         {
-            Value = new ResultsManager(eventInfo, participants, hillInfo);
+            Value = new ResultsManager(eventInfo, orderedParticipants, hillInfo);
         }
 
         public void SubroundInit() => Value.SubroundInit();

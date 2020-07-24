@@ -34,7 +34,6 @@ namespace OpenSkiJumping.Competition
 
         private void Start()
         {
-            // eventManager = new EventManager(eventId.Value, calendar.Value, resultsContainer.Value);
             OnCompetitionStart();
         }
 
@@ -77,6 +76,7 @@ namespace OpenSkiJumping.Competition
         public void OnCompetitionFinish()
         {
             onCompetitionFinish.Invoke();
+
             UpdateClassifications();
             var save = savesRepository.GetCurrentSave();
             save.resultsContainer.eventIndex++;
@@ -89,6 +89,8 @@ namespace OpenSkiJumping.Competition
             var save = savesRepository.GetCurrentSave();
             var eventId = save.resultsContainer.eventIndex;
             var eventInfo = save.calendar.events[eventId];
+            var eventResults = save.resultsContainer.eventResults[eventId];
+            resultsManager.Value.UpdateEventResults(eventResults);
 
             foreach (var it in eventInfo.classifications)
             {
@@ -133,7 +135,7 @@ namespace OpenSkiJumping.Competition
                     ? save.competitors.Where(it => it.registered).Select(it => new Participant
                     {
                         competitors = new List<int> {it.calendarId}, id = it.calendarId,
-                        teamId = competitors.competitors[it.calendarId].teamId
+                        teamId = save.competitors[it.calendarId].teamId
                     }).ToList()
                     : save.teams.Where(it => it.registered && it.competitors.Count >= 4).Select(it => new Participant
                         {
@@ -144,11 +146,13 @@ namespace OpenSkiJumping.Competition
 
             save.resultsContainer.eventResults[eventId] = new EventResults {participants = eventParticipants};
 
-            var orderedParticipants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer).ToList();
+            var participantsDict = eventParticipants.Select(item=>item)
+                .ToDictionary(item => item.id, item => item);
+            var orderedParticipants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer).Select(it=>participantsDict[it]).ToList();
             var hillId = save.calendar.events[eventId].hillId;
 
             hillInfo = hillsRepository.GetHillInfo(hillId);
-            resultsManager.Initialize(save.calendar.events[eventId], orderedParticipants, eventParticipants, hillInfo);
+            resultsManager.Initialize(save.calendar.events[eventId], orderedParticipants, hillInfo);
 
             onCompetitionStart.Invoke();
             OnRoundStart();

@@ -18,6 +18,10 @@ namespace OpenSkiJumping.Competition.Persistent
         public decimal speed;
         public JumpResultState state;
 
+        public JumpResult()
+        {
+        }
+
         public JumpResult(decimal distance, decimal[] judgesMarks, int gate, decimal wind, decimal speed)
         {
             // competitorId = _competitorId;
@@ -46,5 +50,4 @@ namespace OpenSkiJumping.Competition.Persistent
             judgesTotalPoints -= judgesMarks[mn] + judgesMarks[mx];
         }
     }
-
 }

@@ -29,6 +29,8 @@ namespace OpenSkiJumping.Competition
         int GetCurrentJumperId();
         int CompetitorRank(int id);
         IEnumerable<(int, decimal)> GetPoints(ClassificationInfo classificationInfo);
+
+        void UpdateEventResults(EventResults eventResults);
     }
 
     public class ResultsManager : IResultsManager
@@ -370,6 +372,14 @@ namespace OpenSkiJumping.Competition
                 : GetTeamPoints(classificationInfo);
         }
 
+        public void UpdateEventResults(EventResults eventResults)
+        {
+            eventResults.competitorIds = OrderedParticipants.Select(it => it.id).ToList();
+            eventResults.results = Results.ToList();
+            eventResults.allroundResults = allRoundResults.Select(it => it.Value).ToList();
+            eventResults.finalResults = finalResults.Select(it => it.Value).ToList();
+        }
+
         private IEnumerable<(int, decimal)> GetIndividualPoints(ClassificationInfo classificationInfo)
         {
             IPointsGiver pointsGiver;
@@ -423,8 +433,12 @@ namespace OpenSkiJumping.Competition
             }
 
             var competitorsByTeam = OrderedParticipants.ToLookup(it => it.teamId);
-            return competitorsByTeam.Select(teamMembers => (teamMembers.Key,
-                teamMembers.Sum(it => pointsGiver.GetPoints(classificationInfo, Results[it.id], 0))));
+            return competitorsByTeam.Select(teamMembers => (
+                teamMembers.Key,
+                (classificationInfo.teamClassificationLimitType == TeamClassificationLimitType.Best
+                    ? teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.id], 0))
+                        .OrderByDescending(it => it).Take(classificationInfo.teamCompetitorsLimit)
+                    : teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.id], 0))).Sum()));
         }
     }
 }
