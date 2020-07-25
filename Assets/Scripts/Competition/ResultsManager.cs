@@ -137,6 +137,7 @@ namespace OpenSkiJumping.Competition
         public void RoundInit()
         {
             var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+
             //first round
             if (RoundIndex == 0)
             {
@@ -203,6 +204,42 @@ namespace OpenSkiJumping.Competition
 
         public bool RoundFinish()
         {
+            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+
+            switch (currentRoundInfo.outLimitType)
+            {
+                case LimitType.Normal:
+                    var lastIndex = Math.Min(finalResults.Keys.Count, currentRoundInfo.outLimit) - 1;
+                    if (currentRoundInfo.roundType == RoundType.KO)
+                    {
+                        var it = Math.Min(currentRoundInfo.outLimit, finalResults.Count);
+                        while (it < finalResults.Count && finalResults.Keys[it].state == 0 &&
+                               finalResults.Keys[it - 1].points == finalResults.Keys[it].points) it++;
+
+                        var stop = it;
+                        it = finalResults.Count - 1;
+                        while (stop <= it)
+                        {
+                            finalResults.RemoveAt(it);
+                            it--;
+                        }
+                    }
+                    else
+                    {
+                        var minPts = finalResults.Keys[lastIndex].points;
+                        var it = finalResults.Count - 1;
+                        while (finalResults.Keys[it].points < minPts)
+                            finalResults.RemoveAt(it);
+                    }
+
+                    break;
+                case LimitType.Exact:
+                    for (var i = finalResults.Count - 1; i >= currentRoundInfo.outLimit; i--)
+                        finalResults.RemoveAt(i);
+                    break;
+            }
+
+
             RoundIndex++;
             SubroundIndex = 0;
             return RoundIndex < roundsCount;
@@ -252,7 +289,7 @@ namespace OpenSkiJumping.Competition
             else
             {
                 var id = StartList[StartListIndex];
-                var bibCode = Results[id].Bibs[RoundIndex];
+                var bibCode = GetBibCode(Results[id].Bibs[RoundIndex]);
                 finalResults.Add((0, Results[id].TotalPoints, bibCode), id);
             }
         }
