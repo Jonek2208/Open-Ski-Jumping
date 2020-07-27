@@ -13,8 +13,11 @@ namespace OpenSkiJumping.Hills
 
         public void SetLine()
         {
-            float k = hill.w;
-            float judges = 54.0f;
+            var k = hill.w;
+
+            var judges = resultsManager.Value.EventInfo.roundInfos[resultsManager.Value.RoundIndex].disableJudgesMarks
+                ? 0
+                : 54.0f;
 
             float p = 60f, q = 4.8f;
             if (k < 25)
@@ -74,23 +77,23 @@ namespace OpenSkiJumping.Hills
 
             if (resultsManager.Value.RoundIndex > 0 || resultsManager.Value.SubroundIndex > 0)
             {
-                int competitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex];
+                var competitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex];
                 currentJumperPoints = (float) resultsManager.Value.Results[competitorId].TotalPoints;
             }
 
-            float toBeatDist = (leaderPoints - currentJumperPoints - judges - p) / q + k;
+            var toBeatDist = (leaderPoints - currentJumperPoints - judges - p) / q + k;
 
-            int toBeatDistDoubled = Mathf.Min(2 * (hill.landingAreaPoints.Length - 1),
+            var toBeatDistDoubled = Mathf.Min(2 * (hill.landingAreaPoints.Length - 1),
                 Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));
             // Debug.Log(p + " " + q + " " + toBeatDist + " " + toBeatDistDoubled + " " + (toBeatDistDoubled / 2));
-            Vector2 point = hill.landingAreaPoints[toBeatDistDoubled / 2];
-            Vector2 delta = hill.landingAreaPoints[toBeatDistDoubled / 2 + 1] - point;
+            var point = hill.landingAreaPoints[toBeatDistDoubled / 2];
+            var delta = hill.landingAreaPoints[toBeatDistDoubled / 2 + 1] - point;
             if (toBeatDistDoubled % 2 == 1)
             {
                 point += delta / 2;
             }
 
-            float b = point.x <= hill.K.x ? (hill.b2 / 2) + point.x / hill.K.x * ((hill.bK - hill.b2) / 2) :
+            var b = point.x <= hill.K.x ? (hill.b2 / 2) + point.x / hill.K.x * ((hill.bK - hill.b2) / 2) :
                 point.x >= hill.U.x ? (hill.bU / 2) :
                 (hill.bK / 2) + (point.x - hill.K.x) / (hill.U.x - hill.K.x) * ((hill.bU - hill.bK) / 2);
 

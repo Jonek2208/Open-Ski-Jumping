@@ -29,13 +29,12 @@ namespace OpenSkiJumping.Competition
         int GetCurrentJumperId();
         int CompetitorRank(int id);
         IEnumerable<(int, decimal)> GetPoints(ClassificationInfo classificationInfo);
-
+        EventInfo EventInfo { get; }
         void UpdateEventResults(EventResults eventResults);
     }
 
     public class ResultsManager : IResultsManager
     {
-        private readonly EventInfo eventInfo;
         private readonly IHillInfo hillInfo;
 
         private SortedList<(decimal points, int bib, int round), int> allRoundResults;
@@ -52,7 +51,7 @@ namespace OpenSkiJumping.Competition
 
         public ResultsManager(EventInfo eventInfo, List<Participant> orderedParticipants, IHillInfo hillInfo)
         {
-            this.eventInfo = eventInfo;
+            EventInfo = eventInfo;
             OrderedParticipants = orderedParticipants;
             this.hillInfo = hillInfo;
 
@@ -64,8 +63,8 @@ namespace OpenSkiJumping.Competition
             competitorsCount = OrderedParticipants.Count;
             Results = new Result[competitorsCount];
             LastRank = new int[competitorsCount];
-            roundsCount = eventInfo.roundInfos.Count;
-            subRoundsCount = eventInfo.eventType == EventType.Individual ? 1 : 4;
+            roundsCount = EventInfo.roundInfos.Count;
+            subRoundsCount = EventInfo.eventType == EventType.Individual ? 1 : 4;
 
             for (var index = 0; index < Results.Length; index++)
             {
@@ -104,7 +103,7 @@ namespace OpenSkiJumping.Competition
 
         public void SubroundInit()
         {
-            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+            var currentRoundInfo = EventInfo.roundInfos[RoundIndex];
             IEnumerable<int> tmp;
 
             //first sub-round
@@ -136,7 +135,7 @@ namespace OpenSkiJumping.Competition
 
         public void RoundInit()
         {
-            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+            var currentRoundInfo = EventInfo.roundInfos[RoundIndex];
 
             //first round
             if (RoundIndex == 0)
@@ -204,7 +203,7 @@ namespace OpenSkiJumping.Competition
 
         public bool RoundFinish()
         {
-            var currentRoundInfo = eventInfo.roundInfos[RoundIndex];
+            var currentRoundInfo = EventInfo.roundInfos[RoundIndex];
 
             switch (currentRoundInfo.outLimitType)
             {
@@ -229,7 +228,7 @@ namespace OpenSkiJumping.Competition
                         var minPts = finalResults.Keys[lastIndex].points;
                         var it = finalResults.Count - 1;
                         while (finalResults.Keys[it].points < minPts)
-                            finalResults.RemoveAt(it);
+                            finalResults.RemoveAt(it--);
                     }
 
                     break;
@@ -247,6 +246,12 @@ namespace OpenSkiJumping.Competition
 
         public void RegisterJump(IJumpData jumpData)
         {
+            // Handle disableJudgesMarks
+            var currentRoundInfo = EventInfo.roundInfos[RoundIndex];
+            if (currentRoundInfo.disableJudgesMarks)
+                for (var i = 0; i < jumpData.JudgesMarks.Length; i++)
+                    jumpData.JudgesMarks[i] = 0m;
+
             var jump = EventProcessor.GetJumpResult(jumpData, hillInfo);
             if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();
 
@@ -282,7 +287,7 @@ namespace OpenSkiJumping.Competition
 
         private void AddToFinalResults()
         {
-            if (eventInfo.roundInfos[RoundIndex].roundType == RoundType.KO && StartListIndex % 2 == 1)
+            if (EventInfo.roundInfos[RoundIndex].roundType == RoundType.KO && StartListIndex % 2 == 1)
             {
                 AddSecondKOJumper();
             }
@@ -389,7 +394,7 @@ namespace OpenSkiJumping.Competition
                 : y.points.CompareTo(x.points);
 
         private int GetBibCode(int bib) =>
-            eventInfo.roundInfos[RoundIndex].reversedBibs ? bib : competitorsCount - bib;
+            EventInfo.roundInfos[RoundIndex].reversedBibs ? bib : competitorsCount - bib;
 
         private static int KOIndex(int index, int length)
         {
@@ -409,6 +414,8 @@ namespace OpenSkiJumping.Competition
                 : GetTeamPoints(classificationInfo);
         }
 
+        public EventInfo EventInfo { get; }
+
         public void UpdateEventResults(EventResults eventResults)
         {
             eventResults.competitorIds = OrderedParticipants.Select(it => it.id).ToList();
@@ -425,7 +432,7 @@ namespace OpenSkiJumping.Competition
             else
                 pointsGiver = new PointsPointsGiver();
 
-            if (eventInfo.eventType == EventType.Individual)
+            if (EventInfo.eventType == EventType.Individual)
             {
                 return Results.Select((val, index) =>
                     (OrderedParticipants[index].id, pointsGiver.GetPoints(classificationInfo, val, 0)));
@@ -463,19 +470,19 @@ namespace OpenSkiJumping.Competition
             else
                 pointsGiver = new PointsPointsGiver();
 
-            if (eventInfo.eventType == EventType.Team)
+            if (EventInfo.eventType == EventType.Team)
             {
                 return Results.Select((val, index) =>
                     (OrderedParticipants[index].id, pointsGiver.GetPoints(classificationInfo, val, 1)));
             }
 
-            var competitorsByTeam = OrderedParticipants.ToLookup(it => it.teamId);
+            var competitorsByTeam = OrderedParticipants.Select((it, ind) => (it, ind)).ToLookup(it => it.it.teamId);
             return competitorsByTeam.Select(teamMembers => (
                 teamMembers.Key,
                 (classificationInfo.teamClassificationLimitType == TeamClassificationLimitType.Best
-                    ? teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.id], 0))
+                    ? teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.ind], 0))
                         .OrderByDescending(it => it).Take(classificationInfo.teamCompetitorsLimit)
-                    : teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.id], 0))).Sum()));
+                    : teamMembers.Select(it => pointsGiver.GetPoints(classificationInfo, Results[it.ind], 0))).Sum()));
         }
     }
 }

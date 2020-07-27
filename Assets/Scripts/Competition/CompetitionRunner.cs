@@ -4,6 +4,8 @@ using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
+using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -17,6 +19,8 @@ namespace OpenSkiJumping.Competition
         [SerializeField] private IHillInfo hillInfo;
         [SerializeField] private HillsFactory hillsFactory;
         [SerializeField] private HillsRuntime hillsRepository;
+        [SerializeField] private SkiJumperDataController skiJumperDataController;
+
         public UnityEvent onCompetitionFinish;
 
         public UnityEvent onCompetitionStart;
@@ -30,6 +34,7 @@ namespace OpenSkiJumping.Competition
         [SerializeField] private RuntimeResultsManager resultsManager;
         [SerializeField] private SavesRuntime savesRepository;
         [SerializeField] private int tournamentMenuSceneIndex;
+        private Dictionary<int, Color> bibColors;
 
 
         private void Start()
@@ -146,9 +151,40 @@ namespace OpenSkiJumping.Competition
 
             save.resultsContainer.eventResults[eventId] = new EventResults {participants = eventParticipants};
 
-            var participantsDict = eventParticipants.Select(item=>item)
+            var participantsDict = eventParticipants.Select(item => item)
                 .ToDictionary(item => item.id, item => item);
-            var orderedParticipants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer).Select(it=>participantsDict[it]).ToList();
+            var orderedParticipants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer)
+                .Select(it => participantsDict[it]).ToList();
+            bibColors = orderedParticipants.ToDictionary(it => it.id, it => Color.white);
+
+            var orderedClassifications = save.classificationsData.Where(it => it.useBib)
+                .Select(it => (it.calendarId, it.priority)).Reverse();
+
+            foreach (var (it, ind) in orderedClassifications)
+            {
+                var classificationResults = save.resultsContainer.classificationResults[it];
+                var classificationInfo = save.classificationsData[it].classification;
+                foreach (var id in classificationResults.totalSortedResults.TakeWhile(jumperId =>
+                    classificationResults.rank[jumperId] <= 1))
+                {
+                    if (classificationInfo.eventType == EventType.Individual)
+                    {
+                        bibColors[id] = SimpleColorPicker.Hex2Color(save
+                            .classificationsData[ind].classification
+                            .leaderBibColor);
+                    }
+                    else
+                    {
+                        foreach (var competitor in save.teams[id].competitors)
+                        {
+                            bibColors[competitor.calendarId] = SimpleColorPicker.Hex2Color(save
+                                .classificationsData[ind].classification
+                                .leaderBibColor);
+                        }
+                    }
+                }
+            }
+
             var hillId = save.calendar.events[eventId].hillId;
 
             hillInfo = hillsRepository.GetHillInfo(hillId);
@@ -176,7 +212,9 @@ namespace OpenSkiJumping.Competition
 
         public void OnJumpStart()
         {
+            var id = resultsManager.Value.GetCurrentJumperId();
             onNewJumper.Invoke();
+            skiJumperDataController.SetValues(bibColors[id]);
         }
     }
 }

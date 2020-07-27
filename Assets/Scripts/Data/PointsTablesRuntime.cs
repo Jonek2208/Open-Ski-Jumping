@@ -5,18 +5,18 @@ using UnityEngine;
 namespace OpenSkiJumping.Data
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/PointsTablesRuntime")]
-    public class PointsTablesRuntime : DatabaseObject<List<PointsTable>>
+    public class PointsTablesRuntime : DatabaseObject<List<List<PointsTable>>>
     {
-        public List<PointsTable> GetData() => Data;
+        public IEnumerable<PointsTable> GetData(int tableIndex) => Data[tableIndex];
 
-        public bool Remove(PointsTable item)
+        public bool Remove(int tableIndex, PointsTable item)
         {
-            return Data.Remove(item);
+            return Data[tableIndex].Remove(item);
         }
 
-        public void Add(PointsTable item)
+        public void Add(int tableIndex, PointsTable item)
         {
-            Data.Add(item);
+            Data[tableIndex].Add(item);
         }
     }
 }

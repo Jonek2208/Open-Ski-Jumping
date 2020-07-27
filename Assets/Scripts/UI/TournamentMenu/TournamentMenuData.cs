@@ -13,6 +13,7 @@ namespace OpenSkiJumping.UI.TournamentMenu
     {
         public ClassificationInfo classification;
         public int priority;
+        public int calendarId;
         public bool useBib;
     }
 

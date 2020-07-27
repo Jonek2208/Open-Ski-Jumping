@@ -1,6 +1,5 @@
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
-using OpenSkiJumping.UI;
 using UnityEngine;
 
 namespace OpenSkiJumping.ScriptableObjects
@@ -15,10 +14,12 @@ namespace OpenSkiJumping.ScriptableObjects
         public Color suitBottomFrontColor;
         public Color suitBottomBackColor;
         public Color skisColor;
+        public Color bibColor;
 
-        public void Set(Competitor competitorData)
+        public void Set(Competitor competitorData, Color newBibColor)
         {
             gender = competitorData.gender;
+            bibColor = newBibColor;
             ColorUtility.TryParseHtmlString(competitorData.helmetColor, out helmetColor);
             ColorUtility.TryParseHtmlString(competitorData.suitTopFrontColor, out suitTopFrontColor);
             ColorUtility.TryParseHtmlString(competitorData.suitTopBackColor, out suitTopBackColor);

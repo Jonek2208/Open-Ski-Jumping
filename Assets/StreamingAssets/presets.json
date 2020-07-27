@@ -175,6 +175,41 @@
     ]
   },
   {
+    "name": "Individual2Rounds5",
+    "roundInfos": [
+      {
+        "roundType": "Normal",
+        "outLimitType": "Normal",
+        "outLimit": 5,
+        "useOrdRank": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "disableJudgesMarks": false,
+        "has95Rule": true,
+        "reversedBibs": false,
+        "reassignBibs": false
+      },
+      {
+        "roundType": "Normal",
+        "outLimitType": "None",
+        "outLimit": -1,
+        "useOrdRank": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "disableJudgesMarks": false,
+        "has95Rule": true,
+        "reversedBibs": false,
+        "reassignBibs": false
+      }
+    ]
+  },
+  {
     "name": "IndividualKO15",
     "roundInfos": [
       {
@@ -216,6 +251,26 @@
         "roundType": "Normal",
         "outLimitType": "Normal",
         "outLimit": 50,
+        "useOrdRank": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "disableJudgesMarks": false,
+        "has95Rule": true,
+        "reversedBibs": false,
+        "reassignBibs": false
+      }
+    ]
+  },
+  {
+    "name": "Qualification8",
+    "roundInfos": [
+      {
+        "roundType": "Normal",
+        "outLimitType": "Normal",
+        "outLimit": 8,
         "useOrdRank": [
           false,
           false,
@@ -339,8 +394,8 @@
     "roundInfos": [
       {
         "roundType": "Normal",
-        "outLimitType": "Normal",
-        "outLimit": 30,
+        "outLimitType": "None",
+        "outLimit": -1,
         "useOrdRank": [
           true,
           true,

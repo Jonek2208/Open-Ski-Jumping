@@ -41,7 +41,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         [SerializeField] private Button addButton;
         [SerializeField] private Button removeButton;
 
-        private List<PointsTable> pointsTables;
+        private List<PointsTable> pointsTablesIndividual;
+        private List<PointsTable> pointsTablesTeam;
         private List<ClassificationInfo> classifications;
 
         public ClassificationInfo SelectedClassification
@@ -61,28 +62,37 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             }
         }
 
-        public IEnumerable<PointsTable> PointsTables
+        public IEnumerable<PointsTable> PointsTablesIndividual
         {
             set
             {
-                pointsTables = value.ToList();
-                teamPointsTableDropdown.ClearOptions();
-                teamPointsTableDropdown.AddOptions(pointsTables.Select(item => item.name).ToList());
+                pointsTablesIndividual = value.ToList();
+                
                 indPointsTableDropdown.ClearOptions();
-                indPointsTableDropdown.AddOptions(pointsTables.Select(item => item.name).ToList());
+                indPointsTableDropdown.AddOptions(pointsTablesIndividual.Select(item => item.name).ToList());
             }
         }
 
+        public IEnumerable<PointsTable> PointsTablesTeam
+        {
+            set
+            {
+                pointsTablesTeam = value.ToList();
+                teamPointsTableDropdown.ClearOptions();
+                teamPointsTableDropdown.AddOptions(pointsTablesTeam.Select(item => item.name).ToList());
+            }
+        }
+        
         public PointsTable SelectedPointsTableIndividual
         {
-            get => pointsTables[indPointsTableDropdown.value];
-            set => SelectPointsTable(value, indPointsTableDropdown);
+            get => pointsTablesIndividual[indPointsTableDropdown.value];
+            set => SelectPointsTable(value, indPointsTableDropdown, pointsTablesIndividual);
         }
 
         public PointsTable SelectedPointsTableTeam
         {
-            get => pointsTables[teamPointsTableDropdown.value];
-            set => SelectPointsTable(value, teamPointsTableDropdown);
+            get => pointsTablesTeam[teamPointsTableDropdown.value];
+            set => SelectPointsTable(value, teamPointsTableDropdown, pointsTablesTeam);
         }
 
         public string Name
@@ -145,10 +155,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             }
         }
 
-        private void SelectPointsTable(PointsTable value, TMP_Dropdown dropdown)
+        private void SelectPointsTable(PointsTable value, TMP_Dropdown dropdown, List<PointsTable> pointsTablesList)
         {
-            var index = value == null ? dropdown.value : pointsTables.FindIndex(item => item.name == value.name);
-            index = Mathf.Clamp(index, 0, pointsTables.Count - 1);
+            var index = value == null ? dropdown.value : pointsTablesList.FindIndex(item => item.name == value.name);
+            index = Mathf.Clamp(index, 0, pointsTablesList.Count - 1);
             dropdown.SetValueWithoutNotify(index);
         }
 

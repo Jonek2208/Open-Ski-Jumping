@@ -107,7 +107,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
 
         private void SetInitValues()
         {
-            view.PointsTables = pointsTables.GetData();
+            view.PointsTablesIndividual = pointsTables.GetData(0);
+            view.PointsTablesTeam = pointsTables.GetData(1);
             PresentList();
             view.SelectedClassification = calendarFactory.Classifications.FirstOrDefault();
             PresentClassificationInfo();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
@@ -45,7 +46,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             if (item == null) return;
             var duplicated = new EventInfo
             {
-                hillId = item.hillId, classifications = item.classifications, eventType = item.eventType,
+                hillId = item.hillId, classifications = new List<int>(item.classifications), eventType = item.eventType,
                 inLimit = item.inLimit, roundInfos = item.roundInfos, inLimitType = item.inLimitType,
                 ordRankId = item.ordRankId, ordRankType = item.ordRankType, qualRankId = item.qualRankId,
                 qualRankType = item.qualRankType, preQualRankType = item.preQualRankType,

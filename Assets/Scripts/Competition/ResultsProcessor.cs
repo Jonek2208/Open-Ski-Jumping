@@ -33,16 +33,24 @@ namespace OpenSkiJumping.Competition
         public abstract IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors);
         protected abstract IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints();
 
-        public IEnumerable<int> GetTrimmedFinalResults(IEnumerable<Participant> participants, LimitType inLimitType,
-            int inLimit)
+        public IEnumerable<int> GetTrimmedFinalResultsPreQual(IEnumerable<Participant> participants,
+            LimitType inLimitType,
+            int inLimit, IEnumerable<int> preQualified)
         {
             var tempList = GetFinalResultsWithTotalPoints();
             // remove not registered participants
             var lookup = participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
-            tempList = tempList.Where(it => lookup.ContainsKey(it.Item2));
+            var preQualSet = new HashSet<int>(preQualified);
+            tempList = tempList.Where(it => lookup.ContainsKey(it.Item2) && !preQualSet.Contains(it.Item2));
 
             // trim list to inLimit 
-            return TrimRankingToLimit(tempList, inLimitType, inLimit);
+            return TrimRankingToLimit(tempList, inLimitType, inLimit).Concat(preQualSet);
+        }
+
+        public IEnumerable<int> GetTrimmedFinalResults(IEnumerable<Participant> participants, LimitType inLimitType,
+            int inLimit)
+        {
+            return GetTrimmedFinalResultsPreQual(participants, inLimitType, inLimit, Enumerable.Empty<int>());
         }
     }
 
@@ -98,7 +106,7 @@ namespace OpenSkiJumping.Competition
         public override IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors)
         {
             var competitorsList = competitors.ToList();
-            foreach(var it in competitorsList) Debug.Log($"{it}: {results.totalResults[it]}");
+            foreach (var it in competitorsList) Debug.Log($"{it}: {results.totalResults[it]}");
             return competitorsList.OrderByDescending(it => (results.totalResults[it], it));
         }
 

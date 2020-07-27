@@ -7,7 +7,7 @@ namespace OpenSkiJumping.Data
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/PresetsRuntime")]
     public class PresetsRuntime : DatabaseObject<List<EventRoundsInfo>>
     {
-        public List<EventRoundsInfo> GetData() => Data;
+        public IEnumerable<EventRoundsInfo> GetData() => Data;
         public bool Remove(EventRoundsInfo item)
         {
             return Data.Remove(item);

@@ -13,9 +13,28 @@ namespace OpenSkiJumping.Competition
             var eventId = resultsDatabase.eventIndex;
             var eventInfo = calendar.events[eventId];
             var eventResults = resultsDatabase.eventResults[eventId];
+            IEnumerable<int> preQualifiedCompetitors;
             IEnumerable<int> competitorsList;
+            ResultsProcessor preQualRankProcessor;
             ResultsProcessor qualRankProcessor;
             ResultsProcessor ordRankProcessor;
+            
+            if (eventInfo.preQualRankType == RankType.None)
+            {
+                //Add all registred participants
+                preQualifiedCompetitors = Enumerable.Empty<int>();
+            }
+            else
+            {
+                if (eventInfo.preQualRankType == RankType.Event)
+                    preQualRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.preQualRankId]);
+                else
+                    preQualRankProcessor =
+                        new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.preQualRankId]);
+
+                preQualifiedCompetitors = preQualRankProcessor.GetTrimmedFinalResults(eventResults.participants,
+                    eventInfo.preQualLimitType, eventInfo.preQualLimit);
+            }
 
             if (eventInfo.qualRankType == RankType.None)
             {
@@ -30,8 +49,8 @@ namespace OpenSkiJumping.Competition
                     qualRankProcessor =
                         new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.qualRankId]);
 
-                competitorsList = qualRankProcessor.GetTrimmedFinalResults(eventResults.participants,
-                    eventInfo.inLimitType, eventInfo.inLimit);
+                competitorsList = qualRankProcessor.GetTrimmedFinalResultsPreQual(eventResults.participants,
+                    eventInfo.inLimitType, eventInfo.inLimit, preQualifiedCompetitors);
             }
 
             if (eventInfo.ordRankType == RankType.None) return competitorsList;

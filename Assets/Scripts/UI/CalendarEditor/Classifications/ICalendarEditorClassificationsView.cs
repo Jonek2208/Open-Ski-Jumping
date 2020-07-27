@@ -9,7 +9,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         ClassificationInfo SelectedClassification { get; set; }
         IEnumerable<ClassificationInfo> Classifications { set; }
 
-        IEnumerable<PointsTable> PointsTables { set; }
+        IEnumerable<PointsTable> PointsTablesIndividual { set; }
+        IEnumerable<PointsTable> PointsTablesTeam { set; }
         PointsTable SelectedPointsTableIndividual { get; set; }
         PointsTable SelectedPointsTableTeam { get; set; }
 

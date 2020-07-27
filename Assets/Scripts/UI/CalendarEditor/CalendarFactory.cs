@@ -42,8 +42,14 @@ namespace OpenSkiJumping.UI.CalendarEditor
             var index = Events.IndexOf(item);
             if (index < 0 || index + val < 0 || Events.Count <= index + val) return;
             var buf = Events[index + val];
+            
+            // Swap ids
+            Events[index].id = index + val;
+            Events[index + val].id = index;
+            
             Events[index + val] = Events[index];
             Events[index] = buf;
+            
             // Events[index].name = $"{index + 1} {Events[index].hillId}";
             // Events[index + val].name = $"{index + val + 1} {Events[index].hillId}";
         }

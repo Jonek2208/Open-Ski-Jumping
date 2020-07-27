@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 5a4e163547fd5198ca37289259f83244,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -327,110 +327,110 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4e0f64709054a38b4a81900d42b65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveMesh: 0
-  inrunTrackSO: {fileID: 11400000, guid: 86a1618c58018537e92dd504073e9db1, type: 2}
+  daySkybox: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
+  digitsMarks:
+    gObj: {fileID: 1331877542}
+    materials:
+    - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
+    mesh: {fileID: 0}
+  gateStairsL:
+    gObj: {fileID: 1520810165}
+    materials: []
+    mesh: {fileID: 0}
+  gateStairsR:
+    gObj: {fileID: 1711857228}
+    materials: []
+    mesh: {fileID: 0}
   gateStairsSO: {fileID: 11400000, guid: 03ef5895d10c10621bedfdeb945e17b6, type: 2}
-  landingAreaSO: {fileID: 11400000, guid: 89dff44f3d696a595a60fddbff312cff, type: 2}
-  inrunGuardrailSO: {fileID: 11400000, guid: 8dd7e64d76cf084348d56938ce9dfb50, type: 2}
-  InrunOuterGuardrailSO: {fileID: 11400000, guid: bfb0bad4b732443c0951eab20827cf58,
-    type: 2}
-  LandingAreaGuardrailSO: {fileID: 11400000, guid: f0814b91feec3c92696ea404c186497f,
-    type: 2}
-  profileData: {fileID: 11400000, guid: c8cb1c69a53cb1e7bb6f89ca486f9b58, type: 2}
-  hill: {fileID: 11400000, guid: a87b0f24963f7358498cf73117213478, type: 2}
-  generateTerrain: 1
   generateGateStairsL: 1
   generateGateStairsR: 0
   generateInrunStairsL: 1
   generateInrunStairsR: 1
   generateLandingAreaGuardrailL: 1
   generateLandingAreaGuardrailR: 1
-  inrunStairsStepHeigth: 0.1602902
-  inrunStairsAngle: 0.001
+  generateTerrain: 1
+  hill: {fileID: 11400000, guid: a87b0f24963f7358498cf73117213478, type: 2}
   hills: []
   inrun:
     gObj: {fileID: 739591288}
-    mesh: {fileID: 0}
     materials: []
+    mesh: {fileID: 0}
+  inrunConstruction:
+    gObj: {fileID: 1165009699}
+    materials:
+    - {fileID: 2100000, guid: f10895ca1d4a903af99adfe4f5f48152, type: 2}
+    mesh: {fileID: 0}
+  inrunGuardrailL:
+    gObj: {fileID: 695821892}
+    materials: []
+    mesh: {fileID: 0}
+  inrunGuardrailR:
+    gObj: {fileID: 1997451679}
+    materials: []
+    mesh: {fileID: 0}
+  inrunGuardrailSO: {fileID: 11400000, guid: 8dd7e64d76cf084348d56938ce9dfb50, type: 2}
+  inrunLampPrefab: {fileID: 4174168713265214395, guid: fd4c947576ce6d103b4b7c5492ca43d2,
+    type: 3}
+  inrunOuterGuardrailL:
+    gObj: {fileID: 430667624}
+    materials: []
+    mesh: {fileID: 0}
+  inrunOuterGuardrailR:
+    gObj: {fileID: 1778470309}
+    materials: []
+    mesh: {fileID: 0}
+  InrunOuterGuardrailSO: {fileID: 11400000, guid: bfb0bad4b732443c0951eab20827cf58,
+    type: 2}
+  inrunStairsAngle: 0.001
+  inrunStairsL:
+    gObj: {fileID: 545331328}
+    materials:
+    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
+    mesh: {fileID: 0}
+  inrunStairsR:
+    gObj: {fileID: 199131128}
+    materials:
+    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
+    mesh: {fileID: 0}
+  inrunStairsStepHeigth: 0.1602902
+  inrunTerrain: 0.225
+  inrunTrackSO: {fileID: 11400000, guid: 86a1618c58018537e92dd504073e9db1, type: 2}
+  jumperPosition: {x: -69.615746, y: 34.74229, z: 0}
+  jumperRotation: {x: 0, y: 0, z: -0.3007058, w: 0.95371693}
+  lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
+    type: 3}
   landingArea:
     gObj: {fileID: 1847880262}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 486601df3a075d7bb90b141062b8d4a1, type: 2}
     - {fileID: 2100000, guid: 49d363d03a5b29be9a598f94f0078e8c, type: 2}
     - {fileID: 2100000, guid: 9bb9a97ebf3774f228fddbc345b78334, type: 2}
     - {fileID: 2100000, guid: 7e6fb85d6524d630494165cc8f53157f, type: 2}
-  gateStairsL:
-    gObj: {fileID: 1520810165}
     mesh: {fileID: 0}
-    materials: []
-  gateStairsR:
-    gObj: {fileID: 1711857228}
-    mesh: {fileID: 0}
-    materials: []
-  inrunStairsL:
-    gObj: {fileID: 545331328}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
-  inrunStairsR:
-    gObj: {fileID: 199131128}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
-  inrunGuardrailL:
-    gObj: {fileID: 695821892}
-    mesh: {fileID: 0}
-    materials: []
-  inrunGuardrailR:
-    gObj: {fileID: 1997451679}
-    mesh: {fileID: 0}
-    materials: []
-  inrunOuterGuardrailL:
-    gObj: {fileID: 430667624}
-    mesh: {fileID: 0}
-    materials: []
-  inrunOuterGuardrailR:
-    gObj: {fileID: 1778470309}
-    mesh: {fileID: 0}
-    materials: []
   landingAreaGuardrailL:
     gObj: {fileID: 691735299}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 67e324ed6598d2650ad4d44ebfedbad6, type: 2}
+    mesh: {fileID: 0}
   landingAreaGuardrailR:
     gObj: {fileID: 724077569}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 67e324ed6598d2650ad4d44ebfedbad6, type: 2}
+    mesh: {fileID: 0}
+  LandingAreaGuardrailSO: {fileID: 11400000, guid: f0814b91feec3c92696ea404c186497f,
+    type: 2}
+  landingAreaSO: {fileID: 11400000, guid: 89dff44f3d696a595a60fddbff312cff, type: 2}
+  nightSkybox: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
   outrunGuardrail:
     gObj: {fileID: 0}
-    mesh: {fileID: 0}
     materials: []
+    mesh: {fileID: 0}
+  profileData: {fileID: 11400000, guid: c8cb1c69a53cb1e7bb6f89ca486f9b58, type: 2}
+  saveMesh: 0
   startGate: {fileID: 1348053581}
-  inrunConstruction:
-    gObj: {fileID: 1165009699}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f10895ca1d4a903af99adfe4f5f48152, type: 2}
-  digitsMarks:
-    gObj: {fileID: 1331877542}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
-  lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
-    type: 3}
-  inrunLampPrefab: {fileID: 4174168713265214395, guid: fd4c947576ce6d103b4b7c5492ca43d2,
-    type: 3}
-  terrainObject: {fileID: 989473692}
-  jumperPosition: {x: -69.615746, y: 34.74229, z: 0}
-  jumperRotation: {x: 0, y: 0, z: -0.3007058, w: 0.95371693}
-  inrunTerrain: 0.225
-  terrainBase: 2
   sunLight: {fileID: 1986162011}
-  daySkybox: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
-  nightSkybox: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
+  terrainBase: 2
+  terrainObject: {fileID: 989473692}
   time: 1
 --- !u!43 &91743303
 Mesh:
@@ -1953,7 +1953,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2d33b5ccd39f078308f0b7a9403ed25d, type: 2}
+      objectReference: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4, type: 2}
     - target: {fileID: 3288522411698772823, guid: b59a1c4a4c771cc18a59b3e67873a085,
         type: 3}
       propertyPath: m_IsActive
@@ -1968,7 +1968,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2c5a73af3c3cc33efa7425dafef79517, type: 2}
+      objectReference: {fileID: 2100000, guid: 313fa79230b9c1ba980976ca2762bce7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b59a1c4a4c771cc18a59b3e67873a085, type: 3}
 --- !u!1 &221291745 stripped
@@ -10218,17 +10218,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba041b551d33ded1d825b476849780df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resultsManager: {fileID: 11400000, guid: 2263c123852116d44925a3188e8ded51, type: 2}
-  competitors: {fileID: 11400000, guid: a37b188b5d0732ffda2e4a5f63ff3a24, type: 2}
-  jumperController: {fileID: 710402061}
-  jumperMale: {fileID: 1035296168}
-  jumperFemale: {fileID: 1195730931}
   competitor:
     id: 
     lastName: 
     firstName: 
     countryCode: 
-    teamId: 0
     gender: 0
     imagePath: 
     helmetColor: 
@@ -10237,15 +10231,21 @@ MonoBehaviour:
     suitBottomFrontColor: 
     suitBottomBackColor: 
     skisColor: 
+  competitors: {fileID: 11400000, guid: a37b188b5d0732ffda2e4a5f63ff3a24, type: 2}
   helmetMaterial: {fileID: 2100000, guid: 313fa79230b9c1ba980976ca2762bce7, type: 2}
-  suitTopFrontMaterial: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4,
-    type: 2}
-  suitTopBackMaterial: {fileID: 2100000, guid: 01156c728e3382af48b1cda192cf3823, type: 2}
-  suitBottomFrontMaterial: {fileID: 2100000, guid: dc46f437ad95439e9bd267ad64942812,
-    type: 2}
+  jumperController: {fileID: 710402061}
+  jumperFemale: {fileID: 1195730931}
+  jumperMale: {fileID: 1035296168}
+  resultsManager: {fileID: 11400000, guid: 2263c123852116d44925a3188e8ded51, type: 2}
+  bibMaterial: {fileID: 2100000, guid: 333942a2bfa80168fb0eb0ca491d8079, type: 2}
+  skisMaterial: {fileID: 2100000, guid: a9f3b2c59e004ca0897272388028cb58, type: 2}
   suitBottomBackMaterial: {fileID: 2100000, guid: 9ec6bf25a82501f55a8dec6de6c4939a,
     type: 2}
-  skisMaterial: {fileID: 2100000, guid: a9f3b2c59e004ca0897272388028cb58, type: 2}
+  suitBottomFrontMaterial: {fileID: 2100000, guid: dc46f437ad95439e9bd267ad64942812,
+    type: 2}
+  suitTopBackMaterial: {fileID: 2100000, guid: 01156c728e3382af48b1cda192cf3823, type: 2}
+  suitTopFrontMaterial: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4,
+    type: 2}
 --- !u!114 &710402061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10258,6 +10258,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8133b6b165698fd9f8e5d57843a8a16c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  angle: 0
+  audioSource: {fileID: 1220270627}
+  brakeForce: 0
+  dirChange: 0
+  drag: 0.001
+  forceChange: 0
+  judgesController: {fileID: 1475819930}
+  jumperAngle: 0
+  jumperModel: {fileID: 1035296168}
+  jumpSpeed: 4
+  lift: 0.001
+  mouseSensitivity: {fileID: 11400000, guid: 927fa5d1adc98bbf8a597595a67e8237, type: 2}
+  oldMode: 0
   OnStartEvent:
     m_PersistentCalls:
       m_Calls:
@@ -10272,27 +10285,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  mouseSensitivity: {fileID: 11400000, guid: 927fa5d1adc98bbf8a597595a67e8237, type: 2}
   rotCoef: {fileID: 11400000, guid: 63dee7f94848af5bea268256d690243b, type: 2}
   rSkiClone: {fileID: 2052362471}
   lSkiClone: {fileID: 43227302}
-  oldMode: 0
-  audioSource: {fileID: 1220270627}
-  jumpSpeed: 4
-  jumperAngle: 0
-  brakeForce: 0
-  angle: 0
-  drag: 0.001
-  lift: 0.001
-  smoothCoef: 0.01
   sensCoef: 0.01
+  smoothCoef: 0.01
+  totalSamples: 6
   windDir: {x: 0, y: 0}
   windForce: 0
-  dirChange: 0
-  forceChange: 0
-  totalSamples: 6
-  jumperModel: {fileID: 1035296168}
-  judgesController: {fileID: 1475819930}
 --- !u!54 &710402062
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15282,14 +15282,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25634e5e0a9641ffbcb189565dd850ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelObject: {fileID: 1035296167}
   animator: {fileID: 1035296169}
-  skiLeft: {fileID: 1910083281}
-  skiRight: {fileID: 1656435991}
+  bodyCollider: {fileID: 1622559018}
   distCollider1: {fileID: 1910083282}
   distCollider2: {fileID: 1656435992}
-  bodyCollider: {fileID: 1622559018}
+  modelObject: {fileID: 1035296167}
+  skiLeft: {fileID: 1910083281}
   skiLeftCollider: {fileID: 1910083283}
+  skiRight: {fileID: 1656435991}
   skiRightCollider: {fileID: 1656435993}
 --- !u!95 &1035296169 stripped
 Animator:
@@ -15412,17 +15412,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba041b551d33ded1d825b476849780df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resultsManager: {fileID: 0}
-  competitors: {fileID: 0}
-  jumperController: {fileID: 0}
-  jumperMale: {fileID: 0}
-  jumperFemale: {fileID: 0}
   competitor:
     id: 
     lastName: 
     firstName: 
     countryCode: 
-    teamId: 0
     gender: 0
     imagePath: 
     helmetColor: 
@@ -15431,15 +15425,21 @@ MonoBehaviour:
     suitBottomFrontColor: 
     suitBottomBackColor: 
     skisColor: 
+  competitors: {fileID: 0}
   helmetMaterial: {fileID: 2100000, guid: 313fa79230b9c1ba980976ca2762bce7, type: 2}
-  suitTopFrontMaterial: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4,
-    type: 2}
-  suitTopBackMaterial: {fileID: 2100000, guid: 01156c728e3382af48b1cda192cf3823, type: 2}
-  suitBottomFrontMaterial: {fileID: 2100000, guid: dc46f437ad95439e9bd267ad64942812,
-    type: 2}
+  jumperController: {fileID: 0}
+  jumperFemale: {fileID: 0}
+  jumperMale: {fileID: 0}
+  resultsManager: {fileID: 0}
+  bibMaterial: {fileID: 0}
+  skisMaterial: {fileID: 2100000, guid: a9f3b2c59e004ca0897272388028cb58, type: 2}
   suitBottomBackMaterial: {fileID: 2100000, guid: 9ec6bf25a82501f55a8dec6de6c4939a,
     type: 2}
-  skisMaterial: {fileID: 2100000, guid: a9f3b2c59e004ca0897272388028cb58, type: 2}
+  suitBottomFrontMaterial: {fileID: 2100000, guid: dc46f437ad95439e9bd267ad64942812,
+    type: 2}
+  suitTopBackMaterial: {fileID: 2100000, guid: 01156c728e3382af48b1cda192cf3823, type: 2}
+  suitTopFrontMaterial: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4,
+    type: 2}
 --- !u!1 &1063670469
 GameObject:
   m_ObjectHideFlags: 0
@@ -17263,14 +17263,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25634e5e0a9641ffbcb189565dd850ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelObject: {fileID: 1195730930}
   animator: {fileID: 1195730932}
-  skiLeft: {fileID: 256945808}
-  skiRight: {fileID: 467994932}
+  bodyCollider: {fileID: 221291747}
   distCollider1: {fileID: 256945809}
   distCollider2: {fileID: 467994933}
-  bodyCollider: {fileID: 221291747}
+  modelObject: {fileID: 1195730930}
+  skiLeft: {fileID: 256945808}
   skiLeftCollider: {fileID: 256945810}
+  skiRight: {fileID: 467994932}
   skiRightCollider: {fileID: 467994934}
 --- !u!95 &1195730932 stripped
 Animator:
@@ -23643,12 +23643,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9ec6bf25a82501f55a8dec6de6c4939a, type: 2}
+      objectReference: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4, type: 2}
     - target: {fileID: 7762849531064117738, guid: 09b3c312f656d6326b803ade395bfa36,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
+      objectReference: {fileID: 2100000, guid: dc46f437ad95439e9bd267ad64942812, type: 2}
+    - target: {fileID: 7762849531064117738, guid: 09b3c312f656d6326b803ade395bfa36,
+        type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
       objectReference: {fileID: 2100000, guid: fc5eaa68a5179f2b488c4a9e8507b1d4, type: 2}
+    - target: {fileID: 7762849531064117738, guid: 09b3c312f656d6326b803ade395bfa36,
+        type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 01156c728e3382af48b1cda192cf3823, type: 2}
+    - target: {fileID: 7762849531064117738, guid: 09b3c312f656d6326b803ade395bfa36,
+        type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 333942a2bfa80168fb0eb0ca491d8079, type: 2}
     - target: {fileID: 7821421098555925775, guid: 09b3c312f656d6326b803ade395bfa36,
         type: 3}
       propertyPath: m_Layer
@@ -25411,110 +25426,110 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4e0f64709054a38b4a81900d42b65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveMesh: 0
-  inrunTrackSO: {fileID: 11400000, guid: 4301598bc8c74155788bb80325afc0b8, type: 2}
+  daySkybox: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
+  digitsMarks:
+    gObj: {fileID: 1190448036}
+    materials:
+    - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
+    mesh: {fileID: 0}
+  gateStairsL:
+    gObj: {fileID: 548946619}
+    materials: []
+    mesh: {fileID: 0}
+  gateStairsR:
+    gObj: {fileID: 1465085643}
+    materials: []
+    mesh: {fileID: 0}
   gateStairsSO: {fileID: 11400000, guid: 03ef5895d10c10621bedfdeb945e17b6, type: 2}
-  landingAreaSO: {fileID: 11400000, guid: 14b6e5422d925da5c88bda43790ba247, type: 2}
-  inrunGuardrailSO: {fileID: 11400000, guid: 8dd7e64d76cf084348d56938ce9dfb50, type: 2}
-  InrunOuterGuardrailSO: {fileID: 11400000, guid: bfb0bad4b732443c0951eab20827cf58,
-    type: 2}
-  LandingAreaGuardrailSO: {fileID: 11400000, guid: f0814b91feec3c92696ea404c186497f,
-    type: 2}
-  profileData: {fileID: 11400000, guid: ad24b2a60dd1a66ababa37b8831c3473, type: 2}
-  hill: {fileID: 11400000, guid: a87b0f24963f7358498cf73117213478, type: 2}
-  generateTerrain: 1
   generateGateStairsL: 1
   generateGateStairsR: 1
   generateInrunStairsL: 1
   generateInrunStairsR: 1
   generateLandingAreaGuardrailL: 1
   generateLandingAreaGuardrailR: 1
-  inrunStairsStepHeigth: 0.16071537
-  inrunStairsAngle: 0.001
+  generateTerrain: 1
+  hill: {fileID: 11400000, guid: a87b0f24963f7358498cf73117213478, type: 2}
   hills: []
   inrun:
     gObj: {fileID: 1914564152}
-    mesh: {fileID: 0}
     materials: []
+    mesh: {fileID: 0}
+  inrunConstruction:
+    gObj: {fileID: 1398884649}
+    materials:
+    - {fileID: 2100000, guid: f10895ca1d4a903af99adfe4f5f48152, type: 2}
+    mesh: {fileID: 0}
+  inrunGuardrailL:
+    gObj: {fileID: 484684227}
+    materials: []
+    mesh: {fileID: 0}
+  inrunGuardrailR:
+    gObj: {fileID: 1886837739}
+    materials: []
+    mesh: {fileID: 0}
+  inrunGuardrailSO: {fileID: 11400000, guid: 8dd7e64d76cf084348d56938ce9dfb50, type: 2}
+  inrunLampPrefab: {fileID: 4174168713265214395, guid: fd4c947576ce6d103b4b7c5492ca43d2,
+    type: 3}
+  inrunOuterGuardrailL:
+    gObj: {fileID: 968897422}
+    materials: []
+    mesh: {fileID: 0}
+  inrunOuterGuardrailR:
+    gObj: {fileID: 1972582067}
+    materials: []
+    mesh: {fileID: 0}
+  InrunOuterGuardrailSO: {fileID: 11400000, guid: bfb0bad4b732443c0951eab20827cf58,
+    type: 2}
+  inrunStairsAngle: 0.001
+  inrunStairsL:
+    gObj: {fileID: 1361243363}
+    materials:
+    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
+    mesh: {fileID: 0}
+  inrunStairsR:
+    gObj: {fileID: 2064989882}
+    materials:
+    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
+    mesh: {fileID: 0}
+  inrunStairsStepHeigth: 0.16071537
+  inrunTerrain: 0.2
+  inrunTrackSO: {fileID: 11400000, guid: 4301598bc8c74155788bb80325afc0b8, type: 2}
+  jumperPosition: {x: -66.771484, y: 31.841547, z: 0}
+  jumperRotation: {x: 0, y: 0, z: -0.3007058, w: 0.95371693}
+  lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
+    type: 3}
   landingArea:
     gObj: {fileID: 1868848134}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 486601df3a075d7bb90b141062b8d4a1, type: 2}
     - {fileID: 2100000, guid: 49d363d03a5b29be9a598f94f0078e8c, type: 2}
     - {fileID: 2100000, guid: 9bb9a97ebf3774f228fddbc345b78334, type: 2}
     - {fileID: 2100000, guid: 7e6fb85d6524d630494165cc8f53157f, type: 2}
-  gateStairsL:
-    gObj: {fileID: 548946619}
     mesh: {fileID: 0}
-    materials: []
-  gateStairsR:
-    gObj: {fileID: 1465085643}
-    mesh: {fileID: 0}
-    materials: []
-  inrunStairsL:
-    gObj: {fileID: 1361243363}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
-  inrunStairsR:
-    gObj: {fileID: 2064989882}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f0ff241b934a95227b5b5525fa3fbdb5, type: 2}
-  inrunGuardrailL:
-    gObj: {fileID: 484684227}
-    mesh: {fileID: 0}
-    materials: []
-  inrunGuardrailR:
-    gObj: {fileID: 1886837739}
-    mesh: {fileID: 0}
-    materials: []
-  inrunOuterGuardrailL:
-    gObj: {fileID: 968897422}
-    mesh: {fileID: 0}
-    materials: []
-  inrunOuterGuardrailR:
-    gObj: {fileID: 1972582067}
-    mesh: {fileID: 0}
-    materials: []
   landingAreaGuardrailL:
     gObj: {fileID: 2144599432}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 67e324ed6598d2650ad4d44ebfedbad6, type: 2}
+    mesh: {fileID: 0}
   landingAreaGuardrailR:
     gObj: {fileID: 553048993}
-    mesh: {fileID: 0}
     materials:
     - {fileID: 2100000, guid: 67e324ed6598d2650ad4d44ebfedbad6, type: 2}
+    mesh: {fileID: 0}
+  LandingAreaGuardrailSO: {fileID: 11400000, guid: f0814b91feec3c92696ea404c186497f,
+    type: 2}
+  landingAreaSO: {fileID: 11400000, guid: 14b6e5422d925da5c88bda43790ba247, type: 2}
+  nightSkybox: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
   outrunGuardrail:
     gObj: {fileID: 0}
-    mesh: {fileID: 0}
     materials: []
+    mesh: {fileID: 0}
+  profileData: {fileID: 11400000, guid: ad24b2a60dd1a66ababa37b8831c3473, type: 2}
+  saveMesh: 0
   startGate: {fileID: 1625031315}
-  inrunConstruction:
-    gObj: {fileID: 1398884649}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: f10895ca1d4a903af99adfe4f5f48152, type: 2}
-  digitsMarks:
-    gObj: {fileID: 1190448036}
-    mesh: {fileID: 0}
-    materials:
-    - {fileID: 2100000, guid: 4f13d2836942a5dddaa999aa7d6e29cf, type: 2}
-  lampPrefab: {fileID: 4436381725861176089, guid: 38cf49d8518f644b0bce9d4585f87f07,
-    type: 3}
-  inrunLampPrefab: {fileID: 4174168713265214395, guid: fd4c947576ce6d103b4b7c5492ca43d2,
-    type: 3}
-  terrainObject: {fileID: 989473692}
-  jumperPosition: {x: -66.771484, y: 31.841547, z: 0}
-  jumperRotation: {x: 0, y: 0, z: -0.3007058, w: 0.95371693}
-  inrunTerrain: 0.2
-  terrainBase: 2
   sunLight: {fileID: 1986162011}
-  daySkybox: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
-  nightSkybox: {fileID: 2100000, guid: 82b660520bdecce4daf45d270ec93fe4, type: 2}
+  terrainBase: 2
+  terrainObject: {fileID: 989473692}
   time: 1
 --- !u!1 &1757253879 stripped
 GameObject:
@@ -26125,12 +26140,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2159d2046b7ec07b6a0d5869a63c548a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  savesRepository: {fileID: 11400000, guid: 35d899ff946799fba928fcad588c4b48, type: 2}
-  hillsRepository: {fileID: 11400000, guid: f9383a59b6da89d258fedd063fb4aa10, type: 2}
-  hillsFactory: {fileID: 11400000, guid: 47adc5a10ec90abeebd4871b274007f7, type: 2}
-  hill: {fileID: 87897532}
   competitors: {fileID: 11400000, guid: a37b188b5d0732ffda2e4a5f63ff3a24, type: 2}
-  resultsManager: {fileID: 11400000, guid: 2263c123852116d44925a3188e8ded51, type: 2}
+  hill: {fileID: 87897532}
+  hillsFactory: {fileID: 11400000, guid: 47adc5a10ec90abeebd4871b274007f7, type: 2}
+  hillsRepository: {fileID: 11400000, guid: f9383a59b6da89d258fedd063fb4aa10, type: 2}
+  skiJumperDataController: {fileID: 710402060}
+  onCompetitionFinish:
+    m_PersistentCalls:
+      m_Calls: []
   onCompetitionStart:
     m_PersistentCalls:
       m_Calls:
@@ -26145,30 +26162,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onCompetitionFinish:
+  onJumpFinish:
     m_PersistentCalls:
       m_Calls: []
-  onRoundStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onRoundFinish:
-    m_PersistentCalls:
-      m_Calls: []
-  onSubroundStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2141044618}
-        m_MethodName: ClearListView
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onSubroundFinish:
+  onJumpStart:
     m_PersistentCalls:
       m_Calls: []
   onNewJumper:
@@ -26185,12 +26182,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onJumpStart:
+  onRoundFinish:
     m_PersistentCalls:
       m_Calls: []
-  onJumpFinish:
+  onRoundStart:
     m_PersistentCalls:
       m_Calls: []
+  onSubroundFinish:
+    m_PersistentCalls:
+      m_Calls: []
+  onSubroundStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2141044618}
+        m_MethodName: ClearListView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  resultsManager: {fileID: 11400000, guid: 2263c123852116d44925a3188e8ded51, type: 2}
+  savesRepository: {fileID: 11400000, guid: 35d899ff946799fba928fcad588c4b48, type: 2}
   tournamentMenuSceneIndex: 1
 --- !u!4 &1768702667
 Transform:
