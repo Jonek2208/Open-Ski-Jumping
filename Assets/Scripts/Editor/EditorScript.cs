@@ -45,6 +45,20 @@ namespace OpenSkiJumping.Editor
 //     }
 // }
 
+    [CustomEditor(typeof(GameConfigRuntime))]
+    public class GameConfigEditorScript : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            GameConfigRuntime gameConfig = (GameConfigRuntime) target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Set translations"))
+            {
+                gameConfig.SetTranslations();
+            }
+        }
+    }
+
     [CustomEditor(typeof(MeshScript))]
     public class EditorScript : UnityEditor.Editor
     {

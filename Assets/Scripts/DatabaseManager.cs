@@ -7,7 +7,7 @@ namespace OpenSkiJumping
 {
     public class DatabaseManager : MonoBehaviour
     {
-        [FormerlySerializedAs("objects")] public List<RuntimeData> objectsToLoad;
+        public List<RuntimeData> objectsToLoad;
         public List<RuntimeData> objectsToSave;
 
         private void Awake()

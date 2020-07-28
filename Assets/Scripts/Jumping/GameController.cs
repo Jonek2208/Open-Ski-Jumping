@@ -30,22 +30,25 @@ namespace OpenSkiJumping.Jumping
             SceneManager.LoadScene(0);
         }
 
+        public void RestartJump()
+        {
+            OnJumpRestart.Invoke();
+        }
+
         void Update()
         {
-            KeyCode[] keys = { KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8, KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12};
-            for (int i = 0; i < keys.Length; i++)
+            KeyCode[] keys =
             {
-                if (Input.GetKeyDown(keys[i]))
-                {
-                    camerasController.EnableCamera(2 * i + reversedCam);
-                    currentCam = i;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
+                KeyCode.F1, KeyCode.F2, KeyCode.F3, KeyCode.F4, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8,
+                KeyCode.F9, KeyCode.F10, KeyCode.F11, KeyCode.F12
+            };
+            for (var i = 0; i < keys.Length; i++)
             {
-                OnJumpRestart.Invoke();
+                if (!Input.GetKeyDown(keys[i])) continue;
+                camerasController.EnableCamera(2 * i + reversedCam);
+                currentCam = i;
             }
+            
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -56,7 +59,7 @@ namespace OpenSkiJumping.Jumping
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 OnPauseMenu.Invoke();
-                LoadMainMenu();
+                // LoadMainMenu();
             }
         }
     }

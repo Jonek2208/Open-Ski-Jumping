@@ -1,3 +1,4 @@
+using System.Globalization;
 using DG.Tweening;
 using OpenSkiJumping.Competition.Runtime;
 using TMPro;
@@ -19,7 +20,7 @@ namespace OpenSkiJumping.TVGraphics
 
         public override void Show()
         {
-            speedText.text = $"{jumpData.Speed:F1} km/h";
+            speedText.text = $"{jumpData.Speed.ToString("F1", CultureInfo.InvariantCulture)} km/h";
             canvasGroup.alpha = 1;
             rectTransform.localScale = new Vector3(0, 1, 1);
             DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));

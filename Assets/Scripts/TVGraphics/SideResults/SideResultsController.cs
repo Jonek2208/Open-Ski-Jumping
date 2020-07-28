@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.ScriptableObjects;
 using OpenSkiJumping.UI.ListView;
@@ -32,7 +33,7 @@ namespace OpenSkiJumping.TVGraphics.SideResults
             listItem.nameText.text = $"{GetNameById(globalId)}";
             listItem.countryFlagText.text = $"{GetCountryCodeById(globalId)}";
             listItem.countryFlagImage.sprite = flagsData.GetFlag(GetCountryCodeById(globalId));
-            listItem.resultText.text = $"{item.TotalPoints:F1}";
+            listItem.resultText.text = $"{item.TotalPoints.ToString("F1", CultureInfo.InvariantCulture)}";
         }
 
         protected abstract string GetNameById(int id);

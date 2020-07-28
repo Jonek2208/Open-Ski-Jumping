@@ -14,10 +14,8 @@ namespace OpenSkiJumping.Jumping
         public Hill hill;
         public Transform hillTransform;
 
-        [SerializeField]
-        private int currentGate;
-        [SerializeField]
-        private decimal currentWind;
+        [SerializeField] private int currentGate;
+        [SerializeField] private decimal currentWind;
         public GameObject gateObject;
         public Vector3 jumperPosition;
         public Quaternion jumperRotation;
@@ -28,8 +26,8 @@ namespace OpenSkiJumping.Jumping
         public UnityEvent onDistanceMeasurement;
         public UnityEvent onSpeedMeasurement;
 
-        private readonly decimal[] deductions = { 0, 0, 0 };
-        private readonly decimal[] maxDeductions = { 5, 5, 7 };
+        private readonly decimal[] deductions = {0, 0, 0};
+        private readonly decimal[] maxDeductions = {5, 5, 7};
         private decimal dist;
 
         private float fl0, fl1;
@@ -87,13 +85,15 @@ namespace OpenSkiJumping.Jumping
             {
                 bias = 0.5m;
             }
+
             bias *= 2;
             bias += 1;
 
-            decimal[] points = { 0, 0, 0, 0, 0 };
+            decimal[] points = {0, 0, 0, 0, 0};
             for (int i = 0; i < 5; i++)
             {
-                points[i] = (decimal)Math.Round(Mathf.Clamp((float)model + (int)(Random.Range(-(float)bias, (float)bias)) * 0.5f, 0f, 20f), 2);
+                points[i] = (decimal) Math.Round(
+                    Mathf.Clamp((float) model + (int) (Random.Range(-(float) bias, (float) bias)) * 0.5f, 0f, 20f), 2);
             }
 
             return points;
@@ -146,27 +146,10 @@ namespace OpenSkiJumping.Jumping
             {
                 PointDeduction(0, 0.5m);
             }
+
             fl0 = fl1;
             dx0 = dx1;
             dx1 = dx2;
-        }
-
-        public void HillInit()
-        {
-            // if (pd == null)
-            // {
-            //     pd = meshScript.profileData.Value;
-            // }
-
-            // // Temporary - until hillsdatabase & editor will be updated
-            // pd.a = 100; pd.rA = 0; pd.betaA = 0; pd.b1 = 2.5f; pd.b2 = 10; pd.bK = 20; pd.bU = 25;
-
-            // hill = new Hill(pd);
-
-            // hillName.Value = pd.name;
-            // hill.Calculate();
-            // meshScript.profileData.Value = pd;
-            // meshScript.GenerateMesh();
         }
 
         public decimal Distance(Vector2[] landingAreaPoints, Vector3 contact)
@@ -187,19 +170,18 @@ namespace OpenSkiJumping.Jumping
                     return i;
                 }
             }
+
             return landingAreaPoints.Length;
         }
 
         public void OnJumperStart()
         {
             jumpData.ResetValues();
-            jumpData.GatesDiff = 0;
         }
 
         public void OnSpeedMeasurement(float speed)
         {
-            jumpData.Speed = (decimal)speed * 3.6m;
-            // competitorVariable.speed.Value = speed * 3.6f;
+            jumpData.Speed = (decimal) speed * 3.6m;
             onSpeedMeasurement.Invoke();
         }
 
@@ -207,13 +189,13 @@ namespace OpenSkiJumping.Jumping
         {
             dist = Distance(hill.landingAreaPoints, contact);
             jumpData.Distance = dist;
-            // competitorVariable.distance.Value = (float)dist;
             onDistanceMeasurement.Invoke();
         }
 
-        public void SetGate(float _gate)
+        public void SetGate(float val)
         {
-            int gate = Mathf.RoundToInt(_gate);
+            var gate = Mathf.RoundToInt(val);
+            jumpData.Gate = gate;
             currentGate = gate;
             jumperPosition = new Vector3(hill.GatePoint(gate).x, hill.GatePoint(gate).y, 0);
             jumperRotation.eulerAngles = new Vector3(0, 0, -hill.gamma);
@@ -236,8 +218,9 @@ namespace OpenSkiJumping.Jumping
 
         public void SetWind(float val)
         {
-            currentWind = (decimal)val;
+            currentWind = (decimal) val;
             jumperController.windForce = val;
+            jumpData.Wind = currentWind;
         }
     }
 }

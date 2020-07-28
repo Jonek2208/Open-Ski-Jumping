@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 
 namespace OpenSkiJumping.UI.ListView
@@ -9,7 +10,7 @@ namespace OpenSkiJumping.UI.ListView
         public ToggleExtension toggleExtension;
         public void UpdateContent(int index, IList<ResultData> val)
         {
-            GetComponentInChildren<TMP_Text>().text = $"{val[index].result:F1} {val[index].firstName} {val[index].lastName}";
+            GetComponentInChildren<TMP_Text>().text = $"{val[index].result.ToString("F1", CultureInfo.InvariantCulture)} {val[index].firstName} {val[index].lastName}";
             toggleExtension.SetElementId(index);
         }
     }

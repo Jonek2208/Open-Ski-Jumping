@@ -82,7 +82,7 @@ namespace OpenSkiJumping.TVGraphics
             {
                 if (0 <= xx)
                 {
-                    item.text = $"{jumpResults.results[xx].distance:F1} m";
+                    item.text = $"{jumpResults.results[xx].distance.ToString("F1", CultureInfo.InvariantCulture)} m";
                 }
                 else
                 {

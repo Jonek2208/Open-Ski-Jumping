@@ -6,7 +6,9 @@ namespace OpenSkiJumping.Competition.Runtime
     {
         decimal Distance { get; set; }
         decimal[] JudgesMarks { get; set; }
-        int GatesDiff { get; set; }
+        int GatesDiff { get; }
+        int InitGate { set; }
+        int Gate { get; set; }
         decimal Wind { get; set; }
         decimal Speed { get; set; }
     }
@@ -14,11 +16,11 @@ namespace OpenSkiJumping.Competition.Runtime
     [CreateAssetMenu(menuName = "ScriptableObjects/Competition/RuntimeJumpData")]
     public class RuntimeJumpData : ScriptableObject, IJumpData
     {
-        [SerializeField] private int gatesDiff;
         [SerializeField] private decimal speed;
         [SerializeField] private decimal distance;
         [SerializeField] private decimal wind;
         [SerializeField] private decimal[] judgesMarks;
+        [SerializeField] private int initGate;
 
         public decimal Distance
         {
@@ -32,11 +34,10 @@ namespace OpenSkiJumping.Competition.Runtime
             set => judgesMarks = value;
         }
 
-        public int GatesDiff
-        {
-            get => gatesDiff;
-            set => gatesDiff = value;
-        }
+        public int GatesDiff => Gate - InitGate;
+
+        public int InitGate { get; set; }
+        public int Gate { get; set; }
 
         public decimal Wind
         {
@@ -52,7 +53,6 @@ namespace OpenSkiJumping.Competition.Runtime
 
         public void ResetValues()
         {
-            gatesDiff = 0;
             speed = 0;
             distance = 0;
             wind = 0;

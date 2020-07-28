@@ -1,3 +1,4 @@
+using System.Globalization;
 using DG.Tweening;
 using OpenSkiJumping.ScriptableObjects.Variables;
 using TMPro;
@@ -19,7 +20,7 @@ namespace OpenSkiJumping.TVGraphics
 
         public override void Show()
         {
-            toBeatText.text = $"To beat: {toBeatDistFV.Value:F1} m";
+            toBeatText.text = $"To beat: {toBeatDistFV.Value.ToString("F1", CultureInfo.InvariantCulture)} m";
             canvasGroup.alpha = 1;
             rectTransform.localScale = new Vector3(0, 1, 1);
             DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));

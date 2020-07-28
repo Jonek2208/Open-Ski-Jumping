@@ -1,7 +1,10 @@
-﻿using OpenSkiJumping.Jumping;
+﻿using System;
+using OpenSkiJumping.Data;
+using OpenSkiJumping.Jumping;
 using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace OpenSkiJumping.New
 {
@@ -30,7 +33,8 @@ namespace OpenSkiJumping.New
         [Space] [Header("Parameters")] public float jumpSpeed;
         private int landing;
         public double lift = 0.001d;
-        public FloatVariable mouseSensitivity;
+        [SerializeField] private GameConfigRuntime gameConfig;
+
 
         public bool oldMode;
         public UnityEvent OnStartEvent;
@@ -47,6 +51,12 @@ namespace OpenSkiJumping.New
         // public float mouseSensitivity = 2f; 
         [Space] [Header("Wind")] public Vector2 windDir;
         public float windForce;
+        private static readonly int JumperCrash = Animator.StringToHash("JumperCrash");
+        private static readonly int JumperState = Animator.StringToHash("JumperState");
+        private static readonly int DownForce = Animator.StringToHash("DownForce");
+        private static readonly int JumperAngle = Animator.StringToHash("JumperAngle");
+        private static readonly int Landing = Animator.StringToHash("Landing");
+        
         public int State { get; private set; }
         public float Distance { get; private set; }
         public bool Landed { get; private set; }
@@ -55,17 +65,17 @@ namespace OpenSkiJumping.New
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Inrun")
+            if (other.CompareTag("Inrun"))
             {
                 OnInrun = true;
             }
 
-            if (other.tag == "LandingArea")
+            if (other.CompareTag("LandingArea"))
             {
                 OnOutrun = true;
             }
 
-            if (!Landed && other.tag == "LandingArea")
+            if (!Landed && other.CompareTag("LandingArea"))
             {
                 judgesController.OnDistanceMeasurement((jumperModel.distCollider1.transform.position +
                                                         jumperModel.distCollider2.transform.position) / 2.0f);
@@ -82,13 +92,13 @@ namespace OpenSkiJumping.New
 
         void OnTriggerExit(Collider other)
         {
-            if (other.tag == "Inrun")
+            if (other.CompareTag("Inrun"))
             {
                 OnInrun = false;
                 judgesController.OnSpeedMeasurement(rb.velocity.magnitude);
             }
 
-            if (other.tag == "LandingArea")
+            if (other.CompareTag("LandingArea"))
             {
                 OnOutrun = false;
             }
@@ -96,7 +106,7 @@ namespace OpenSkiJumping.New
 
         void OnCollisionEnter(Collision other)
         {
-            if (!Landed && other.collider.tag == "LandingArea")
+            if (!Landed && other.collider.CompareTag("LandingArea"))
             {
                 Debug.Log("Landed: " + other.impulse.magnitude);
                 // if (other.impulse.magnitude > 4)
@@ -124,7 +134,7 @@ namespace OpenSkiJumping.New
             }
         }
 
-        void Awake()
+        private void Awake()
         {
             State = 0;
             Landed = false;
@@ -138,9 +148,9 @@ namespace OpenSkiJumping.New
         public void ResetValues()
         {
             State = 0;
-            jumperModel.animator.SetBool("JumperCrash", false);
-            jumperModel.animator.SetInteger("JumperState", State);
-            jumperModel.animator.SetFloat("DownForce", 0f);
+            jumperModel.animator.SetBool(JumperCrash, false);
+            jumperModel.animator.SetInteger(JumperState, State);
+            jumperModel.animator.SetFloat(DownForce, 0f);
             Landed = false;
             rb.isKinematic = true;
             jumperModel.GetComponent<Transform>().localPosition = new Vector3();
@@ -154,8 +164,11 @@ namespace OpenSkiJumping.New
             judged = false;
             takeoff = false;
             goodSamples = 0;
+
         }
 
+        private bool shouldStart;
+        private bool shouldNextJumper;
 
         void Update()
         {
@@ -169,12 +182,9 @@ namespace OpenSkiJumping.New
                 audioSource.mute = true;
             }
 
-            jumperModel.animator.SetInteger("JumperState", State);
-            if (State == 0 && Input.GetKeyDown(KeyCode.Space))
-            {
-                Gate();
-            }
-            else if (State == 1 && Input.GetMouseButtonDown(0))
+            jumperModel.animator.SetInteger(JumperState, State);
+
+            if (State == 1 && Input.GetMouseButtonDown(0))
             {
                 Jump();
             }
@@ -190,12 +200,12 @@ namespace OpenSkiJumping.New
             {
                 if (oldMode)
                 {
-                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
+                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * gameConfig.Config.mouseSensitivity;
                     jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
                 }
                 else
                 {
-                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * mouseSensitivity.Value;
+                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * gameConfig.Config.mouseSensitivity;
                     jumperAngle /= 1.05f;
                     jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
                 }
@@ -211,7 +221,7 @@ namespace OpenSkiJumping.New
                     rb.AddRelativeTorque(torque, ForceMode.Acceleration);
                 }
 
-                jumperModel.animator.SetFloat("JumperAngle", jumperAngle);
+                jumperModel.animator.SetFloat(JumperAngle, jumperAngle);
             }
 
             if (rb.transform.position.x > judgesController.hill.U.x)
@@ -222,9 +232,9 @@ namespace OpenSkiJumping.New
 
         void FixedUpdate()
         {
-            Vector3 vel = rb.velocity + rb.velocity.normalized * windForce;
+            var vel = rb.velocity + rb.velocity.normalized * windForce;
             // Debug.Log(vel);
-            Vector3 liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
+            var liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
             double tmp = rb.rotation.eulerAngles.z;
             if (tmp > 180) tmp -= 360;
 
@@ -285,6 +295,7 @@ namespace OpenSkiJumping.New
 
         public void Gate()
         {
+            if (State != 0) return;
             State = 1;
             OnStartEvent.Invoke();
             rb.isKinematic = false;
@@ -310,16 +321,15 @@ namespace OpenSkiJumping.New
 
             State = 3;
             landing = 1;
-            jumperModel.animator.SetFloat("Landing", 1);
+            jumperModel.animator.SetFloat(Landing, 1);
             if (button0 && button1)
             {
-                jumperModel.animator.SetFloat("Landing", 0);
+                jumperModel.animator.SetFloat(Landing, 0);
                 landing = 0;
             }
 
             if (landing == 0)
             {
-                // Debug.Log("RAKAKAN MALY CVEL");
                 judgesController.PointDeduction(1, 1m);
                 landing = -1;
             }
@@ -339,7 +349,7 @@ namespace OpenSkiJumping.New
 
             //Na plecy i na brzuch
             //State = ;
-            jumperModel.animator.SetBool("JumperCrash", true);
+            jumperModel.animator.SetBool(JumperCrash, true);
             rSkiClone.SetActive(true);
             lSkiClone.SetActive(true);
             jumperModel.skiRight.SetActive(false);

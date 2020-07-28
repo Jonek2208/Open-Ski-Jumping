@@ -71,7 +71,7 @@ namespace OpenSkiJumping.TVGraphics
 
             foreach (var item in meters)
             {
-                item.text = 0 <= xx ? $"{jumpResults.results[xx].distance:F1} m" : "";
+                item.text = 0 <= xx ? $"{jumpResults.results[xx].distance.ToString("F1", CultureInfo.InvariantCulture)} m" : "";
                 xx++;
             }
             // listView.AddItem(new ResultData() { firstName = competitor.firstName, lastName = competitor.lastName.ToUpper(), result = (float)resultsManager.results[competitorId].TotalPoints });

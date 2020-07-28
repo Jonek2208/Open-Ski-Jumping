@@ -40,7 +40,7 @@ namespace OpenSkiJumping.Competition
         private SortedList<(decimal points, int bib, int round), int> allRoundResults;
         private SortedList<(int state, decimal points, int bib), int> finalResults;
         private SortedList<(decimal points, int bib), int> losersResults;
-
+        private int[] initGates;
 
         private int competitorsCount;
         private int[] koState;
@@ -54,6 +54,7 @@ namespace OpenSkiJumping.Competition
             EventInfo = eventInfo;
             OrderedParticipants = orderedParticipants;
             this.hillInfo = hillInfo;
+            initGates = new int[eventInfo.roundInfos.Count];
 
             InitializeValues();
         }
@@ -251,6 +252,13 @@ namespace OpenSkiJumping.Competition
             if (currentRoundInfo.disableJudgesMarks)
                 for (var i = 0; i < jumpData.JudgesMarks.Length; i++)
                     jumpData.JudgesMarks[i] = 0m;
+
+            //Set init gate for round
+            if (StartListIndex == 0 && SubroundIndex == 0)
+            {
+                initGates[RoundIndex] = jumpData.Gate;
+                jumpData.InitGate = jumpData.Gate;
+            }
 
             var jump = EventProcessor.GetJumpResult(jumpData, hillInfo);
             if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();

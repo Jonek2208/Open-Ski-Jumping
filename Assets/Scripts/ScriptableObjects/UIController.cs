@@ -13,7 +13,6 @@ namespace OpenSkiJumping.ScriptableObjects
         private void Start()
         {
             Refresh();
-            languagesDropdown.AddOptions(translations.Languages.Select(item => item.NativeLanguageName).ToList());
         }
         public void Refresh()
         {

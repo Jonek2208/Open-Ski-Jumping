@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Hills;
+using OpenSkiJumping.Simulation;
 using UnityEngine;
 
 namespace OpenSkiJumping.Data
@@ -13,7 +14,9 @@ namespace OpenSkiJumping.Data
         public HillInfo GetHillInfo(string hillName)
         {
             var hill = Data.Find(it => it.name == hillName);
-            return new HillInfo((decimal) hill.w, (decimal) (hill.w + hill.l2), 0, 0, 0, 0);
+
+            return new HillInfo((decimal) hill.w, (decimal) (hill.w + hill.l2), 0, 0, 0,
+                (decimal) hill.es / (hill.gates - 1));
         }
 
         public ProfileData GetProfileData(string hillName)

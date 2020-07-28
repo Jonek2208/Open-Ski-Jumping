@@ -1,4 +1,5 @@
 using OpenSkiJumping.Competition.Runtime;
+using OpenSkiJumping.Jumping;
 using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 
@@ -10,6 +11,13 @@ namespace OpenSkiJumping.Hills
         public RuntimeResultsManager resultsManager;
         public LineRenderer lineRenderer;
         [SerializeField] private FloatVariable toBeatDistFV;
+        [SerializeField] private float compensationPoints;
+
+        public float CompensationPoints
+        {
+            get => compensationPoints;
+            set => compensationPoints = value;
+        }
 
         public void SetLine()
         {
@@ -81,7 +89,7 @@ namespace OpenSkiJumping.Hills
                 currentJumperPoints = (float) resultsManager.Value.Results[competitorId].TotalPoints;
             }
 
-            var toBeatDist = (leaderPoints - currentJumperPoints - judges - p) / q + k;
+            var toBeatDist = (leaderPoints - currentJumperPoints - judges - p - compensationPoints) / q + k;
 
             var toBeatDistDoubled = Mathf.Min(2 * (hill.landingAreaPoints.Length - 1),
                 Mathf.RoundToInt(Mathf.Ceil(2 * toBeatDist)));

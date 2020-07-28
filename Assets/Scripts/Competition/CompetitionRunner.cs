@@ -5,6 +5,7 @@ using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
 using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.Simulation;
 using OpenSkiJumping.UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +21,11 @@ namespace OpenSkiJumping.Competition
         [SerializeField] private HillsFactory hillsFactory;
         [SerializeField] private HillsRuntime hillsRepository;
         [SerializeField] private SkiJumperDataController skiJumperDataController;
+        [SerializeField] private WindGatePanel windGatePanel;
+        [SerializeField] private JumpSimulator compensationsJumpSimulator;
+        [SerializeField] private ToBeatLineController toBeatLineController;
+        [SerializeField] private RuntimeJumpData jumpData;
+
 
         public UnityEvent onCompetitionFinish;
 
@@ -31,6 +37,7 @@ namespace OpenSkiJumping.Competition
         public UnityEvent onRoundStart;
         public UnityEvent onSubroundFinish;
         public UnityEvent onSubroundStart;
+        public UnityEvent onWindGateChanged;
         [SerializeField] private RuntimeResultsManager resultsManager;
         [SerializeField] private SavesRuntime savesRepository;
         [SerializeField] private int tournamentMenuSceneIndex;
@@ -188,7 +195,14 @@ namespace OpenSkiJumping.Competition
             var hillId = save.calendar.events[eventId].hillId;
 
             hillInfo = hillsRepository.GetHillInfo(hillId);
+            var (head, tail, gate) = compensationsJumpSimulator.GetCompensations();
+            hillInfo.SetCompensations(head, tail, gate);
+
             resultsManager.Initialize(save.calendar.events[eventId], orderedParticipants, hillInfo);
+            jumpData.Gate = jumpData.InitGate = 1;
+            jumpData.Wind = 0;
+
+            windGatePanel.Initialize(hill.profileData.Value.gates);
 
             onCompetitionStart.Invoke();
             OnRoundStart();
@@ -215,6 +229,15 @@ namespace OpenSkiJumping.Competition
             var id = resultsManager.Value.GetCurrentJumperId();
             onNewJumper.Invoke();
             skiJumperDataController.SetValues(bibColors[id]);
+        }
+
+        public void UpdateToBeat()
+        {
+            if (resultsManager.Value.StartListIndex == 0 && resultsManager.Value.SubroundIndex == 0)
+                jumpData.InitGate = jumpData.Gate;
+            toBeatLineController.CompensationPoints =
+                (float) (hillInfo.GetGatePoints(jumpData.GatesDiff) + hillInfo.GetWindPoints(jumpData.Wind));
+            onWindGateChanged.Invoke();
         }
     }
 }

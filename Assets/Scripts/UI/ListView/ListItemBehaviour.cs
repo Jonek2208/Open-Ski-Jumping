@@ -13,7 +13,11 @@ namespace OpenSkiJumping.UI.ListView
         public SelectionType SelectionType
         {
             get => selectionType;
-            set => selectionType = value;
+            set
+            {
+                selectionType = value;
+                selection.interactable = selectionType != SelectionType.None;
+            }
         }
 
         public int Index { get; set; }

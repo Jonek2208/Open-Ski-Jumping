@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using OpenSkiJumping.ScriptableObjects;
 using OpenSkiJumping.TVGraphics.SideResults;
@@ -52,7 +53,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
             listItem.nameText.text = item.name;
             listItem.countryFlagText.text = item.countryCode;
             listItem.countryFlagImage.sprite = flagsData.GetFlag(item.countryCode);
-            listItem.resultText.text = $"{item.value:F1}";
+            listItem.resultText.text = $"{item.value.ToString("F1", CultureInfo.InvariantCulture)}";
         }
     }
 }
