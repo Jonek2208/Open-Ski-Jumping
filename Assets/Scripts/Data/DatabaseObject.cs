@@ -8,6 +8,7 @@ namespace OpenSkiJumping.Data
     {
         public abstract bool LoadData();
         public abstract void SaveData();
+        public abstract void Reset();
     }
 
     public class DatabaseObject<T> : RuntimeData
@@ -16,27 +17,43 @@ namespace OpenSkiJumping.Data
         [SerializeField] protected T data;
         [SerializeField] protected bool loaded;
 
-        public T Data { get => data; set => data = value; }
-        public bool Loaded { get => loaded; set => loaded = value; }
+        public T Data
+        {
+            get => data;
+            protected set => data = value;
+        }
+
+        public bool Loaded
+        {
+            get => loaded;
+            set => loaded = value;
+        }
+
+        public override void Reset()
+        {
+            data = default;
+            loaded = false;
+        }
 
         public override bool LoadData()
         {
-            string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+            var filePath = Path.Combine(Application.streamingAssetsPath, fileName);
             if (File.Exists(filePath))
             {
-                string dataAsJson = File.ReadAllText(filePath);
+                var dataAsJson = File.ReadAllText(filePath);
                 data = JsonConvert.DeserializeObject<T>(dataAsJson);
                 loaded = true;
                 return true;
             }
+
             loaded = false;
             return false;
         }
 
         public override void SaveData()
         {
-            string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-            string dataAsJson = JsonConvert.SerializeObject(data);
+            var filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+            var dataAsJson = JsonConvert.SerializeObject(data);
             File.WriteAllText(filePath, dataAsJson);
         }
     }

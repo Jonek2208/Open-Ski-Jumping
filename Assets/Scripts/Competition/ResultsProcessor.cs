@@ -34,17 +34,16 @@ namespace OpenSkiJumping.Competition
         protected abstract IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints();
 
         public IEnumerable<int> GetTrimmedFinalResultsPreQual(IEnumerable<Participant> participants,
-            LimitType inLimitType,
-            int inLimit, IEnumerable<int> preQualified)
+            LimitType inLimitType, int inLimit, IEnumerable<int> preQualified)
         {
             var tempList = GetFinalResultsWithTotalPoints();
             // remove not registered participants
             var lookup = participants.Select((val, ind) => (val, ind)).ToDictionary(it => it.val.id, it => it.ind);
             var preQualSet = new HashSet<int>(preQualified);
             tempList = tempList.Where(it => lookup.ContainsKey(it.Item2) && !preQualSet.Contains(it.Item2));
-
+            var newInLimit = Math.Max(0, inLimit - preQualSet.Count);
             // trim list to inLimit 
-            return TrimRankingToLimit(tempList, inLimitType, inLimit).Concat(preQualSet);
+            return TrimRankingToLimit(tempList, inLimitType, newInLimit).Concat(preQualSet);
         }
 
         public IEnumerable<int> GetTrimmedFinalResults(IEnumerable<Participant> participants, LimitType inLimitType,

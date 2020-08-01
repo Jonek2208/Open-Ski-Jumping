@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.ScriptableObjects;
-using OpenSkiJumping.UI.CalendarEditor.Classifications;
+using OpenSkiJumping.UI.CalendarEditor.Events;
 using OpenSkiJumping.UI.ListView;
 using UnityEngine;
 
 namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
 {
-    public class ClassificationsSelectionView : MonoBehaviour, IClassificationsSelectionView
+    public class EventsSelectionView : MonoBehaviour, IEventsSelectionView
     {
-        private List<ClassificationInfo> classifications;
+        private List<EventInfo> events;
         [SerializeField] private IconsData iconsData;
         private bool initialized;
 
-        [SerializeField] private ClassificationsListView listView;
-        private ClassificationsSelectionPresenter presenter;
+        [SerializeField] private EventsListView listView;
+        private EventsSelectionPresenter presenter;
 
         [SerializeField] private ResultsListController resultsListController;
 
         [SerializeField] private TournamentMenuData tournamentMenuData;
 
-        public ClassificationInfo SelectedClassification
+        public EventInfo SelectedEvent
         {
-            get => listView.SelectedIndex < 0 ? null : classifications[listView.SelectedIndex];
-            set => SelectClassification(value);
+            get => listView.SelectedIndex < 0 ? null : events[listView.SelectedIndex];
+            set => SelectEvent(value);
         }
 
-        public int CurrentClassificationIndex => listView.SelectedIndex;
+        public int CurrentEventIndex => listView.SelectedIndex;
 
-        public IEnumerable<ClassificationInfo> Classifications
+        public IEnumerable<EventInfo> Events
         {
             set
             {
-                classifications = value.ToList();
-                listView.Items = classifications;
+                events = value.ToList();
+                listView.Items = events;
                 listView.ClampSelectedIndex();
                 listView.Refresh();
             }
@@ -46,10 +46,10 @@ namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
         public event Action OnSelectionChanged;
         public event Action OnDataReload;
 
-        private void SelectClassification(ClassificationInfo classification)
+        private void SelectEvent(EventInfo item)
         {
             listView.SelectedIndex =
-                classification == null ? listView.SelectedIndex : classifications.IndexOf(classification);
+                item == null ? listView.SelectedIndex : events.IndexOf(item);
 
             listView.ClampSelectedIndex();
             listView.ScrollToIndex(listView.SelectedIndex);
@@ -61,7 +61,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
         {
             ListViewSetup();
             resultsListController.Initialize();
-            presenter = new ClassificationsSelectionPresenter(this, tournamentMenuData);
+            presenter = new EventsSelectionPresenter(this, tournamentMenuData);
             initialized = true;
         }
 
@@ -80,13 +80,12 @@ namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
             listView.Initialize(BindListViewItem);
         }
 
-        private void BindListViewItem(int index, ClassificationsListItem listItem)
+        private void BindListViewItem(int index, EventsListItem listItem)
         {
-            var item = classifications[index];
+            var item = events[index];
 
-            listItem.nameText.text = $"{item.name}";
-            listItem.bibImage.color = SimpleColorPicker.Hex2Color(item.leaderBibColor);
-            listItem.classificationTypeImage.sprite = iconsData.GetClassificationTypeIcon(item.classificationType);
+            listItem.idText.text = $"{index + 1}";
+            listItem.nameText.text = $"{item.hillId}";
             listItem.eventTypeImage.sprite = iconsData.GetEventTypeIcon(item.eventType);
         }
     }

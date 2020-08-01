@@ -50,6 +50,7 @@ namespace OpenSkiJumping.UI.HillsMenu
         {
             if (!initialized) return;
             OnDataReload?.Invoke();
+            listView.Reset();
         }
 
         private void ListViewSetup()

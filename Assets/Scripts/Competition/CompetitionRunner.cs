@@ -9,7 +9,6 @@ using OpenSkiJumping.Simulation;
 using OpenSkiJumping.UI;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace OpenSkiJumping.Competition
 {
@@ -40,7 +39,8 @@ namespace OpenSkiJumping.Competition
         public UnityEvent onWindGateChanged;
         [SerializeField] private RuntimeResultsManager resultsManager;
         [SerializeField] private SavesRuntime savesRepository;
-        [SerializeField] private int tournamentMenuSceneIndex;
+        [SerializeField] private MainMenuController menuController;
+        
         private Dictionary<int, Color> bibColors;
 
 
@@ -93,7 +93,7 @@ namespace OpenSkiJumping.Competition
             var save = savesRepository.GetCurrentSave();
             save.resultsContainer.eventIndex++;
             savesRepository.SaveData();
-            SceneManager.LoadScene(tournamentMenuSceneIndex);
+            menuController.LoadTournamentMenu();
         }
 
         private void UpdateClassifications()
@@ -142,20 +142,7 @@ namespace OpenSkiJumping.Competition
             competitors.teams = save.teams.Select(it => it.team).ToList();
 
 
-            var eventParticipants =
-                save.calendar.events[eventId].eventType == EventType.Individual
-                    ? save.competitors.Where(it => it.registered).Select(it => new Participant
-                    {
-                        competitors = new List<int> {it.calendarId}, id = it.calendarId,
-                        teamId = save.competitors[it.calendarId].teamId
-                    }).ToList()
-                    : save.teams.Where(it => it.registered && it.competitors.Count >= 4).Select(it => new Participant
-                        {
-                            competitors = it.competitors.Select(x => x.calendarId).Take(4).ToList(), id = it.calendarId,
-                            teamId = it.calendarId
-                        })
-                        .ToList();
-
+            var eventParticipants = EventProcessor.EventParticipants(save, eventId);
             save.resultsContainer.eventResults[eventId] = new EventResults {participants = eventParticipants};
 
             var participantsDict = eventParticipants.Select(item => item)
@@ -198,7 +185,7 @@ namespace OpenSkiJumping.Competition
             var (head, tail, gate) = compensationsJumpSimulator.GetCompensations();
             hillInfo.SetCompensations(head, tail, gate);
 
-            resultsManager.Initialize(save.calendar.events[eventId], orderedParticipants, hillInfo);
+            resultsManager.Initialize(currentEventInfo, orderedParticipants, hillInfo);
             jumpData.Gate = jumpData.InitGate = 1;
             jumpData.Wind = 0;
 
@@ -209,10 +196,12 @@ namespace OpenSkiJumping.Competition
             OnSubroundStart();
             OnJumpStart();
         }
+        
 
         public void OnRoundStart()
         {
             resultsManager.RoundInit();
+            UpdateToBeat();
             onRoundStart.Invoke();
             OnSubroundStart();
         }

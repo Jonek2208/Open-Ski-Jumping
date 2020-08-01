@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Hills;
-using OpenSkiJumping.Simulation;
 using UnityEngine;
 
 namespace OpenSkiJumping.Data
@@ -27,7 +26,7 @@ namespace OpenSkiJumping.Data
 
         public IEnumerable<ProfileData> GetSortedData()
         {
-            return Data.OrderBy(it => it.name);
+            return Data.OrderBy(it => it.name, StringComparer.InvariantCulture);
         }
 
         public void Add(ProfileData item)
@@ -42,8 +41,15 @@ namespace OpenSkiJumping.Data
 
         public override void SaveData()
         {
-            data.Sort((x, y) => string.Compare(x.name, y.name, StringComparison.Ordinal));
+            data.Sort((x, y) => string.Compare(x.name, y.name, StringComparison.InvariantCulture));
             base.SaveData();
+        }
+
+        public override bool LoadData()
+        {
+            var tmp = base.LoadData();
+            Debug.Log($"Loaded {Data.Count} hills");
+            return tmp;
         }
     }
 }

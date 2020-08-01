@@ -59,10 +59,4 @@ namespace OpenSkiJumping.Hills
             return other;
         }
     }
-
-    [Serializable]
-    public class AllData
-    {
-        public List<ProfileData> profileData;
-    }
 }

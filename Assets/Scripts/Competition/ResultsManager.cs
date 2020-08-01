@@ -312,7 +312,7 @@ namespace OpenSkiJumping.Competition
             var competitorId = StartList[StartListIndex];
             var subroundNum = RoundIndex * subRoundsCount + SubroundIndex;
             var bibCode = GetBibCode(Results[competitorId].Bibs[RoundIndex]);
-            allRoundResults.Add((Results[competitorId].TotalPoints, subroundNum, bibCode), competitorId);
+            allRoundResults.Add((Results[competitorId].TotalPoints, bibCode, subroundNum), competitorId);
 
             // Update rank
             for (var i = 0; i < Math.Min(competitorsCount, allRoundResults.Count); i++)
@@ -328,7 +328,7 @@ namespace OpenSkiJumping.Competition
             var subroundNum = RoundIndex * subRoundsCount + SubroundIndex - 1;
             var bibRoundIndex = SubroundIndex > 0 ? RoundIndex : RoundIndex - 1;
             var bibCode = GetBibCode(Results[competitorId].Bibs[bibRoundIndex]);
-            allRoundResults.Remove((Results[competitorId].TotalPoints, subroundNum, bibCode));
+            allRoundResults.Remove((Results[competitorId].TotalPoints, bibCode, subroundNum));
         }
 
         private void AddSecondKOJumper()
@@ -337,13 +337,15 @@ namespace OpenSkiJumping.Competition
             var id2 = StartList[StartListIndex];
             var bibCode1 = GetBibCode(Results[id1].Bibs[RoundIndex]);
             var bibCode2 = GetBibCode(Results[id2].Bibs[RoundIndex]);
+            var result1 = Results[id1].TotalPoints;
+            var result2 = Results[id2].TotalPoints;
 
-            finalResults.Remove((0, id1, bibCode1));
+            finalResults.Remove((0, result1, bibCode1));
 
             int loserId = id1, winnerId = id2;
             int loserBib = bibCode1, winnerBib = bibCode2;
 
-            if (Results[id1].TotalPoints > Results[id2].TotalPoints)
+            if (result1 > result2)
             {
                 winnerId = id1;
                 winnerBib = bibCode1;

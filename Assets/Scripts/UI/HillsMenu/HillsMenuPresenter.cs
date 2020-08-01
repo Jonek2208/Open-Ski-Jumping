@@ -30,7 +30,7 @@ namespace OpenSkiJumping.UI.HillsMenu
             model.Add(duplicated);
             PresentList();
             view.SelectedHill = duplicated;
-            PresentJumperInfo();
+            PresentHillInfo();
         }
 
         private void CreateNewHill()
@@ -39,7 +39,7 @@ namespace OpenSkiJumping.UI.HillsMenu
             model.Add(item);
             PresentList();
             view.SelectedHill = item;
-            PresentJumperInfo();
+            PresentHillInfo();
         }
 
         private void RemoveHill()
@@ -51,7 +51,7 @@ namespace OpenSkiJumping.UI.HillsMenu
 
             PresentList();
             view.SelectedHill = null;
-            PresentJumperInfo();
+            PresentHillInfo();
         }
 
         private void PresentList()
@@ -59,7 +59,7 @@ namespace OpenSkiJumping.UI.HillsMenu
             view.Hills = model.GetSortedData();
         }
 
-        private void PresentJumperInfo()
+        private void PresentHillInfo()
         {
             view.HillInfoView.SelectedHill = view.SelectedHill;
         }
@@ -75,7 +75,8 @@ namespace OpenSkiJumping.UI.HillsMenu
 
         private void InitEvents()
         {
-            view.OnSelectionChanged += PresentJumperInfo;
+            view.OnDataReload += SetInitValues;
+            view.OnSelectionChanged += PresentHillInfo;
             view.OnAdd += CreateNewHill;
             view.OnRemove += RemoveHill;
             view.OnDuplicate += Duplicate;
@@ -86,7 +87,7 @@ namespace OpenSkiJumping.UI.HillsMenu
         {
             PresentList();
             view.SelectedHill = model.GetSortedData().FirstOrDefault();
-            PresentJumperInfo();
+            PresentHillInfo();
         }
     }
 }

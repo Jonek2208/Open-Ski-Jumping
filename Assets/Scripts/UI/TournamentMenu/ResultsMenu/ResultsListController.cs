@@ -40,7 +40,7 @@ namespace OpenSkiJumping.UI.TournamentMenu.ResultsMenu
             }
         }
 
-        private void Start()
+        public void Initialize()
         {
             listView.SelectionType = SelectionType.None;
             listView.Initialize(BindListViewItem);

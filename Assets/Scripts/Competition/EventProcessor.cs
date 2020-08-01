@@ -63,6 +63,24 @@ namespace OpenSkiJumping.Competition
 
             return ordRankProcessor.GetFinalResultsWithCompetitorsList(competitorsList);
         }
+        
+        public static List<Participant> EventParticipants(GameSave save, int eventId)
+        {
+            var eventParticipants =
+                save.calendar.events[eventId].eventType == EventType.Individual
+                    ? save.competitors.Where(it => it.registered).Select(it => new Participant
+                    {
+                        competitors = new List<int> {it.calendarId}, id = it.calendarId,
+                        teamId = save.competitors[it.calendarId].teamId
+                    }).ToList()
+                    : save.teams.Where(it => it.registered && it.competitors.Count >= 4).Select(it => new Participant
+                        {
+                            competitors = it.competitors.Select(x => x.calendarId).Take(4).ToList(), id = it.calendarId,
+                            teamId = it.calendarId
+                        })
+                        .ToList();
+            return eventParticipants;
+        }
 
         public static JumpResult GetJumpResult(IJumpData jumpData, IHillInfo hillInfo)
         {
