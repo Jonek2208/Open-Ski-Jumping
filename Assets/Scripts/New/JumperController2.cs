@@ -56,14 +56,14 @@ namespace OpenSkiJumping.New
         private static readonly int DownForce = Animator.StringToHash("DownForce");
         private static readonly int JumperAngle = Animator.StringToHash("JumperAngle");
         private static readonly int Landing = Animator.StringToHash("Landing");
-        
+
         public int State { get; private set; }
         public float Distance { get; private set; }
         public bool Landed { get; private set; }
         public bool OnInrun { get; private set; }
         public bool OnOutrun { get; private set; }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Inrun"))
             {
@@ -90,7 +90,7 @@ namespace OpenSkiJumping.New
             }
         }
 
-        void OnTriggerExit(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("Inrun"))
             {
@@ -104,7 +104,7 @@ namespace OpenSkiJumping.New
             }
         }
 
-        void OnCollisionEnter(Collision other)
+        private void OnCollisionEnter(Collision other)
         {
             if (!Landed && other.collider.CompareTag("LandingArea"))
             {
@@ -164,7 +164,6 @@ namespace OpenSkiJumping.New
             judged = false;
             takeoff = false;
             goodSamples = 0;
-
         }
 
         private bool shouldStart;
@@ -233,7 +232,7 @@ namespace OpenSkiJumping.New
         void FixedUpdate()
         {
             var vel = rb.velocity + rb.velocity.normalized * windForce;
-            // Debug.Log(vel);
+
             var liftVec = new Vector3(-vel.normalized.y, vel.normalized.x, 0.0f);
             double tmp = rb.rotation.eulerAngles.z;
             if (tmp > 180) tmp -= 360;
@@ -254,10 +253,10 @@ namespace OpenSkiJumping.New
             }
 
 
-            //Debug.Log("angle: " + angle + " drag: " + drag + " lift: " + lift);
             if (takeoff)
             {
-                if (jumperModel.animator.GetCurrentAnimatorStateInfo(0).IsName("Take-off"))
+                if (jumperModel.animator.GetCurrentAnimatorStateInfo(0).IsName("Take-off") &&
+                    jumperModel.animator.IsInTransition(0))
                 {
                     takeoff = false;
                     Debug.Log("Total samples: " + totalSamples + ", good samples: " + goodSamples);

@@ -22,15 +22,15 @@ namespace OpenSkiJumping.Jumping
         }
         private void Update()
         {
-            float minFov = 1f;
-            float maxFov = 90f;
-            float sensitivity = -10f;
-            float fov = cameras[currentCamId].Camera.fieldOfView;
-            float newFov = fov + Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-            newFov = Mathf.Clamp(newFov, minFov, maxFov);
+            float minFocalLength = 10f;
+            float maxFocalLength = 1200f;
+            float sensitivity = 10f;
+            float focalLength = cameras[currentCamId].Camera.focalLength;
+            float newFov = focalLength + Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            newFov = Mathf.Clamp(newFov, minFocalLength, maxFocalLength);
 
             cameras[currentCamId].Camera.fieldOfView = newFov;
-            cameras[currentCamId].AngleSize = newFov / fov * cameras[currentCamId].AngleSize;
+            cameras[currentCamId].AngleSize = newFov / focalLength * cameras[currentCamId].AngleSize;
         }
     }
 }
