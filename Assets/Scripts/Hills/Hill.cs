@@ -56,7 +56,7 @@ namespace OpenSkiJumping.Hills
             t = profileData.t;
             r1 = profileData.r1;
             betaP = profileData.betaP;
-            beta0 = betaP / 6.0f;
+            beta0 = profileData.beta0;
             betaK = profileData.betaK;
             betaL = profileData.betaL;
             beta0R = Mathf.Deg2Rad * beta0;
@@ -88,8 +88,6 @@ namespace OpenSkiJumping.Hills
             {
                 betaP = betaL = betaK;
                 betaPR = betaLR = betaKR;
-                beta0 = betaK / 6.0f;
-                beta0R = betaKR / 6.0f;
             }
             //Inrun 
             E2 = new Vector2(-t * Mathf.Cos(alphaR), t * Mathf.Sin(alphaR));

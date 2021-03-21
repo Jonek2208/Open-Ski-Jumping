@@ -18,14 +18,17 @@ namespace OpenSkiJumping.Hills
         public ProfileType type;
 
         public int gates;
-        public float w;
         public float hn;
+        public float w;
+        public float h;
+        public float n;
         public float gamma;
         public float alpha;
         public float e;
         public float es;
         public float t;
         public float r1;
+        public float beta0;
         public float betaP;
         public float betaK;
         public float betaL;

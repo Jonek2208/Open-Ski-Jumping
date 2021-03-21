@@ -31,6 +31,8 @@ namespace OpenSkiJumping.New
 
 
         [Space] [Header("Parameters")] public float jumpSpeed;
+        [SerializeField] private float forceScale = 1f;
+
         private int landing;
         public double lift = 0.001d;
         [SerializeField] private GameConfigRuntime gameConfig;
@@ -273,8 +275,8 @@ namespace OpenSkiJumping.New
 
             if (State == 2 && !takeoff)
             {
-                rb.AddForce(-vel.normalized * ((float) drag * vel.sqrMagnitude) /* * rb.mass*/);
-                rb.AddForce(liftVec * ((float) lift * vel.sqrMagnitude) /* * rb.mass*/);
+                rb.AddForce(-vel.normalized * ((float) drag * vel.sqrMagnitude * forceScale) /* * rb.mass*/);
+                rb.AddForce(liftVec * ((float) lift * vel.sqrMagnitude * forceScale) /* * rb.mass*/);
                 Vector3 torque = new Vector3(0.0f, 0.0f,
                     (90 - (float) angle) * Time.fixedDeltaTime * 0.5f /* * 70.0f*/);
                 rb.AddRelativeTorque(torque, ForceMode.Acceleration);

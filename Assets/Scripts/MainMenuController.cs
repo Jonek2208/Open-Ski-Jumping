@@ -8,11 +8,11 @@ namespace OpenSkiJumping
     {
         public void LoadEditor()
         {
-            SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
+            SceneManager.LoadScene("Scenes/Hills/HillTemplate");
         }
         public void LoadTournament()
         {
-            SceneManager.LoadScene("Scenes/Hills/Templates/HillTemplateEditor");
+            SceneManager.LoadScene("Scenes/Hills/HillTemplate");
         }
         public void LoadMainMenu()
         {
