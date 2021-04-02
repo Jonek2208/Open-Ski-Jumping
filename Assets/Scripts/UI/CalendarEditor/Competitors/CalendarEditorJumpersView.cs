@@ -4,6 +4,7 @@ using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.TVGraphics;
 using OpenSkiJumping.UI.JumpersMenu;
 using OpenSkiJumping.UI.ListView;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
         [SerializeField] private CalendarFactory calendarFactory;
 
         [SerializeField] private FlagsData flagsData;
-        [SerializeField] private Sprite[] genderIcons;
+        [SerializeField] private IconsData iconsData;
         private bool initialized;
 
         private List<Competitor> jumpers;
@@ -80,10 +81,10 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
         private void BindListViewItem(int index, JumpersListItem item)
         {
             var competitor = jumpers[index];
-            item.nameText.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
+            item.nameText.text = TvGraphicsUtils.JumperNameText(competitor);
             item.countryFlagText.text = competitor.countryCode;
             item.countryFlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
-            item.genderIconImage.sprite = genderIcons[(int) competitor.gender];
+            item.genderIconImage.sprite = iconsData.GetGenderIcon(competitor.gender);
             item.toggleExtension.SetElementId(index);
             item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedJumpers.Contains(competitor));
         }
@@ -107,10 +108,14 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
         private void HandleAllElementsToggle(bool value)
         {
             if (value)
+            {
                 foreach (var jumper in jumpers)
                     selectedJumpers.Add(jumper);
+            }
             else
+            {
                 selectedJumpers.Clear();
+            }
 
             listView.RefreshShownValue();
         }

@@ -48,7 +48,7 @@ namespace OpenSkiJumping.Data
         public override bool LoadData()
         {
             var tmp = base.LoadData();
-            Debug.Log($"Loaded {Data.Count} hills");
+            // Debug.Log($"Loaded {Data.Count} hills");
             return tmp;
         }
     }

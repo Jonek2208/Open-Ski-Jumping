@@ -15,55 +15,86 @@ namespace OpenSkiJumping.Competition
             var eventResults = resultsDatabase.eventResults[eventId];
             IEnumerable<int> preQualifiedCompetitors;
             IEnumerable<int> competitorsList;
-            ResultsProcessor preQualRankProcessor;
-            ResultsProcessor qualRankProcessor;
             ResultsProcessor ordRankProcessor;
-            
+
             if (eventInfo.preQualRankType == RankType.None)
             {
-                //Add all registred participants
+                //Add all registered participants
                 preQualifiedCompetitors = Enumerable.Empty<int>();
             }
             else
             {
+                ResultsProcessor preQualRankProcessor;
+                EventType preQualEventType;
                 if (eventInfo.preQualRankType == RankType.Event)
-                    preQualRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.preQualRankId]);
-                else
+                {
                     preQualRankProcessor =
-                        new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.preQualRankId]);
+                        new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.preQualRankId]);
+                    preQualEventType = calendar.events[eventInfo.preQualRankId].eventType;
+                }
+                else
+                {
+                    preQualRankProcessor =
+                        new ClassificationResultsProcessor(
+                            resultsDatabase.classificationResults[eventInfo.preQualRankId]);
+                    preQualEventType = calendar.classifications[eventInfo.preQualRankId].eventType;
+                }
 
-                preQualifiedCompetitors = preQualRankProcessor.GetTrimmedFinalResults(eventResults.participants,
-                    eventInfo.preQualLimitType, eventInfo.preQualLimit);
+                if (preQualEventType != eventInfo.eventType)
+                    preQualifiedCompetitors = Enumerable.Empty<int>();
+                else
+                    preQualifiedCompetitors = preQualRankProcessor.GetTrimmedFinalResults(eventResults.participants,
+                        eventInfo.preQualLimitType, eventInfo.preQualLimit);
             }
 
             if (eventInfo.qualRankType == RankType.None)
             {
-                //Add all registred participants
+                //Add all registered participants
                 competitorsList = eventResults.participants.Select(x => x.id);
             }
             else
             {
+                EventType qualEventType;
+
+                ResultsProcessor qualRankProcessor;
                 if (eventInfo.qualRankType == RankType.Event)
+                {
                     qualRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.qualRankId]);
+                    qualEventType = calendar.events[eventInfo.qualRankId].eventType;
+                }
                 else
+                {
                     qualRankProcessor =
                         new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.qualRankId]);
+                    qualEventType = calendar.classifications[eventInfo.qualRankId].eventType;
+                }
 
-                competitorsList = qualRankProcessor.GetTrimmedFinalResultsPreQual(eventResults.participants,
-                    eventInfo.inLimitType, eventInfo.inLimit, preQualifiedCompetitors);
+                if (qualEventType != eventInfo.eventType)
+                    competitorsList = eventResults.participants.Select(x => x.id);
+                else
+                    competitorsList = qualRankProcessor.GetTrimmedFinalResultsPreQual(eventResults.participants,
+                        eventInfo.inLimitType, eventInfo.inLimit, preQualifiedCompetitors);
             }
 
+            EventType ordEventType;
             if (eventInfo.ordRankType == RankType.None) return competitorsList;
-
             if (eventInfo.ordRankType == RankType.Event)
+            {
                 ordRankProcessor = new EventResultsProcessor(resultsDatabase.eventResults[eventInfo.ordRankId]);
+                ordEventType = calendar.events[eventInfo.ordRankId].eventType;
+            }
             else
+            {
                 ordRankProcessor =
                     new ClassificationResultsProcessor(resultsDatabase.classificationResults[eventInfo.ordRankId]);
+                ordEventType = calendar.classifications[eventInfo.ordRankId].eventType;
+            }
 
-            return ordRankProcessor.GetFinalResultsWithCompetitorsList(competitorsList);
+            return eventInfo.eventType == ordEventType
+                ? ordRankProcessor.GetFinalResultsWithCompetitorsList(competitorsList)
+                : competitorsList;
         }
-        
+
         public static List<Participant> EventParticipants(GameSave save, int eventId)
         {
             var eventParticipants =
@@ -82,13 +113,13 @@ namespace OpenSkiJumping.Competition
             return eventParticipants;
         }
 
-        public static JumpResult GetJumpResult(IJumpData jumpData, IHillInfo hillInfo)
+        public static JumpResult GetJumpResult(IJumpData jumpData, IHillInfo hillInfo, bool gateComp, bool windComp)
         {
             var jump = new JumpResult(jumpData.Distance, jumpData.JudgesMarks, jumpData.GatesDiff, jumpData.Wind,
                 jumpData.Speed);
             jump.distancePoints = hillInfo.GetDistancePoints(jump.distance);
-            jump.windPoints = hillInfo.GetWindPoints(jump.wind);
-            jump.gatePoints = hillInfo.GetGatePoints(jump.gatesDiff);
+            jump.windPoints = windComp ? hillInfo.GetWindPoints(jump.wind) : 0m;
+            jump.gatePoints = gateComp ? hillInfo.GetGatePoints(jump.gatesDiff) : 0m;
             jump.totalPoints = Math.Max(0,
                 jump.distancePoints + jump.judgesTotalPoints + jump.windPoints + jump.gatePoints);
             return jump;
@@ -111,48 +142,7 @@ namespace OpenSkiJumping.Competition
 
         public static decimal GetKPointPoints(decimal val)
         {
-            if (val < 165) return 60;
-            return 120;
+            return val < 165 ? 60 : 120;
         }
-
-
-        // public void UpdateClassifications()
-        // {
-        //     IEventFinalResults eventFinalResults;
-
-        //     if (eventInfo.eventType == EventType.Individual)
-        //     { eventFinalResults = new IndividualEventFinalResults(eventResults, competitors); }
-        //     else
-        //     { eventFinalResults = new TeamEventFinalResults(eventResults); }
-
-        //     foreach (var it in eventInfo.classifications)
-        //     {
-        //         ClassificationInfo classificationInfo = calendar.classifications[it];
-        //         ClassificationResults classificationResults = resultsDatabase.classificationResults[it];
-        //         var resultsUpdate = eventFinalResults.GetPoints(classificationInfo);
-
-        //         // Update results
-        //         foreach (var item in resultsUpdate)
-        //         {
-        //             classificationResults.totalResults[item.Item1] += item.Item2;
-        //         }
-
-        //         // Update sorted results
-        //         classificationResults.totalSortedResults = classificationResults.totalResults.OrderByDescending(x => x).Select((val, ind) => ind).ToList();
-
-        //         // Calculate rank
-        //         for (int i = 0; i < classificationResults.totalSortedResults.Count; i++)
-        //         {
-        //             if (i > 0 && classificationResults.totalResults[classificationResults.totalSortedResults[i]] == classificationResults.totalResults[classificationResults.totalSortedResults[i - 1]])
-        //             {
-        //                 classificationResults.rank[classificationResults.totalSortedResults[i]] = classificationResults.rank[classificationResults.totalSortedResults[i + 1]];
-        //             }
-        //             else
-        //             {
-        //                 classificationResults.rank[classificationResults.totalSortedResults[i]] = i + 1;
-        //             }
-        //         }
-        //     }
-        // }
     }
 }

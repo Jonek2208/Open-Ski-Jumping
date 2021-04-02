@@ -52,15 +52,14 @@ namespace OpenSkiJumping.TVGraphics
             var competitor = GetCompetitorById(competitorId, resultsManager.Value.SubroundIndex);
             var jumpResults = resultsManager.Value.GetResultById(competitorId, resultsManager.Value.SubroundIndex);
 
-            jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
+            jumperName.text = TvGraphicsUtils.JumperNameText(competitor);
             bibText.text = bib.ToString();
             rankText.text = rank.ToString();
 
             var xx = jumpsCount - meters.Length;
-            var offset = Mathf.Max(0, meters.Length - jumpsCount);
 
             var jump = jumpResults.results[resultsManager.Value.RoundIndex];
-            total.text = resultsManager.Value.Results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
+            total.text = TvGraphicsUtils.PointsText(resultsManager.Value.Results[competitorId].TotalPoints);
             wind.SetValues(jump.windPoints);
             gate.SetValues(jump.gatePoints);
 
@@ -71,11 +70,9 @@ namespace OpenSkiJumping.TVGraphics
 
             foreach (var item in meters)
             {
-                item.text = 0 <= xx ? $"{jumpResults.results[xx].distance.ToString("F1", CultureInfo.InvariantCulture)} m" : "";
+                item.text = xx < 0 ? "" : TvGraphicsUtils.DistanceText(jumpResults.results[xx].distance);
                 xx++;
             }
-            // listView.AddItem(new ResultData() { firstName = competitor.firstName, lastName = competitor.lastName.ToUpper(), result = (float)resultsManager.results[competitorId].TotalPoints });
-            // listView.Items = listView.Items.OrderByDescending(item => item.result).ToList();
         }
 
         public override void Hide()

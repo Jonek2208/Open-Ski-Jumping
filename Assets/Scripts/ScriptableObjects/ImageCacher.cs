@@ -40,7 +40,7 @@ namespace OpenSkiJumping.ScriptableObjects
 
         private IEnumerator LoadSpriteAsync(string imagePath, Action<Sprite, bool> callback)
         {
-            UnityWebRequest www = UnityWebRequestTexture.GetTexture(GetImageUri(imagePath));
+            var www = UnityWebRequestTexture.GetTexture(GetImageUri(imagePath));
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
@@ -50,8 +50,8 @@ namespace OpenSkiJumping.ScriptableObjects
             else
             {
                 Debug.Log("Image succesfully loaded");
-                Texture2D t = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                Sprite sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0, 0));
+                var t = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                var sprite = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0, 0));
                 RegisterSprite(imagePath, sprite);
                 callback?.Invoke(sprite, true);
             }

@@ -42,14 +42,14 @@ namespace OpenSkiJumping.UI.CalendarEditor
             var index = Events.IndexOf(item);
             if (index < 0 || index + val < 0 || Events.Count <= index + val) return;
             var buf = Events[index + val];
-            
+
             // Swap ids
             Events[index].id = index + val;
             Events[index + val].id = index;
-            
+
             Events[index + val] = Events[index];
             Events[index] = buf;
-            
+
             // Events[index].name = $"{index + 1} {Events[index].hillId}";
             // Events[index + val].name = $"{index + val + 1} {Events[index].hillId}";
         }
@@ -119,13 +119,20 @@ namespace OpenSkiJumping.UI.CalendarEditor
 
         public Calendar CreateCalendar()
         {
+            var tmpEvents = Events.ToList();
+            var tmpClassifications = Classifications.ToList();
+            var tmpCompetitorsIds = competitors.Select(it => it.id).ToList();
+            var tmpTeams = competitors.GroupBy(it => it.countryCode).Select(it => new Team
+                {
+                    countryCode = it.Key, teamName = flagsData.GetEnglishName(it.Key),
+                    competitorsIds = it.Select(comp => comp.id).ToList()
+                })
+                .ToList();
+            
             return new Calendar
             {
-                events = Events.ToList(), classifications = Classifications.ToList(),
-                competitorsIds = competitors.Select(it => it.id).ToList(),
-                teams = competitors.GroupBy(it => it.countryCode).Select(it => new Team
-                        {countryCode = it.Key, teamName = flagsData.GetEnglishName(it.Key), competitorsIds = it.Select(comp => comp.id ).ToList()})
-                    .ToList()
+                events = tmpEvents, classifications = tmpClassifications, competitorsIds = tmpCompetitorsIds,
+                teams = tmpTeams
             };
         }
     }

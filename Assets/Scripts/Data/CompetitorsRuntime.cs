@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
@@ -12,10 +13,11 @@ namespace OpenSkiJumping.Data
         private Dictionary<string, int> dict;
         public Competitor GetJumperById(string id)
         {
-            if (!dict.ContainsKey(id)) { return null; }
-            return data[dict[id]];
+            return ContainsJumper(id) ? data[dict[id]] : null;
         }
-        public List<Competitor> GetData() => Data;
+
+        public bool ContainsJumper(string id) => dict.ContainsKey(id);
+        public IEnumerable<Competitor> GetData() => Data;
 
         public void Add(Competitor competitor)
         {
@@ -23,11 +25,16 @@ namespace OpenSkiJumping.Data
             AddToDict(competitor, data.Count - 1);
         }
 
+        public IEnumerable<Competitor> GetJumpersById(IEnumerable<string> competitorsIds)
+        {
+            return competitorsIds.Where(ContainsJumper).Select(GetJumperById);
+        }
+
         public bool Remove(Competitor competitor)
         {
-            string jumperId = competitor.id;
+            var jumperId = competitor.id;
             if (!dict.ContainsKey(jumperId)) { return false; }
-            int index = dict[jumperId];
+            var index = dict[jumperId];
             data[index] = data[data.Count - 1];
             dict[data[index].id] = index;
             data.RemoveAt(data.Count - 1);
@@ -37,13 +44,13 @@ namespace OpenSkiJumping.Data
 
         private void AddToDict(Competitor competitor, int index)
         {
-            string idWithoutNum = GetJumperIdWithoutNum(competitor);
-            int num = 0;
+            var idWithoutNum = GetJumperIdWithoutNum(competitor);
+            var num = 0;
             if (IsJumperIdValid(competitor, competitor.id))
             {
                 GetJumperIdNum(competitor.id, out num);
             }
-            string jumperId = $"{idWithoutNum}#{num}";
+            var jumperId = $"{idWithoutNum}#{num}";
             if (dict.ContainsKey(jumperId)) { num = 0; }
             while (dict.ContainsKey(jumperId))
             {
@@ -56,15 +63,15 @@ namespace OpenSkiJumping.Data
 
         private string GetJumperIdWithoutNum(Competitor comp)
         {
-            string gender = (comp.gender == Gender.Male ? "M" : "F");
-            string firstName = comp.firstName.Replace(' ', '_');
-            string lastName = comp.lastName.Replace(' ', '_');
+            var gender = (comp.gender == Gender.Male ? "M" : "F");
+            var firstName = comp.firstName.Replace(' ', '_');
+            var lastName = comp.lastName.Replace(' ', '_');
             return $"{comp.countryCode}-{gender}-{lastName}-{firstName}";
         }
 
         public void Recalculate(Competitor competitor)
         {
-            int index = dict[competitor.id];
+            var index = dict[competitor.id];
             dict.Remove(competitor.id);
             AddToDict(competitor, index);
         }
@@ -72,31 +79,29 @@ namespace OpenSkiJumping.Data
         private bool GetJumperIdNum(string value, out int result)
         {
             var numMatch = Regex.Match(value, "(#)([0-9]+)$").Groups[2].Value;
-            bool tmp = int.TryParse(numMatch, out result);
-            if (!tmp) { return false; }
-            return true;
+            var tmp = int.TryParse(numMatch, out result);
+            return tmp;
         }
         private bool IsJumperIdValid(Competitor competitor, string jumperId)
         {
-            int num;
-            bool tmp = GetJumperIdNum(jumperId, out num);
+            var tmp = GetJumperIdNum(jumperId, out _);
             if (!tmp) { return false; }
 
             var idMatch = Regex.Match(jumperId, "(.*)(#)([0-9]+)").Groups[1].Value;
-            string properJumperId = GetJumperIdWithoutNum(competitor);
+            var properJumperId = GetJumperIdWithoutNum(competitor);
             return string.Equals(idMatch, properJumperId);
         }
 
         public override bool LoadData()
         {
-            bool tmp = base.LoadData();
+            var tmp = base.LoadData();
             if (!tmp) { return false; }
             dict = new Dictionary<string, int>();
-            for (int i = 0; i < data.Count; i++)
+            for (var i = 0; i < data.Count; i++)
             {
                 AddToDict(data[i], i);
             }
-            return tmp;
+            return true;
         }
     }
 }

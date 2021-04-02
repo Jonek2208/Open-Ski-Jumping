@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace OpenSkiJumping.Jumping
 {
-    [RequireComponent(typeof(Camera))]
+    [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraController : MonoBehaviour
     {
+        public CinemachineVirtualCamera camera;
+        public bool follow;
+        public bool lookAt;
+        public float zoomWidth;
+        public float minFov;
+        public float maxFov;
         private Transform tr;
         private Camera cam;
         public Transform jumperTransform;

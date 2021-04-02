@@ -1,14 +1,18 @@
 using System;
 using OpenSkiJumping.Data;
 using UnityEngine;
+using UnityEngine.UI;
 using EventType = OpenSkiJumping.Competition.EventType;
 
 namespace OpenSkiJumping.UI.TournamentMenu
 {
     public class TournamentMenuController : MonoBehaviour, ITournamentMenuController
     {
+        [SerializeField] private GameObject nextEventGO;
         [SerializeField] private GameObject classificationsHierarchyGO;
         [SerializeField] private GameObject jumpersListGO;
+        [SerializeField] private Button playNextEventButton;
+
         [SerializeField] private MainMenuController menuController;
         [SerializeField] private SavesRuntime saves;
         [SerializeField] private GameObject teamsListGO;
@@ -32,9 +36,11 @@ namespace OpenSkiJumping.UI.TournamentMenu
         {
             if (tournamentMenuData.GetCurrentEvent() == null)
             {
+                nextEventGO.SetActive(false);
                 classificationsHierarchyGO.SetActive(false);
                 jumpersListGO.SetActive(false);
                 teamsListGO.SetActive(false);
+                playNextEventButton.interactable = false;
                 return;
             }
 

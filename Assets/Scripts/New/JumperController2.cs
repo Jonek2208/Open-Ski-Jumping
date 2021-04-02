@@ -11,9 +11,11 @@ namespace OpenSkiJumping.New
     public class JumperController2 : MonoBehaviour
     {
         [Space] [Header("Flight")] public double angle;
-        public AudioSource audioSource;
+        [SerializeField] private AudioSource audioSource;
 
-        public float brakeForce;
+        [SerializeField] private float brakeForce;
+        [SerializeField] private float inrunDrag = 0.0011f;
+
 
         bool button0, button1;
         private bool deductedforlanding;
@@ -38,7 +40,6 @@ namespace OpenSkiJumping.New
         [SerializeField] private GameConfigRuntime gameConfig;
 
 
-        public bool oldMode;
         public UnityEvent OnStartEvent;
         private Rigidbody rb;
         public FloatVariable rotCoef;
@@ -59,7 +60,12 @@ namespace OpenSkiJumping.New
         private static readonly int JumperAngle = Animator.StringToHash("JumperAngle");
         private static readonly int Landing = Animator.StringToHash("Landing");
 
-        public int State { get; private set; }
+        public int State
+        {
+            get => state;
+            private set => state = value;
+        }
+
         public float Distance { get; private set; }
         public bool Landed { get; private set; }
         public bool OnInrun { get; private set; }
@@ -94,7 +100,7 @@ namespace OpenSkiJumping.New
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Inrun"))
+            if (other.CompareTag("Inrun") && State > 0)
             {
                 OnInrun = false;
                 judgesController.OnSpeedMeasurement(rb.velocity.magnitude);
@@ -108,14 +114,21 @@ namespace OpenSkiJumping.New
 
         private void OnCollisionEnter(Collision other)
         {
+            if (State >= 2 && !jumperModel.animator.GetCurrentAnimatorStateInfo(0).IsName("Take-off") &&
+                other.collider.CompareTag("Inrun"))
+            {
+                Crash();
+            }
+
             if (!Landed && other.collider.CompareTag("LandingArea"))
             {
-                Debug.Log("Landed: " + other.impulse.magnitude);
-                // if (other.impulse.magnitude > 4)
+                // Debug.Log("Landed: " + other.impulse.magnitude / Time.fixedDeltaTime);
+                // if (other.relativeVelocity.magnitude > 4)
                 // {
                 //     Crash();
                 //     Landed = true;
                 // }
+
                 if (!jumperModel.animator.GetCurrentAnimatorStateInfo(0).IsName("Pre-landing"))
                 {
                     if (State == 3 && !deductedforlanding)
@@ -170,8 +183,9 @@ namespace OpenSkiJumping.New
 
         private bool shouldStart;
         private bool shouldNextJumper;
+        [SerializeField] private int state;
 
-        void Update()
+        private void Update()
         {
             if (OnInrun || OnOutrun)
             {
@@ -199,28 +213,17 @@ namespace OpenSkiJumping.New
 
             if (State == 2 && !takeoff)
             {
-                if (oldMode)
-                {
-                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * gameConfig.Config.mouseSensitivity;
-                    jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-                }
-                else
-                {
-                    jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * gameConfig.Config.mouseSensitivity;
-                    jumperAngle /= 1.05f;
-                    jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
-                }
+                jumperAngle += Time.deltaTime * Input.GetAxis("Mouse Y") * gameConfig.Config.mouseSensitivity;
+                jumperAngle /= 1.05f;
+                jumperAngle = Mathf.Clamp(jumperAngle, -1, 1);
+
 
                 judgesController.FlightStability(jumperAngle);
 
-                if (oldMode)
-                {
-                }
-                else
-                {
-                    Vector3 torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef.Value);
-                    rb.AddRelativeTorque(torque, ForceMode.Acceleration);
-                }
+
+                var torque = new Vector3(0.0f, 0.0f, jumperAngle * rotCoef.Value);
+                rb.AddRelativeTorque(torque, ForceMode.Acceleration);
+
 
                 jumperModel.animator.SetFloat(JumperAngle, jumperAngle);
             }
@@ -231,7 +234,7 @@ namespace OpenSkiJumping.New
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             var vel = rb.velocity + rb.velocity.normalized * windForce;
 
@@ -240,11 +243,6 @@ namespace OpenSkiJumping.New
             if (tmp > 180) tmp -= 360;
 
             angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI + tmp;
-            if (oldMode)
-            {
-                angle = -Mathf.Atan(rb.velocity.normalized.y / rb.velocity.normalized.x) * 180 / Mathf.PI +
-                        jumperAngle * 10;
-            }
 
             if (-15.0f <= angle && angle <= 50)
             {
@@ -266,29 +264,31 @@ namespace OpenSkiJumping.New
 
                 if (OnInrun && goodSamples < totalSamples)
                 {
-                    Vector3 jumpDirection = rb.velocity.normalized;
+                    var jumpDirection = rb.velocity.normalized;
                     jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
                     rb.AddForce(jumpSpeed * jumpDirection / totalSamples / Time.fixedDeltaTime, ForceMode.Acceleration);
                     goodSamples++;
                 }
             }
 
+            if (State == 1)
+            {
+                rb.AddForce(-vel.normalized * (inrunDrag * vel.sqrMagnitude));
+            }
+
             if (State == 2 && !takeoff)
             {
-                rb.AddForce(-vel.normalized * ((float) drag * vel.sqrMagnitude * forceScale) /* * rb.mass*/);
-                rb.AddForce(liftVec * ((float) lift * vel.sqrMagnitude * forceScale) /* * rb.mass*/);
-                Vector3 torque = new Vector3(0.0f, 0.0f,
-                    (90 - (float) angle) * Time.fixedDeltaTime * 0.5f /* * 70.0f*/);
+                rb.AddForce(-vel.normalized * ((float) drag * vel.sqrMagnitude * forceScale));
+                rb.AddForce(liftVec * ((float) lift * vel.sqrMagnitude * forceScale));
+                var torque = new Vector3(0.0f, 0.0f,
+                    (90 - (float) angle) * Time.fixedDeltaTime * 0.5f);
                 rb.AddRelativeTorque(torque, ForceMode.Acceleration);
-
-                //rb.AddForceAtPosition(-vel.normalized * (float)drag * vel.sqrMagnitude, rb.transform.position);
-                //rb.AddForceAtPosition(liftVec * (float)lift * vel.sqrMagnitude, rb.transform.position);
             }
 
             if (State == 5)
             {
-                Vector3 brakeVec = Vector3.left;
-                float distToEnd = judgesController.hill.U.x + 100 - rb.position.x;
+                var brakeVec = Vector3.left;
+                var distToEnd = judgesController.hill.U.x + 100 - rb.position.x;
 
                 rb.AddForce(brakeVec * (rb.mass * rb.velocity.x) / 2);
             }
@@ -306,18 +306,15 @@ namespace OpenSkiJumping.New
         {
             takeoff = true;
             State = 2;
-            // Vector3 jumpDirection = rb.velocity.normalized;
-            // jumpDirection = new Vector3(-jumpDirection.y, jumpDirection.x, 0);
-            // rb.AddForce(jumpSpeed * jumpDirection, ForceMode.VelocityChange);
         }
 
         public void Land()
         {
-            float angle = rb.GetComponent<Rigidbody>().transform.rotation.eulerAngles.z;
-            angle = (angle + 180) % 360 - 180;
+            var anglesZ = rb.transform.rotation.eulerAngles.z;
+            anglesZ = (anglesZ + 180) % 360 - 180;
             if (Landed)
             {
-                // rb.AddTorque(0, 0, -angle * 5);
+                rb.AddTorque(0, 0, -anglesZ * 5, ForceMode.Acceleration);
             }
 
             State = 3;
@@ -338,7 +335,7 @@ namespace OpenSkiJumping.New
 
         public void Crash()
         {
-            if (State == 4)
+            if (State == 3)
             {
                 judgesController.PointDeduction(1, 3);
             }
@@ -355,11 +352,11 @@ namespace OpenSkiJumping.New
             lSkiClone.SetActive(true);
             jumperModel.skiRight.SetActive(false);
             jumperModel.skiLeft.SetActive(false);
-            lSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
+            lSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.9f;
             lSkiClone.GetComponent<Transform>().position = jumperModel.skiLeft.GetComponent<Transform>().position;
             lSkiClone.GetComponent<Transform>().rotation = jumperModel.skiLeft.GetComponent<Transform>().rotation;
 
-            rSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.7f;
+            rSkiClone.GetComponent<Rigidbody>().velocity = rb.velocity * 0.9f;
             rSkiClone.GetComponent<Transform>().position = jumperModel.skiRight.GetComponent<Transform>().position;
             rSkiClone.GetComponent<Transform>().rotation = jumperModel.skiRight.GetComponent<Transform>().rotation;
             judgesController.PointDeduction(2, 7);

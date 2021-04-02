@@ -8,13 +8,14 @@ namespace OpenSkiJumping.UI.HillsMenu
     public interface IHillInfoView
     {
         ProfileData SelectedHill { get;set; }
+        string Json { get; set; }
         string Name { get; set; }
         int ProfileType { get; set; }
         int Gates { get; set; }
         float TerrainSteepness { get; set; }
 
         float W { get; set; }
-        float Hn { get; set; }
+        float h { get; set; }
         float Gamma { get; set; }
         float Alpha { get; set; }
         float E { get; set; }

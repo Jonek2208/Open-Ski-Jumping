@@ -5,6 +5,8 @@ using OpenSkiJumping.Competition;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
+using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.UI.ItemsSearch.Hills;
 using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
@@ -15,19 +17,63 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 {
     public class CalendarEditorEventsView : MonoBehaviour, ICalendarEditorEventsView
     {
-        [SerializeField] private CalendarFactory calendarFactory;
-        private List<ClassificationData> classifications;
-
-        private List<EventInfo> events;
-
-        [SerializeField] private Sprite[] eventTypeIcons;
-        private List<ProfileData> hills;
-        [SerializeField] private HillsRuntime hillsRuntime;
         private bool initialized;
+        private List<ClassificationData> classifications;
+        private List<EventInfo> events;
+        private List<ProfileData> hills;
         private CalendarEditorEventsPresenter presenter;
-        [SerializeField] private PresetsRuntime presets;
         private List<EventRoundsInfo> presetsList;
         private HashSet<ClassificationData> selectedClassifications = new HashSet<ClassificationData>();
+
+        [SerializeField] private CalendarFactory calendarFactory;
+        [SerializeField] private IconsData iconsData;
+        [SerializeField] private HillsRuntime hillsRuntime;
+        [SerializeField] private PresetsRuntime presets;
+
+        #region UIFields
+
+        [Header("UI Fields")] [SerializeField] private EventsListView listView;
+
+        [SerializeField] private GameObject eventInfoObj;
+
+        [SerializeField] private SegmentedControl eventTypeSelect;
+        [SerializeField] private TMP_Dropdown presetsDropdown;
+
+        [SerializeField] private HillsSearch hillsSearch;
+
+        [SerializeField] private TMP_Dropdown hillsDropdown;
+
+        [SerializeField] private SegmentedControl hillSurfaceSelect;
+
+        [SerializeField] private ToggleGroupExtension classificationToggleGroupExtension;
+        [SerializeField] private ClassificationsSelectListView classificationsListView;
+
+        [SerializeField] private SegmentedControl ordRankSelect;
+        [SerializeField] private TMP_Dropdown ordRankDropdown;
+
+        [SerializeField] private SegmentedControl qualRankSelect;
+        [SerializeField] private TMP_Dropdown qualRankDropdown;
+
+        [SerializeField] private GameObject optionalDataGO;
+        [SerializeField] private GameObject preQualLimitGO;
+
+        [SerializeField] private SegmentedControl inLimitSelect;
+        [SerializeField] private TMP_InputField inLimitInput;
+
+        [SerializeField] private SegmentedControl preQualRankSelect;
+        [SerializeField] private TMP_Dropdown preQualRankDropdown;
+        [SerializeField] private SegmentedControl preQualLimitSelect;
+        [SerializeField] private TMP_InputField preQualLimitInput;
+
+
+        [SerializeField] private Button duplicateButton;
+        [SerializeField] private Button addButton;
+        [SerializeField] private Button removeButton;
+        [SerializeField] private Button moveUpButton;
+        [SerializeField] private Button moveDownButton;
+
+        #endregion
+
 
         private void Start()
         {
@@ -135,6 +181,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             preQualLimitInput.onEndEdit.AddListener(arg => OnCurrentEventChanged?.Invoke());
             preQualRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
             ordRankDropdown.onValueChanged.AddListener(arg => OnCurrentEventChanged?.Invoke());
+
+            hillsSearch.OnValueChanged += data => { OnCurrentEventChanged?.Invoke(); };
         }
 
         private void RegisterSegmentedControlCallbacks(SegmentedControl item)
@@ -148,7 +196,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
             var eventInfo = events[index];
             item.idText.text = $"{index + 1}";
             item.nameText.text = $"{eventInfo.hillId}";
-            item.eventTypeImage.sprite = eventTypeIcons[(int) eventInfo.eventType];
+            item.eventTypeImage.sprite = iconsData.GetEventTypeIcon(eventInfo.eventType);
         }
 
         private void BindClassificationsListViewItem(int index, ClassificationsSelectListItem item)
@@ -179,52 +227,12 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 
         private void SelectHill(ProfileData value)
         {
-            if (value == null) return;
-            var index = hills.IndexOf(value);
-            hillsDropdown.SetValueWithoutNotify(index);
+            hillsSearch.SetValueWithoutNotify(value);
+            // if (value == null) return;
+            // var index = hills.IndexOf(value);
+            // hillsDropdown.SetValueWithoutNotify(index);
         }
 
-
-        #region UIFields
-
-        [Header("UI Fields")] [SerializeField] private EventsListView listView;
-
-        [SerializeField] private GameObject eventInfoObj;
-
-        [SerializeField] private SegmentedControl eventTypeSelect;
-        [SerializeField] private TMP_Dropdown presetsDropdown;
-        [SerializeField] private TMP_Dropdown hillsDropdown;
-
-        [SerializeField] private SegmentedControl hillSurfaceSelect;
-
-        [SerializeField] private ToggleGroupExtension classificationToggleGroupExtension;
-        [SerializeField] private ClassificationsSelectListView classificationsListView;
-
-        [SerializeField] private SegmentedControl ordRankSelect;
-        [SerializeField] private TMP_Dropdown ordRankDropdown;
-
-        [SerializeField] private SegmentedControl qualRankSelect;
-        [SerializeField] private TMP_Dropdown qualRankDropdown;
-
-        [SerializeField] private GameObject optionalDataGO;
-        [SerializeField] private GameObject preQualLimitGO;
-
-        [SerializeField] private SegmentedControl inLimitSelect;
-        [SerializeField] private TMP_InputField inLimitInput;
-
-        [SerializeField] private SegmentedControl preQualRankSelect;
-        [SerializeField] private TMP_Dropdown preQualRankDropdown;
-        [SerializeField] private SegmentedControl preQualLimitSelect;
-        [SerializeField] private TMP_InputField preQualLimitInput;
-
-
-        [SerializeField] private Button duplicateButton;
-        [SerializeField] private Button addButton;
-        [SerializeField] private Button removeButton;
-        [SerializeField] private Button moveUpButton;
-        [SerializeField] private Button moveDownButton;
-
-        #endregion
 
         #region Events
 
@@ -296,7 +304,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 
         public ProfileData SelectedHill
         {
-            get => hillsDropdown.value < 0 ? null : hills[hillsDropdown.value];
+            get => hillsSearch.SelectedItem;
             set => SelectHill(value);
         }
 

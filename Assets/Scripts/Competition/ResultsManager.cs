@@ -260,7 +260,7 @@ namespace OpenSkiJumping.Competition
                 jumpData.InitGate = jumpData.Gate;
             }
 
-            var jump = EventProcessor.GetJumpResult(jumpData, hillInfo);
+            var jump = EventProcessor.GetJumpResult(jumpData, hillInfo, currentRoundInfo.gateCompensation, currentRoundInfo.windCompensation);
             if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();
 
             AddResult(StartList[StartListIndex], SubroundIndex, jump);
@@ -447,7 +447,9 @@ namespace OpenSkiJumping.Competition
                 return Results.Select((val, index) =>
                     (OrderedParticipants[index].id, pointsGiver.GetPoints(classificationInfo, val, 0)));
             }
-
+            
+            //EventInfo.eventType == EventType.Team
+            
             var res = new List<(int, decimal)>();
             for (var i = 0; i < Results.Length; i++)
             {
@@ -458,6 +460,8 @@ namespace OpenSkiJumping.Competition
                 return res;
             res = res.OrderByDescending(it => it.Item2).ToList();
 
+            Result x;
+            
             var indRank = new int[res.Count];
             indRank[0] = 1;
             for (var i = 1; i < indRank.Length; i++)
@@ -466,10 +470,10 @@ namespace OpenSkiJumping.Competition
                 else indRank[i] = i + 1;
             }
 
-            return res.Select((it, ind) => (it.Item1,
-                (0 < indRank[ind] && indRank[ind] < classificationInfo.pointsTables[0].value.Length)
-                    ? classificationInfo.pointsTables[0].value[indRank[ind] - 1]
-                    : 0m));
+            return res.Select((it, ind) => (it.Item1, PointsUtils.GetPlacePoints(classificationInfo, ind, 0)));
+                // 0 < indRank[ind] && indRank[ind] < classificationInfo.pointsTables[0].value.Length
+                //     ? classificationInfo.pointsTables[0].value[indRank[ind] - 1]
+                //     : 0m));
         }
 
         private IEnumerable<(int, decimal)> GetTeamPoints(ClassificationInfo classificationInfo)

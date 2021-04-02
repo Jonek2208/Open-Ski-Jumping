@@ -7,7 +7,7 @@ namespace OpenSkiJumping.UI.ListView
     [RequireComponent(typeof(Toggle))]
     public class ListItemBehaviour : MonoBehaviour
     {
-        [SerializeField] Toggle selection;
+        [SerializeField] private Toggle selection;
         [SerializeField] private SelectionType selectionType;
 
         public SelectionType SelectionType
@@ -26,7 +26,7 @@ namespace OpenSkiJumping.UI.ListView
 
         public event Action<int> OnSelect;
 
-        private void HandleSelectionChanged(bool value)
+        protected void HandleSelectionChanged(bool value)
         {
             if (SelectionType == SelectionType.None)
                 return;
@@ -38,12 +38,12 @@ namespace OpenSkiJumping.UI.ListView
 
         public void SetSelectionWithoutNotify(bool value) => selection.SetIsOnWithoutNotify(value);
 
-        private void Awake()
+        protected void Awake()
         {
             selection = GetComponent<Toggle>();
         }
 
-        private void Start()
+        protected void Start()
         {
             selection.onValueChanged.AddListener(HandleSelectionChanged);
         }

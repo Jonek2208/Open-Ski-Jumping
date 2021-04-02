@@ -20,5 +20,7 @@ namespace OpenSkiJumping.Competition
         public bool has95Rule = true;
         public bool reversedBibs = false;
         public bool reassignBibs = false;
+        public bool gateCompensation = true;
+        public bool windCompensation = true;
     }
 }
