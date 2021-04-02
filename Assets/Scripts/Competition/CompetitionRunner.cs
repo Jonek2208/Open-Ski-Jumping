@@ -16,7 +16,7 @@ namespace OpenSkiJumping.Competition
     {
         [SerializeField] private RuntimeCompetitorsList competitors;
         [SerializeField] private MeshScript hill;
-        [SerializeField] private IHillInfo hillInfo;
+        private IHillInfo _hillInfo;
         [SerializeField] private HillsFactory hillsFactory;
         [SerializeField] private HillsRuntime hillsRepository;
         [SerializeField] private SkiJumperDataController skiJumperDataController;
@@ -40,8 +40,8 @@ namespace OpenSkiJumping.Competition
         [SerializeField] private RuntimeResultsManager resultsManager;
         [SerializeField] private SavesRuntime savesRepository;
         [SerializeField] private MainMenuController menuController;
-        
-        private Dictionary<int, Color> bibColors;
+
+        private Dictionary<int, Color> _bibColors;
 
 
         private void Start()
@@ -109,23 +109,7 @@ namespace OpenSkiJumping.Competition
                 var classificationInfo = save.calendar.classifications[it];
                 var resultsUpdate = resultsManager.Value.GetPoints(classificationInfo);
                 var classificationResults = save.resultsContainer.classificationResults[it];
-
-                foreach (var (id, result) in resultsUpdate)
-                {
-                    classificationResults.totalResults[id] += result;
-                }
-
-                classificationResults.totalSortedResults = classificationResults.totalResults
-                    .Select((item, ind) => (item, ind)).OrderByDescending(x => x.item).Select(xx => xx.ind).ToList();
-                classificationResults.rank[classificationResults.totalSortedResults[0]] = 1;
-                for (var i = 1; i < classificationResults.totalSortedResults.Count; i++)
-                {
-                    var last = classificationResults.totalSortedResults[i - 1];
-                    var curr = classificationResults.totalSortedResults[i];
-                    if (classificationResults.totalResults[curr] == classificationResults.totalResults[last])
-                        classificationResults.rank[curr] = classificationResults.rank[last];
-                    else classificationResults.rank[curr] = i + 1;
-                }
+                PointsUtils.UpdateClassificationResults(classificationInfo, classificationResults, resultsUpdate);
             }
         }
 
@@ -135,22 +119,44 @@ namespace OpenSkiJumping.Competition
             var eventId = save.resultsContainer.eventIndex;
             var currentEventInfo = save.calendar.events[eventId];
 
-            hill.profileData.Value = hillsRepository.GetProfileData(save.calendar.events[eventId].hillId);
-            hill.landingAreaSO = hillsFactory.landingAreas[(int) currentEventInfo.hillSurface].Value;
-            hill.GenerateMesh();
             competitors.competitors = save.competitors.Select(it => it.competitor).ToList();
             competitors.teams = save.teams.Select(it => it.team).ToList();
 
-
             var eventParticipants = EventProcessor.EventParticipants(save, eventId);
             save.resultsContainer.eventResults[eventId] = new EventResults {participants = eventParticipants};
+            var orderedParticipants = GetOrderedParticipants(eventParticipants, save);
 
+            CalculateBibs(save, orderedParticipants);
+            HillSetUp(save, eventId, currentEventInfo);
+
+            resultsManager.Initialize(currentEventInfo, orderedParticipants, _hillInfo);
+            SetDefaultJumpData();
+            windGatePanel.Initialize(hill.profileData.Value.gates);
+            onCompetitionStart.Invoke();
+            OnRoundStart();
+            OnSubroundStart();
+            OnJumpStart();
+        }
+
+        private static List<Participant> GetOrderedParticipants(IEnumerable<Participant> eventParticipants,
+            GameSave save)
+        {
             var participantsDict = eventParticipants.Select(item => item)
                 .ToDictionary(item => item.id, item => item);
             var orderedParticipants = EventProcessor.GetCompetitors(save.calendar, save.resultsContainer)
                 .Select(it => participantsDict[it]).ToList();
-            bibColors = orderedParticipants.ToDictionary(it => it.id, it => Color.white);
+            return orderedParticipants;
+        }
 
+        private void SetDefaultJumpData()
+        {
+            jumpData.Gate = jumpData.InitGate = 1;
+            jumpData.Wind = 0;
+        }
+
+        private void CalculateBibs(GameSave save, IEnumerable<Participant> orderedParticipants)
+        {
+            _bibColors = orderedParticipants.SelectMany(it => it.competitors).ToDictionary(it => it, it => Color.white);
             var orderedClassifications = save.classificationsData.Where(it => it.useBib)
                 .Select(it => (it.calendarId, it.priority)).Reverse();
 
@@ -161,42 +167,38 @@ namespace OpenSkiJumping.Competition
                 foreach (var id in classificationResults.totalSortedResults.TakeWhile(jumperId =>
                     classificationResults.rank[jumperId] <= 1))
                 {
+                    var bibColor =
+                        SimpleColorPicker.Hex2Color(save.classificationsData[ind].classification.leaderBibColor);
+
                     if (classificationInfo.eventType == EventType.Individual)
                     {
-                        bibColors[id] = SimpleColorPicker.Hex2Color(save
-                            .classificationsData[ind].classification
-                            .leaderBibColor);
+                        _bibColors[id] = bibColor;
                     }
                     else
                     {
                         foreach (var competitor in save.teams[id].competitors)
-                        {
-                            bibColors[competitor.calendarId] = SimpleColorPicker.Hex2Color(save
-                                .classificationsData[ind].classification
-                                .leaderBibColor);
-                        }
+                            _bibColors[competitor.calendarId] = bibColor;
                     }
                 }
             }
-
-            var hillId = save.calendar.events[eventId].hillId;
-
-            hillInfo = hillsRepository.GetHillInfo(hillId);
-            var (head, tail, gate) = compensationsJumpSimulator.GetCompensations();
-            hillInfo.SetCompensations(head, tail, gate);
-
-            resultsManager.Initialize(currentEventInfo, orderedParticipants, hillInfo);
-            jumpData.Gate = jumpData.InitGate = 1;
-            jumpData.Wind = 0;
-
-            windGatePanel.Initialize(hill.profileData.Value.gates);
-
-            onCompetitionStart.Invoke();
-            OnRoundStart();
-            OnSubroundStart();
-            OnJumpStart();
         }
-        
+
+        private void HillSetUp(GameSave save, int eventId, EventInfo currentEventInfo)
+        {
+            var hillId = save.calendar.events[eventId].hillId;
+            hill.profileData.Value = hillsRepository.GetProfileData(hillId);
+            hill.landingAreaSO = hillsFactory.landingAreas[(int) currentEventInfo.hillSurface].Value;
+            var track = currentEventInfo.hillSurface == HillSurface.Matting
+                ? hill.profileData.Value.inrunData.summerTrack
+                : hill.profileData.Value.inrunData.winterTrack;
+            hill.inrunTrackSO = hillsFactory.inrunTracks[(int) track].Value;
+            hill.GenerateMesh();
+
+            _hillInfo = hillsRepository.GetHillInfo(hillId);
+            var (head, tail, gate) = compensationsJumpSimulator.GetCompensations();
+            _hillInfo.SetCompensations(head, tail, gate);
+        }
+
 
         public void OnRoundStart()
         {
@@ -217,7 +219,7 @@ namespace OpenSkiJumping.Competition
         {
             var id = resultsManager.Value.GetCurrentJumperId();
             onNewJumper.Invoke();
-            skiJumperDataController.SetValues(bibColors[id]);
+            skiJumperDataController.SetValues(_bibColors[id]);
         }
 
         public void UpdateToBeat()
@@ -225,7 +227,7 @@ namespace OpenSkiJumping.Competition
             if (resultsManager.Value.StartListIndex == 0 && resultsManager.Value.SubroundIndex == 0)
                 jumpData.InitGate = jumpData.Gate;
             toBeatLineController.CompensationPoints =
-                (float) (hillInfo.GetGatePoints(jumpData.GatesDiff) + hillInfo.GetWindPoints(jumpData.Wind));
+                (float) (_hillInfo.GetGatePoints(jumpData.GatesDiff) + _hillInfo.GetWindPoints(jumpData.Wind));
             onWindGateChanged.Invoke();
         }
     }

@@ -34,7 +34,7 @@ namespace OpenSkiJumping.Tests
 
             var hillInfo = new HillInfo(123, 140, 5.5m, 6.66m, 4.2m, 0.79m);
 
-            var jumpResult = EventProcessor.GetJumpResult(jumpData, hillInfo);
+            var jumpResult = EventProcessor.GetJumpResult(jumpData, hillInfo, true, true);
 
             Assert.AreEqual(55.5m, jumpResult.distancePoints);
             Assert.AreEqual(52.0m, jumpResult.judgesTotalPoints);
@@ -57,7 +57,7 @@ namespace OpenSkiJumping.Tests
 
             var hillInfo = new HillInfo(90, 97, 4.0m, 4.84m, 3.5m, 0.49m);
 
-            var jumpResult = EventProcessor.GetJumpResult(jumpData, hillInfo);
+            var jumpResult = EventProcessor.GetJumpResult(jumpData, hillInfo, true, true);
 
             Assert.AreEqual(86.0m, jumpResult.distancePoints);
             Assert.AreEqual(58.5m, jumpResult.judgesTotalPoints);

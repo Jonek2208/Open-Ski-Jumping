@@ -36,7 +36,7 @@ namespace OpenSkiJumping.TVGraphics
 
         protected void LoadImage()
         {
-            int id = resultsManager.Value.GetCurrentJumperId();
+            var id = resultsManager.Value.GetCurrentJumperId();
             var path = competitors.competitors[id].imagePath;
             StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
         }

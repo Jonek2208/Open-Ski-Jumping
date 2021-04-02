@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
+using OpenSkiJumping.ScriptableObjects;
 using OpenSkiJumping.UI.ListView;
 using TMPro;
 using UnityEngine;
@@ -17,11 +18,9 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
         private CalendarEditorClassificationsPresenter presenter;
         [SerializeField] private CalendarFactory calendarFactory;
         [SerializeField] private PointsTablesRuntime pointsTablesData;
-        [SerializeField] private Sprite[] classificationTypeIcons;
-        [SerializeField] private Sprite[] eventTypeIcons;
+        [SerializeField] private IconsData iconsData;
 
-        [Header("UI Fields")] 
-        [SerializeField] private ClassificationsListView listView;
+        [Header("UI Fields")] [SerializeField] private ClassificationsListView listView;
         [SerializeField] private GameObject classificationInfoObj;
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private SegmentedControl eventTypeSelect;
@@ -67,7 +66,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             set
             {
                 pointsTablesIndividual = value.ToList();
-                
+
                 indPointsTableDropdown.ClearOptions();
                 indPointsTableDropdown.AddOptions(pointsTablesIndividual.Select(item => item.name).ToList());
             }
@@ -82,7 +81,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
                 teamPointsTableDropdown.AddOptions(pointsTablesTeam.Select(item => item.name).ToList());
             }
         }
-        
+
         public PointsTable SelectedPointsTableIndividual
         {
             get => pointsTablesIndividual[indPointsTableDropdown.value];
@@ -244,8 +243,8 @@ namespace OpenSkiJumping.UI.CalendarEditor.Classifications
             var classificationInfo = classifications[index];
             item.nameText.text = classificationInfo.name;
             item.bibImage.color = SimpleColorPicker.Hex2Color(classificationInfo.leaderBibColor);
-            item.classificationTypeImage.sprite = classificationTypeIcons[(int) classificationInfo.classificationType];
-            item.eventTypeImage.sprite = eventTypeIcons[(int) classificationInfo.eventType];
+            item.classificationTypeImage.sprite = iconsData.GetClassificationTypeIcon(classificationInfo.classificationType);
+            item.eventTypeImage.sprite = iconsData.GetEventTypeIcon(classificationInfo.eventType);
         }
 
         public void OnEnable()

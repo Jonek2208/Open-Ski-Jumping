@@ -10,7 +10,7 @@ namespace OpenSkiJumping.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var obj = property.serializedObject.targetObject;
-            var inst = (SerializableDecimal)fieldInfo.GetValue(obj);
+            var inst = (SerializableDecimal) fieldInfo.GetValue(obj);
             var fieldRect = EditorGUI.PrefixLabel(position, label);
             string text = GUI.TextField(fieldRect, inst.value.ToString());
             if (GUI.changed)

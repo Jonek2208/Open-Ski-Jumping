@@ -4,6 +4,7 @@ using System.Linq;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
 using OpenSkiJumping.UI.ListView;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ namespace OpenSkiJumping.UI.HillsMenu
         [SerializeField] private Button duplicateButton;
         [SerializeField] private Button addButton;
         [SerializeField] private Button removeButton;
+        
         
         private List<ProfileData> hills;
         

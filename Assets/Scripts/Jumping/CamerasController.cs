@@ -1,36 +1,49 @@
-﻿using UnityEngine;
+﻿using System;
+using Cinemachine;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace OpenSkiJumping.Jumping
 {
+    [Serializable]
+    public class CameraData
+    {
+        public CinemachineVirtualCamera camera;
+        public CinemachineFollowZoom followZoom;
+        public bool follow;
+        public bool lookAt;
+        public bool zoom;
+        public float zoomWidth;
+        public float minFov;
+        public float maxFov;
+    }
+
     public class CamerasController : MonoBehaviour
     {
         public int currentCamId;
-        public CameraController[] cameras;
+        public CameraData[] cameras;
+        [SerializeField] private float minWidth = 3;
+        [SerializeField] private float maxWidth = 100;
+        [SerializeField] private float sensitivity = -10f;
 
         public void EnableCamera(int id)
         {
+            foreach (var cam in cameras) cam.camera.enabled = false;
             currentCamId = id;
-            foreach (CameraController cam in cameras)
-            {
-                cam.Camera.enabled = false;
 
-            }
-
-            cameras[id].Camera.enabled = true;
-            Debug.Log(cameras[id].ToString());
+            cameras[id].camera.enabled = true;
+            cameras[id].followZoom.enabled = cameras[id].zoom;
             PlayerPrefs.SetInt("camera", id);
         }
+
         private void Update()
         {
-            float minFocalLength = 10f;
-            float maxFocalLength = 1200f;
-            float sensitivity = 10f;
-            float focalLength = cameras[currentCamId].Camera.focalLength;
-            float newFov = focalLength + Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-            newFov = Mathf.Clamp(newFov, minFocalLength, maxFocalLength);
-
-            cameras[currentCamId].Camera.fieldOfView = newFov;
-            cameras[currentCamId].AngleSize = newFov / focalLength * cameras[currentCamId].AngleSize;
+            var zoomWidth = cameras[currentCamId].zoomWidth;
+            
+            var newWidth = zoomWidth + Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+            newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
+            cameras[currentCamId].zoomWidth = newWidth;
+            cameras[currentCamId].followZoom.m_Width = cameras[currentCamId].zoomWidth;
         }
     }
 }

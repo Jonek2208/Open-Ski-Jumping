@@ -14,6 +14,8 @@ namespace OpenSkiJumping.UI.HillsMenu
         private ProfileData selectedHill;
 
         [SerializeField] private GameObject itemInfoObj;
+        [SerializeField] private TMP_InputField jsonInputField;
+        
         [SerializeField] private SegmentedControl profileTypeSelect;
 
         [SerializeField] private TMP_InputField nameInput;
@@ -61,6 +63,12 @@ namespace OpenSkiJumping.UI.HillsMenu
             }
         }
 
+        public string Json
+        {
+            get => jsonInputField.text;
+            set => jsonInputField.SetTextWithoutNotify(value);
+        }
+
         public event Action OnCurrentItemChanged;
         public event Action OnDataSourceChanged;
 
@@ -80,6 +88,7 @@ namespace OpenSkiJumping.UI.HillsMenu
 
         private void RegisterCallbacks()
         {
+            RegisterInputFieldCallbacks(jsonInputField);
             RegisterInputFieldCallbacks(nameInput);
             RegisterInputFieldCallbacks(gatesInput);
             RegisterInputFieldCallbacks(gatesInput);
@@ -167,7 +176,7 @@ namespace OpenSkiJumping.UI.HillsMenu
             set => wInput.SetTextWithoutNotify(value.ToString(CultureInfo.InvariantCulture));
         }
 
-        public float Hn
+        public float h
         {
             get => float.Parse(hnInput.text);
             set => hnInput.SetTextWithoutNotify(value.ToString(CultureInfo.InvariantCulture));

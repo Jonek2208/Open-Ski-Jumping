@@ -16,6 +16,8 @@ namespace OpenSkiJumping.Data
         [SerializeField] protected string fileName;
         [SerializeField] protected T data;
         [SerializeField] protected bool loaded;
+        [SerializeField] protected bool prettyPrint;
+        
 
         public T Data
         {
@@ -53,7 +55,7 @@ namespace OpenSkiJumping.Data
         public override void SaveData()
         {
             var filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-            var dataAsJson = JsonConvert.SerializeObject(data);
+            var dataAsJson = JsonConvert.SerializeObject(data, prettyPrint ? Formatting.Indented : Formatting.None);
             File.WriteAllText(filePath, dataAsJson);
         }
     }

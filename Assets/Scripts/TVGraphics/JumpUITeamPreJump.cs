@@ -46,13 +46,13 @@ namespace OpenSkiJumping.TVGraphics
 
             DOTween.Sequence().Append(rectTransform.DOScaleX(1, 0.5f));
 
-            int jumpsCount = resultsManager.Value.RoundIndex;
-            int competitorId = resultsManager.Value.GetCurrentCompetitorLocalId();
-            int bib = resultsManager.Value.Results[competitorId].Bibs[resultsManager.Value.RoundIndex];
-            int rank = resultsManager.Value.LastRank[competitorId];
-            Competitor competitor = competitors.competitors[
+            var jumpsCount = resultsManager.Value.RoundIndex;
+            var competitorId = resultsManager.Value.GetCurrentCompetitorLocalId();
+            var bib = resultsManager.Value.Results[competitorId].Bibs[resultsManager.Value.RoundIndex];
+            var rank = resultsManager.Value.LastRank[competitorId];
+            var competitor = competitors.competitors[
                 resultsManager.Value.OrderedParticipants[competitorId].competitors[resultsManager.Value.SubroundIndex]];
-            Team team = competitors.teams[resultsManager.Value.OrderedParticipants[competitorId].id];
+            var team = competitors.teams[resultsManager.Value.OrderedParticipants[competitorId].id];
 
             teamName.text = team.teamName.ToUpper();
             jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
@@ -62,8 +62,8 @@ namespace OpenSkiJumping.TVGraphics
             if (resultsManager.Value.StartListIndex + 1 < resultsManager.Value.StartList.Count)
             {
                 nextAthleteObj.SetActive(true);
-                int nextCompetitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex + 1];
-                Competitor nextCompetitor = competitors.competitors[
+                var nextCompetitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex + 1];
+                var nextCompetitor = competitors.competitors[
                     resultsManager.Value.OrderedParticipants[nextCompetitorId]
                         .competitors[resultsManager.Value.SubroundIndex]];
                 nextAthleteName.text = $"Next athlete: {nextCompetitor.firstName} {nextCompetitor.lastName.ToUpper()}";
@@ -96,12 +96,12 @@ namespace OpenSkiJumping.TVGraphics
             }
             else
             {
-                JumpResults jumpResults = resultsManager.Value.Results[competitorId]
+                var jumpResults = resultsManager.Value.Results[competitorId]
                     .Results[resultsManager.Value.SubroundIndex];
-                JumpResult jump = jumpResults.results[resultsManager.Value.RoundIndex - 1];
+                var jump = jumpResults.results[resultsManager.Value.RoundIndex - 1];
                 totalJumper.text = resultsManager.Value.Results[competitorId]
                     .TotalResults[resultsManager.Value.SubroundIndex].ToString("F1", CultureInfo.InvariantCulture);
-                int xx = Mathf.Max(0, jumpsCount - meters.Length);
+                var xx = Mathf.Max(0, jumpsCount - meters.Length);
                 foreach (var item in meters)
                 {
                     if (xx < jumpsCount)

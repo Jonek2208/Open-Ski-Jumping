@@ -14,7 +14,7 @@ namespace OpenSkiJumping.ScriptableObjects
             [SerializeField] private string value;
 
             public TranslationLanguage Language { get => language; set => language = value; }
-            public string Value { get => value; set => this.value = value; }
+            public string Value { get => value.Replace("\\n", "\n"); set => this.value = value; }
         }
 
         [SerializeField] private string currentValue;

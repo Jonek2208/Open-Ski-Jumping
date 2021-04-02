@@ -24,6 +24,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -32,34 +34,42 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Team2Rounds
     roundInfos:
     - roundType: 0
       outLimitType: 1
-      outLimit: 30
+      outLimit: 8
       useOrdRank: 01010101
       disableJudgesMarks: 0
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
-      outLimitType: 1
-      outLimit: 8
+      outLimitType: 0
+      outLimit: -1
       useOrdRank: 01010100
       disableJudgesMarks: 0
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Team2RoundsOld
     roundInfos:
     - roundType: 0
       outLimitType: 1
-      outLimit: 30
+      outLimit: 8
       useOrdRank: 01010101
       disableJudgesMarks: 0
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -68,6 +78,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: IndividualKO
     roundInfos:
     - roundType: 1
@@ -78,6 +90,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 1
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -86,6 +100,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 1
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Individual2Rounds15
     roundInfos:
     - roundType: 0
@@ -96,6 +112,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -104,6 +122,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: IndividualKO15
     roundInfos:
     - roundType: 1
@@ -114,6 +134,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 1
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -122,6 +144,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 1
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Qualification
     roundInfos:
     - roundType: 0
@@ -132,6 +156,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: QualificationKO
     roundInfos:
     - roundType: 0
@@ -142,6 +168,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: QualificationFlying
     roundInfos:
     - roundType: 0
@@ -152,6 +180,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Individual4Rounds
     roundInfos:
     - roundType: 0
@@ -162,6 +192,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 1
       outLimit: 30
@@ -170,6 +202,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -178,6 +212,8 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 1
+      gateCompensation: 1
+      windCompensation: 1
     - roundType: 0
       outLimitType: 0
       outLimit: -1
@@ -186,14 +222,85 @@ MonoBehaviour:
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
   - name: Trial Round
     roundInfos:
     - roundType: 0
-      outLimitType: 1
-      outLimit: 30
+      outLimitType: 0
+      outLimit: -1
       useOrdRank: 01010101
       disableJudgesMarks: 1
       has95Rule: 1
       reversedBibs: 0
       reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 1
+  - name: Individual2RoundsNoWindNoGate
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 00000000
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 0
+      windCompensation: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 00000000
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 0
+      windCompensation: 0
+  - name: Individual2RoundsNoWind
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 30
+      useOrdRank: 00000000
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 00000000
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 1
+      windCompensation: 0
+  - name: Team2RoundsNoWindNoGate
+    roundInfos:
+    - roundType: 0
+      outLimitType: 1
+      outLimit: 8
+      useOrdRank: 01010101
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 0
+      windCompensation: 0
+    - roundType: 0
+      outLimitType: 0
+      outLimit: -1
+      useOrdRank: 01010100
+      disableJudgesMarks: 0
+      has95Rule: 1
+      reversedBibs: 0
+      reassignBibs: 0
+      gateCompensation: 0
+      windCompensation: 0
   loaded: 1
+  prettyPrint: 1

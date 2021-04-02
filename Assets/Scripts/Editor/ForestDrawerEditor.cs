@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using OpenSkiJumping.Hills;
 using UnityEditor;
 using UnityEngine;
@@ -35,3 +37,4 @@ namespace OpenSkiJumping.Editor
 
     
 }
+#endif

@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using OpenSkiJumping.PerlinNoise;
 using UnityEditor;
 using UnityEngine;
@@ -20,3 +22,4 @@ namespace OpenSkiJumping.Editor
         }
     }
 }
+#endif

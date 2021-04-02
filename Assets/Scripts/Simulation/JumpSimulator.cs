@@ -10,6 +10,8 @@ namespace OpenSkiJumping.Simulation
         [SerializeField] private Hill hill;
         [SerializeField] private float takeOffSpeed;
         [SerializeField] private float timeDelta;
+        [SerializeField] private float aeroForceScale;
+
 
         [SerializeField] private Vector2 gravity = new Vector2(0, -9.81f);
 
@@ -65,6 +67,7 @@ namespace OpenSkiJumping.Simulation
 
                 var force = -velocityAir.normalized * ((float) drag * velocityAir.sqrMagnitude) +
                             liftVec * ((float) lift * velocityAir.sqrMagnitude);
+                force *= aeroForceScale;
 
                 velocity += (force + gravity) * timeDelta;
                 position += velocity * timeDelta;
@@ -113,7 +116,7 @@ namespace OpenSkiJumping.Simulation
             var lowerGateDist = SimulateJump(lowerGatePos, 0);
             var headWindFactor = (headWindDist - initDist) / 3.0f;
             var tailWindFactor = (initDist - tailWindDist) / 3.0f;
-            var gateFactor = (initDist - lowerGateDist ) / 3.0f;
+            var gateFactor = (initDist - lowerGateDist) / 3.0f;
             Debug.Log($"{headWindFactor} | {tailWindFactor} | {gateFactor}");
 
             return (headWindFactor, tailWindFactor, gateFactor);

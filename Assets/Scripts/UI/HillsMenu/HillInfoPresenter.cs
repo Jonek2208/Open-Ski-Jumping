@@ -1,17 +1,18 @@
 using System.Linq;
 using OpenSkiJumping.Competition;
 using OpenSkiJumping.Data;
+using Newtonsoft.Json;
 using OpenSkiJumping.Hills;
 
 namespace OpenSkiJumping.UI.HillsMenu
 {
     public class HillInfoPresenter
     {
-        private readonly IHillInfoView view;
+        private readonly IHillInfoView _view;
 
         public HillInfoPresenter(IHillInfoView view)
         {
-            this.view = view;
+            this._view = view;
 
             InitEvents();
             SetInitValues();
@@ -19,98 +20,100 @@ namespace OpenSkiJumping.UI.HillsMenu
 
         private void PresentItemInfo()
         {
-            var item = view.SelectedHill;
+            var item = _view.SelectedHill;
             if (item == null)
             {
-                view.ItemInfoEnabled = false;
+                _view.ItemInfoEnabled = false;
                 return;
             }
 
-            view.ItemInfoEnabled = true;
+            _view.ItemInfoEnabled = true;
 
-            view.Name = item.name;
-            view.ProfileType = (int) item.type;
-            view.Gates = item.gates;
-            view.TerrainSteepness = item.terrainSteepness;
-            view.W = item.w;
-            view.Hn = item.hn;
-            view.Gamma = item.gamma;
-            view.Alpha = item.alpha;
-            view.E = item.e;
-            view.Es = item.es;
-            view.T = item.t;
-            view.R1 = item.r1;
-            view.BetaP = item.betaP;
-            view.BetaK = item.betaK;
-            view.BetaL = item.betaL;
-            view.S = item.s;
-            view.L1 = item.l1;
-            view.L2 = item.l2;
-            view.RL = item.rL;
-            view.R2L = item.r2L;
-            view.R2 = item.r2;
-            view.A = item.a;
-            view.RA = item.rA;
-            view.BetaA = item.betaA;
-            view.B1 = item.b1;
-            view.B2 = item.b2;
-            view.BK = item.bK;
-            view.BU = item.bU;
-            view.D = item.d;
-            view.Q = item.q;
-            view.GateStairsLeft = item.gateStairsLeft;
-            view.GateStairsRight = item.gateStairsRight;
-            view.InrunStairsLeft = item.inrunStairsLeft;
-            view.InrunStairsRight = item.inrunStairsRight;
-            view.InrunStairsAngle = item.inrunStairsAngle;
+            _view.Json = JsonConvert.SerializeObject(item, Formatting.Indented);
+            // _view.Name = item.name;
+            // _view.ProfileType = (int) item.type;
+            // _view.Gates = item.gates;
+            // _view.TerrainSteepness = item.terrainSteepness;
+            // _view.W = item.w;
+            // _view.h = item.h;
+            // _view.Gamma = item.gamma;
+            // _view.Alpha = item.alpha;
+            // _view.E = item.e;
+            // _view.Es = item.es;
+            // _view.T = item.t;
+            // _view.R1 = item.r1;
+            // _view.BetaP = item.betaP;
+            // _view.BetaK = item.betaK;
+            // _view.BetaL = item.betaL;
+            // _view.S = item.s;
+            // _view.L1 = item.l1;
+            // _view.L2 = item.l2;
+            // _view.RL = item.rL;
+            // _view.R2L = item.r2L;
+            // _view.R2 = item.r2;
+            // _view.A = item.a;
+            // _view.RA = item.rA;
+            // _view.BetaA = item.betaA;
+            // _view.B1 = item.b1;
+            // _view.B2 = item.b2;
+            // _view.BK = item.bK;
+            // _view.BU = item.bU;
+            // _view.D = item.d;
+            // _view.Q = item.q;
+            // _view.GateStairsLeft = item.gateStairsLeft;
+            // _view.GateStairsRight = item.gateStairsRight;
+            // _view.InrunStairsLeft = item.inrunStairsLeft;
+            // _view.InrunStairsRight = item.inrunStairsRight;
+            // _view.InrunStairsAngle = item.inrunStairsAngle;
         }
 
         private void SaveItemInfo()
         {
-            var item = view.SelectedHill;
+            var item = _view.SelectedHill;
             if (item == null) return;
-
-            item.name = view.Name;
-            item.type = (ProfileType) view.ProfileType;
-            item.gates = view.Gates;
-            item.terrainSteepness = view.TerrainSteepness;
-            item.w = view.W;
-            item.hn = view.Hn;
-            item.gamma = view.Gamma;
-            item.alpha = view.Alpha;
-            item.e = view.E;
-            item.es = view.Es;
-            item.t = view.T;
-            item.r1 = view.R1;
-            item.betaP = view.BetaP;
-            item.betaK = view.BetaK;
-            item.betaL = view.BetaL;
-            item.s = view.S;
-            item.l1 = view.L1;
-            item.l2 = view.L2;
-            item.rL = view.RL;
-            item.r2L = view.R2L;
-            item.r2 = view.R2;
-            item.a = view.A;
-            item.rA = view.RA;
-            item.betaA = view.BetaA;
-            item.b1 = view.B1;
-            item.b2 = view.B2;
-            item.bK = view.BK;
-            item.bU = view.BU;
-            item.d = view.D;
-            item.q = view.Q;
-            item.gateStairsLeft = view.GateStairsLeft;
-            item.gateStairsRight = view.GateStairsRight;
-            item.inrunStairsLeft = view.InrunStairsLeft;
-            item.inrunStairsRight = view.InrunStairsRight;
-            item.inrunStairsAngle = view.InrunStairsAngle;
+            
+            // _view.SelectedHill = JsonConvert.DeserializeObject<ProfileData>(_view.Json);
+            // item.name = _view.Name;
+            // item.type = (ProfileType) _view.ProfileType;
+            // item.gates = _view.Gates;
+            // item.terrainSteepness = _view.TerrainSteepness;
+            // item.w = _view.W;
+            // item.h = _view.h;
+            // item.gamma = _view.Gamma;
+            // item.alpha = _view.Alpha;
+            // item.e = _view.E;
+            // item.es = _view.Es;
+            // item.t = _view.T;
+            // item.r1 = _view.R1;
+            // item.betaP = _view.BetaP;
+            // item.betaK = _view.BetaK;
+            // item.betaL = _view.BetaL;
+            // item.s = _view.S;
+            // item.l1 = _view.L1;
+            // item.l2 = _view.L2;
+            // item.rL = _view.RL;
+            // item.r2L = _view.R2L;
+            // item.r2 = _view.R2;
+            // item.a = _view.A;
+            // item.rA = _view.RA;
+            // item.betaA = _view.BetaA;
+            // item.b1 = _view.B1;
+            // item.b2 = _view.B2;
+            // item.bK = _view.BK;
+            // item.bU = _view.BU;
+            // item.d = _view.D;
+            // item.q = _view.Q;
+            // item.gateStairsLeft = _view.GateStairsLeft;
+            // item.gateStairsRight = _view.GateStairsRight;
+            // item.inrunStairsLeft = _view.InrunStairsLeft;
+            // item.inrunStairsRight = _view.InrunStairsRight;
+            // item.inrunStairsAngle = _view.InrunStairsAngle;
         }
 
         private void InitEvents()
         {
-            view.OnDataSourceChanged += PresentItemInfo;
-            view.OnCurrentItemChanged += SaveItemInfo;
+            _view.OnDataSourceChanged += PresentItemInfo;
+            _view.OnCurrentItemChanged += SaveItemInfo;
         }
 
         private void SetInitValues()

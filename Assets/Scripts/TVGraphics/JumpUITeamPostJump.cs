@@ -54,44 +54,39 @@ namespace OpenSkiJumping.TVGraphics
             var competitorId = resultsManager.Value.GetCurrentCompetitorLocalId();
             var bib = resultsManager.Value.Results[competitorId].Bibs[resultsManager.Value.RoundIndex];
             var rank = resultsManager.Value.CompetitorRank(competitorId);
-            var competitor = competitors.competitors[resultsManager.Value.OrderedParticipants[competitorId].competitors[resultsManager.Value.SubroundIndex]];
+            var competitor =
+                competitors.competitors[
+                    resultsManager.Value.OrderedParticipants[competitorId]
+                        .competitors[resultsManager.Value.SubroundIndex]];
             var team = competitors.teams[resultsManager.Value.OrderedParticipants[competitorId].id];
             var jumpResults = resultsManager.Value.Results[competitorId].Results[resultsManager.Value.SubroundIndex];
 
             teamName.text = team.teamName.ToUpper();
-            jumperName.text = $"{competitor.firstName} {competitor.lastName.ToUpper()}";
+            jumperName.text = TvGraphicsUtils.JumperNameText(competitor);
             bibTeam.text = bib.ToString();
             bibJumper.text = (resultsManager.Value.SubroundIndex + 1).ToString();
             rankText.text = rank.ToString();
 
             var xx = jumpsCount - meters.Length;
-            var offset = Mathf.Max(0, meters.Length - jumpsCount);
 
             var jump = jumpResults.results[resultsManager.Value.RoundIndex];
-            totalTeam.text = resultsManager.Value.Results[competitorId].TotalPoints.ToString("F1", CultureInfo.InvariantCulture);
-            totalJumper.text = resultsManager.Value.Results[competitorId].TotalResults[resultsManager.Value.SubroundIndex].ToString("F1", CultureInfo.InvariantCulture);
+            totalTeam.text = TvGraphicsUtils.PointsText(resultsManager.Value.Results[competitorId].TotalPoints);
+            totalJumper.text = TvGraphicsUtils.PointsText(resultsManager.Value.Results[competitorId]
+                .TotalResults[resultsManager.Value.SubroundIndex]);
             wind.SetValues(jump.windPoints);
             gate.SetValues(jump.gatePoints);
 
             for (var i = 0; i < judgesMarks.Length; i++)
             {
-                judgesMarks[i].SetValues(jump.judgesMarks[i], judgesUIData.countries[i], flagsData.GetFlag(judgesUIData.countries[i]), jump.judgesMask[i]);
+                judgesMarks[i].SetValues(jump.judgesMarks[i], judgesUIData.countries[i],
+                    flagsData.GetFlag(judgesUIData.countries[i]), jump.judgesMask[i]);
             }
 
             foreach (var item in meters)
             {
-                if (0 <= xx)
-                {
-                    item.text = $"{jumpResults.results[xx].distance.ToString("F1", CultureInfo.InvariantCulture)} m";
-                }
-                else
-                {
-                    item.text = "";
-                }
+                item.text = xx < 0 ? "" : TvGraphicsUtils.DistanceText(jumpResults.results[xx].distance);
                 xx++;
             }
-            // listView.AddItem(new ResultData() { firstName = competitor.firstName, lastName = competitor.lastName.ToUpper(), result = (float)resultsManager.results[competitorId].TotalPoints });
-            // listView.Items = listView.Items.OrderByDescending(item => item.result).ToList();
         }
 
         public override void Hide()
@@ -103,6 +98,5 @@ namespace OpenSkiJumping.TVGraphics
         {
             canvasGroup.alpha = 0;
         }
-
     }
 }

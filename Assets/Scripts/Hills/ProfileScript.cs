@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace OpenSkiJumping.Hills
 {
@@ -7,7 +9,40 @@ namespace OpenSkiJumping.Hills
     {
         ICR1992,
         ICR1996,
-        ICR2008
+        ICR2008,
+        Finland
+    }
+
+    public enum InrunTrackType
+    {
+        SingleTrackGreen,
+        SingleTrackPurple,
+        SingleTrackRubber,
+        SingleTrackGray,
+        SnowTrack,
+        SnowTrackRubber
+    }
+
+    [Serializable]
+    public struct InrunData
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public InrunTrackType summerTrack;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public InrunTrackType winterTrack;
+    }
+
+    [Serializable]
+    public struct LandingAreaData
+    {
+        public int metersLow;
+        public int metersHigh;
+        public int summerLinesSpacing;
+        public int summerLinesLow;
+        public int summerLinesHigh;
+        public int winterLinesSpacing;
+        public int winterLinesLow;
+        public int winterLinesHigh;
     }
 
     [Serializable]
@@ -18,8 +53,8 @@ namespace OpenSkiJumping.Hills
         public ProfileType type;
 
         public int gates;
-        public float hn;
         public float w;
+        public float hS;
         public float h;
         public float n;
         public float gamma;
@@ -54,10 +89,12 @@ namespace OpenSkiJumping.Hills
         public bool inrunStairsLeft = true;
         public bool inrunStairsRight = true;
         public float inrunStairsAngle = 0.001f;
-        
+        public InrunData inrunData;
+        public LandingAreaData landingAreaData;
+
         public ProfileData Clone()
         {
-            var other =  (ProfileData) MemberwiseClone();
+            var other = (ProfileData) MemberwiseClone();
             other.name = string.Copy(name);
             return other;
         }

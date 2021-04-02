@@ -1,0 +1,19 @@
+### Getting Started
+In order to get the best visual results please make sure that your project is set to use the linear color space in:
+Edit → Project Settings → Player.
+
+## Unity 2018.2 and above
+Unity 2018.2 changed the way crossfading is handled by shaders. If you haven't downloaded the 2018.2 package but an older one you have to import the tweaked leaf shader first. Do so by importing the included 2018.2_CTI_LODLeaves_Shader_301.package.
+This will overwrite the old 5.6.3 leaf shader and replace it with a version compatible with Unity >= 2018.2.
+If you can't find the package mentioned above, you should have a version already updated to work with 2018.2 and above.
+
+## Deferred Rendering 
+In case your camera uses deferred rendering you have to assign the CTI deferred lighting shaders in:
+ Edit → Project Settings → Graphics:
+Under the Built-in shader settings change Deferred to custom, then assign the CTI_Internal-DeferredShading shader.
+Also change Deferred Reflections to Custom and assign the CTI_Internal-DeferredReflections shader.
+Otherwise the trees will look pretty colorful...
+
+## Vegetation Studio Pro
+As the (customized) included CTI shaders identify as “xyz 301” Vegetation Studio Pro will not recognize them as CTI shaders.
+Fix this by importing the VSPro_CTIShaderController.package.
