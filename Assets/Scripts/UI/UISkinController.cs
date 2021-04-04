@@ -45,10 +45,12 @@ namespace OpenSkiJumping.UI
 
         protected void Update()
         {
+            #if UNITY_EDITOR
             if (Application.isEditor)
             {
                 OnSkinUI();
             }
+            #endif
         }
     }
     

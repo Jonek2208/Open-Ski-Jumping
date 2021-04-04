@@ -13,6 +13,8 @@ namespace OpenSkiJumping.Competition
             int inLimit = 0)
         {
             var resultsList = results.ToList();
+            if (resultsList.Count == 0) return Enumerable.Empty<int>();
+            
             switch (inLimitType)
             {
                 case LimitType.Normal:

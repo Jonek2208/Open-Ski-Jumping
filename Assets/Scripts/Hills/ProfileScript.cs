@@ -10,7 +10,7 @@ namespace OpenSkiJumping.Hills
         ICR1992,
         ICR1996,
         ICR2008,
-        Finland
+        Finnish
     }
 
     public enum InrunTrackType

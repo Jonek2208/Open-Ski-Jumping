@@ -1,6 +1,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace OpenSkiJumping.Data
 {
@@ -13,11 +14,13 @@ namespace OpenSkiJumping.Data
 
     public class DatabaseObject<T> : RuntimeData
     {
-        [SerializeField] protected string fileName;
+        [FormerlySerializedAs("fileName")] [SerializeField]
+        protected string path;
+        
         [SerializeField] protected T data;
         [SerializeField] protected bool loaded;
         [SerializeField] protected bool prettyPrint;
-        
+
 
         public T Data
         {
@@ -39,10 +42,41 @@ namespace OpenSkiJumping.Data
 
         public override bool LoadData()
         {
-            var filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-            if (File.Exists(filePath))
+            var absolutePath = Path.Combine(Application.streamingAssetsPath, path);
+            if (File.Exists(absolutePath))
             {
-                var dataAsJson = File.ReadAllText(filePath);
+                var dataAsJson = File.ReadAllText(absolutePath);
+                data = JsonConvert.DeserializeObject<T>(dataAsJson);
+                loaded = true;
+                return true;
+            }
+
+            loaded = false;
+            return false;
+        }
+
+        private bool LoadMultipleFiles(string absolutePath)
+        {
+            if (!Directory.Exists(absolutePath))
+            {
+                return false;
+            }
+
+            var fileEntries = Directory.GetFiles(absolutePath);
+            foreach (var fileName in fileEntries)
+                LoadSingleFile(fileName);
+
+            // string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            // foreach (string subdirectory in subdirectoryEntries)
+            //     ProcessDirectory(subdirectory);
+            return true;
+        }
+
+        private bool LoadSingleFile(string absolutePath)
+        {
+            if (File.Exists(absolutePath))
+            {
+                var dataAsJson = File.ReadAllText(absolutePath);
                 data = JsonConvert.DeserializeObject<T>(dataAsJson);
                 loaded = true;
                 return true;
@@ -54,7 +88,7 @@ namespace OpenSkiJumping.Data
 
         public override void SaveData()
         {
-            var filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+            var filePath = Path.Combine(Application.streamingAssetsPath, path);
             var dataAsJson = JsonConvert.SerializeObject(data, prettyPrint ? Formatting.Indented : Formatting.None);
             File.WriteAllText(filePath, dataAsJson);
         }

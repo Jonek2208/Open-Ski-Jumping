@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2798ff4277e24b231b48a34af1593174, type: 3}
   m_Name: Hills Runtime
   m_EditorClassIdentifier: 
-  fileName: hills.json
+  path: hills.json
   data:
   - name: Almaty HS100
     terrainSteepness: 0.3
     type: 2
     gates: 43
     w: 95
-    hS: 0
+    hS: 100
     h: 45.23555
     n: 83.00101
     gamma: 35
@@ -69,7 +69,7 @@ MonoBehaviour:
     type: 2
     gates: 47
     w: 125
-    hS: 0
+    hS: 140
     h: 62.72394
     n: 107.404015
     gamma: 35
@@ -119,7 +119,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 60
-    hS: 0
+    hS: 66
     h: 27.334335
     n: 53.07638
     gamma: 35
@@ -169,7 +169,7 @@ MonoBehaviour:
     type: 1
     gates: 10
     w: 57
-    hS: 0
+    hS: 64
     h: 26.166275
     n: 50.31976
     gamma: 35
@@ -219,7 +219,7 @@ MonoBehaviour:
     type: 1
     gates: 40
     w: 200
-    hS: 0
+    hS: 235
     h: 102.76289
     n: 170.41939
     gamma: 35.3
@@ -269,7 +269,7 @@ MonoBehaviour:
     type: 0
     gates: 32
     w: 85
-    hS: 0
+    hS: 90
     h: 40.473915
     n: 74.26406
     gamma: 35
@@ -319,7 +319,7 @@ MonoBehaviour:
     type: 1
     gates: 21
     w: 64
-    hS: 0
+    hS: 71
     h: 29.821684
     n: 56.267326
     gamma: 35
@@ -364,62 +364,12 @@ MonoBehaviour:
       winterLinesSpacing: 0
       winterLinesLow: 0
       winterLinesHigh: 0
-  - name: Bischofshofen HS100
-    terrainSteepness: 1
-    type: 1
-    gates: 47
-    w: 100
-    hS: 0
-    h: 49.9222
-    n: 86.072754
-    gamma: 27
-    alpha: 11
-    e: 118.5
-    es: 23.71
-    t: 6.5
-    r1: 96
-    beta0: 6.25
-    betaP: 37.5
-    betaK: 35
-    betaL: 32.5
-    s: 4.5
-    l1: 14.83
-    l2: 17
-    rL: 335
-    r2L: 115
-    r2: 115
-    a: 100
-    rA: 0
-    betaA: 0
-    b1: 2
-    b2: 10
-    bK: 25
-    bU: 30
-    d: 0
-    q: 0
-    gateStairsLeft: 1
-    gateStairsRight: 1
-    inrunStairsLeft: 1
-    inrunStairsRight: 1
-    inrunStairsAngle: 0.001
-    inrunData:
-      summerTrack: 0
-      winterTrack: 0
-    landingAreaData:
-      metersLow: 0
-      metersHigh: 0
-      summerLinesSpacing: 0
-      summerLinesLow: 0
-      summerLinesHigh: 0
-      winterLinesSpacing: 0
-      winterLinesLow: 0
-      winterLinesHigh: 0
   - name: Bischofshofen HS142
     terrainSteepness: 1
     type: 1
     gates: 47
     w: 125
-    hS: 0
+    hS: 142
     h: 62.40275
     n: 107.59094
     gamma: 27
@@ -469,7 +419,7 @@ MonoBehaviour:
     type: 1
     gates: 23
     w: 65
-    hS: 0
+    hS: 78
     h: 30.28765
     n: 57.146503
     gamma: 35
@@ -519,7 +469,7 @@ MonoBehaviour:
     type: 1
     gates: 23
     w: 88
-    hS: 0
+    hS: 98
     h: 41.004818
     n: 77.36758
     gamma: 32.8
@@ -569,7 +519,7 @@ MonoBehaviour:
     type: 0
     gates: 19
     w: 74
-    hS: 0
+    hS: 78
     h: 34.734493
     n: 64.924286
     gamma: 30
@@ -619,7 +569,7 @@ MonoBehaviour:
     type: 1
     gates: 23
     w: 105
-    hS: 0
+    hS: 117
     h: 51.186726
     n: 91.07958
     gamma: 37
@@ -669,7 +619,7 @@ MonoBehaviour:
     type: 2
     gates: 30
     w: 95
-    hS: 0
+    hS: 102
     h: 45.363377
     n: 82.93121
     gamma: 35
@@ -719,7 +669,7 @@ MonoBehaviour:
     type: 2
     gates: 38
     w: 125
-    hS: 0
+    hS: 140
     h: 62.6438
     n: 107.45077
     gamma: 30
@@ -769,7 +719,7 @@ MonoBehaviour:
     type: 2
     gates: 24
     w: 65
-    hS: 0
+    hS: 72
     h: 29.70298
     n: 57.45257
     gamma: 35
@@ -819,7 +769,7 @@ MonoBehaviour:
     type: 2
     gates: 33
     w: 106
-    hS: 0
+    hS: 118
     h: 51.604294
     n: 91.98627
     gamma: 35
@@ -869,7 +819,7 @@ MonoBehaviour:
     type: 1
     gates: 10
     w: 56
-    hS: 0
+    hS: 64
     h: 26.055511
     n: 49.254276
     gamma: 34
@@ -919,7 +869,7 @@ MonoBehaviour:
     type: 2
     gates: 39
     w: 125
-    hS: 0
+    hS: 135
     h: 62.45
     n: 107.13
     gamma: 35
@@ -969,7 +919,7 @@ MonoBehaviour:
     type: 2
     gates: 34
     w: 90
-    hS: 0
+    hS: 96
     h: 42.97583
     n: 78.566414
     gamma: 35
@@ -1019,7 +969,7 @@ MonoBehaviour:
     type: 2
     gates: 13
     w: 85
-    hS: 0
+    hS: 95
     h: 40.473915
     n: 74.26406
     gamma: 35.7
@@ -1069,7 +1019,7 @@ MonoBehaviour:
     type: 1
     gates: 32
     w: 105
-    hS: 0
+    hS: 117
     h: 50.34972
     n: 91.54495
     gamma: 35
@@ -1119,7 +1069,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 70
-    hS: 0
+    hS: 77
     h: 31.890057
     n: 61.922443
     gamma: 30
@@ -1169,7 +1119,7 @@ MonoBehaviour:
     type: 2
     gates: 33
     w: 98
-    hS: 0
+    hS: 109
     h: 47.51521
     n: 85.152695
     gamma: 35
@@ -1219,7 +1169,7 @@ MonoBehaviour:
     type: 2
     gates: 22
     w: 64
-    hS: 0
+    hS: 70
     h: 29.335176
     n: 56.5225
     gamma: 35
@@ -1269,7 +1219,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 125
-    hS: 0
+    hS: 140
     h: 62.4832
     n: 107.544235
     gamma: 36
@@ -1319,7 +1269,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 95
-    hS: 0
+    hS: 109
     h: 45.49088
     n: 82.86134
     gamma: 35
@@ -1369,7 +1319,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 125
-    hS: 0
+    hS: 140
     h: 61.998894
     n: 107.82417
     gamma: 35
@@ -1419,7 +1369,7 @@ MonoBehaviour:
     type: 2
     gates: 42
     w: 90
-    hS: 0
+    hS: 100
     h: 42.550648
     n: 78.7975
     gamma: 35
@@ -1469,7 +1419,7 @@ MonoBehaviour:
     type: 2
     gates: 52
     w: 120
-    hS: 0
+    hS: 134
     h: 59.128727
     n: 103.734604
     gamma: 35
@@ -1519,7 +1469,7 @@ MonoBehaviour:
     type: 1
     gates: 36
     w: 95
-    hS: 0
+    hS: 106
     h: 45.68153
     n: 82.75639
     gamma: 35
@@ -1569,7 +1519,7 @@ MonoBehaviour:
     type: 1
     gates: 49
     w: 125
-    hS: 0
+    hS: 142
     h: 62.322186
     n: 107.637634
     gamma: 35
@@ -1619,7 +1569,7 @@ MonoBehaviour:
     type: 1
     gates: 26
     w: 43
-    hS: 0
+    hS: 47
     h: 19.559526
     n: 38.05355
     gamma: 32.6
@@ -1669,7 +1619,7 @@ MonoBehaviour:
     type: 1
     gates: 34
     w: 80
-    hS: 0
+    hS: 89
     h: 37.8228
     n: 70.04222
     gamma: 30
@@ -1719,7 +1669,7 @@ MonoBehaviour:
     type: 2
     gates: 29
     w: 65
-    hS: 0
+    hS: 72
     h: 29.838734
     n: 57.382183
     gamma: 35
@@ -1769,7 +1719,7 @@ MonoBehaviour:
     type: 0
     gates: 42
     w: 120
-    hS: 0
+    hS: 131
     h: 59.51894
     n: 103.51121
     gamma: 35
@@ -1819,7 +1769,7 @@ MonoBehaviour:
     type: 0
     gates: 42
     w: 90
-    hS: 0
+    hS: 98
     h: 43.874336
     n: 78.068214
     gamma: 36
@@ -1869,7 +1819,7 @@ MonoBehaviour:
     type: 1
     gates: 32
     w: 90
-    hS: 0
+    hS: 100
     h: 43.277237
     n: 78.400795
     gamma: 35
@@ -1919,7 +1869,7 @@ MonoBehaviour:
     type: 1
     gates: 22
     w: 125
-    hS: 0
+    hS: 142
     h: 62.160755
     n: 107.73094
     gamma: 27.5
@@ -1969,7 +1919,7 @@ MonoBehaviour:
     type: 1
     gates: 19
     w: 185
-    hS: 0
+    hS: 210
     h: 95.74654
     n: 157.21927
     gamma: 35
@@ -2019,7 +1969,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 70
-    hS: 0
+    hS: 73
     h: 32.617466
     n: 61.54239
     gamma: 22.5
@@ -2069,7 +2019,7 @@ MonoBehaviour:
     type: 1
     gates: 45
     w: 95
-    hS: 0
+    hS: 108
     h: 46.249134
     n: 82.44052
     gamma: 35.2
@@ -2119,7 +2069,7 @@ MonoBehaviour:
     type: 1
     gates: 37
     w: 70
-    hS: 0
+    hS: 77
     h: 32.617466
     n: 61.54239
     gamma: 35
@@ -2169,7 +2119,7 @@ MonoBehaviour:
     type: 1
     gates: 44
     w: 85
-    hS: 0
+    hS: 90
     h: 39.019882
     n: 75.03824
     gamma: 30
@@ -2219,7 +2169,7 @@ MonoBehaviour:
     type: 1
     gates: 19
     w: 85
-    hS: 0
+    hS: 94
     h: 39.781624
     n: 74.6372
     gamma: 32.4
@@ -2269,7 +2219,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 120
-    hS: 0
+    hS: 130
     h: 59.8293
     n: 103.33213
     gamma: 35
@@ -2319,7 +2269,7 @@ MonoBehaviour:
     type: 2
     gates: 42
     w: 120
-    hS: 0
+    hS: 133
     h: 58.814724
     n: 103.91295
     gamma: 35
@@ -2369,7 +2319,7 @@ MonoBehaviour:
     type: 2
     gates: 44
     w: 161
-    hS: 0
+    hS: 180
     h: 81.40494
     n: 137.97449
     gamma: 35
@@ -2419,7 +2369,7 @@ MonoBehaviour:
     type: 2
     gates: 34
     w: 95
-    hS: 0
+    hS: 106
     h: 45.107403
     n: 83.070724
     gamma: 35
@@ -2469,7 +2419,7 @@ MonoBehaviour:
     type: 2
     gates: 27
     w: 67
-    hS: 0
+    hS: 74
     h: 31.127487
     n: 58.953575
     gamma: 35
@@ -2519,7 +2469,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 85
-    hS: 0
+    hS: 94
     h: 39.19676
     n: 74.946
     gamma: 35
@@ -2569,7 +2519,7 @@ MonoBehaviour:
     type: 1
     gates: 54
     w: 125
-    hS: 0
+    hS: 140
     h: 62.24152
     n: 107.684296
     gamma: 35
@@ -2619,7 +2569,7 @@ MonoBehaviour:
     type: 2
     gates: 20
     w: 77
-    hS: 0
+    hS: 85
     h: 36.560738
     n: 67.33101
     gamma: 35
@@ -2669,7 +2619,7 @@ MonoBehaviour:
     type: 1
     gates: 34
     w: 100
-    hS: 0
+    hS: 109
     h: 49.077812
     n: 86.55699
     gamma: 33
@@ -2719,7 +2669,7 @@ MonoBehaviour:
     type: 0
     gates: 34
     w: 92
-    hS: 0
+    hS: 100
     h: 45.15159
     n: 79.63243
     gamma: 33
@@ -2769,7 +2719,7 @@ MonoBehaviour:
     type: 1
     gates: 34
     w: 120
-    hS: 0
+    hS: 127
     h: 59.51894
     n: 103.51121
     gamma: 35
@@ -2819,7 +2769,7 @@ MonoBehaviour:
     type: 1
     gates: 30
     w: 120
-    hS: 0
+    hS: 142
     h: 59.51894
     n: 103.51121
     gamma: 35
@@ -2869,7 +2819,7 @@ MonoBehaviour:
     type: 0
     gates: 25
     w: 200
-    hS: 0
+    hS: 200
     h: 88.99773
     n: 177.99545
     gamma: 35
@@ -2919,7 +2869,7 @@ MonoBehaviour:
     type: 1
     gates: 31
     w: 90
-    hS: 0
+    hS: 100
     h: 42.915318
     n: 78.59949
     gamma: 37.5
@@ -2969,7 +2919,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 116
-    hS: 0
+    hS: 130
     h: 56.549145
     n: 100.621254
     gamma: 38.64
@@ -3019,7 +2969,7 @@ MonoBehaviour:
     type: 1
     gates: 25
     w: 70
-    hS: 0
+    hS: 76
     h: 33.33146
     n: 61.158638
     gamma: 37
@@ -3069,7 +3019,7 @@ MonoBehaviour:
     type: 1
     gates: 18
     w: 92
-    hS: 0
+    hS: 102
     h: 45.09129
     n: 79.666595
     gamma: 37
@@ -3119,7 +3069,7 @@ MonoBehaviour:
     type: 1
     gates: 32
     w: 90
-    hS: 0
+    hS: 100
     h: 44.639206
     n: 77.63341
     gamma: 30
@@ -3169,7 +3119,7 @@ MonoBehaviour:
     type: 1
     gates: 50
     w: 120
-    hS: 0
+    hS: 134
     h: 59.51894
     n: 103.51121
     gamma: 27.5
@@ -3219,7 +3169,7 @@ MonoBehaviour:
     type: 1
     gates: 33
     w: 123
-    hS: 0
+    hS: 140
     h: 60.927124
     n: 106.14482
     gamma: 34
@@ -3269,7 +3219,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 98
-    hS: 0
+    hS: 106
     h: 47.058624
     n: 85.40586
     gamma: 35
@@ -3319,7 +3269,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 85
-    hS: 0
+    hS: 94
     h: 40.186726
     n: 74.41986
     gamma: 35
@@ -3369,7 +3319,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 120
-    hS: 0
+    hS: 134
     h: 59.51894
     n: 103.51121
     gamma: 35
@@ -3419,7 +3369,7 @@ MonoBehaviour:
     type: 2
     gates: 33
     w: 90
-    hS: 0
+    hS: 97
     h: 43.036266
     n: 78.53333
     gamma: 35
@@ -3469,7 +3419,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 90
-    hS: 0
+    hS: 98
     h: 42.672512
     n: 78.731575
     gamma: 33
@@ -3519,7 +3469,7 @@ MonoBehaviour:
     type: 2
     gates: 50
     w: 90
-    hS: 0
+    hS: 100
     h: 42.73333
     n: 78.69858
     gamma: 32
@@ -3569,7 +3519,7 @@ MonoBehaviour:
     type: 2
     gates: 25
     w: 120
-    hS: 0
+    hS: 140
     h: 59.8293
     n: 103.33213
     gamma: 38
@@ -3619,7 +3569,7 @@ MonoBehaviour:
     type: 2
     gates: 54
     w: 64
-    hS: 0
+    hS: 70
     h: 29.821684
     n: 56.267326
     gamma: 32
@@ -3669,7 +3619,7 @@ MonoBehaviour:
     type: 2
     gates: 42
     w: 95
-    hS: 0
+    hS: 106
     h: 44.97893
     n: 83.14035
     gamma: 35
@@ -3719,7 +3669,7 @@ MonoBehaviour:
     type: 1
     gates: 35
     w: 120
-    hS: 0
+    hS: 137.42
     h: 59.51894
     n: 103.51121
     gamma: 35
@@ -3769,7 +3719,7 @@ MonoBehaviour:
     type: 2
     gates: 49
     w: 200
-    hS: 0
+    hS: 235
     h: 103.01252
     n: 170.26862
     gamma: 38.7
@@ -3819,7 +3769,7 @@ MonoBehaviour:
     type: 1
     gates: 32
     w: 56
-    hS: 0
+    hS: 60
     h: 25.707218
     n: 49.43696
     gamma: 34.5
@@ -3869,7 +3819,7 @@ MonoBehaviour:
     type: 1
     gates: 37
     w: 95
-    hS: 0
+    hS: 106
     h: 45.618053
     n: 82.7914
     gamma: 37
@@ -3919,7 +3869,7 @@ MonoBehaviour:
     type: 1
     gates: 26
     w: 90
-    hS: 0
+    hS: 100
     h: 43.156902
     n: 78.4671
     gamma: 36
@@ -3969,7 +3919,7 @@ MonoBehaviour:
     type: 2
     gates: 42
     w: 95
-    hS: 0
+    hS: 106
     h: 44.914574
     n: 83.17514
     gamma: 35
@@ -4019,7 +3969,7 @@ MonoBehaviour:
     type: 1
     gates: 40
     w: 120
-    hS: 0
+    hS: 134
     h: 59.128727
     n: 103.734604
     gamma: 36
@@ -4069,7 +4019,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 90
-    hS: 0
+    hS: 97
     h: 43.156902
     n: 78.4671
     gamma: 35
@@ -4119,7 +4069,7 @@ MonoBehaviour:
     type: 0
     gates: 29
     w: 90
-    hS: 0
+    hS: 100
     h: 43.755527
     n: 78.134865
     gamma: 35
@@ -4169,7 +4119,7 @@ MonoBehaviour:
     type: 0
     gates: 30
     w: 120
-    hS: 0
+    hS: 134
     h: 58.735977
     n: 103.95748
     gamma: 35
@@ -4219,7 +4169,7 @@ MonoBehaviour:
     type: 2
     gates: 38
     w: 95
-    hS: 0
+    hS: 102
     h: 45.871452
     n: 82.65127
     gamma: 34
@@ -4269,7 +4219,7 @@ MonoBehaviour:
     type: 2
     gates: 27
     w: 125
-    hS: 0
+    hS: 138
     h: 62.40275
     n: 107.59094
     gamma: 35
@@ -4319,7 +4269,7 @@ MonoBehaviour:
     type: 2
     gates: 31
     w: 200
-    hS: 0
+    hS: 240
     h: 102
     n: 170.45
     gamma: 35.1
@@ -4369,7 +4319,7 @@ MonoBehaviour:
     type: 1
     gates: 33
     w: 56
-    hS: 0
+    hS: 61
     h: 24.919365
     n: 49.83873
     gamma: 32.4
@@ -4419,7 +4369,7 @@ MonoBehaviour:
     type: 1
     gates: 25
     w: 72
-    hS: 0
+    hS: 80
     h: 32.951946
     n: 63.6138
     gamma: 33.6
@@ -4469,7 +4419,7 @@ MonoBehaviour:
     type: 1
     gates: 12
     w: 60
-    hS: 0
+    hS: 66
     h: 27.123943
     n: 53.184208
     gamma: 37.4
@@ -4519,7 +4469,7 @@ MonoBehaviour:
     type: 1
     gates: 38
     w: 95
-    hS: 0
+    hS: 106
     h: 46.06066
     n: 82.545975
     gamma: 35
@@ -4569,7 +4519,7 @@ MonoBehaviour:
     type: 1
     gates: 44
     w: 125
-    hS: 0
+    hS: 140
     h: 62.6438
     n: 107.45077
     gamma: 35
@@ -4619,7 +4569,7 @@ MonoBehaviour:
     type: 1
     gates: 35
     w: 95
-    hS: 0
+    hS: 104
     h: 45.618053
     n: 82.7914
     gamma: 30
@@ -4669,7 +4619,7 @@ MonoBehaviour:
     type: 1
     gates: 40
     w: 120
-    hS: 0
+    hS: 135
     h: 59.674324
     n: 103.4217
     gamma: 30
@@ -4719,7 +4669,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 81
-    hS: 0
+    hS: 90
     h: 38.130554
     n: 71.006615
     gamma: 35
@@ -4769,7 +4719,7 @@ MonoBehaviour:
     type: 1
     gates: 58
     w: 98
-    hS: 0
+    hS: 109.04
     h: 48.67062
     n: 84.49761
     gamma: 35
@@ -4819,7 +4769,7 @@ MonoBehaviour:
     type: 1
     gates: 63
     w: 125
-    hS: 0
+    hS: 142
     h: 61.998894
     n: 107.82417
     gamma: 35
@@ -4869,7 +4819,7 @@ MonoBehaviour:
     type: 1
     gates: 16
     w: 60
-    hS: 0
+    hS: 66
     h: 26.69932
     n: 53.39864
     gamma: 35
@@ -4919,7 +4869,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 35
-    hS: 0
+    hS: 37.85
     h: 14.942278
     n: 31.457426
     gamma: 30
@@ -4969,7 +4919,7 @@ MonoBehaviour:
     type: 2
     gates: 34
     w: 64
-    hS: 0
+    hS: 71
     h: 28.932207
     n: 56.72982
     gamma: 35
@@ -5019,7 +4969,7 @@ MonoBehaviour:
     type: 2
     gates: 34
     w: 90
-    hS: 0
+    hS: 97
     h: 42.550648
     n: 78.7975
     gamma: 35
@@ -5069,7 +5019,7 @@ MonoBehaviour:
     type: 1
     gates: 36
     w: 99
-    hS: 0
+    hS: 111
     h: 47.736996
     n: 86.167854
     gamma: 34
@@ -5119,7 +5069,7 @@ MonoBehaviour:
     type: 1
     gates: 29
     w: 124
-    hS: 0
+    hS: 139
     h: 61.261284
     n: 107.10015
     gamma: 34
@@ -5169,7 +5119,7 @@ MonoBehaviour:
     type: 2
     gates: 16
     w: 90
-    hS: 0
+    hS: 100
     h: 43.156902
     n: 78.4671
     gamma: 37
@@ -5219,7 +5169,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 90
-    hS: 0
+    hS: 100
     h: 43.755527
     n: 78.134865
     gamma: 34
@@ -5269,7 +5219,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 115
-    hS: 0
+    hS: 128
     h: 56.889694
     n: 99.28392
     gamma: 34
@@ -5319,7 +5269,7 @@ MonoBehaviour:
     type: 1
     gates: 13
     w: 85
-    hS: 0
+    hS: 95
     h: 39.606926
     n: 74.73004
     gamma: 25
@@ -5369,7 +5319,7 @@ MonoBehaviour:
     type: 1
     gates: 40
     w: 90
-    hS: 0
+    hS: 100
     h: 43.45717
     n: 78.3012
     gamma: 36
@@ -5419,7 +5369,7 @@ MonoBehaviour:
     type: 2
     gates: 47
     w: 123
-    hS: 0
+    hS: 137.26
     h: 61.006912
     n: 106.09898
     gamma: 35
@@ -5469,7 +5419,7 @@ MonoBehaviour:
     type: 2
     gates: 40
     w: 95
-    hS: 0
+    hS: 106
     h: 47.670193
     n: 81.62705
     gamma: 35
@@ -5519,7 +5469,7 @@ MonoBehaviour:
     type: 1
     gates: 39
     w: 125
-    hS: 0
+    hS: 140
     h: 62.72394
     n: 107.404015
     gamma: 35
@@ -5569,7 +5519,7 @@ MonoBehaviour:
     type: 1
     gates: 32
     w: 90
-    hS: 0
+    hS: 99
     h: 42.550648
     n: 78.7975
     gamma: 35
@@ -5619,7 +5569,7 @@ MonoBehaviour:
     type: 2
     gates: 33
     w: 99
-    hS: 0
+    hS: 109
     h: 47.802883
     n: 86.131325
     gamma: 34
@@ -5669,7 +5619,7 @@ MonoBehaviour:
     type: 2
     gates: 32
     w: 65
-    hS: 0
+    hS: 72
     h: 29.973991
     n: 57.311646
     gamma: 30
@@ -5719,7 +5669,7 @@ MonoBehaviour:
     type: 2
     gates: 50
     w: 95
-    hS: 0
+    hS: 106
     h: 45.171516
     n: 83.03587
     gamma: 35
@@ -5769,7 +5719,7 @@ MonoBehaviour:
     type: 2
     gates: 50
     w: 125
-    hS: 0
+    hS: 140
     h: 62.160755
     n: 107.73094
     gamma: 35
@@ -5819,7 +5769,7 @@ MonoBehaviour:
     type: 0
     gates: 35
     w: 105
-    hS: 0
+    hS: 116
     h: 51.600437
     n: 90.84583
     gamma: 35
@@ -5869,7 +5819,7 @@ MonoBehaviour:
     type: 1
     gates: 16
     w: 68
-    hS: 0
+    hS: 75
     h: 31.215906
     n: 60.03059
     gamma: 34
@@ -5919,7 +5869,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 90
-    hS: 0
+    hS: 100
     h: 42.672512
     n: 78.731575
     gamma: 35
@@ -5969,7 +5919,7 @@ MonoBehaviour:
     type: 1
     gates: 26
     w: 95
-    hS: 0
+    hS: 106
     h: 45.55451
     n: 82.826385
     gamma: 35
@@ -6019,7 +5969,7 @@ MonoBehaviour:
     type: 1
     gates: 20
     w: 70
-    hS: 0
+    hS: 77
     h: 32.328117
     n: 61.694878
     gamma: 34
@@ -6069,7 +6019,7 @@ MonoBehaviour:
     type: 1
     gates: 44
     w: 125
-    hS: 0
+    hS: 145.22
     h: 62.72394
     n: 107.404015
     gamma: 35
@@ -6119,7 +6069,7 @@ MonoBehaviour:
     type: 1
     gates: 17
     w: 90
-    hS: 0
+    hS: 105
     h: 43.156902
     n: 78.4671
     gamma: 34
@@ -6169,7 +6119,7 @@ MonoBehaviour:
     type: 1
     gates: 31
     w: 124
-    hS: 0
+    hS: 140
     h: 61.261284
     n: 107.10015
     gamma: 34
@@ -6219,7 +6169,7 @@ MonoBehaviour:
     type: 2
     gates: 28
     w: 97
-    hS: 0
+    hS: 108
     h: 46.707966
     n: 84.462875
     gamma: 37
@@ -6269,7 +6219,7 @@ MonoBehaviour:
     type: 1
     gates: 24
     w: 60
-    hS: 0
+    hS: 66
     h: 28.891525
     n: 52.245075
     gamma: 30
@@ -6319,7 +6269,7 @@ MonoBehaviour:
     type: 1
     gates: 38
     w: 105
-    hS: 0
+    hS: 117
     h: 51.117462
     n: 91.11848
     gamma: 35.5
@@ -6369,7 +6319,7 @@ MonoBehaviour:
     type: 2
     gates: 42
     w: 200
-    hS: 0
+    hS: 240
     h: 102.24
     n: 170.47
     gamma: 36
@@ -6419,7 +6369,7 @@ MonoBehaviour:
     type: 1
     gates: 42
     w: 90
-    hS: 0
+    hS: 98
     h: 44.346546
     n: 77.80095
     gamma: 35
@@ -6469,7 +6419,7 @@ MonoBehaviour:
     type: 1
     gates: 34
     w: 95
-    hS: 0
+    hS: 104
     h: 45.55451
     n: 82.826385
     gamma: 35
@@ -6519,7 +6469,7 @@ MonoBehaviour:
     type: 1
     gates: 30
     w: 125
-    hS: 0
+    hS: 142
     h: 61.998894
     n: 107.82417
     gamma: 35
@@ -6569,7 +6519,7 @@ MonoBehaviour:
     type: 1
     gates: 49
     w: 130
-    hS: 0
+    hS: 145
     h: 65.7307
     n: 111.40797
     gamma: 35
@@ -6619,7 +6569,7 @@ MonoBehaviour:
     type: 1
     gates: 10
     w: 81
-    hS: 0
+    hS: 87
     h: 38.949512
     n: 70.560715
     gamma: 40
@@ -6719,7 +6669,7 @@ MonoBehaviour:
     type: 2
     gates: 35
     w: 125
-    hS: 0
+    hS: 140
     h: 61.998894
     n: 107.82417
     gamma: 35
@@ -6769,7 +6719,7 @@ MonoBehaviour:
     type: 1
     gates: 20
     w: 65
-    hS: 0
+    hS: 72
     h: 30.554338
     n: 57.004364
     gamma: 33
@@ -6819,7 +6769,7 @@ MonoBehaviour:
     type: 1
     gates: 28
     w: 85
-    hS: 0
+    hS: 94
     h: 39.955673
     n: 74.54417
     gamma: 35
@@ -6869,7 +6819,7 @@ MonoBehaviour:
     type: 2
     gates: 38
     w: 95
-    hS: 0
+    hS: 107
     h: 44.97893
     n: 83.14035
     gamma: 35
@@ -6919,7 +6869,7 @@ MonoBehaviour:
     type: 1
     gates: 15
     w: 60
-    hS: 0
+    hS: 65
     h: 27.792692
     n: 52.837814
     gamma: 34.5

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Hills;
 using UnityEngine;
@@ -48,8 +50,41 @@ namespace OpenSkiJumping.Data
         public override bool LoadData()
         {
             var tmp = base.LoadData();
-            // Debug.Log($"Loaded {Data.Count} hills");
+            // data = new List<ProfileData>();
+            // var tmp = LoadMultipleFiles(path);
             return tmp;
+        }
+
+        private bool LoadMultipleFiles(string absolutePath)
+        {
+            if (!Directory.Exists(absolutePath))
+            {
+                return false;
+            }
+
+            var fileEntries = Directory.GetFiles(absolutePath);
+            foreach (var fileName in fileEntries)
+                LoadSingleFile(fileName);
+
+            // string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
+            // foreach (string subdirectory in subdirectoryEntries)
+            //     ProcessDirectory(subdirectory);
+            return true;
+        }
+
+        private bool LoadSingleFile(string absolutePath)
+        {
+            if (File.Exists(absolutePath))
+            {
+                var dataAsJson = File.ReadAllText(absolutePath);
+                var hill = JsonConvert.DeserializeObject<ProfileData>(dataAsJson);
+                data.Add(hill);
+                loaded = true;
+                return true;
+            }
+
+            loaded = false;
+            return false;
         }
     }
 }
