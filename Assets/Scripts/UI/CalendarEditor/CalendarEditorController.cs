@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
 using OpenSkiJumping.Data;
@@ -19,6 +20,8 @@ namespace OpenSkiJumping.UI.CalendarEditor
         [SerializeField] private CalendarEditorEventsView eventsMenu;
 
         [SerializeField] private CalendarEditorJumpersView jumpersMenu;
+        [SerializeField] private GameObject contentGameObject;
+        
 
         private void LoadCalendar(Calendar calendarToLoad)
         {
@@ -42,7 +45,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
             calendar = calendarsMenu.SelectedCalendar;
             LoadCalendar(calendar);
             calendarsMenu.gameObject.SetActive(false);
-            jumpersMenu.gameObject.SetActive(true);
+            contentGameObject.SetActive(true);
         }
 
         public void CloseCalendarEditor()
@@ -51,9 +54,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
             jumpersMenu.SelectionSave();
 
             SaveToCalendar(calendar);
-            jumpersMenu.gameObject.SetActive(false);
-            classificationsMenu.gameObject.SetActive(false);
-            eventsMenu.gameObject.SetActive(false);
+            contentGameObject.SetActive(false);
             calendarsMenu.gameObject.SetActive(true);
         }
 
@@ -78,5 +79,6 @@ namespace OpenSkiJumping.UI.CalendarEditor
             classificationsMenu.gameObject.SetActive(false);
             eventsMenu.gameObject.SetActive(true);
         }
+        
     }
 }

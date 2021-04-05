@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,18 +23,18 @@ namespace OpenSkiJumping.UI
     [ExecuteInEditMode]
     public class UISkinController : MonoBehaviour
     {
-        [SerializeField] private SelectableSkinSettings[] selectables;
-        [SerializeField] private GraphicSkinSettings[] graphics;
+        [SerializeField] private List<SelectableSkinSettings> selectables = new List<SelectableSkinSettings>();
+        [SerializeField] private List<GraphicSkinSettings> graphics = new List<GraphicSkinSettings>();
 
 
         protected void OnSkinUI()
         {
-            foreach (var it in selectables)
+            foreach (var it in selectables.Where(it => it.graphic && it.skinData))
             {
                 it.graphic.colors = it.skinData.colors;
             }
 
-            foreach (var it in graphics)
+            foreach (var it in graphics.Where(it => it.graphic && it.skinData))
             {
                 it.graphic.color = it.skinData.color;
             }
@@ -45,13 +47,12 @@ namespace OpenSkiJumping.UI
 
         protected void Update()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (Application.isEditor)
             {
                 OnSkinUI();
             }
-            #endif
+#endif
         }
     }
-    
 }

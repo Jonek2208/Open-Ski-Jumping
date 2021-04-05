@@ -25,16 +25,16 @@ namespace OpenSkiJumping.UI
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            var rect = rectTransform.rect;
-            sizeDelta = new Vector2(rect.width, rect.height);
-            pos = rectTransform.position;
-            sizeDeltaBtn = new Vector2(sizeDelta.x / tabButtons.Count, sizeDelta.y);
-            posDeltaBtn = new Vector3(sizeDeltaBtn.x, 0, 0);
         }
 
         private void Start()
         {
+            rectTransform = GetComponent<RectTransform>();
+            sizeDelta = rectTransform.rect.size;
+            pos = rectTransform.anchoredPosition3D;
+            sizeDeltaBtn = new Vector2(sizeDelta.x / tabButtons.Count, sizeDelta.y);
+            posDeltaBtn = new Vector3(sizeDeltaBtn.x, 0, 0);
+
             SetUpButtonsSize();
             for (var i = 0; i < tabButtons.Count; i++)
             {
@@ -57,7 +57,7 @@ namespace OpenSkiJumping.UI
                 tabButtons[i].SetStyle(i == selectedIndex ? active : nonActive);
             }
 
-            activeTabIndicator.rectTransform.DOMove(pos + Vector3.down * sizeDelta.y + posDeltaBtn * selectedIndex,
+            activeTabIndicator.rectTransform.DOAnchorPos3D(posDeltaBtn * selectedIndex,
                 transitionDuration);
         }
 
@@ -66,14 +66,14 @@ namespace OpenSkiJumping.UI
             for (var i = 0; i < tabButtons.Count; i++)
             {
                 var rt = tabButtons[i].GetComponent<RectTransform>();
-                rt.position = pos + posDeltaBtn * i;
+                rt.anchoredPosition3D = posDeltaBtn * i;
                 rt.sizeDelta = sizeDeltaBtn;
             }
 
             var indicatorRT = activeTabIndicator.rectTransform;
             var indicatorDelta = indicatorRT.sizeDelta;
+            // indicatorRT.anchoredPosition3D = Vector3.down * indicatorDelta.y;
             indicatorRT.sizeDelta = new Vector2(sizeDeltaBtn.x, indicatorDelta.y);
-            indicatorRT.position = pos + Vector3.down * sizeDelta.y;
         }
     }
 }

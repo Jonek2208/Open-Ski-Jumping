@@ -84,7 +84,7 @@ namespace OpenSkiJumping.Simulation
 
         public int GetGateForWind(float windSpeed)
         {
-            var winnerDist = hill.w + hill.l2 / 2.0f;
+            var winnerDist = hill.w + hill.l2 * 0.9f;
             int lo = 1, hi = hill.gates;
             // Debug.Log($"Winner dist: {winnerDist}");
 

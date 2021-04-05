@@ -149,6 +149,7 @@ namespace OpenSkiJumping.UI.CalendarEditor.Events
 
         private void SetInitValues()
         {
+            calendarFactory.RecalculateEvents();
             PresentList();
             view.SelectedEvent = calendarFactory.Events.FirstOrDefault();
             view.RoundsInfos = presets.GetData();
