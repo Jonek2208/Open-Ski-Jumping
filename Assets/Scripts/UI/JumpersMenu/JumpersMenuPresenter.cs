@@ -25,7 +25,7 @@ namespace OpenSkiJumping.UI.JumpersMenu
 
         private void CreateNewJumper()
         {
-            Competitor jumper = new Competitor();
+            var jumper = new Competitor();
             jumpers.Add(jumper);
             PresentList();
             view.SelectedJumper = jumper;
@@ -73,6 +73,7 @@ namespace OpenSkiJumping.UI.JumpersMenu
             view.SuitBottomBack = jumper.suitBottomBackColor;
             view.Helmet = jumper.helmetColor;
             view.Skis = jumper.skisColor;
+            view.Skin = jumper.skinColor;
             view.ImagePath = jumper.imagePath;
             view.LoadImage(jumper.imagePath);
         }
@@ -95,7 +96,9 @@ namespace OpenSkiJumping.UI.JumpersMenu
             jumper.suitBottomBackColor = view.SuitBottomBack;
             jumper.helmetColor = view.Helmet;
             jumper.skisColor = view.Skis;
+            jumper.skinColor = view.Skin;
             jumper.imagePath = view.ImagePath;
+
             view.LoadImage(jumper.imagePath);
             jumpers.Recalculate(jumper);
             PresentList();

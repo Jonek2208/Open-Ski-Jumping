@@ -136,6 +136,7 @@ namespace OpenSkiJumping.UI.JumpersMenu
         [SerializeField] private SimpleColorPicker suitBottomFrontColorPicker;
         [SerializeField] private SimpleColorPicker suitBottomBackColorPicker;
         [SerializeField] private SimpleColorPicker skisColorPicker;
+        [SerializeField] private SimpleColorPicker skinColorPicker;
         [SerializeField] private TMP_InputField imagePathInput;
         [SerializeField] private Image image;
         [SerializeField] private Button addButton;
@@ -203,6 +204,12 @@ namespace OpenSkiJumping.UI.JumpersMenu
         {
             get => skisColorPicker.ToHex;
             set => skisColorPicker.SetValueWithoutNotify(value);
+        }
+
+        public string Skin
+        {
+            get => skinColorPicker.ToHex;
+            set => skinColorPicker.SetValueWithoutNotify(value);
         }
 
         public string ImagePath

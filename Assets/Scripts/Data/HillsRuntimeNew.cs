@@ -9,82 +9,47 @@ using UnityEngine;
 
 namespace OpenSkiJumping.Data
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/Data/HillsRuntime")]
-    public class HillsRuntimeNew : DatabaseObjectMultipleFiles<ProfileData>
+    [CreateAssetMenu(menuName = "ScriptableObjects/Data/HillsRuntimeNew")]
+    public class HillsRuntimeNew : DatabaseObjectMultipleFiles<HillsMap>
     {
+        private Dictionary<string, (int, int)> _profileMap = new Dictionary<string, (int, int)>();
+
         public HillInfo GetHillInfo(string hillName)
         {
-            var hill = Data.Find(it => it.name == hillName);
+            var hill = GetProfileData(hillName);
 
-            return new HillInfo((decimal) hill.w, (decimal) (hill.w + hill.l2), 0, 0, 0,
+            return new HillInfo((decimal) hill.w, (decimal) (hill.hS), 0, 0, 0,
                 (decimal) hill.es / (hill.gates - 1));
-        }
-
-        public ProfileData GetProfileData(string hillName)
-        {
-            var hill = Data.Find(it => it.name == hillName);
-            return hill;
-        }
-
-        public IEnumerable<ProfileData> GetSortedData()
-        {
-            return Data.OrderBy(it => it.name, StringComparer.InvariantCulture);
-        }
-
-        public void Add(ProfileData item)
-        {
-            data.Add(item);
-        }
-
-        public bool Remove(ProfileData item)
-        {
-            return data.Remove(item);
-        }
-
-        public override void SaveData()
-        {
-            data.Sort((x, y) => string.Compare(x.name, y.name, StringComparison.InvariantCulture));
-            base.SaveData();
         }
 
         public override bool LoadData()
         {
             var tmp = base.LoadData();
-            // data = new List<ProfileData>();
-            // var tmp = LoadMultipleFiles(path);
+            _profileMap.Clear();
+            for (var i = 0; i < data.Count; i++)
+            {
+                var it = data[i];
+                for (var j = 0; j < it.value.profiles.Count; j++)
+                {
+                    var p = it.value.profiles[j];
+                    _profileMap[p.profileData.name] = (i, j);
+                }
+            }
+
             return tmp;
         }
 
-        private bool LoadMultipleFiles(string absolutePath)
+        public ProfileData GetProfileData(string hillName)
         {
-            if (!Directory.Exists(absolutePath))
-            {
-                return false;
-            }
-
-            var fileEntries = Directory.GetFiles(absolutePath);
-            foreach (var fileName in fileEntries)
-                LoadSingleFile(fileName);
-
-            // string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            // foreach (string subdirectory in subdirectoryEntries)
-            //     ProcessDirectory(subdirectory);
-            return true;
+            _profileMap.TryGetValue(hillName, out var index);
+            var hill = data[index.Item1].value.profiles[index.Item2].profileData;
+            return hill;
         }
 
-        private bool LoadSingleFile(string absolutePath)
+        public IEnumerable<ProfileData> GetSortedData()
         {
-            if (File.Exists(absolutePath))
-            {
-                var dataAsJson = File.ReadAllText(absolutePath);
-                var hill = JsonConvert.DeserializeObject<ProfileData>(dataAsJson);
-                data.Add(hill);
-                loaded = true;
-                return true;
-            }
-
-            loaded = false;
-            return false;
+            return data.SelectMany(it => it.value.profiles).Select(it => it.profileData)
+                .OrderBy(it => it.name, StringComparer.InvariantCulture);
         }
     }
 }

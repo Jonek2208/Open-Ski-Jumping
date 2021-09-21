@@ -2,7 +2,7 @@ using System;
 using OpenSkiJumping.Hills.Guardrails;
 using OpenSkiJumping.Hills.InrunTracks;
 using OpenSkiJumping.Hills.LandingAreas;
-using OpenSkiJumping.Hills.Stairs;
+using OpenSkiJumping.Hills.StairsOld;
 using UnityEngine;
 
 namespace OpenSkiJumping.Hills

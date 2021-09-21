@@ -44,6 +44,17 @@ namespace OpenSkiJumping.Data
         public override void SaveData()
         {
             data.Sort((x, y) => string.Compare(x.name, y.name, StringComparison.InvariantCulture));
+
+            var directoryPath = System.IO.Path.Combine(Application.streamingAssetsPath, "hills");
+            foreach (var itx in data)
+            {
+                var it = new HillsMap {profiles = new List<MapHillData> {new MapHillData {profileData = itx}}};
+                var absolutePath = System.IO.Path.Combine(directoryPath, $"{itx.name.ToLower().Replace(" ", "_")}.json");
+                var dataAsJson =
+                    JsonConvert.SerializeObject(it, prettyPrint ? Formatting.Indented : Formatting.None);
+                File.WriteAllText(absolutePath, dataAsJson);
+            }
+
             base.SaveData();
         }
 

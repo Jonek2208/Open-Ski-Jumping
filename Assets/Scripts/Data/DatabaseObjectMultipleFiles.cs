@@ -1,31 +1,45 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using OpenSkiJumping.Hills;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace OpenSkiJumping.Data
+
 {
-    public class DatabaseObjectMultipleFiles<T> : DatabaseObject<List<T>>
+    [Serializable]
+    public class DatabaseObjectFileData<T>
     {
-        [SerializeField] protected new List<T> data;
-        [SerializeField] private List<string> fileNames;
-        
+        public string fileName;
+        public T value;
+
+        public DatabaseObjectFileData(T value, string fileName)
+        {
+            this.value = value;
+            this.fileName = fileName;
+        }
+    }
+
+    public class DatabaseObjectMultipleFiles<T> : DatabaseObject<List<DatabaseObjectFileData<T>>>
+    {
+        protected Dictionary<string, int> _map = new Dictionary<string, int>();
+
+        private void SetUpDict()
+        {
+            _map.Clear();
+            for (var i = 0; i < data.Count; i++)
+            {
+                var it = data[i];
+                _map.Add(it.fileName, i);
+            }
+        }
 
         public override bool LoadData()
         {
             var absolutePath = Path.Combine(Application.streamingAssetsPath, path);
-            if (File.Exists(absolutePath))
-            {
-                var dataAsJson = File.ReadAllText(absolutePath);
-                data = JsonConvert.DeserializeObject<List<T>>(dataAsJson);
-                loaded = true;
-                return true;
-            }
-
-            loaded = false;
-            return false;
+            var tmp = LoadMultipleFiles(absolutePath);
+            SetUpDict();
+            return tmp;
         }
 
         private bool LoadMultipleFiles(string absolutePath)
@@ -35,16 +49,17 @@ namespace OpenSkiJumping.Data
                 return false;
             }
 
+            data.Clear();
             var fileEntries = Directory.GetFiles(absolutePath);
             foreach (var fileName in fileEntries)
             {
-                LoadSingleFile(fileName, newObject: out var item);
-                data.Add(item);
+                var extension = Path.GetExtension(fileName);
+                if (extension != ".json") continue;
+                var tmp = LoadSingleFile(fileName, newObject: out var item);
+                if (!tmp) continue;
+                data.Add(new DatabaseObjectFileData<T>(item, Path.GetFileName(fileName)));
             }
 
-            // string[] subdirectoryEntries = Directory.GetDirectories(targetDirectory);
-            // foreach (string subdirectory in subdirectoryEntries)
-            //     ProcessDirectory(subdirectory);
             return true;
         }
 
@@ -52,7 +67,7 @@ namespace OpenSkiJumping.Data
         {
             newObject = default;
             if (!File.Exists(absolutePath)) return false;
-            
+
             var dataAsJson = File.ReadAllText(absolutePath);
             newObject = JsonConvert.DeserializeObject<T>(dataAsJson);
             loaded = true;
@@ -61,9 +76,14 @@ namespace OpenSkiJumping.Data
 
         public override void SaveData()
         {
-            var filePath = Path.Combine(Application.streamingAssetsPath, path);
-            var dataAsJson = JsonConvert.SerializeObject(data, prettyPrint ? Formatting.Indented : Formatting.None);
-            File.WriteAllText(filePath, dataAsJson);
+            var directoryPath = Path.Combine(Application.streamingAssetsPath, path);
+            foreach (var it in data)
+            {
+                var absolutePath = Path.Combine(directoryPath, it.fileName);
+                var dataAsJson =
+                    JsonConvert.SerializeObject(it.value, prettyPrint ? Formatting.Indented : Formatting.None);
+                File.WriteAllText(absolutePath, dataAsJson);
+            }
         }
     }
 }

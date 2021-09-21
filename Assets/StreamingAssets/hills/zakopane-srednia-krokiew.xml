@@ -1,0 +1,78 @@
+<map>
+    <hill id="Zakopane HS105" profile-type="ICR2008">
+        <pos x="0" y="0" z="0" azimuth="0"/>
+        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
+        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
+                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
+        <outrun a="100" ra="0" betaa="0"/>
+        <judges-tower d="0" q="0" g="0"/>
+    </hill>
+
+    <hill id="Zakopane HS70" profile-type="ICR2008">
+        <transform x="0" y="0" z="0" azimuth="0"/>
+        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
+        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
+                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
+        <outrun a="100" ra="0" betaa="0"/>
+        <judges-tower d="0" q="0" g="0"/>
+    </hill>
+
+    <hill id="Zakopane HS40" profile-type="ICR2008">
+        <transform x="0" y="0" z="0" azimuth="0"/>
+        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
+        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
+                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
+        <outrun a="100" ra="0" betaa="0"/>
+        <judges-tower d="0" q="0" g="0"/>
+    </hill>
+
+    <hill id="Zakopane HS25" profile-type="ICR2008">
+        <transform x="0" y="0" z="0" azimuth="0"/>
+        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
+        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
+                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
+        <outrun a="100" ra="0" betaa="0"/>
+        <judges-tower d="0" q="0" g="0"/>
+    </hill>
+    
+    <ref-point id="hill-A" ref-id="hill-origin">
+        <pos x="-85.8782654" y="44.8958054" z="0"/>
+        <rot x="0" y="0" z="0"/>
+    </ref-point>
+
+    <ref-point id="hill-B">
+        <pos x="-85.8782654" y="44.8958054" z="0"/>
+        <rot x="0" y="0" z="0"/>
+    </ref-point>
+    
+    <path id="inrun">
+        <begin ref-id="hill-A"/>
+        <line ref-id="hill-B"/>
+        <line ref-id="hill-E1"/>
+        <bezier3>
+            <target ref-id="hill-E2"/>
+            <c0 ref-id="hill-E1-C"/>
+            <c1 ref-id="hill-E2-C"/>
+        </bezier3>
+        <line ref-id="hill-T"/>
+    </path>
+
+    <path id="landing-hill">
+        <begin ref-id="hill-F"/>
+        <bezier3>
+            <target ref-id="hill-P"/>
+            <c0 ref-id="hill-F-C"/>
+            <c1 ref-id="hill-P-C"/>
+        </bezier3>
+        <arc r="210" orient="0" large-arc="0">
+            <target ref-id="hill-L"/>
+<!--            <center ref-id="hill-C2"/>-->
+        </arc>
+        <bezier2>
+            <target ref-id="hill-U"/>
+            <c0 ref-id="hill-U-C"/>
+        </bezier2>
+        <line ref-id="hill-T"/>
+    </path>
+
+</map>

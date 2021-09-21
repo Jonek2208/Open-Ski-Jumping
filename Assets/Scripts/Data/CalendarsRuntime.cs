@@ -7,7 +7,7 @@ namespace OpenSkiJumping.Data
     [CreateAssetMenu(menuName = "ScriptableObjects/Data/CalendarsRuntime")]
     public class CalendarsRuntime : DatabaseObject<List<Calendar>>
     {
-        public List<Calendar> GetData() => Data;
+        public IEnumerable<Calendar> GetData() => Data;
 
         public bool Remove(Calendar item)
         {

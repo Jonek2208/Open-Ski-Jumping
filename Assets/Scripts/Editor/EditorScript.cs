@@ -3,6 +3,7 @@ using OpenSkiJumping.Competition.Runtime;
 using OpenSkiJumping.Data;
 using OpenSkiJumping.Hills;
 using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEditor;
 using UnityEngine;
 
@@ -69,6 +70,20 @@ namespace OpenSkiJumping.Editor
             if (GUILayout.Button("Generate"))
             {
                 meshScript.GenerateMesh();
+            }
+        }
+    }
+    
+    [CustomEditor(typeof(HillsMapGenerator))]
+    public class HillsMapGeneratorEditor : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            var item = (HillsMapGenerator) target;
+            DrawDefaultInspector();
+            if (GUILayout.Button("Generate Hills"))
+            {
+                item.GenerateHills();
             }
         }
     }

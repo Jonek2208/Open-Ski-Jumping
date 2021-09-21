@@ -8,12 +8,24 @@ namespace OpenSkiJumping.Hills.LandingAreas
     {
         [SerializeField] private float lineWidth = 0.2f;
         [SerializeField] private float sideLineWidth = 0.5f;
-        [SerializeField] private float whiteLineWidth = 3f;
+        [SerializeField] private float whiteLineSpace = 1f;
+
         [SerializeField] private int maxSL = 2;
 
         [SerializeField] private Material[] materials;
 
-        public Mesh Generate(Vector2[] landingAreaPoints, float hillW, float hillL1, float hillL2, float hillB2,
+        private float WhiteLineWidth(float hillB2,
+            float hillBK, float hillBU, Vector2 P, Vector2 K, Vector2 L, Vector2 U, float x)
+        {
+            var b0 = x <= K.x
+                ? (hillB2 / 2) + x / K.x * ((hillBK - hillB2) / 2)
+                : x >= U.x
+                    ? (hillBU / 2)
+                    : (hillBK / 2) + (x - K.x) / (U.x - K.x) * ((hillBU - hillBK) / 2);
+            return b0 - whiteLineSpace;
+        }
+
+        public Mesh Generate(Vector2[] landingAreaPoints, float hillW, float hillP, float hillHs, float hillB2,
             float hillBK, float hillBU, Vector2 P, Vector2 K, Vector2 L, Vector2 U, LandingAreaData landingAreaData)
         {
             var mesh = new Mesh();
@@ -39,9 +51,9 @@ namespace OpenSkiJumping.Hills.LandingAreas
 
             var linesMask = new int[landingAreaPoints.Length];
 
-            int pLen = Mathf.RoundToInt(hillW - hillL1),
+            int pLen = Mathf.RoundToInt(hillP),
                 kLen = Mathf.RoundToInt(hillW),
-                lLen = Mathf.RoundToInt(hillW + hillL2);
+                lLen = Mathf.RoundToInt(hillHs);
 
             // U point line
             var uLen = 0;
@@ -169,7 +181,9 @@ namespace OpenSkiJumping.Hills.LandingAreas
 
                 if ((sideLines[i] & (1 << 1)) != 0)
                 {
-                    verticesList.Add(new Vector3(pts[i].x, pts[i].y, -whiteLineWidth));
+                    var whiteLineWidth = WhiteLineWidth(hillB2, hillBK, hillBU, P, K, L, U, pts[i].x);
+                    verticesList.Add(new Vector3(pts[i].x, pts[i].y,
+                        -whiteLineWidth));
                     uvsList.Add(new Vector2(d[i], -whiteLineWidth));
                     verticesList.Add(new Vector3(pts[i].x, pts[i].y, whiteLineWidth));
                     uvsList.Add(new Vector2(d[i], whiteLineWidth));

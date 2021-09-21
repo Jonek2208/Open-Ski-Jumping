@@ -19,6 +19,7 @@ namespace OpenSkiJumping.UI.JumpersMenu
         string SuitBottomBack { get; set; }
         string Helmet { get; set; }
         string Skis { get; set; }
+        string Skin { get; set; }
         string ImagePath { get; set; }
         
         event Action OnSelectionChanged;

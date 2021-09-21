@@ -16,7 +16,7 @@ namespace OpenSkiJumping.Data
     {
         [FormerlySerializedAs("fileName")] [SerializeField]
         protected string path;
-        
+
         [SerializeField] protected T data;
         [SerializeField] protected bool loaded;
         [SerializeField] protected bool prettyPrint;
@@ -61,6 +61,7 @@ namespace OpenSkiJumping.Data
             {
                 return false;
             }
+
 
             var fileEntries = Directory.GetFiles(absolutePath);
             foreach (var fileName in fileEntries)

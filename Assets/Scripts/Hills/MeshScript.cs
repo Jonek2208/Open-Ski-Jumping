@@ -4,7 +4,7 @@ using System.Linq;
 using OpenSkiJumping.Hills.Guardrails;
 using OpenSkiJumping.Hills.InrunTracks;
 using OpenSkiJumping.Hills.LandingAreas;
-using OpenSkiJumping.Hills.Stairs;
+using OpenSkiJumping.Hills.StairsOld;
 using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEditor;
 using UnityEngine;
@@ -48,13 +48,6 @@ namespace OpenSkiJumping.Hills
         public Material[] materials;
 
         [HideInInspector] public Mesh mesh;
-    }
-
-    public enum TerrainBase
-    {
-        currentTerrain,
-        PerlinNoise,
-        flat
     }
 
     public class MeshScript : MonoBehaviour
@@ -131,14 +124,7 @@ namespace OpenSkiJumping.Hills
         //Lighting
 
         public Light sunLight;
-
-
-        public TerrainBase terrainBase;
-
-        /* Terrain */
-        [Space] [Header("Terrain")] public GameObject terrainObject;
-
-        private Terrain[] terrains;
+        
         public int time;
 
         public void SetGate(Hill hill, int nr)
@@ -176,92 +162,7 @@ namespace OpenSkiJumping.Hills
             GenerateInrunOuterGuardrail(inrunOuterGuardrailR, 1, true, generateGateStairsR);
             GenerateInrunConstruction();
             GenerateMarks();
-
-            if (generateTerrain)
-            {
-                // Debug.Log("GENERATING TERRAIN");
-                GetTerrain();
-                // Transform hillTransform = GetComponent<Transform>().transform;
-                const float offset = 300f;
-                const float inrunFlatLength = 5f;
-                //Terrain
-                foreach (var terr in terrains)
-                {
-                    var center = terr.GetComponent<Transform>().position;
-                    var tab = new float[terr.terrainData.heightmapResolution,
-                        terr.terrainData.heightmapResolution];
-                    for (var i = 0; i < terr.terrainData.heightmapResolution; i++)
-                    {
-                        for (var j = 0; j < terr.terrainData.heightmapResolution; j++)
-                        {
-                            var x = (float) (j) / (terr.terrainData.heightmapResolution - 1) *
-                                (terr.terrainData.size.x) + center.x;
-                            var z = (float) (i) / (terr.terrainData.heightmapResolution - 1) *
-                                (terr.terrainData.size.z) + center.z;
-
-
-                            float hillY = 0;
-                            float b = 15;
-                            float c = 0;
-
-                            if (x < hill.A.x)
-                            {
-                                c = hill.A.x + inrunFlatLength - x;
-                                hillY = hill.A.y * inrunTerrain - hill.s;
-                            }
-                            else if (x < hill.T.x)
-                            {
-                                hillY = hill.Inrun(x) * inrunTerrain - hill.s;
-                                if (hill.A.x <= x) b = 15;
-                            }
-                            else if (hill.T.x <= x && x <= hill.U.x)
-                            {
-                                hillY = hill.LandingArea(x);
-                                b = 15;
-                            }
-                            else if (x <= hill.U.x + hill.a)
-                            {
-                                hillY = hill.U.y;
-                                b = 15;
-                            }
-                            else
-                            {
-                                c = x - hill.U.x - hill.a;
-                                hillY = hill.U.y;
-                            }
-
-                            // float terrainY = 200 * Mathf.PerlinNoise(x / 200.0f + 2000, z / 200.0f + 2000);
-                            var terrainY = hill.U.y;
-                            if (terrainBase == TerrainBase.PerlinNoise)
-                            {
-                                terrainY = 200 * Mathf.PerlinNoise(x / 200.0f + 2000, z / 200.0f + 2000);
-                            }
-                            else if (terrainBase == TerrainBase.currentTerrain)
-                            {
-                                terrainY = terr.terrainData.GetHeight(j, i) + center.y;
-                            }
-
-                            var blendFactor = Mathf.SmoothStep(0, 1,
-                                Mathf.Clamp01(new Vector2(Mathf.Clamp01((Mathf.Abs(z) - b) / offset),
-                                    Mathf.Clamp01(c / offset)).magnitude));
-                            var y = hillY * (1 - blendFactor) + terrainY * blendFactor;
-
-                            // y += (Mathf.Abs((Mathf.Abs(z) - b)) <= 50 ? 2 * Mathf.Abs((Mathf.Abs(z) - b)) : 100) * 0.5f);
-
-
-                            y = (y - center.y - 1) / terr.terrainData.size.y;
-
-
-                            // if (i == 200 && j == 200) Debug.Log(x + " " + y);
-                            // Debug.Log(x + " " + y);
-
-                            tab[i, j] = Mathf.Clamp(y, 0, 1);
-                        }
-                    }
-
-                    terr.terrainData.SetHeights(0, 0, tab);
-                }
-            }
+            
 
             if (saveMesh)
             {
@@ -293,12 +194,7 @@ namespace OpenSkiJumping.Hills
                 RenderSettings.skybox = daySkybox;
             }
         }
-
-        public void GetTerrain()
-        {
-            terrains = terrainObject.GetComponentsInChildren<Terrain>();
-        }
-
+        
         public void ObjectUpdate(GameObject gameObject, Mesh mesh, Material material, Vector3[] vertices,
             int[] triangles, Vector2[] uvs, bool hasCollider)
         {
@@ -314,23 +210,7 @@ namespace OpenSkiJumping.Hills
                 gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
             }
         }
-
-        public int[] FacesToTriangles(List<(int, int, int, int)> facesList)
-        {
-            var triangles = new List<int>();
-            foreach (var face in facesList)
-            {
-                triangles.Add(face.Item1);
-                triangles.Add(face.Item2);
-                triangles.Add(face.Item3);
-                triangles.Add(face.Item2);
-                triangles.Add(face.Item4);
-                triangles.Add(face.Item3);
-            }
-
-            return triangles.ToArray();
-        }
-
+        
         public void GenerateInrunCollider()
         {
             var mesh = new Mesh();
@@ -407,7 +287,7 @@ namespace OpenSkiJumping.Hills
             }
 
             mesh.vertices = verticesList.ToArray();
-            mesh.triangles = FacesToTriangles(facesList);
+            mesh.triangles = MeshFunctions.FacesToTriangles(facesList);
             mesh.uv = uvsList.ToArray();
             landingArea.gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
         }
@@ -520,7 +400,7 @@ namespace OpenSkiJumping.Hills
 
             var vertices = verticesList.ToArray();
             var uvs = uvsList.ToArray();
-            var triangles = FacesToTriangles(facesList);
+            var triangles = MeshFunctions.FacesToTriangles(facesList);
             ObjectUpdate(inrunConstruction.gObj, mesh, inrunConstruction.materials[0], vertices, triangles, uvs, false);
         }
 
@@ -658,7 +538,7 @@ namespace OpenSkiJumping.Hills
 
         public void GenerateLandingArea()
         {
-            var mesh = landingAreaSO.Generate(hill.landingAreaPoints, hill.w, hill.l1, hill.l2, hill.b2, hill.bK,
+            var mesh = landingAreaSO.Generate(hill.landingAreaPoints, hill.w, hill.w - hill.l1, hill.hS, hill.b2, hill.bK,
                 hill.bU, hill.P, hill.K, hill.L, hill.U, hill.landingAreaData);
             landingArea.gObj.GetComponent<MeshFilter>().mesh = mesh;
             landingArea.gObj.GetComponent<MeshRenderer>().materials = landingAreaSO.GetMaterials();
@@ -734,7 +614,7 @@ namespace OpenSkiJumping.Hills
             }
 
             var vertices = verticesList.ToArray();
-            var triangles = FacesToTriangles(facesList);
+            var triangles = MeshFunctions.FacesToTriangles(facesList);
             var uvs = uvsList.ToArray();
             ObjectUpdate(digitsMarks.gObj, mesh, digitsMarks.materials[0], vertices, triangles, uvs, false);
         }

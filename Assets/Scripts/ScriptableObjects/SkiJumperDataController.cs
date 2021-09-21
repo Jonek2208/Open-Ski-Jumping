@@ -23,6 +23,8 @@ namespace OpenSkiJumping.ScriptableObjects
         public Material suitBottomFrontMaterial;
         public Material suitTopBackMaterial;
         public Material suitTopFrontMaterial;
+        public Material skinMaterial;
+        public Material hairMaterial;
         private static readonly int Color = Shader.PropertyToID("_BaseColor");
 
         public void GetValues()
@@ -43,6 +45,7 @@ namespace OpenSkiJumping.ScriptableObjects
             suitBottomFrontMaterial.SetColor(Color, SimpleColorPicker.Hex2Color(competitor.suitBottomFrontColor));
             suitBottomBackMaterial.SetColor(Color, SimpleColorPicker.Hex2Color(competitor.suitBottomBackColor));
             skisMaterial.SetColor(Color, SimpleColorPicker.Hex2Color(competitor.skisColor));
+            skinMaterial.SetColor(Color, SimpleColorPicker.Hex2Color(competitor.skinColor));
         }
     }
 }

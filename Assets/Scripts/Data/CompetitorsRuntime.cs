@@ -11,6 +11,7 @@ namespace OpenSkiJumping.Data
     public class CompetitorsRuntime : DatabaseObject<List<Competitor>>
     {
         private Dictionary<string, int> dict;
+
         public Competitor GetJumperById(string id)
         {
             return ContainsJumper(id) ? data[dict[id]] : null;
@@ -33,7 +34,11 @@ namespace OpenSkiJumping.Data
         public bool Remove(Competitor competitor)
         {
             var jumperId = competitor.id;
-            if (!dict.ContainsKey(jumperId)) { return false; }
+            if (!dict.ContainsKey(jumperId))
+            {
+                return false;
+            }
+
             var index = dict[jumperId];
             data[index] = data[data.Count - 1];
             dict[data[index].id] = index;
@@ -50,13 +55,19 @@ namespace OpenSkiJumping.Data
             {
                 GetJumperIdNum(competitor.id, out num);
             }
+
             var jumperId = $"{idWithoutNum}#{num}";
-            if (dict.ContainsKey(jumperId)) { num = 0; }
+            if (dict.ContainsKey(jumperId))
+            {
+                num = 0;
+            }
+
             while (dict.ContainsKey(jumperId))
             {
                 num++;
                 jumperId = $"{idWithoutNum}#{num}";
             }
+
             competitor.id = jumperId;
             dict.Add(jumperId, index);
         }
@@ -76,16 +87,20 @@ namespace OpenSkiJumping.Data
             AddToDict(competitor, index);
         }
 
-        private bool GetJumperIdNum(string value, out int result)
-        {
+        private static bool GetJumperIdNum(string value, out int result)
+        { 
             var numMatch = Regex.Match(value, "(#)([0-9]+)$").Groups[2].Value;
             var tmp = int.TryParse(numMatch, out result);
             return tmp;
         }
+
         private bool IsJumperIdValid(Competitor competitor, string jumperId)
         {
             var tmp = GetJumperIdNum(jumperId, out _);
-            if (!tmp) { return false; }
+            if (!tmp)
+            {
+                return false;
+            }
 
             var idMatch = Regex.Match(jumperId, "(.*)(#)([0-9]+)").Groups[1].Value;
             var properJumperId = GetJumperIdWithoutNum(competitor);
@@ -95,12 +110,17 @@ namespace OpenSkiJumping.Data
         public override bool LoadData()
         {
             var tmp = base.LoadData();
-            if (!tmp) { return false; }
+            if (!tmp)
+            {
+                return false;
+            }
+
             dict = new Dictionary<string, int>();
             for (var i = 0; i < data.Count; i++)
             {
                 AddToDict(data[i], i);
             }
+
             return true;
         }
     }

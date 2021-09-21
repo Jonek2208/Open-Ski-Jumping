@@ -73,4 +73,5 @@ namespace OpenSkiJumping.Competition.Persistent
             set => roundInfos[index] = value;
         }
     }
+    
 }

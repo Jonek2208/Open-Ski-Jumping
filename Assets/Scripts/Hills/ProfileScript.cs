@@ -83,6 +83,7 @@ namespace OpenSkiJumping.Hills
         public float bU;
         public float d;
         public float q;
+        public float g;
 
         public bool gateStairsLeft = true;
         public bool gateStairsRight = true;

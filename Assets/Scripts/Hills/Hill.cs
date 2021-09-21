@@ -6,10 +6,10 @@ namespace OpenSkiJumping.Hills
     [CreateAssetMenu(menuName = "HillElements/Hill")]
     public class Hill : ScriptableObject
     {
-
         public ProfileType type;
         public int gates;
         public float w;
+        public float hS;
         public float h;
         public float n;
 
@@ -32,6 +32,7 @@ namespace OpenSkiJumping.Hills
         public float a, rA, betaA, betaAR; //Outrun
 
         public float b1, b2, bK, bU;
+        public float d, q, g;
 
         public Vector2 A, B, C1, C2, CL, CV, E1, E2, T, F, P, K, L, U, V, X;
         public Vector2[] landingAreaPoints;
@@ -39,6 +40,8 @@ namespace OpenSkiJumping.Hills
 
         public InrunData inrunData;
         public LandingAreaData landingAreaData;
+
+        public float terrainSteepness;
 
         public Hill(ProfileData profileData)
         {
@@ -50,6 +53,7 @@ namespace OpenSkiJumping.Hills
             type = profileData.type;
             gates = profileData.gates;
             w = profileData.w;
+            hS = profileData.hS;
             h = profileData.h;
             n = profileData.n;
             gamma = profileData.gamma;
@@ -82,6 +86,11 @@ namespace OpenSkiJumping.Hills
             b2 = profileData.b2;
             bK = profileData.bK;
             bU = profileData.bU;
+            d = profileData.d;
+            q = profileData.q;
+            g = profileData.g;
+            terrainSteepness = profileData.terrainSteepness;
+
             Calculate();
             inrunPoints = GenerateInrunPoints();
             landingAreaPoints = GenerateLandingAreaPoints();
@@ -96,6 +105,7 @@ namespace OpenSkiJumping.Hills
                 betaP = betaL = betaK;
                 betaPR = betaLR = betaKR;
             }
+
             //Inrun 
             E2 = new Vector2(-t * Mathf.Cos(alphaR), t * Mathf.Sin(alphaR));
 
@@ -123,9 +133,10 @@ namespace OpenSkiJumping.Hills
 
             //Landing Area
 
-            F.x = 0; F.y = -s;
+            F.x = 0;
+            F.y = -s;
             // K = new Vector2(Mathf.Cos(Mathf.Atan(hn)) / 1.005f, -Mathf.Sin(Mathf.Atan(hn)) / 1.005f) * w;
-            K = new Vector2( n, -h);
+            K = new Vector2(n, -h);
             if (type == ProfileType.ICR1992)
             {
                 P = K + new Vector2(-Mathf.Cos(betaKR), Mathf.Sin(betaKR)) * l1;
@@ -194,9 +205,12 @@ namespace OpenSkiJumping.Hills
                 }
 
                 var p = 1.0f / (Mathf.Tan(gammaR) * 3.0f * cI);
-                var q = (x + t * Mathf.Cos(alphaR) + fI * Mathf.Sin(gammaR) + dI * Mathf.Cos(gammaR)) / 2.0f / cI / Mathf.Sin(gammaR);
-                var ksi = Mathf.Pow((Mathf.Sqrt(q * q + p * p * p) + q), (1.0f / 3.0f)) - Mathf.Pow((Mathf.Sqrt(q * q + p * p * p) - q), (1.0f / 3.0f));
-                return t * Mathf.Sin(alphaR) - fI * Mathf.Cos(gammaR) + dI * Mathf.Sin(gammaR) - ksi * Mathf.Sin(gammaR) + cI * ksi * ksi * ksi * Mathf.Cos(gammaR);
+                var q = (x + t * Mathf.Cos(alphaR) + fI * Mathf.Sin(gammaR) + dI * Mathf.Cos(gammaR)) / 2.0f / cI /
+                        Mathf.Sin(gammaR);
+                var ksi = Mathf.Pow((Mathf.Sqrt(q * q + p * p * p) + q), (1.0f / 3.0f)) -
+                          Mathf.Pow((Mathf.Sqrt(q * q + p * p * p) - q), (1.0f / 3.0f));
+                return t * Mathf.Sin(alphaR) - fI * Mathf.Cos(gammaR) + dI * Mathf.Sin(gammaR) -
+                    ksi * Mathf.Sin(gammaR) + cI * ksi * ksi * ksi * Mathf.Cos(gammaR);
             }
 
             return -x * Mathf.Tan(gammaR) + A.y + Mathf.Tan(gammaR) * A.x;
@@ -206,7 +220,8 @@ namespace OpenSkiJumping.Hills
         {
             if (x <= P.x)
             {
-                return F.y - x * Mathf.Tan(beta0R) - (3 * u - v) * (x / P.x) * (x / P.x) + (2 * u - v) * (x / P.x) * (x / P.x) * (x / P.x);
+                return F.y - x * Mathf.Tan(beta0R) - (3 * u - v) * (x / P.x) * (x / P.x) +
+                       (2 * u - v) * (x / P.x) * (x / P.x) * (x / P.x);
             }
 
             if (P.x < x && x <= L.x)
@@ -215,6 +230,7 @@ namespace OpenSkiJumping.Hills
                 {
                     return Mathf.Tan(betaKR) * (K.x - x) + K.y;
                 }
+
                 return -Mathf.Sqrt(rL * rL - (x - CL.x) * (x - CL.x)) + CL.y;
             }
 
@@ -223,7 +239,9 @@ namespace OpenSkiJumping.Hills
                 if (type == ProfileType.ICR2008)
                 {
                     var ksi = (Mathf.Cos(tauR) - Mathf.Sqrt(Mathf.Cos(tauR) * Mathf.Cos(tauR) -
-                                                            4.0f * cO * (x - L.x - cO * aO * aO * Mathf.Sin(tauR) + aO * Mathf.Cos(tauR)) * Mathf.Sin(tauR))) / 2.0f / cO / Mathf.Sin(tauR);
+                                                            4.0f * cO * (x - L.x - cO * aO * aO * Mathf.Sin(tauR) +
+                                                                         aO * Mathf.Cos(tauR)) * Mathf.Sin(tauR))) /
+                              2.0f / cO / Mathf.Sin(tauR);
                     return L.y - cO * Mathf.Cos(tauR) * (aO * aO - ksi * ksi) - Mathf.Sin(tauR) * (aO - ksi);
                 }
 
@@ -237,6 +255,7 @@ namespace OpenSkiJumping.Hills
 
             return V.y + Mathf.Sin(betaAR) * (x - V.x);
         }
+
         public Vector2[] GenerateLandingAreaPoints(int accuracy = 1000)
         {
             var points = new List<Vector2>();
@@ -248,7 +267,7 @@ namespace OpenSkiJumping.Hills
 
             for (var i = 0; i < accuracy * (X.x); i++)
             {
-                var curr = new Vector2(i / (float)accuracy, LandingArea(i / (float)accuracy));
+                var curr = new Vector2(i / (float) accuracy, LandingArea(i / (float) accuracy));
 
                 if (distance + (curr - last).magnitude >= meter)
                 {
@@ -260,6 +279,7 @@ namespace OpenSkiJumping.Hills
                     {
                         points.Add(last);
                     }
+
                     meter++;
                 }
 
@@ -273,10 +293,10 @@ namespace OpenSkiJumping.Hills
         public Vector2[] GenerateInrunPoints()
         {
             var points = new List<Vector2> {T};
-            
+
             //add points between E2 and E1 (inclusive)
             var delta = E1.x - E2.x;
-            var segments = (int)(l);
+            var segments = (int) (l);
             for (var i = 0; i <= segments; i++)
             {
                 points.Add(new Vector2(i * delta / segments + E2.x, Inrun(i * delta / segments + E2.x)));
@@ -291,6 +311,5 @@ namespace OpenSkiJumping.Hills
         {
             return (A - B) * (nr - 1) / (gates - 1) + B;
         }
-
     }
 }
