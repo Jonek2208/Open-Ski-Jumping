@@ -20,7 +20,7 @@ namespace OpenSkiJumping.Data
         }
     }
 
-    public class DatabaseObjectMultipleFiles<T> : DatabaseObject<List<DatabaseObjectFileData<T>>>
+    public class DatabaseObjectMultipleFiles<T> : DatabaseObject<List<DatabaseObjectFileData<T>>> where T : class
     {
         protected Dictionary<string, int> _map = new Dictionary<string, int>();
 
@@ -54,7 +54,7 @@ namespace OpenSkiJumping.Data
             foreach (var fileName in fileEntries)
             {
                 var extension = Path.GetExtension(fileName);
-                if (extension != ".json") continue;
+                if (extension != DatabaseIO.Extensions[(int) dataType]) continue;
                 var tmp = LoadSingleFile(fileName, newObject: out var item);
                 if (!tmp) continue;
                 data.Add(new DatabaseObjectFileData<T>(item, Path.GetFileName(fileName)));
@@ -67,11 +67,40 @@ namespace OpenSkiJumping.Data
         {
             newObject = default;
             if (!File.Exists(absolutePath)) return false;
+            switch (dataType)
+            {
+                case DatabaseIO.DataType.Json:
+                    loaded = DatabaseIO.LoadJsonFile(absolutePath, out newObject);
+                    break;
+                case DatabaseIO.DataType.Xml:
+                    loaded = DatabaseIO.LoadXmlFile(absolutePath, out newObject);
+                    break;
+                case DatabaseIO.DataType.Binary:
+                    loaded = DatabaseIO.LoadBinaryFile(absolutePath, out newObject);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
-            var dataAsJson = File.ReadAllText(absolutePath);
-            newObject = JsonConvert.DeserializeObject<T>(dataAsJson);
-            loaded = true;
-            return true;
+            return loaded;
+        }
+
+        private void SaveSingleFile(string absolutePath, T newObject)
+        {
+            switch (dataType)
+            {
+                case DatabaseIO.DataType.Json:
+                    DatabaseIO.SaveJsonFile(absolutePath, newObject, prettyPrint);
+                    break;
+                case DatabaseIO.DataType.Xml:
+                    DatabaseIO.SaveXmlFile(absolutePath, newObject);
+                    break;
+                case DatabaseIO.DataType.Binary:
+                    DatabaseIO.SaveBinaryFile(absolutePath, newObject);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override void SaveData()
@@ -80,10 +109,9 @@ namespace OpenSkiJumping.Data
             foreach (var it in data)
             {
                 var absolutePath = Path.Combine(directoryPath, it.fileName);
-                var dataAsJson =
-                    JsonConvert.SerializeObject(it.value, prettyPrint ? Formatting.Indented : Formatting.None);
-                File.WriteAllText(absolutePath, dataAsJson);
+                SaveSingleFile(absolutePath, it.value);
             }
         }
     }
+    
 }

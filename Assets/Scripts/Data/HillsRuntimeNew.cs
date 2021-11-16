@@ -22,6 +22,9 @@ namespace OpenSkiJumping.Data
                 (decimal) hill.es / (hill.gates - 1));
         }
 
+        public IEnumerable<DatabaseObjectFileData<HillsMap>> GetData() => Data;
+        public void SetData(List<DatabaseObjectFileData<HillsMap>> value) => Data = value;
+
         public override bool LoadData()
         {
             var tmp = base.LoadData();

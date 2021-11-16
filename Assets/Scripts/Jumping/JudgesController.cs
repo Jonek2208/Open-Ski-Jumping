@@ -16,7 +16,7 @@ namespace OpenSkiJumping.Jumping
 
         [SerializeField] private int currentGate;
         [SerializeField] private decimal currentWind;
-        public GameObject gateObject;
+        public Transform gateTransform;
         public Vector3 jumperPosition;
         public Quaternion jumperRotation;
 
@@ -63,7 +63,7 @@ namespace OpenSkiJumping.Jumping
 
         private decimal[] GetJudgesPoints()
         {
-            decimal model = 20m - (deductions[0] + deductions[1] + deductions[2]) + Random.Range(0, 2) * 0.5m;
+            var model = 20m - (deductions[0] + deductions[1] + deductions[2]) + Random.Range(0, 2) * 0.5m;
             decimal bias = 0;
             if (model < 11.0m)
             {
@@ -90,7 +90,7 @@ namespace OpenSkiJumping.Jumping
             bias += 1;
 
             decimal[] points = {0, 0, 0, 0, 0};
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 points[i] = (decimal) Math.Round(
                     Mathf.Clamp((float) model + (int) (Random.Range(-(float) bias, (float) bias)) * 0.5f, 0f, 20f), 2);
@@ -116,7 +116,7 @@ namespace OpenSkiJumping.Jumping
 
         public void Judge()
         {
-            decimal[] stylePoints = GetJudgesPoints();
+            var stylePoints = GetJudgesPoints();
             jumpData.JudgesMarks = stylePoints;
             jumpData.Wind = currentWind;
             // decimal total = 0;
@@ -141,7 +141,7 @@ namespace OpenSkiJumping.Jumping
 
             dx2 = fl1 - fl0;
 
-            float eps = 0.2f;
+            var eps = 0.2f;
             if (Mathf.Abs(dx2 - dx1) > eps)
             {
                 PointDeduction(0, 0.5m);
@@ -156,17 +156,16 @@ namespace OpenSkiJumping.Jumping
         {
             contact -= hillTransform.position;
 
-            for (int i = 0; i < landingAreaPoints.Length - 1; i++)
+            for (var i = 0; i < landingAreaPoints.Length - 1; i++)
             {
-                float diff1 = contact.x - landingAreaPoints[i].x;
-                float diff2 = landingAreaPoints[i + 1].x - contact.x;
+                var diff1 = contact.x - landingAreaPoints[i].x;
+                var diff2 = landingAreaPoints[i + 1].x - contact.x;
                 if (diff1 >= 0 && diff2 > 0)
                 {
                     if (diff1 >= diff2)
                     {
                         return i + 0.5m;
                     }
-
                     return i;
                 }
             }
@@ -205,8 +204,9 @@ namespace OpenSkiJumping.Jumping
         public void NewJump()
         {
             jumperController.ResetValues();
-            jumperController.GetComponent<Transform>().position = hillTransform.position + jumperPosition + Vector3.up;
-            gateObject.GetComponent<Transform>().position = hillTransform.position + jumperPosition;
+            jumperController.GetComponent<Transform>().position =
+                hillTransform.TransformPoint(jumperPosition + Vector3.up);
+            gateTransform.GetComponent<Transform>().position = hillTransform.TransformPoint(jumperPosition);
             jumperController.GetComponent<Transform>().rotation = jumperRotation;
 
             fl0 = fl1 = 0;

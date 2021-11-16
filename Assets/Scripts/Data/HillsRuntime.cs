@@ -51,7 +51,7 @@ namespace OpenSkiJumping.Data
                 var it = new HillsMap {profiles = new List<MapHillData> {new MapHillData {profileData = itx}}};
                 var absolutePath = System.IO.Path.Combine(directoryPath, $"{itx.name.ToLower().Replace(" ", "_")}.json");
                 var dataAsJson =
-                    JsonConvert.SerializeObject(it, prettyPrint ? Formatting.Indented : Formatting.None);
+                    JsonConvert.SerializeObject(it, prettyPrint);
                 File.WriteAllText(absolutePath, dataAsJson);
             }
 

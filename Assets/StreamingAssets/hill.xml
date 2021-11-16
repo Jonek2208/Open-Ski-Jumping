@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<map xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lat="0" lon="0" alt="0">
+<map xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lat="49.278614" lon="19.96846" alt="957.7466">
   <hill id="Zakopane HS105" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
     <pos x="0" y="0" z="0" />
-    <rot x="0" y="0" z="0" />
+    <rot x="0" y="190" z="0" />
     <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8" />
     <landing-hill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rL="210" r2L="120" r2="90" beta0="5.83333349" betaP="35" betaK="32.5" betaL="29.75" betaU="0" b2="7" bK="19" bU="21" />
     <outrun a="100" rA="0" betaA="0" />
@@ -40,51 +40,69 @@
     <outrun a="40" rA="0" betaA="0" />
     <judges-tower d="0" q="0" height="0" />
   </hill>
-  <ref-point ref-id="" x="-85.2120361" y="46.068615" z="0" rx="-0" ry="-0" rz="0" id="hill-A" />
-  <ref-point ref-id="" x="-70.51645" y="35.7786522" z="0" rx="-0" ry="-0" rz="0" id="hill-B" />
-  <ref-point ref-id="" x="-43.12804" y="16.6010857" z="0" rx="-0" ry="-0" rz="0" id="hill-E1" />
-  <ref-point ref-id="" x="-6.341994" y="1.17541909" z="0" rx="-0" ry="-0" rz="0" id="hill-E2" />
-  <ref-point ref-id="" x="-32.4842072" y="9.148193" z="0" rx="-0" ry="-0" rz="0" id="hill-E1-C" />
-  <ref-point ref-id="" x="-20.3823051" y="3.777637" z="0" rx="-0" ry="-0" rz="0" id="hill-E2-C" />
-  <ref-point ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0" id="hill-T" />
-  <ref-point ref-id="" x="0" y="-2.36" z="0" rx="-0" ry="-0" rz="0" id="hill-F" />
-  <ref-point ref-id="" x="74.26608" y="-39.2670021" z="0" rx="-0" ry="-0" rz="0" id="hill-P" />
-  <ref-point ref-id="" x="82.7" y="-44.64" z="0" rx="-0" ry="-0" rz="0" id="hill-K" />
-  <ref-point ref-id="" x="82.7" y="-44.64" z="0" rx="-0" ry="-0" rz="0" id="hill-L" />
-  <ref-point ref-id="" x="131.056961" y="-58.73477" z="0" rx="-0" ry="-0" rz="0" id="hill-U" />
-  <ref-point ref-id="" x="0" y="-2.36" z="0" rx="-0" ry="-0" rz="0" id="hill-JT" />
-  <path id="Judges Tower" ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0">
+  <ref-point ref-id="Zakopane HS70/A" x="-30" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS70/inrun-contact" />
+  <path id="Zakopane HS105/inrun-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun" />
+  </path>
+  <path id="Zakopane HS105/inrun-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun" />
+  </path>
+  <path id="Zakopane HS105/inrun-terrain-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS105/inrun-terrain-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS105/inrun-tower" ref-id="Zakopane HS105/A" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="-5" y="0" z="0" />
     <line ref-id="" x="0" y="0" z="0" />
-    <line ref-id="" x="0" y="0" z="0" />
   </path>
-  <path id="Inrun" ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0">
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-E1" x="0" y="0" z="0" />
-    <bezier3 ref-id="hill-E2" x="0" y="0" z="0">
-      <c0 ref-id="hill-E1-C" x="0" y="0" z="0" rx="-0" ry="-0" rz="0" id="" />
-      <c1 ref-id="hill-E2-C" x="0" y="0" z="0" rx="-0" ry="-0" rz="0" id="" />
-    </bezier3>
-    <line ref-id="hill-T" x="0" y="0" z="0" />
+  <path id="Zakopane HS105/stairs" ref-id="Zakopane HS105/A" x="-6" y="-2" z="-2" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="1" y="0" z="0" />
+    <line ref-id="" x="4" y="-2" z="0" />
+    <line ref-id="" x="5" y="-3" z="1" />
+    <line ref-id="" x="5" y="-5" z="4" />
+    <line ref-id="" x="4" y="-6" z="5" />
+    <line ref-id="" x="1" y="-8" z="5" />
+    <line ref-id="" x="0" y="-9" z="4" />
+    <line ref-id="" x="0" y="-11" z="1" />
   </path>
-  <path id="Inrun Tower" ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0">
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-A" x="0" y="0" z="0" />
+  <path id="Zakopane HS70/inrun-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun" />
   </path>
-  <path id="Inrun Left" ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0">
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-B" x="0" y="0" z="0" />
-    <line ref-id="hill-B" x="0" y="0" z="0" />
-    <line ref-id="hill-E1" x="0" y="0" z="0" />
-    <bezier3 ref-id="hill-E2" x="0" y="0" z="0">
-      <c0 ref-id="hill-E1-C" x="0" y="0" z="0" rx="-0" ry="-0" rz="0" id="" />
-      <c1 ref-id="hill-E2-C" x="0" y="0" z="0" rx="-0" ry="-0" rz="0" id="" />
-    </bezier3>
-    <line ref-id="hill-T" x="0" y="0" z="0" />
+  <path id="Zakopane HS70/inrun-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun" />
   </path>
-  <path id="Inrun Tower Railing" ref-id="" x="0" y="0" z="0" rx="-0" ry="-0" rz="0">
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-A" x="0" y="0" z="0" />
-    <line ref-id="hill-A" x="0" y="0" z="0" />
+  <path id="Zakopane HS70/inrun-terrain-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun-terrain" />
   </path>
+  <path id="Zakopane HS70/inrun-terrain-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS70/inrun-extension" ref-id="Zakopane HS70/origin" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="Zakopane HS70/inrun-contact" x="0" y="0" z="0" />
+    <line ref-id="Zakopane HS70/A" x="0" y="0" z="0" />
+  </path>
+  <path id="circular-tower" ref-id="Zakopane HS105/origin" x="50" y="-22" z="-20" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="-5" y="0" z="0" />
+    <arc ref-id="" x="0" y="0" z="-5">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="5" y="0" z="0">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="0" y="0" z="5">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="-5" y="0" z="0">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+  </path>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Concrete">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS105/inrun-x" shift="0" />
+    <bl-path ref-id="" x="0" y="-2" z="1" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS105/inrun" shift="0" />
+    <br-path ref-id="" x="0" y="-2" z="-1" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS105/inrun" shift="0" />
+    <tl-path ref-id="" x="0" y="-0.02" z="1" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS105/inrun" shift="0" />
+    <tr-path ref-id="" x="0" y="-0.02" z="-1" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="Zakopane HS105/inrun" shift="0" />
+  </construction>
 </map>

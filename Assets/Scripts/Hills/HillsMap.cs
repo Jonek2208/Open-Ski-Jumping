@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,10 +16,19 @@ namespace OpenSkiJumping.Hills
 
         public static SerializableTransform Identity => new SerializableTransform
             {position = Vector3.zero, rotation = Quaternion.identity, scale = Vector3.one};
+        
+        public static SerializableTransform Minus => new SerializableTransform
+            {position = Vector3.zero, rotation = Quaternion.identity, scale = -Vector3.one};
 
         public static SerializableTransform FromTransform(Transform transform) =>
             new SerializableTransform
                 {position = transform.position, rotation = transform.rotation, scale = transform.localScale};
+
+        public SerializableTransform Inverse()
+        {
+            return new SerializableTransform {position = -position, rotation = Quaternion.Inverse(rotation), scale = -scale};
+        }
+
 
         public SerializableTransform Clone()
         {
@@ -31,6 +41,8 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class MapHillData
     {
+        public ReferencePoint anchor;
+        public ReferencePoint refTransform;
         public ReferencePoint transform;
         public Vector3 pos;
         public float azimuth;
@@ -44,7 +56,8 @@ namespace OpenSkiJumping.Hills
         Bezier3,
         Bezier2,
         Path
-    }    
+    }
+
     public enum MaterialType
     {
         Planks,
@@ -56,9 +69,10 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class ReferencePoint
     {
-        public string id;
+        public string id = "";
         public string referenceId = "";
         public SerializableTransform value;
+        public List<ReferencePoint> auxiliaryRefs = new List<ReferencePoint>();
 
         public static ReferencePoint Neutral => new ReferencePoint
             {id = "", referenceId = "", value = SerializableTransform.Identity};
@@ -110,6 +124,7 @@ namespace OpenSkiJumping.Hills
             other.id = string.Copy(id);
             other.referenceId = string.Copy(referenceId);
             other.value = value.Clone();
+            other.auxiliaryRefs = auxiliaryRefs.Select(it => it.Clone()).ToList();
             return other;
         }
     }
@@ -143,6 +158,11 @@ namespace OpenSkiJumping.Hills
         {
             return new PathNode
                 {nodeType = NodeType.Bezier2, target = target, c0 = c0};
+        }
+
+        public static PathNode Path(ReferencePoint target, string id)
+        {
+            return new PathNode {nodeType = NodeType.Path, target = target, pathId = id};
         }
 
         public PathNode Clone()
@@ -179,7 +199,7 @@ namespace OpenSkiJumping.Hills
         public ReferencePoint refPoint;
         public float weight;
     }
-    
+
     [Serializable]
     public class Wall
     {
@@ -197,18 +217,33 @@ namespace OpenSkiJumping.Hills
     }
 
     [Serializable]
+    public class ConstructionPath
+    {
+        public string id = "";
+        public float shift;
+        public ReferencePoint refPoint = ReferencePoint.Neutral;
+    }
+
+    [Serializable]
     public class Construction
     {
-        public string centerPathId = "";
-        public string bottomLeftPathId = "";
-        public string bottomRightPathId = "";
-        public string topLeftPathId = "";
-        public string topRightPathId = "";
-        public ReferencePoint centerRefPoint = ReferencePoint.Neutral;
-        public ReferencePoint bottomLeftRefPoint = ReferencePoint.Neutral;
-        public ReferencePoint bottomRightRefPoint = ReferencePoint.Neutral;
-        public ReferencePoint topLeftRefPoint = ReferencePoint.Neutral;
-        public ReferencePoint topRightRefPoint = ReferencePoint.Neutral;
+        public ConstructionPath centerPath;
+        public ConstructionPath bottomLeftPath;
+        public ConstructionPath bottomRightPath;
+        public ConstructionPath topLeftPath;
+
+        public ConstructionPath topRightPath;
+
+        // public string centerPathId = "";
+        // public string bottomLeftPathId = "";
+        // public string bottomRightPathId = "";
+        // public string topLeftPathId = "";
+        // public string topRightPathId = "";
+        // public ReferencePoint centerRefPoint = ReferencePoint.Neutral;
+        // public ReferencePoint bottomLeftRefPoint = ReferencePoint.Neutral;
+        // public ReferencePoint bottomRightRefPoint = ReferencePoint.Neutral;
+        // public ReferencePoint topLeftRefPoint = ReferencePoint.Neutral;
+        // public ReferencePoint topRightRefPoint = ReferencePoint.Neutral;
         public float t0;
         public float t1;
         public int count;
@@ -220,14 +255,18 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class Stairs
     {
-        public string centerPathId = "";
-        public ReferencePoint centerRefPoint = ReferencePoint.Neutral;
+        public ConstructionPath centerPath;
+        public ConstructionPath leftPath;
+        public ConstructionPath rightPath;
 
-        public string leftPathId = "";
-        public ReferencePoint leftRefPoint = ReferencePoint.Neutral;
-
-        public string rightPathId = "";
-        public ReferencePoint rightRefPoint = ReferencePoint.Neutral;
+        // public string centerPathId = "";
+        // public ReferencePoint centerRefPoint = ReferencePoint.Neutral;
+        //
+        // public string leftPathId = "";
+        // public ReferencePoint leftRefPoint = ReferencePoint.Neutral;
+        //
+        // public string rightPathId = "";
+        // public ReferencePoint rightRefPoint = ReferencePoint.Neutral;
 
         public float t0;
         public float t1;

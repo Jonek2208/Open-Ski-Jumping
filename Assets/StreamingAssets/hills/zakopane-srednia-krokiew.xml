@@ -1,78 +1,216 @@
-<map>
-    <hill id="Zakopane HS105" profile-type="ICR2008">
-        <pos x="0" y="0" z="0" azimuth="0"/>
-        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
-        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
-                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
-        <outrun a="100" ra="0" betaa="0"/>
-        <judges-tower d="0" q="0" g="0"/>
-    </hill>
-
-    <hill id="Zakopane HS70" profile-type="ICR2008">
-        <transform x="0" y="0" z="0" azimuth="0"/>
-        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
-        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
-                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
-        <outrun a="100" ra="0" betaa="0"/>
-        <judges-tower d="0" q="0" g="0"/>
-    </hill>
-
-    <hill id="Zakopane HS40" profile-type="ICR2008">
-        <transform x="0" y="0" z="0" azimuth="0"/>
-        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
-        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
-                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
-        <outrun a="100" ra="0" betaa="0"/>
-        <judges-tower d="0" q="0" g="0"/>
-    </hill>
-
-    <hill id="Zakopane HS25" profile-type="ICR2008">
-        <transform x="0" y="0" z="0" azimuth="0"/>
-        <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8"/>
-        <landinghill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rl="210" r2l="120" r2="90" beta0="5.83333349"
-                     betap="35" betak="32.5" betal="29.75" b2="7.0" bk="19.0" bu="21.0"/>
-        <outrun a="100" ra="0" betaa="0"/>
-        <judges-tower d="0" q="0" g="0"/>
-    </hill>
-    
-    <ref-point id="hill-A" ref-id="hill-origin">
-        <pos x="-85.8782654" y="44.8958054" z="0"/>
-        <rot x="0" y="0" z="0"/>
-    </ref-point>
-
-    <ref-point id="hill-B">
-        <pos x="-85.8782654" y="44.8958054" z="0"/>
-        <rot x="0" y="0" z="0"/>
-    </ref-point>
-    
-    <path id="inrun">
-        <begin ref-id="hill-A"/>
-        <line ref-id="hill-B"/>
-        <line ref-id="hill-E1"/>
-        <bezier3>
-            <target ref-id="hill-E2"/>
-            <c0 ref-id="hill-E1-C"/>
-            <c1 ref-id="hill-E2-C"/>
-        </bezier3>
-        <line ref-id="hill-T"/>
-    </path>
-
-    <path id="landing-hill">
-        <begin ref-id="hill-F"/>
-        <bezier3>
-            <target ref-id="hill-P"/>
-            <c0 ref-id="hill-F-C"/>
-            <c1 ref-id="hill-P-C"/>
-        </bezier3>
-        <arc r="210" orient="0" large-arc="0">
-            <target ref-id="hill-L"/>
-<!--            <center ref-id="hill-C2"/>-->
-        </arc>
-        <bezier2>
-            <target ref-id="hill-U"/>
-            <c0 ref-id="hill-U-C"/>
-        </bezier2>
-        <line ref-id="hill-T"/>
-    </path>
-
+<?xml version="1.0" encoding="utf-8"?>
+<map xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lat="49.278614" lon="19.96846" alt="957.7466">
+  <hill id="Zakopane HS105" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
+    <anchor ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <ref-point ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <pos x="0" y="0" z="0" />
+    <rot x="0" y="190" z="0" />
+    <inrun gates="35" e="91.57" es="17.94" r1="94" t="6.45" gamma="35" alpha="10.5" b1="2.8" />
+    <landing-hill w="95" hs="105" h="44.64" n="82.7" s="2.36" l1="10" l2="10" rL="210" r2L="120" r2="90" beta0="5.83333349" betaP="35" betaK="32.5" betaL="29.75" betaU="0" b2="7" bK="19" bU="21" />
+    <outrun a="100" rA="0" betaA="0" />
+    <judges-tower d="0" q="0" height="0" />
+  </hill>
+  <hill id="Zakopane HS70" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
+    <anchor ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <ref-point ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <pos x="0" y="0" z="20" />
+    <rot x="0" y="0" z="0" />
+    <inrun gates="35" e="76.31" es="19" r1="70" t="5.86" gamma="34" alpha="9.5" b1="2.8" />
+    <landing-hill w="64" hs="70" h="29.13" n="56.14" s="1.59" l1="5" l2="6" rL="120" r2L="120" r2="90" beta0="5.66666651" betaP="34.5" betaK="33.7" betaL="32.6" betaU="0" b2="6.1" bK="12.9" bU="16.5" />
+    <outrun a="100" rA="0" betaA="0" />
+    <judges-tower d="0" q="0" height="0" />
+  </hill>
+  <hill id="Zakopane HS40" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
+    <anchor ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <ref-point ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <pos x="-21" y="8" z="40" />
+    <rot x="0" y="-6" z="0" />
+    <inrun gates="10" e="60" es="15.42" r1="52.949" t="4.862" gamma="33" alpha="8.5" b1="1.5" />
+    <landing-hill w="37" hs="40" h="15.9" n="33.125" s="1" l1="5" l2="3" rL="70" r2L="70" r2="49" beta0="5.58333349" betaP="33.5" betaK="32" betaL="30.2" betaU="0" b2="4" bK="10" bU="12" />
+    <outrun a="55.5" rA="0" betaA="0" />
+    <judges-tower d="0" q="0" height="0" />
+  </hill>
+  <hill id="Zakopane HS25" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
+    <anchor ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <ref-point ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <pos x="-22" y="8" z="54" />
+    <rot x="0" y="-6" z="0" />
+    <inrun gates="10" e="30" es="11.8886" r1="37.007" t="4.065" gamma="32" alpha="8" b1="1.5" />
+    <landing-hill w="24" hs="25" h="9.8" n="21.7777786" s="0.8" l1="3" l2="2" rL="70" r2L="70" r2="49" beta0="5.58333349" betaP="33.5" betaK="32" betaL="30" betaU="0" b2="4" bK="10" bU="12" />
+    <outrun a="54" rA="0" betaA="0" />
+    <judges-tower d="0" q="0" height="0" />
+  </hill>
+  <hill id="Zakopane HS15" ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0">
+    <anchor ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <ref-point ref-id="" x="0" y="0" z="0" rx="0" ry="0" rz="0" sx="0" sy="0" sz="0" id="" />
+    <pos x="-22" y="8" z="-45" />
+    <rot x="0" y="30" z="0" />
+    <inrun gates="8" e="20" es="5" r1="26" t="3" gamma="30" alpha="8" b1="1.5" />
+    <landing-hill w="14" hs="15" h="5.7" n="12.8" s="0.6" l1="1" l2="1" rL="40" r2L="40" r2="31" beta0="5.66666651" betaP="32.5" betaK="32.5" betaL="30.2" betaU="0" b2="3" bK="6" bU="8" />
+    <outrun a="40" rA="0" betaA="0" />
+    <judges-tower d="0" q="0" height="0" />
+  </hill>
+  <ref-point ref-id="Zakopane HS70/A" x="-30" y="0" z="0" rx="-0" ry="0" rz="0" sx="0" sy="0" sz="0" id="Zakopane HS70/inrun-contact" />
+  <path id="Zakopane HS105/inrun-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun" />
+  </path>
+  <path id="Zakopane HS105/inrun-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun" />
+  </path>
+  <path id="Zakopane HS105/inrun-terrain-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS105/inrun-terrain-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS105/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS105/inrun-tower" ref-id="Zakopane HS105/A" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="-5" y="0" z="0" />
+    <line ref-id="" x="0" y="0" z="0" />
+  </path>
+  <path id="Zakopane HS105/stairs" ref-id="Zakopane HS105/A" x="-6" y="-2" z="-2" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="1" y="0" z="0" />
+    <line ref-id="" x="4" y="-2" z="0" />
+    <line ref-id="" x="5" y="-3" z="1" />
+    <line ref-id="" x="5" y="-5" z="4" />
+    <line ref-id="" x="4" y="-6" z="5" />
+    <line ref-id="" x="1" y="-8" z="5" />
+    <line ref-id="" x="0" y="-9" z="4" />
+    <line ref-id="" x="0" y="-11" z="1" />
+  </path>
+  <path id="Zakopane HS70/inrun-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun" />
+  </path>
+  <path id="Zakopane HS70/inrun-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun" />
+  </path>
+  <path id="Zakopane HS70/inrun-terrain-left" ref-id="" x="0" y="0" z="4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS70/inrun-terrain-right" ref-id="" x="0" y="0" z="-4" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <path ref-id="" x="0" y="0" z="0" id="Zakopane HS70/inrun-terrain" />
+  </path>
+  <path id="Zakopane HS70/inrun-extension" ref-id="Zakopane HS70/origin" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="Zakopane HS70/inrun-contact" x="0" y="0" z="0" />
+    <line ref-id="Zakopane HS70/A" x="0" y="0" z="0" />
+  </path>
+  <path id="circular-tower" ref-id="Zakopane HS105/origin" x="50" y="-22" z="-20" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1">
+    <line ref-id="" x="-5" y="0" z="0" />
+    <arc ref-id="" x="0" y="0" z="-5">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="5" y="0" z="0">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="0" y="0" z="5">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+    <arc ref-id="" x="-5" y="0" z="0">
+      <c0 ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" />
+    </arc>
+  </path>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="20" step="0" length="0.005" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="20" step="0" length="0.005" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="2" step="0" length="0.1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="2" step="0" length="0.1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="20" step="0" length="0.005" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="20" step="0" length="0.005" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="20" step="0" length="0.005" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="4" step="0" length="0.1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
+  <construction t0="0" t1="1" count="1" step="0" length="1" material="Planks">
+    <center-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <bl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <br-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tl-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+    <tr-path ref-id="" x="0" y="0" z="0" rx="-0" ry="0" rz="0" sx="1" sy="1" sz="1" id="" shift="0" />
+  </construction>
 </map>

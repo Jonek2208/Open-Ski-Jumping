@@ -13,9 +13,23 @@ MonoBehaviour:
   m_Name: Default Hills Map Variable
   m_EditorClassIdentifier: 
   value:
-    pos: {x: 49.628117, y: 18.915688, z: 585.6064}
+    pos: {x: 49.278614, y: 19.96846, z: 957.7466}
     profiles:
-    - transform:
+    - anchor:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      transform:
         id: 
         referenceId: 
         value:
@@ -23,68 +37,502 @@ MonoBehaviour:
           rotation: {x: 0, y: 0, z: 0, w: 1}
           scale: {x: 1, y: 1, z: 1}
       pos: {x: 0, y: 0, z: 0}
-      azimuth: 0
+      azimuth: 190
       profileData:
-        name: Wisla HS134
-        terrainSteepness: 0.7
-        type: 1
-        gates: 33
-        w: 120
-        hS: 134
-        h: 59.751858
-        n: 103.37692
+        name: Zakopane HS105
+        terrainSteepness: 0
+        type: 0
+        gates: 35
+        w: 95
+        hS: 105
+        h: 44.64
+        n: 82.7
         gamma: 35
         alpha: 10.5
-        e: 88.2
-        es: 16
-        t: 6.6
-        r1: 97
-        beta0: 6.2999997
-        betaP: 37.8
-        betaK: 34.8
-        betaL: 32.29
-        s: 3
-        l1: 16.78
-        l2: 14
-        rL: 317.01
-        r2L: 94.4
-        r2: 94.4
+        e: 91.57
+        es: 17.94
+        t: 6.45
+        r1: 94
+        beta0: 5.8333335
+        betaP: 35
+        betaK: 32.5
+        betaL: 29.75
+        s: 2.36
+        l1: 10
+        l2: 10
+        rL: 210
+        r2L: 120
+        r2: 90
         a: 100
         rA: 0
         betaA: 0
-        b1: 3
-        b2: 10
-        bK: 25
-        bU: 30
-        d: 84
-        q: 40
-        g: 10
+        b1: 2.8
+        b2: 7
+        bK: 19
+        bU: 21
+        d: 0
+        q: 0
+        g: 0
         gateStairsLeft: 1
-        gateStairsRight: 0
+        gateStairsRight: 1
         inrunStairsLeft: 1
         inrunStairsRight: 1
         inrunStairsAngle: 0.001
         inrunData:
-          summerTrack: 3
-          winterTrack: 3
+          summerTrack: 0
+          winterTrack: 0
         landingAreaData:
-          metersLow: 60
-          metersHigh: 145
-          summerLinesSpacing: 5
-          summerLinesLow: 100
-          summerLinesHigh: 140
-          winterLinesSpacing: 5
-          winterLinesLow: 100
-          winterLinesHigh: 140
-    referencePoints: []
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    - anchor:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      transform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      pos: {x: 0, y: 0, z: 20}
+      azimuth: 0
+      profileData:
+        name: Zakopane HS70
+        terrainSteepness: 0
+        type: 0
+        gates: 35
+        w: 64
+        hS: 70
+        h: 29.13
+        n: 56.14
+        gamma: 34
+        alpha: 9.5
+        e: 76.31
+        es: 19
+        t: 5.86
+        r1: 70
+        beta0: 5.6666665
+        betaP: 34.5
+        betaK: 33.7
+        betaL: 32.6
+        s: 1.59
+        l1: 5
+        l2: 6
+        rL: 120
+        r2L: 120
+        r2: 90
+        a: 100
+        rA: 0
+        betaA: 0
+        b1: 2.8
+        b2: 6.1
+        bK: 12.9
+        bU: 16.5
+        d: 0
+        q: 0
+        g: 0
+        gateStairsLeft: 1
+        gateStairsRight: 1
+        inrunStairsLeft: 1
+        inrunStairsRight: 1
+        inrunStairsAngle: 0.001
+        inrunData:
+          summerTrack: 0
+          winterTrack: 0
+        landingAreaData:
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    - anchor:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      transform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      pos: {x: -21, y: 8, z: 40}
+      azimuth: -6
+      profileData:
+        name: Zakopane HS40
+        terrainSteepness: 0
+        type: 0
+        gates: 10
+        w: 37
+        hS: 40
+        h: 15.9
+        n: 33.125
+        gamma: 33
+        alpha: 8.5
+        e: 60
+        es: 15.42
+        t: 4.862
+        r1: 52.949
+        beta0: 5.5833335
+        betaP: 33.5
+        betaK: 32
+        betaL: 30.2
+        s: 1
+        l1: 5
+        l2: 3
+        rL: 70
+        r2L: 70
+        r2: 49
+        a: 55.5
+        rA: 0
+        betaA: 0
+        b1: 1.5
+        b2: 4
+        bK: 10
+        bU: 12
+        d: 0
+        q: 0
+        g: 0
+        gateStairsLeft: 1
+        gateStairsRight: 1
+        inrunStairsLeft: 1
+        inrunStairsRight: 1
+        inrunStairsAngle: 0.001
+        inrunData:
+          summerTrack: 0
+          winterTrack: 0
+        landingAreaData:
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    - anchor:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      transform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      pos: {x: -22, y: 8, z: 54}
+      azimuth: -6
+      profileData:
+        name: Zakopane HS25
+        terrainSteepness: 0
+        type: 0
+        gates: 10
+        w: 24
+        hS: 25
+        h: 9.8
+        n: 21.777779
+        gamma: 32
+        alpha: 8
+        e: 30
+        es: 11.8886
+        t: 4.065
+        r1: 37.007
+        beta0: 5.5833335
+        betaP: 33.5
+        betaK: 32
+        betaL: 30
+        s: 0.8
+        l1: 3
+        l2: 2
+        rL: 70
+        r2L: 70
+        r2: 49
+        a: 54
+        rA: 0
+        betaA: 0
+        b1: 1.5
+        b2: 4
+        bK: 10
+        bU: 12
+        d: 0
+        q: 0
+        g: 0
+        gateStairsLeft: 1
+        gateStairsRight: 1
+        inrunStairsLeft: 1
+        inrunStairsRight: 1
+        inrunStairsAngle: 0.001
+        inrunData:
+          summerTrack: 0
+          winterTrack: 0
+        landingAreaData:
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    - anchor:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      transform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      pos: {x: -22, y: 8, z: -45}
+      azimuth: 30
+      profileData:
+        name: Zakopane HS15
+        terrainSteepness: 0
+        type: 0
+        gates: 8
+        w: 14
+        hS: 15
+        h: 5.7
+        n: 12.8
+        gamma: 30
+        alpha: 8
+        e: 20
+        es: 5
+        t: 3
+        r1: 26
+        beta0: 5.6666665
+        betaP: 32.5
+        betaK: 32.5
+        betaL: 30.2
+        s: 0.6
+        l1: 1
+        l2: 1
+        rL: 40
+        r2L: 40
+        r2: 31
+        a: 40
+        rA: 0
+        betaA: 0
+        b1: 1.5
+        b2: 3
+        bK: 6
+        bU: 8
+        d: 0
+        q: 0
+        g: 0
+        gateStairsLeft: 1
+        gateStairsRight: 1
+        inrunStairsLeft: 1
+        inrunStairsRight: 1
+        inrunStairsAngle: 0.001
+        inrunData:
+          summerTrack: 0
+          winterTrack: 0
+        landingAreaData:
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    referencePoints:
+    - id: Zakopane HS70/inrun-contact
+      referenceId: Zakopane HS70/A
+      value:
+        position: {x: -30, y: 0, z: 0}
+        rotation: {x: 0, y: 0, z: 0, w: 1}
+        scale: {x: 0, y: 0, z: 0}
     paths:
-    - id: Wisla HS134/inrun-tower
+    - id: Zakopane HS105/inrun-left
       refPoint:
         id: 
-        referenceId: Wisla HS134/A
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS105/inrun
+    - id: Zakopane HS105/inrun-right
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: -4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS105/inrun
+    - id: Zakopane HS105/inrun-terrain-left
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS105/inrun-terrain
+    - id: Zakopane HS105/inrun-terrain-right
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: -4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS105/inrun-terrain
+    - id: Zakopane HS105/inrun-tower
+      refPoint:
+        id: 
+        referenceId: Zakopane HS105/A
         value:
           position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
           scale: {x: 1, y: 1, z: 1}
       data:
       - nodeType: 0
@@ -92,22 +540,22 @@ MonoBehaviour:
           id: 
           referenceId: 
           value:
-            position: {x: -10, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            position: {x: -5, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
       - nodeType: 0
@@ -116,1552 +564,1364 @@ MonoBehaviour:
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-    - id: Wisla HS134/gate-stairs
+    - id: Zakopane HS105/stairs
       refPoint:
         id: 
-        referenceId: 
+        referenceId: Zakopane HS105/A
         value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
+          position: {x: -6, y: -2, z: -2}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
           scale: {x: 1, y: 1, z: 1}
       data:
       - nodeType: 0
         target:
           id: 
-          referenceId: Wisla HS134/A
+          referenceId: 
           value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            position: {x: 1, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
       - nodeType: 0
         target:
           id: 
-          referenceId: Wisla HS134/B
+          referenceId: 
           value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            position: {x: 4, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-    - id: Wisla HS134/gate-platform
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 5, y: -3, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 5, y: -5, z: 4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 4, y: -6, z: 5}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 1, y: -8, z: 5}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -9, z: 4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -11, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+    - id: Zakopane HS70/inrun-left
       refPoint:
         id: 
         referenceId: 
         value:
+          position: {x: 0, y: 0, z: 4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS70/inrun
+    - id: Zakopane HS70/inrun-right
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: -4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS70/inrun
+    - id: Zakopane HS70/inrun-terrain-left
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS70/inrun-terrain
+    - id: Zakopane HS70/inrun-terrain-right
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: -4}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+      data:
+      - nodeType: 4
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: Zakopane HS70/inrun-terrain
+    - id: Zakopane HS70/inrun-extension
+      refPoint:
+        id: 
+        referenceId: Zakopane HS70/origin
+        value:
           position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
           scale: {x: 1, y: 1, z: 1}
       data:
       - nodeType: 0
         target:
           id: 
-          referenceId: Wisla HS134/B
+          referenceId: Zakopane HS70/inrun-contact
           value:
-            position: {x: -20, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
       - nodeType: 0
         target:
           id: 
-          referenceId: Wisla HS134/B
+          referenceId: Zakopane HS70/A
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-    - id: Wisla HS134/landing-hill-left
+    - id: circular-tower
       refPoint:
         id: 
-        referenceId: 
+        referenceId: Zakopane HS105/origin
         value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
+          position: {x: 50, y: -22, z: -20}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
       data:
       - nodeType: 0
         target:
           id: 
-          referenceId: Wisla HS134/F
+          referenceId: 
           value:
-            position: {x: 0, y: 0, z: 5}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
+            position: {x: -5, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-      - nodeType: 0
+      - nodeType: 1
         target:
           id: 
-          referenceId: Wisla HS134/K
-          value:
-            position: {x: 0, y: 0, z: 12.5}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
-        c0:
-          id: 
           referenceId: 
-          value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
-        c1:
-          id: 
-          referenceId: 
-          value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
-        pathId: 
-      - nodeType: 0
-        target:
-          id: 
-          referenceId: Wisla HS134/U
-          value:
-            position: {x: 0, y: 0, z: 15}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
-        c0:
-          id: 
-          referenceId: 
-          value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
-        c1:
-          id: 
-          referenceId: 
-          value:
-            position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 1, z: 1}
-        pathId: 
-    - id: Wisla HS134/landing-hill-right
-      refPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      data:
-      - nodeType: 0
-        target:
-          id: 
-          referenceId: Wisla HS134/F
           value:
             position: {x: 0, y: 0, z: -5}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-      - nodeType: 0
+      - nodeType: 1
         target:
           id: 
-          referenceId: Wisla HS134/K
+          referenceId: 
           value:
-            position: {x: 0, y: 0, z: -12.5}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
+            position: {x: 5, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
-      - nodeType: 0
+      - nodeType: 1
         target:
           id: 
-          referenceId: Wisla HS134/U
+          referenceId: 
           value:
-            position: {x: 0, y: 0, z: -15}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
-            scale: {x: 1, y: 0, z: 1}
+            position: {x: 0, y: 0, z: 5}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
         c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         c1:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        pathId: 
+      - nodeType: 1
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: -5, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 0, y: 0, z: 0}
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
         pathId: 
     walls: []
     constructions:
-    - centerPathId: Wisla HS134/inrun-x
-      bottomLeftPathId: Wisla HS134/inrun
-      bottomRightPathId: Wisla HS134/inrun
-      topLeftPathId: Wisla HS134/inrun
-      topRightPathId: Wisla HS134/inrun
-      centerRefPoint:
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 1
       step: 0
       length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun-x
-      bottomLeftPathId: Wisla HS134/inrun-terrain
-      bottomRightPathId: Wisla HS134/inrun-terrain
-      topLeftPathId: Wisla HS134/inrun
-      topRightPathId: Wisla HS134/inrun
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -2, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -2, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 1
-      count: 8
-      step: 0
-      length: 0.01
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 1
       step: 0
       length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
-      count: 70
+      count: 20
       step: 0
-      length: 0.001
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
+      length: 0.005
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
-      count: 1
+      count: 20
       step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
+      length: 0.005
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: 1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: 1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: 1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.5, z: 1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.5, z: 1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 1
       step: 0
       length: 1
-      material: 1
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.17
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.162
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.5, z: -1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.5, z: -1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.162
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 1
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -0.02, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 0.17
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 0.17
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 0.17
-      count: 10
-      step: 0
-      length: 0.0011764707
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.17
-      t1: 0.171
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.9, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.17
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.2, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0.8, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.17
-      t1: 1
-      count: 60
-      step: 0
-      length: 0.001
-      material: 2
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 11, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 11, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 1
-      count: 1
-      step: 0
-      length: 1
-      material: 2
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 2.8}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 2.8}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.1
-      t1: 0.9
-      count: 1
-      step: 0
-      length: 1
-      material: 1
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -5.8}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -5.8}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.1
-      t1: 0.9
-      count: 1
-      step: 0
-      length: 1
-      material: 1
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 2}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 2}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0
-      t1: 1
-      count: 2
-      step: 0
-      length: 0.05
-      material: 1
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
-        id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -20, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -20, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+      material: 0
+    - centerPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 2
       step: 0
       length: 0.1
-      material: 2
-    - centerPathId: Wisla HS134/inrun-tower
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -20, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -20, z: 2}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 10, z: 2}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 2
       step: 0
       length: 0.1
-      material: 2
-    - centerPathId: Wisla HS134/landing-hill
-      bottomLeftPathId: Wisla HS134/landing-hill-left
-      bottomRightPathId: Wisla HS134/landing-hill-right
-      topLeftPathId: Wisla HS134/landing-hill-left
-      topRightPathId: Wisla HS134/landing-hill-right
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: -0.1, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      t0: 0
+      t1: 1
+      count: 20
+      step: 0
+      length: 0.005
+      material: 0
+    - centerPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      t0: 0
+      t1: 1
+      count: 20
+      step: 0
+      length: 0.005
+      material: 0
+    - centerPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      t0: 0
+      t1: 1
+      count: 20
+      step: 0
+      length: 0.005
+      material: 0
+    - centerPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 1
       step: 0
       length: 1
-      material: 2
-    - centerPathId: Wisla HS134/gate-stairs
-      bottomLeftPathId: 
-      bottomRightPathId: 
-      topLeftPathId: 
-      topRightPathId: 
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: Wisla HS134/origin
-        value:
-          position: {x: 0, y: -0.02, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      bottomLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      bottomRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: -1, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      topLeftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -3}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
-      topRightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 0, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
       count: 1
       step: 0
       length: 1
-      material: 2
-    stairs:
-    - centerPathId: Wisla HS134/inrun
-      centerRefPoint:
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      leftPathId: 
-      leftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      rightPathId: 
-      rightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
-      stepLength: 0.3
-      material: 3
-    - centerPathId: Wisla HS134/inrun
-      centerRefPoint:
+      count: 1
+      step: 0
+      length: 1
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      leftPathId: 
-      leftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -1.6}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      rightPathId: 
-      rightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -2.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      t0: 0.09
-      t1: 1
-      stepLength: 0.3
-      material: 3
-    - centerPathId: Wisla HS134/gate-stairs
-      centerRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      leftPathId: 
-      leftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -1.5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      rightPathId: 
-      rightRefPoint:
-        id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
-      stepLength: 0.5
-      material: 3
-    - centerPathId: Wisla HS134/gate-stairs
-      centerRefPoint:
+      count: 4
+      step: 0
+      length: 0.1
+      material: 0
+    - centerPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: 0}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      leftPathId: 
-      leftRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomLeftPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -5}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
-      rightPathId: 
-      rightRefPoint:
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      bottomRightPath:
         id: 
-        referenceId: 
-        value:
-          position: {x: 0, y: 0, z: -5.9}
-          rotation: {x: 0, y: 0, z: 0, w: 0}
-          scale: {x: 1, y: 1, z: 1}
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topLeftPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+      topRightPath:
+        id: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
       t0: 0
       t1: 1
-      stepLength: 0.3
-      material: 3
+      count: 1
+      step: 0
+      length: 1
+      material: 0
+    stairs: []
     terrainNodes: []
