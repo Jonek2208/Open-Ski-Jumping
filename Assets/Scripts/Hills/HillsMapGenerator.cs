@@ -542,10 +542,14 @@ namespace OpenSkiJumping.Hills
                 builtInRefPoints.Add(new ReferencePoint
                 {
                     id = $"{hillName}/origin",
-                    value = hillsMapVariable.Value.profiles[i].anchor.value,
-                    referenceId = hillsMapVariable.Value.profiles[i].anchor.referenceId,
+                    value = SerializableTransform.Minus,
                     auxiliaryRefs = new List<ReferencePoint>
                     {
+                        new ReferencePoint
+                        {
+                            value = hillsMapVariable.Value.profiles[i].anchor.value,
+                            referenceId = hillsMapVariable.Value.profiles[i].anchor.referenceId,
+                        },
                         new ReferencePoint
                         {
                             value = SerializableTransform.Minus,

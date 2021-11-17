@@ -148,7 +148,7 @@ namespace OpenSkiJumping.Hills
 
             foreach (var (id, val) in pointsList)
             {
-                yield return ReferencePoint.FromPos(id, val, "");
+                yield return ReferencePoint.FromPos(id, val);
                 yield return ReferencePoint.FromPos($"{id}/global", val, $"{hillId}/origin");
             }
         }
@@ -158,7 +158,7 @@ namespace OpenSkiJumping.Hills
             yield return new Path3D
             {
                 id = $"{hillId}/inrun",
-                refPoint = ReferencePoint.FromRefId($"{hillId}/origin"),
+                refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
                     PathNode.Line(ReferencePoint.FromRefId($"{hillId}/A")),
@@ -173,7 +173,7 @@ namespace OpenSkiJumping.Hills
             yield return new Path3D
             {
                 id = $"{hillId}/landing-hill",
-                refPoint = ReferencePoint.FromRefId($"{hillId}/origin"),
+                refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
                     PathNode.Line(ReferencePoint.FromRefId($"{hillId}/F")),
@@ -187,8 +187,7 @@ namespace OpenSkiJumping.Hills
             yield return new Path3D
             {
                 id = $"{hillId}/inrun-x",
-                refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right,
-                    $"{hillId}/origin"),
+                refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right),
                 data = new List<PathNode>
                 {
                     PathNode.Line(ReferencePoint.FromRefId($"{hillId}/A")),
@@ -199,8 +198,7 @@ namespace OpenSkiJumping.Hills
             yield return new Path3D
             {
                 id = $"{hillId}/landing-hill-x",
-                refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right,
-                    $"{hillId}/origin"),
+                refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right),
                 data = new List<PathNode>
                 {
                     PathNode.Line(ReferencePoint.FromRefId($"{hillId}/F")),
