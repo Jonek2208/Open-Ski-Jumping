@@ -463,8 +463,8 @@ namespace OpenSkiJumping.Hills
         [XmlAttribute("material")] public MaterialType material;
 
         [XmlElement("center-path")] public ConstructionPathX centerPath = new ConstructionPathX();
-        [XmlElement("left-path")] public ConstructionPathX leftPath = new ConstructionPathX();
-        [XmlElement("right-path")] public ConstructionPathX rightPath = new ConstructionPathX();
+        [XmlElement("l-path")] public ConstructionPathX leftPath = new ConstructionPathX();
+        [XmlElement("r-path")] public ConstructionPathX rightPath = new ConstructionPathX();
     }
 
     [Serializable]

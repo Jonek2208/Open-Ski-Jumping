@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace OpenSkiJumping.Data
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/HillsConverter")]
-    public class HillsConverter : ScriptableObject
+    public class HillsConverter : MonoBehaviour
     {
         [SerializeField] private HillsRuntimeNew hillsRuntime;
         [SerializeField] private MapXRuntime mapXRuntime;
@@ -48,10 +47,6 @@ namespace OpenSkiJumping.Data
         {
             var item = (HillsConverter) target;
             DrawDefaultInspector();
-            if (GUILayout.Button("Generate"))
-            {
-                item.Convert();
-            }
             if (GUILayout.Button("Generate Hill"))
             {
                 item.SetHill();

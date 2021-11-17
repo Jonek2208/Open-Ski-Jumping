@@ -13,11 +13,11 @@ AssetImportWorker0
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-36853
+43657
 Successfully changed project path to: /home/jonatan/Open-Ski-Jumping
 /home/jonatan/Open-Ski-Jumping
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 104,03 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 94,34 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0,00 ms.
 Initialize engine version: 2020.3.2f1 (8fd9074bf66c)
 [Subsystems] Discovering subsystems at path /home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/Resources/UnitySubsystems
@@ -117,10 +117,10 @@ Vulkan detection: 2
 [Vulkan init] SelectPhysicalDevice requestedDeviceIndex=-1 xrDevice=(nil)
 MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
 
-[Vulkan init] Physical Device 0x55c74073bca0 [0]: "Intel(R) HD Graphics 530 (SKL GT2)" deviceType=1 vendorID=8086 deviceID=191b
-[Vulkan init] Physical Device 0x55c74073b5a0 [1]: "llvmpipe (LLVM 12.0.0, 256 bits)" deviceType=4 vendorID=10005 deviceID=0
-[Vulkan init] Physical Device 0x55c74073b8b0 [2]: "Quadro M1000M" deviceType=2 vendorID=10de deviceID=13b1
-[Vulkan init] Selected physical device 0x55c74073b8b0
+[Vulkan init] Physical Device 0x55b1046333d0 [0]: "Intel(R) HD Graphics 530 (SKL GT2)" deviceType=1 vendorID=8086 deviceID=191b
+[Vulkan init] Physical Device 0x55b104633010 [1]: "llvmpipe (LLVM 12.0.0, 256 bits)" deviceType=4 vendorID=10005 deviceID=0
+[Vulkan init] Physical Device 0x55b1043954d0 [2]: "Quadro M1000M" deviceType=2 vendorID=10de deviceID=13b1
+[Vulkan init] Selected physical device 0x55b1043954d0
 [Vulkan init] Graphics queue count=1
 [Vulkan init] extensions: count=93
 [Vulkan init] extensions: name=VK_KHR_16bit_storage, enabled=0
@@ -367,53 +367,69 @@ Initialize mono
 Mono path[0] = '/home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/Managed'
 Mono path[1] = '/home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = '/home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56664
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56729
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: /home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: /home/jonatan/Unity/Hub/Editor/2020.3.2f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0,001790 seconds.
+Registered in 0,001937 seconds.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 90,79 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 89,90 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0,00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1,016 seconds
+- Completed reload, in  1,024 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0,003874 seconds.
+Registered in 0,004065 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 93,95 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 90,66 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0,00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  2,028 seconds
+- Completed reload, in  2,089 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
 Launched and connected shader compiler UnityShaderCompiler after 0.01 seconds
-Refreshing native plugins compatible for Editor in 1,13 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0,00 ms.
 Unloading 4058 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 218,6 MB.
-System memory in use after: 218,6 MB.
+System memory in use before: 218,7 MB.
+System memory in use after: 218,8 MB.
 
 Unloading 46 unused Assets to reduce memory usage. Loaded Objects now: 4520.
-Total: 5,315398 ms (FindLiveObjects: 0,457402 ms CreateObjectMapping: 0,276258 ms MarkObjects: 4,163385 ms  DeleteObjects: 0,416169 ms)
+Total: 5,149825 ms (FindLiveObjects: 0,481099 ms CreateObjectMapping: 0,222060 ms MarkObjects: 4,057947 ms  DeleteObjects: 0,387561 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
+  path: Assets/Resources/Data/New Hills Converter.asset
+  artifactKey: Guid(10695268f0dcaa6208f9bc5f47055b92) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Data/New Hills Converter.asset using Guid(10695268f0dcaa6208f9bc5f47055b92) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: OpenSkiJumping.Hills::ReferencePoint.value
+10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+3: OpenSkiJumping.Hills::MapHillData.anchor
+2: OpenSkiJumping.Hills::HillsMap.profiles
+1: OpenSkiJumping.Data::DatabaseObjectFileData`1.value
+0: OpenSkiJumping.Data::DatabaseObject`1.data
+
+Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
 
 Serialization hierarchy:
 11: OpenSkiJumping.Hills::ReferencePoint.value
@@ -427,7 +443,7 @@ Serialization hierarchy:
 3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
 2: OpenSkiJumping.Hills::MapHillData.anchor
 1: OpenSkiJumping.Hills::HillsMap.profiles
-0: OpenSkiJumping.ScriptableObjects.Variables::HillsMapVariable.value
+0: OpenSkiJumping.Data::DatabaseObjectFileData`1.value
 
 Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
 
@@ -541,13 +557,61 @@ Serialization hierarchy:
 1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
 0: OpenSkiJumping.Hills::TerrainNode.refPoint
 
- -> (artifact id: '35e2120f0109aa150bf28bb823db0db8') in 0,087502 seconds
-  Import took 0,096056 seconds .
+Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: OpenSkiJumping.Hills::ReferencePoint.value
+10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+0: OpenSkiJumping.Hills::PathNode.target
+
+Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: OpenSkiJumping.Hills::ReferencePoint.value
+10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+3: OpenSkiJumping.Hills::MapHillData.anchor
+2: OpenSkiJumping.Hills::HillsMap.profiles
+1: OpenSkiJumping.Data::DatabaseObjectFileData`1.value
+0: OpenSkiJumping.Data::MapXRuntime.hillsMap
+
+Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: OpenSkiJumping.Hills::ReferencePoint.value
+10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
+2: OpenSkiJumping.Hills::MapHillData.anchor
+1: OpenSkiJumping.Hills::HillsMap.profiles
+0: OpenSkiJumping.ScriptableObjects.Variables::HillsMapVariable.value
+
+ -> (artifact id: '79ae14b12202b70c6e5fda9c82110c1a') in 0,258370 seconds
+  Import took 0,267040 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0,003779 seconds.
+Registered in 0,004920 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
@@ -557,71 +621,21 @@ Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1,268 seconds
+- Completed reload, in  1,342 seconds
 Platform modules already initialized, skipping
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,10 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 1,03 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0,00 ms.
 Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,0 MB.
-System memory in use after: 206,1 MB.
+System memory in use before: 206,1 MB.
+System memory in use after: 206,2 MB.
 
 Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4523.
-Total: 3,970773 ms (FindLiveObjects: 0,382419 ms CreateObjectMapping: 0,222850 ms MarkObjects: 3,232860 ms  DeleteObjects: 0,131534 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003758 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,12 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,249 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,15 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,0 MB.
-System memory in use after: 206,1 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4526.
-Total: 4,928919 ms (FindLiveObjects: 0,438025 ms CreateObjectMapping: 0,273464 ms MarkObjects: 4,019893 ms  DeleteObjects: 0,195867 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003738 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,07 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,209 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,09 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4529.
-Total: 4,746259 ms (FindLiveObjects: 0,420202 ms CreateObjectMapping: 0,258694 ms MarkObjects: 3,882779 ms  DeleteObjects: 0,182943 ms)
+Total: 4,551026 ms (FindLiveObjects: 0,412117 ms CreateObjectMapping: 0,293840 ms MarkObjects: 3,705550 ms  DeleteObjects: 0,138248 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 3072,875026 seconds.
+  Time since last request: 4713,048324 seconds.
   path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
   artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
@@ -752,788 +766,15 @@ Serialization hierarchy:
 1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
 0: OpenSkiJumping.Hills::TerrainNode.refPoint
 
- -> (artifact id: '3985ea436e446d9e531521dc342219e8') in 0,092055 seconds
-  Import took 0,099522 seconds .
+ -> (artifact id: '42542af4892b50945f3f81033cd41e36') in 0,091094 seconds
+  Import took 0,099105 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 192,464913 seconds.
+  Time since last request: 0,004928 seconds.
   path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
   artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f0c8e3a868cfc64293c5c5542783129') in 0,002780 seconds
-  Import took 0,011454 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003950 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,07 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,262 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 0,97 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4532.
-Total: 4,762154 ms (FindLiveObjects: 0,441708 ms CreateObjectMapping: 0,250883 ms MarkObjects: 3,903828 ms  DeleteObjects: 0,164153 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004260 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,301 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,06 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4535.
-Total: 5,012678 ms (FindLiveObjects: 0,494034 ms CreateObjectMapping: 0,229559 ms MarkObjects: 4,098061 ms  DeleteObjects: 0,189624 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004056 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,326 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,12 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4538.
-Total: 4,723906 ms (FindLiveObjects: 0,428710 ms CreateObjectMapping: 0,236733 ms MarkObjects: 3,876820 ms  DeleteObjects: 0,180429 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004179 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,17 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,288 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,60 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4541.
-Total: 6,319746 ms (FindLiveObjects: 0,457752 ms CreateObjectMapping: 0,335654 ms MarkObjects: 5,275599 ms  DeleteObjects: 0,248705 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,005190 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,04 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,277 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 0,98 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4544.
-Total: 5,129626 ms (FindLiveObjects: 0,471355 ms CreateObjectMapping: 0,275296 ms MarkObjects: 4,164212 ms  DeleteObjects: 0,216860 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003920 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,01 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,281 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,15 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4547.
-Total: 4,922089 ms (FindLiveObjects: 0,436377 ms CreateObjectMapping: 0,270693 ms MarkObjects: 4,017935 ms  DeleteObjects: 0,195199 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003876 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,10 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,416 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 0,95 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4550.
-Total: 5,083084 ms (FindLiveObjects: 0,447015 ms CreateObjectMapping: 0,253079 ms MarkObjects: 4,191546 ms  DeleteObjects: 0,189846 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004160 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,284 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,25 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4553.
-Total: 5,155075 ms (FindLiveObjects: 0,436076 ms CreateObjectMapping: 0,364216 ms MarkObjects: 4,152927 ms  DeleteObjects: 0,199617 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004233 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,11 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,404 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,96 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,1 MB.
-System memory in use after: 206,2 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4556.
-Total: 6,742456 ms (FindLiveObjects: 0,592360 ms CreateObjectMapping: 0,454230 ms MarkObjects: 5,471974 ms  DeleteObjects: 0,221747 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,003768 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,352 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,01 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,2 MB.
-System memory in use after: 206,3 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4559.
-Total: 5,119926 ms (FindLiveObjects: 0,437604 ms CreateObjectMapping: 0,267588 ms MarkObjects: 4,226449 ms  DeleteObjects: 0,186869 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 15563,605075 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::MapHillData.anchor
-1: OpenSkiJumping.Hills::HillsMap.profiles
-0: OpenSkiJumping.ScriptableObjects.Variables::HillsMapVariable.value
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::MapHillData.anchor
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Path3D.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Wall.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Construction.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Stairs.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::TerrainNode.refPoint
-
- -> (artifact id: '710d4e9e8eb8c74878bef583c9c5581a') in 0,087539 seconds
-  Import took 0,094463 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 18,388997 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '296362b373c841cc4a6dc2846419a76b') in 0,002656 seconds
-  Import took 0,009793 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004225 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,350 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,15 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,2 MB.
-System memory in use after: 206,3 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4562.
-Total: 6,640878 ms (FindLiveObjects: 0,673715 ms CreateObjectMapping: 0,382147 ms MarkObjects: 5,360861 ms  DeleteObjects: 0,221702 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004348 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,13 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,508 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,14 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,2 MB.
-System memory in use after: 206,3 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4565.
-Total: 5,195940 ms (FindLiveObjects: 0,450721 ms CreateObjectMapping: 0,246019 ms MarkObjects: 4,297502 ms  DeleteObjects: 0,199799 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 451,146058 seconds.
-  path: Assets/Models/Snowy_Low_Poly_Trees/DemoScene.unity
-  artifactKey: Guid(cb9d7c2651d547a478a42e14850a45da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Models/Snowy_Low_Poly_Trees/DemoScene.unity using Guid(cb9d7c2651d547a478a42e14850a45da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6d16f5557bf1b8bb967718a6ee8fd46') in 0,017164 seconds
-  Import took 0,027900 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 8,839136 seconds.
-  path: Assets/Scenes/Hills/HillTemplate.unity
-  artifactKey: Guid(17e7d6f831b9e0318b6b64ecef1e3e7c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/Hills/HillTemplate.unity using Guid(17e7d6f831b9e0318b6b64ecef1e3e7c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e45d3a7ab30f3eb28ce836a4175ffe56') in 0,001313 seconds
-  Import took 0,009692 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 49,790221 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::MapHillData.anchor
-1: OpenSkiJumping.Hills::HillsMap.profiles
-0: OpenSkiJumping.ScriptableObjects.Variables::HillsMapVariable.value
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::MapHillData.anchor
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Path3D.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Wall.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Construction.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Stairs.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::TerrainNode.refPoint
-
- -> (artifact id: '091f983a7be6733290a505743082f9fa') in 0,082300 seconds
-  Import took 0,092785 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0,004880 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1,07 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  1,371 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 1,02 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0,00 ms.
-Unloading 3872 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 206,2 MB.
-System memory in use after: 206,3 MB.
-
-Unloading 37 unused Assets to reduce memory usage. Loaded Objects now: 4568.
-Total: 5,637462 ms (FindLiveObjects: 0,484403 ms CreateObjectMapping: 0,280961 ms MarkObjects: 4,684010 ms  DeleteObjects: 0,186412 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 692,918718 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b) Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::MapHillData.anchor
-1: OpenSkiJumping.Hills::HillsMap.profiles
-0: OpenSkiJumping.ScriptableObjects.Variables::HillsMapVariable.value
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::MapHillData.anchor
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Path3D.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::Wall.refPoint
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Construction.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ConstructionPath.refPoint
-0: OpenSkiJumping.Hills::Stairs.centerPath
-
-Serialization depth limit 10 exceeded at 'OpenSkiJumping.Hills::ReferencePoint.value'. There may be an object composition cycle in one or more of your serialized classes.
-
-Serialization hierarchy:
-11: OpenSkiJumping.Hills::ReferencePoint.value
-10: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-9: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-8: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-7: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-6: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-5: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-4: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-3: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-2: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-1: OpenSkiJumping.Hills::ReferencePoint.auxiliaryRefs
-0: OpenSkiJumping.Hills::TerrainNode.refPoint
-
- -> (artifact id: 'b35ea99a4eb71e055b0aedbb9eaaa42d') in 0,105511 seconds
-  Import took 0,114431 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 22,389081 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ccc336944957428bcf10e88ac1899bca') in 0,002966 seconds
-  Import took 0,010483 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 1163,772536 seconds.
-  path: Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset
-  artifactKey: Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a48aa13c309e42a7b7bbc12cd3681a63') in 0,001444 seconds
-  Import took 0,008885 seconds .
+Start importing Assets/Resources/Hills/HillProfiles/Default Hills Map Variable.asset using Guid(2c71c92d29e0acbe393f2a3b6c9c0d6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '42542af4892b50945f3f81033cd41e36') in 0,001478 seconds
+  Import took 0,009719 seconds .
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file

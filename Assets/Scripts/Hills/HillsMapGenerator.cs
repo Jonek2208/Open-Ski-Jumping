@@ -21,7 +21,7 @@ namespace OpenSkiJumping.Hills
         public List<Vector3> data;
         public float length;
     }
-    
+
     [Serializable]
     public class RenderedPoint
     {
@@ -42,7 +42,7 @@ namespace OpenSkiJumping.Hills
         [SerializeField] private List<Path3D> builtInPaths;
         [SerializeField] private List<ReferencePoint> builtInRefPoints;
         [SerializeField] private List<RenderedPoint> renderedPoints;
-        
+
         [SerializeField] private int bezierSteps = 10;
 
 
@@ -116,7 +116,7 @@ namespace OpenSkiJumping.Hills
             var hillMap = hillsMapVariable.Value;
             var tmp = builtInRefPoints.Concat(hillMap.referencePoints).ToDictionary(it => it.id, it => it);
             var sorted = Digraph.TopologicalSort(tmp.Keys, GetRefDependencies(tmp.Values));
-            
+
             var set = new HashSet<string>(sorted);
             sorted.AddRange(tmp.Keys.Where(id => !string.IsNullOrEmpty(id) && !set.Contains(id)));
 
@@ -234,7 +234,7 @@ namespace OpenSkiJumping.Hills
             var topRightPathY = renderedPaths.FindLast(it => it.id == wall.topRightPath.idY);
             var bottomLeftPathY = renderedPaths.FindLast(it => it.id == wall.bottomLeftPath.idY);
             var bottomRightPathY = renderedPaths.FindLast(it => it.id == wall.bottomRightPath.idY);
-            
+
             var topLeftPathZ = renderedPaths.FindLast(it => it.id == wall.topLeftPath.idZ);
             var topRightPathZ = renderedPaths.FindLast(it => it.id == wall.topRightPath.idZ);
             var bottomLeftPathZ = renderedPaths.FindLast(it => it.id == wall.bottomLeftPath.idZ);
@@ -244,7 +244,7 @@ namespace OpenSkiJumping.Hills
             var topRightOffsetY = OffsetFunction.FromRenderedPath(topRightPathY);
             var bottomLeftOffsetY = OffsetFunction.FromRenderedPath(bottomLeftPathY);
             var bottomRightOffsetY = OffsetFunction.FromRenderedPath(bottomRightPathY);
-            
+
             var topLeftOffsetZ = OffsetFunction.FromRenderedPath(topLeftPathZ);
             var topRightOffsetZ = OffsetFunction.FromRenderedPath(topRightPathZ);
             var bottomLeftOffsetZ = OffsetFunction.FromRenderedPath(bottomLeftPathZ);
@@ -295,12 +295,12 @@ namespace OpenSkiJumping.Hills
                     var trY = topRightOffsetY.EvalNorm(args[i]).y + topRightTransform.y;
                     var blY = bottomLeftOffsetY.EvalNorm(args[i]).y + bottomLeftTransform.y;
                     var brY = bottomRightOffsetY.EvalNorm(args[i]).y + bottomRightTransform.y;
-                    
+
                     var tlZ = topLeftOffsetZ.EvalNorm(args[i]).z + topLeftTransform.z;
                     var trZ = topRightOffsetZ.EvalNorm(args[i]).z + topRightTransform.z;
                     var blZ = bottomLeftOffsetZ.EvalNorm(args[i]).z + bottomLeftTransform.z;
                     var brZ = bottomRightOffsetZ.EvalNorm(args[i]).z + bottomRightTransform.z;
-                    
+
                     topLeftPos.Add(points[i] + shifts1[i] * tlY + shifts2[i] * tlZ);
                     bottomLeftPos.Add(points[i] + shifts1[i] * blY + shifts2[i] * blZ);
                     topRightPos.Add(points[i] + shifts1[i] * trY + shifts2[i] * trZ);
@@ -325,11 +325,11 @@ namespace OpenSkiJumping.Hills
         {
             var centerPath = renderedPaths.FindLast(it => it.id == wall.centerPath.idY);
             var totalPathLength = centerPath.length * (wall.t1 - wall.t0);
-            var step = wall.stepLength / centerPath.length;
             var tmp = Mathf.Round(100000f * totalPathLength / wall.stepLength) / 100000;
             var realCount = Mathf.FloorToInt(tmp);
-            var leftTransform = PropagateRefPoint(wall.leftPath.refPoint, SerializableTransform.Identity).position;
-            var rightTransform = PropagateRefPoint(wall.rightPath.refPoint, SerializableTransform.Identity).position;
+            var step = wall.stepLength / totalPathLength;
+            var leftTransform = PropagateRefPoint(wall.leftPath.refPoint).position;
+            var rightTransform = PropagateRefPoint(wall.rightPath.refPoint).position;
 
             var leftPath = renderedPaths.FindLast(it => it.id == wall.leftPath.idZ);
             var rightPath = renderedPaths.FindLast(it => it.id == wall.rightPath.idZ);
@@ -376,14 +376,13 @@ namespace OpenSkiJumping.Hills
 
             for (var c = 0; c < realCount + 1; c++)
             {
-                var t0 = c * step + wall.t0;
+                var t0 = c * step;
                 var tApprox = Mathf.Round(100000 * (n - 1) * t0) / 100000;
                 var startPoint = Mathf.CeilToInt(tApprox);
                 var startVal = tApprox + 1 - startPoint;
 
                 if (!Mathf.Approximately(startVal, 1))
                 {
-                    // if (startPoint == 0 || startPoint > n - 1) Debug.Log("VAR");
                     centerFinal.Add(Vector3.Lerp(points[startPoint - 1], points[startPoint], startVal));
                     leftFinal.Add(Vector3.Lerp(leftPos[startPoint - 1], leftPos[startPoint], startVal));
                     rightFinal.Add(Vector3.Lerp(rightPos[startPoint - 1], rightPos[startPoint], startVal));
@@ -396,13 +395,13 @@ namespace OpenSkiJumping.Hills
                 }
             }
 
-            var globalTransform = PropagateRefPoint(wall.centerPath.refPoint, SerializableTransform.Identity);
+            var globalTransform = PropagateRefPoint(wall.centerPath.refPoint);
 
-            for (var i = 0; i < n; i++)
+            for (var i = 0; i < realCount + 1; i++)
             {
-                centerFinal[i] = HillsGeneratorUtils.Transformation(globalTransform, centerFinal[i]);
                 leftFinal[i] = HillsGeneratorUtils.Transformation(globalTransform, leftFinal[i]);
                 rightFinal[i] = HillsGeneratorUtils.Transformation(globalTransform, rightFinal[i]);
+                centerFinal[i] = HillsGeneratorUtils.Transformation(globalTransform, centerFinal[i]);
             }
 
             yield return MeshFunctions.GenerateStairs(centerFinal, leftFinal, rightFinal, shifts2);
@@ -514,7 +513,7 @@ namespace OpenSkiJumping.Hills
 
             CalculateHillsTransforms();
             PropagateReferencePoints();
-            renderedPoints = _propagatedPoints.Select(it => new RenderedPoint { id = it.Key, value = it.Value}).ToList();
+            renderedPoints = _propagatedPoints.Select(it => new RenderedPoint {id = it.Key, value = it.Value}).ToList();
 
             for (var i = 0; i < Mathf.Min(hillsList.Count, hillsMapVariable.Value.profiles.Count); i++)
             {

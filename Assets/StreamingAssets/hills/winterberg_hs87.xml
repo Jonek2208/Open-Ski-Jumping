@@ -35,7 +35,7 @@
         <center-path ref-id="Winterberg HS87/origin" id="Winterberg HS87/inrun/x"/>
         <bl-path ref-id="" y="-2" z="2" id="Winterberg HS87/inrun"/>
         <br-path ref-id="" y="-2" z="-2" id="Winterberg HS87/inrun"/>
-        <tl-path ref-id="" y="-0.02" z="2" id="Winterberg HS87/inrun"/>
+        <tl-path ref-id="" y="-0.02" z="2" id="Winterberg HS87/inrun" />
         <tr-path ref-id="" y="-0.02" z="-2" id="Winterberg HS87/inrun"/>
     </construction>
     <construction t0="0" t1="1" count="10" step="0" length="0.03" material="Concrete">
@@ -76,14 +76,14 @@
         <tr-path y="5.4" id-y="Winterberg HS88/landing-hill" id-z="Winterberg HS88/landing-hill/left"/>
     </construction>
 
-
     <construction t0="0" t1="1" count="1" step="0" length="1" material="Concrete">
         <center-path ref-id="Winterberg HS88/origin" id="Winterberg HS88/inrun/x"/>
         <bl-path ref-id="" y="-2" z="2" id="Winterberg HS88/inrun"/>
         <br-path ref-id="" y="-2" z="-2" id="Winterberg HS88/inrun"/>
-        <tl-path ref-id="" y="-0.05" z="2" id="Winterberg HS88/inrun"/>
+        <tl-path ref-id="" y="-0.05" z="2" id="Winterberg HS88/inrun" />
         <tr-path ref-id="" y="-0.05" z="-2" id="Winterberg HS88/inrun"/>
     </construction>
+    
     <construction t0="0" t1="1" count="10" step="0" length="0.03" material="Concrete">
         <center-path ref-id="Winterberg HS88/origin" id="Winterberg HS88/inrun/x"/>
         <bl-path ref-id="" y="-2" z="2" id="Winterberg HS88/inrun/terrain"/>
@@ -107,4 +107,38 @@
         <tl-path y="-2" id-y="Winterberg HS88/landing-hill" id-z="Winterberg HS88/landing-hill/left"/>
         <tr-path y="-2" id-y="Winterberg HS88/landing-hill" id-z="Winterberg HS88/landing-hill/right"/>
     </construction>
+
+    <path id="HS87/inrun-left-stairs">
+        <line x="0" z="2"/>
+        <line x="9.2" z="2"/>
+        <line x="15" z="0"/>
+        <line x="73.5" z="0"/>
+    </path>
+
+    <construction t0="0" t1="1" count="1" step="0" length="1" material="Concrete">
+        <center-path ref-id="Winterberg HS88/origin" id="Winterberg HS87/inrun/x"/>
+        <bl-path ref-id="" y="-2" z="2" id-y="Winterberg HS87/inrun" id-z="HS87/inrun-left-stairs"/>
+        <br-path ref-id="" y="-2" z="-2" id="Winterberg HS87/inrun"/>
+        <tl-path ref-id="" y="-0.02" z="2" id-y="Winterberg HS87/inrun" id-z="HS87/inrun-left-stairs"/>
+        <tr-path ref-id="" y="-0.02" z="-2" id="Winterberg HS87/inrun"/>
+    </construction>
+
+    <stairs t0="0" t1="0.129198966" step-length="0.92" material="Concrete">
+        <center-path y="0.2" ref-id="Winterberg HS88/origin" id="Winterberg HS88/inrun"/>
+        <l-path z="3" />
+        <r-path z="1" />
+    </stairs>
+
+    <stairs t0="0" t1="0.129198966" step-length="0.92" material="Concrete">
+        <center-path y="0.2" ref-id="Winterberg HS88/origin" id="Winterberg HS88/inrun"/>
+        <l-path z="-1" />
+        <r-path z="-3" />
+    </stairs>
+
+    <stairs t0="0" t1="1" step-length="0.5" material="Concrete">
+        <center-path y="0.2" ref-id="Winterberg HS88/origin" id="Winterberg HS88/inrun"/>
+        <l-path z="2" id="HS87/inrun-left-stairs"/>
+        <r-path z="1" id="HS87/inrun-left-stairs"/>
+    </stairs>
+    
 </map>
