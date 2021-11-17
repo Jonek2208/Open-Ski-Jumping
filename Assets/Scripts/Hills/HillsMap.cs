@@ -216,7 +216,8 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class ConstructionPath
     {
-        public string id = "";
+        public string idY = "";
+        public string idZ = "";
         public float shift;
         public ReferencePoint refPoint = ReferencePoint.Neutral;
     }

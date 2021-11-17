@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Xml.Serialization;
 using OpenSkiJumping.Hills.CurvePaths;
@@ -92,7 +93,7 @@ namespace OpenSkiJumping.Hills
     {
         [XmlAttribute("id")] public string id;
         [XmlElement("anchor")] public RefPointX anchor = new RefPointX();
-        [XmlIgnore] /*[XmlElement("ref-point")]*/ public RefPointX refPoint = new RefPointX();
+        [XmlIgnore] public RefPointX refPoint = new RefPointX();
         [XmlElement("inrun")] public InrunDataX inrun;
         [XmlElement("landing-hill")] public LandingHillX landingHill;
         [XmlElement("outrun")] public OutrunX outrun;
@@ -157,63 +158,63 @@ namespace OpenSkiJumping.Hills
         [XmlIgnore] public Vector3X rot = Vector3X.Zero;
         [XmlIgnore] public Vector3X scl = Vector3X.One;
 
-        [XmlAttribute("x")]
+        [XmlAttribute("x"), DefaultValue(0)]
         public float X
         {
             get => pos.x;
             set => pos.x = value;
         }
 
-        [XmlAttribute("y")]
+        [XmlAttribute("y"), DefaultValue(0)]
         public float Y
         {
             get => pos.y;
             set => pos.y = value;
         }
 
-        [XmlAttribute("z")]
+        [XmlAttribute("z"), DefaultValue(0)]
         public float Z
         {
             get => pos.z;
             set => pos.z = value;
         }
 
-        [XmlAttribute("rx")]
+        [XmlAttribute("rx"), DefaultValue(0)]
         public float Rx
         {
             get => rot.x;
             set => rot.x = value;
         }
 
-        [XmlAttribute("ry")]
+        [XmlAttribute("ry"), DefaultValue(0)]
         public float Ry
         {
             get => rot.y;
             set => rot.y = value;
         }
 
-        [XmlAttribute("rz")]
+        [XmlAttribute("rz"), DefaultValue(0)]
         public float Rz
         {
             get => rot.z;
             set => rot.z = value;
         }
 
-        [XmlAttribute("sx")]
+        [XmlAttribute("sx"), DefaultValue(1)]
         public float Sx
         {
             get => scl.x;
             set => scl.x = value;
         }
 
-        [XmlAttribute("sy")]
+        [XmlAttribute("sy"), DefaultValue(1)]
         public float Sy
         {
             get => scl.y;
             set => scl.y = value;
         }
 
-        [XmlAttribute("sz")]
+        [XmlAttribute("sz"), DefaultValue(1)]
         public float Sz
         {
             get => scl.z;
@@ -224,7 +225,15 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class RefPointX : AnonymousRefPointX
     {
-        [XmlAttribute("id")] public string id = "";
+        [XmlIgnore, DefaultValue("")] public string id = "";
+
+        [XmlAttribute("id"), DefaultValue("")]
+        public string Id
+        {
+            get => id;
+            set => id = value;
+        }
+
         [XmlElement("aux")] public List<AnonymousRefPointX> auxiliaryRefs = new List<AnonymousRefPointX>();
     }
 
@@ -234,28 +243,28 @@ namespace OpenSkiJumping.Hills
     {
         [XmlIgnore] public AnonymousRefPointX target = new RefPointX();
 
-        [XmlAttribute("ref-id")]
+        [XmlAttribute("ref-id"), DefaultValue("")]
         public string RefId
         {
             get => target.refId;
             set => target.refId = value;
         }
 
-        [XmlAttribute("x")]
+        [XmlAttribute("x"), DefaultValue(0)]
         public float X
         {
             get => target.pos.x;
             set => target.pos.x = value;
         }
 
-        [XmlAttribute("y")]
+        [XmlAttribute("y"), DefaultValue(0)]
         public float Y
         {
             get => target.pos.y;
             set => target.pos.y = value;
         }
 
-        [XmlAttribute("z")]
+        [XmlAttribute("z"), DefaultValue(0)]
         public float Z
         {
             get => target.pos.z;
@@ -291,7 +300,7 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class PathNodeX : NodeX
     {
-        [XmlAttribute("id")] public string pathId = "";
+        [XmlAttribute("id")] public string pathId;
         // [XmlElement("c0")] public RefPointX c0;
         // [XmlElement("c1")] public RefPointX c1;
     }
@@ -310,89 +319,123 @@ namespace OpenSkiJumping.Hills
         [XmlElement("path", typeof(PathNodeX))]
         public List<NodeX> nodes = new List<NodeX>();
 
-        [XmlAttribute("ref-id")]
-        public string RefId
-        {
-            get => refPoint.refId;
-            set => refPoint.refId = value;
-        }
-
-        [XmlAttribute("x")]
+        [XmlAttribute("x"), DefaultValue(0)]
         public float X
         {
             get => refPoint.pos.x;
             set => refPoint.pos.x = value;
         }
 
-        [XmlAttribute("y")]
+        [XmlAttribute("y"), DefaultValue(0)]
         public float Y
         {
             get => refPoint.pos.y;
             set => refPoint.pos.y = value;
         }
 
-        [XmlAttribute("z")]
+        [XmlAttribute("z"), DefaultValue(0)]
         public float Z
         {
             get => refPoint.pos.z;
             set => refPoint.pos.z = value;
         }
 
-        [XmlAttribute("rx")]
+        [XmlAttribute("rx"), DefaultValue(0)]
         public float Rx
         {
             get => refPoint.rot.x;
             set => refPoint.rot.x = value;
         }
 
-        [XmlAttribute("ry")]
+        [XmlAttribute("ry"), DefaultValue(0)]
         public float Ry
         {
             get => refPoint.rot.y;
             set => refPoint.rot.y = value;
         }
 
-        [XmlAttribute("rz")]
+        [XmlAttribute("rz"), DefaultValue(0)]
         public float Rz
         {
             get => refPoint.rot.z;
             set => refPoint.rot.z = value;
         }
 
-        [XmlAttribute("sx")]
+        [XmlAttribute("sx"), DefaultValue(1)]
         public float Sx
         {
             get => refPoint.scl.x;
             set => refPoint.scl.x = value;
         }
 
-        [XmlAttribute("sy")]
+        [XmlAttribute("sy"), DefaultValue(1)]
         public float Sy
         {
             get => refPoint.scl.y;
             set => refPoint.scl.y = value;
         }
 
-        [XmlAttribute("sz")]
+        [XmlAttribute("sz"), DefaultValue(1)]
         public float Sz
         {
             get => refPoint.scl.z;
             set => refPoint.scl.z = value;
+        }
+        
+        [XmlAttribute("ref-id"), DefaultValue("")]
+        public string RefId
+        {
+            get => refPoint.refId;
+            set => refPoint.refId = value;
         }
     }
 
     [Serializable]
     public class ConstructionPathX : RefPointX
     {
-        // [XmlAttribute("id")] public new string id;
-        [XmlAttribute("shift")] public float shift;
+        [XmlIgnore] public string idY = "";
+        [XmlIgnore] public string idZ = "";
 
-        // [XmlAttribute("id")]
-        // public string Id
-        // {
-        //     get => id;
-        //     set => id = value;
-        // }
+        [XmlAttribute("shift"), DefaultValue(0)]
+        public float shift;
+        
+        [XmlAttribute("id"), DefaultValue("")]
+        public new string Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                idY = "";
+                idZ = "";
+            }
+        }
+
+        [XmlAttribute("id-y"), DefaultValue("")]
+        public string IdY
+        {
+            get => idY;
+            set
+            {
+                idY = value;
+                if (string.IsNullOrEmpty(id)) return;
+                idZ = id;
+                id = "";
+            }
+        }
+
+        [XmlAttribute("id-z"), DefaultValue("")]
+        public string IdZ
+        {
+            get => idZ;
+            set
+            {
+                idZ = value;
+                if (string.IsNullOrEmpty(id)) return;
+                idY = id;
+                id = "";
+            }
+        }
     }
 
     [Serializable]

@@ -212,7 +212,7 @@ namespace OpenSkiJumping.Hills
 
         public IEnumerable<Mesh> GenerateConstruction(Construction wall)
         {
-            var centerPath = renderedPaths.FindLast(it => it.id == wall.centerPath.id);
+            var centerPath = renderedPaths.FindLast(it => it.id == wall.centerPath.idY);
             if (centerPath == null) yield break;
 
             var xLen = Mathf.Min(wall.t1 - wall.t0, wall.length);
@@ -230,15 +230,25 @@ namespace OpenSkiJumping.Hills
             var bottomRightTransform =
                 PropagateRefPoint(wall.bottomRightPath.refPoint, SerializableTransform.Identity).position;
 
-            var topLeftPath = renderedPaths.FindLast(it => it.id == wall.topLeftPath.id);
-            var topRightPath = renderedPaths.FindLast(it => it.id == wall.topRightPath.id);
-            var bottomLeftPath = renderedPaths.FindLast(it => it.id == wall.bottomLeftPath.id);
-            var bottomRightPath = renderedPaths.FindLast(it => it.id == wall.bottomRightPath.id);
+            var topLeftPathY = renderedPaths.FindLast(it => it.id == wall.topLeftPath.idY);
+            var topRightPathY = renderedPaths.FindLast(it => it.id == wall.topRightPath.idY);
+            var bottomLeftPathY = renderedPaths.FindLast(it => it.id == wall.bottomLeftPath.idY);
+            var bottomRightPathY = renderedPaths.FindLast(it => it.id == wall.bottomRightPath.idY);
+            
+            var topLeftPathZ = renderedPaths.FindLast(it => it.id == wall.topLeftPath.idZ);
+            var topRightPathZ = renderedPaths.FindLast(it => it.id == wall.topRightPath.idZ);
+            var bottomLeftPathZ = renderedPaths.FindLast(it => it.id == wall.bottomLeftPath.idZ);
+            var bottomRightPathZ = renderedPaths.FindLast(it => it.id == wall.bottomRightPath.idZ);
 
-            var topLeftOffset = OffsetFunction.FromRenderedPath(topLeftPath);
-            var topRightOffset = OffsetFunction.FromRenderedPath(topRightPath);
-            var bottomLeftOffset = OffsetFunction.FromRenderedPath(bottomLeftPath);
-            var bottomRightOffset = OffsetFunction.FromRenderedPath(bottomRightPath);
+            var topLeftOffsetY = OffsetFunction.FromRenderedPath(topLeftPathY);
+            var topRightOffsetY = OffsetFunction.FromRenderedPath(topRightPathY);
+            var bottomLeftOffsetY = OffsetFunction.FromRenderedPath(bottomLeftPathY);
+            var bottomRightOffsetY = OffsetFunction.FromRenderedPath(bottomRightPathY);
+            
+            var topLeftOffsetZ = OffsetFunction.FromRenderedPath(topLeftPathZ);
+            var topRightOffsetZ = OffsetFunction.FromRenderedPath(topRightPathZ);
+            var bottomLeftOffsetZ = OffsetFunction.FromRenderedPath(bottomLeftPathZ);
+            var bottomRightOffsetZ = OffsetFunction.FromRenderedPath(bottomRightPathZ);
 
             for (var c = 0; c < realCount; c++)
             {
@@ -281,14 +291,20 @@ namespace OpenSkiJumping.Hills
 
                 for (var i = 0; i < n; i++)
                 {
-                    var tl = topLeftOffset.EvalNorm(args[i]) + topLeftTransform;
-                    var tr = topRightOffset.EvalNorm(args[i]) + topRightTransform;
-                    var bl = bottomLeftOffset.EvalNorm(args[i]) + bottomLeftTransform;
-                    var br = bottomRightOffset.EvalNorm(args[i]) + bottomRightTransform;
-                    topLeftPos.Add(points[i] + shifts1[i] * tl.y + shifts2[i] * tl.z);
-                    bottomLeftPos.Add(points[i] + shifts1[i] * bl.y + shifts2[i] * bl.z);
-                    topRightPos.Add(points[i] + shifts1[i] * tr.y + shifts2[i] * tr.z);
-                    bottomRightPos.Add(points[i] + shifts1[i] * br.y + shifts2[i] * br.z);
+                    var tlY = topLeftOffsetY.EvalNorm(args[i]).y + topLeftTransform.y;
+                    var trY = topRightOffsetY.EvalNorm(args[i]).y + topRightTransform.y;
+                    var blY = bottomLeftOffsetY.EvalNorm(args[i]).y + bottomLeftTransform.y;
+                    var brY = bottomRightOffsetY.EvalNorm(args[i]).y + bottomRightTransform.y;
+                    
+                    var tlZ = topLeftOffsetZ.EvalNorm(args[i]).z + topLeftTransform.z;
+                    var trZ = topRightOffsetZ.EvalNorm(args[i]).z + topRightTransform.z;
+                    var blZ = bottomLeftOffsetZ.EvalNorm(args[i]).z + bottomLeftTransform.z;
+                    var brZ = bottomRightOffsetZ.EvalNorm(args[i]).z + bottomRightTransform.z;
+                    
+                    topLeftPos.Add(points[i] + shifts1[i] * tlY + shifts2[i] * tlZ);
+                    bottomLeftPos.Add(points[i] + shifts1[i] * blY + shifts2[i] * blZ);
+                    topRightPos.Add(points[i] + shifts1[i] * trY + shifts2[i] * trZ);
+                    bottomRightPos.Add(points[i] + shifts1[i] * brY + shifts2[i] * brZ);
                 }
 
                 var globalTransform = PropagateRefPoint(wall.centerPath.refPoint, SerializableTransform.Identity);
@@ -307,7 +323,7 @@ namespace OpenSkiJumping.Hills
 
         public IEnumerable<Mesh> GenerateStairs(Stairs wall)
         {
-            var centerPath = renderedPaths.FindLast(it => it.id == wall.centerPath.id);
+            var centerPath = renderedPaths.FindLast(it => it.id == wall.centerPath.idY);
             var totalPathLength = centerPath.length * (wall.t1 - wall.t0);
             var step = wall.stepLength / centerPath.length;
             var tmp = Mathf.Round(100000f * totalPathLength / wall.stepLength) / 100000;
@@ -315,8 +331,8 @@ namespace OpenSkiJumping.Hills
             var leftTransform = PropagateRefPoint(wall.leftPath.refPoint, SerializableTransform.Identity).position;
             var rightTransform = PropagateRefPoint(wall.rightPath.refPoint, SerializableTransform.Identity).position;
 
-            var leftPath = renderedPaths.FindLast(it => it.id == wall.leftPath.id);
-            var rightPath = renderedPaths.FindLast(it => it.id == wall.rightPath.id);
+            var leftPath = renderedPaths.FindLast(it => it.id == wall.leftPath.idZ);
+            var rightPath = renderedPaths.FindLast(it => it.id == wall.rightPath.idZ);
 
             var leftOffset = OffsetFunction.FromRenderedPath(leftPath);
             var rightOffset = OffsetFunction.FromRenderedPath(rightPath);

@@ -96,8 +96,8 @@ namespace OpenSkiJumping.Hills
             for (var ii = 0; ii < _hills.Count; ii++)
             {
                 var hillId = hillsMap.Value.profiles[ii].profileData.name;
-                var inrunTerrainFunction = hillsMapGenerator.GetOffsetFromPath($"{hillId}/inrun-terrain");
-                var landingHillTerrainFunction = hillsMapGenerator.GetOffsetFromPath($"{hillId}/landing-hill-terrain");
+                var inrunTerrainFunction = hillsMapGenerator.GetOffsetFromPath($"{hillId}/inrun/terrain");
+                var landingHillTerrainFunction = hillsMapGenerator.GetOffsetFromPath($"{hillId}/landing-hill/terrain");
                 _hillTerrain.Add((inrunTerrainFunction, landingHillTerrainFunction));
             }
 

@@ -61,7 +61,7 @@ namespace OpenSkiJumping.Hills
             };
             return res;
         }
-        
+
         public static AnonymousRefPointX ParseRefPointToAnonymous(ReferencePoint item)
         {
             var res = new AnonymousRefPointX
@@ -230,18 +230,27 @@ namespace OpenSkiJumping.Hills
 
         public static ConstructionPath GetConstructionPath(ConstructionPathX item)
         {
+            var newIdY = string.IsNullOrEmpty(item.id) ? item.idY : item.id;
+            var newIdZ = string.IsNullOrEmpty(item.id) ? item.idZ : item.id;
+
             return new ConstructionPath
             {
-                id = item.id, shift = item.shift, refPoint = GetRefPoint(item)
+                idY = newIdY, idZ = newIdZ, shift = item.shift, refPoint = GetRefPoint(item)
             };
         }
 
         public static ConstructionPathX ParseConstructionPath(ConstructionPath item)
         {
             var refPoint = ParseRefPoint(item.refPoint);
+            var newId = item.idY == item.idZ ? item.idY : "";
+            var newIdY = item.idY == item.idZ ? "" : item.idY;
+            var newIdZ = item.idY == item.idZ ? "" : item.idZ;
+
             return new ConstructionPathX
             {
-                id = item.id,
+                id = newId,
+                idY = newIdY,
+                idZ = newIdZ,
                 shift = item.shift,
                 refId = refPoint.refId,
                 pos = refPoint.pos,
@@ -285,7 +294,7 @@ namespace OpenSkiJumping.Hills
                 material = item.material
             };
         }
-        
+
         public static Stairs GetStairs(StairsX item)
         {
             return new Stairs

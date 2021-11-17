@@ -85,7 +85,7 @@ namespace OpenSkiJumping.Hills
         {
             return transform.rotation * Vector3.Scale(transform.scale, point) + transform.position;
         }
-        
+
         public static IEnumerable<ReferencePoint> GenerateHillReferencePoints(Hill hill, string hillId)
         {
             // var hillsMap = hillsMapVariable.Value;
@@ -126,23 +126,23 @@ namespace OpenSkiJumping.Hills
                 ($"{hillId}/E1", hill.E1),
                 ($"{hillId}/E2", hill.E2),
                 ($"{hillId}/T", hill.T),
-                
+
                 ($"{hillId}/F", hill.F),
                 ($"{hillId}/P", hill.P),
                 ($"{hillId}/K", hill.K),
                 ($"{hillId}/L", hill.L),
                 ($"{hillId}/U", hill.U),
-                
+
                 ($"{hillId}/C1", hill.C1),
                 ($"{hillId}/E1C", hillE1C),
                 ($"{hillId}/E2C", hillE2C),
-                
+
                 ($"{hillId}/FC", hillFC),
                 ($"{hillId}/PC", hillPC),
                 ($"{hillId}/CL", hill.CL),
                 ($"{hillId}/C2", hill.C2),
                 ($"{hillId}/UC", hillUC),
-                
+
                 ($"{hillId}/JT", hillJT),
             };
 
@@ -186,7 +186,31 @@ namespace OpenSkiJumping.Hills
 
             yield return new Path3D
             {
-                id = $"{hillId}/inrun-x",
+                id = $"{hillId}/landing-hill/left",
+                refPoint = ReferencePoint.Neutral,
+                data = new List<PathNode>
+                {
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.forward * (0.5f * hill.b2), $"{hillId}/F")),
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.forward * (0.5f * hill.bK), $"{hillId}/K")),
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.forward * (0.5f * hill.bU), $"{hillId}/U"))
+                }
+            };
+
+            yield return new Path3D
+            {
+                id = $"{hillId}/landing-hill/right",
+                refPoint = ReferencePoint.Neutral,
+                data = new List<PathNode>
+                {
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.back * (0.5f * hill.b2), $"{hillId}/F")),
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.back * (0.5f * hill.bK), $"{hillId}/K")),
+                    PathNode.Line(ReferencePoint.FromPos("", Vector3.back * (0.5f * hill.bU), $"{hillId}/U"))
+                }
+            };
+
+            yield return new Path3D
+            {
+                id = $"{hillId}/inrun/x",
                 refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right),
                 data = new List<PathNode>
                 {
@@ -197,7 +221,7 @@ namespace OpenSkiJumping.Hills
 
             yield return new Path3D
             {
-                id = $"{hillId}/landing-hill-x",
+                id = $"{hillId}/landing-hill/x",
                 refPoint = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity, Vector3.right),
                 data = new List<PathNode>
                 {
@@ -208,7 +232,7 @@ namespace OpenSkiJumping.Hills
 
             yield return new Path3D
             {
-                id = $"{hillId}/inrun-terrain",
+                id = $"{hillId}/inrun/terrain",
                 refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
@@ -223,7 +247,7 @@ namespace OpenSkiJumping.Hills
 
             yield return new Path3D
             {
-                id = $"{hillId}/landing-hill-terrain",
+                id = $"{hillId}/landing-hill/terrain",
                 refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
