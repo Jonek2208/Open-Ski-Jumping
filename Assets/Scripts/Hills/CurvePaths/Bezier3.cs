@@ -87,7 +87,6 @@ namespace OpenSkiJumping.Hills.CurvePaths
 
         public Vector3 Eval(float t)
         {
-            Debug.Log(t + " " + _lengthFunction.EvalInverse(t));
             return EvalRaw(_lengthFunction.EvalInverse(t));
         }
 

@@ -1,5 +1,6 @@
 using System.Linq;
 using OpenSkiJumping.Hills;
+using OpenSkiJumping.ScriptableObjects.Variables;
 using UnityEngine;
 
 namespace OpenSkiJumping.Data
@@ -27,6 +28,16 @@ namespace OpenSkiJumping.Data
 
             hillsRuntime.SetData(newHills);
         }
+
+        [SerializeField] private string hillId;
+        [SerializeField] private HillsMapVariable hillsMapVariable;
+        
+        public void SetHill()
+        {
+            mapXRuntime.LoadData();
+            hillsMapVariable.Value = mapXRuntime.GetMap(hillId);
+        }
+        
     }
 
 #if UNITY_EDITOR
@@ -41,9 +52,9 @@ namespace OpenSkiJumping.Data
             {
                 item.Convert();
             }
-            if (GUILayout.Button("To HillsMap"))
+            if (GUILayout.Button("Generate Hill"))
             {
-                item.Convert();
+                item.SetHill();
             }
         }
     }

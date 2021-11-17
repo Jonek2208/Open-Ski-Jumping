@@ -353,8 +353,8 @@ namespace OpenSkiJumping.Hills
                     q = item.judgesTower.q,
                     g = item.judgesTower.g,
                 },
-                pos = item.pos.ToVector3(),
-                azimuth = item.rot.y
+                refTransform = GetRefPoint(item.refPoint),
+                anchor = GetRefPoint(item.anchor)
             };
         }
 
@@ -400,8 +400,8 @@ namespace OpenSkiJumping.Hills
                     {a = item.profileData.a, rA = item.profileData.rA, betaA = item.profileData.betaA},
                 judgesTower = new JudgesTowerX
                     {d = item.profileData.d, q = item.profileData.q, g = item.profileData.g},
-                pos = Vector3X.FromVector3(item.pos),
-                rot = new Vector3X {x = 0, y = item.azimuth, z = 0}
+                refPoint = ParseRefPoint(item.refTransform),
+                anchor = ParseRefPoint(item.anchor)
             };
         }
     }

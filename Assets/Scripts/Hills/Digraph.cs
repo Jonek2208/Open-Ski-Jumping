@@ -5,37 +5,24 @@ namespace OpenSkiJumping.Hills
 {
     public static class Digraph
     {
-        public static List<string> TopologicalSort(IEnumerable<(string, string)> edgesList)
+        public static List<string> TopologicalSort(IEnumerable<string> vertices, IEnumerable<(string, string)> edges)
         {
-            var graph = new Dictionary<string, List<string>>();
-            var inDeg = new Dictionary<string, int>();
+            var verticesList = vertices.ToList();
+            var graph = verticesList.ToDictionary(it => it, it => new List<string>());
+            var inDeg = verticesList.ToDictionary(it => it, it => 0);
 
-            foreach (var (from, to) in edgesList)
+            foreach (var (from, to) in edges)
             {
-                if (!graph.ContainsKey(from))
-                {
-                    graph.Add(from, new List<string>());
-                    inDeg.Add(from, 0);
-                }
-
-                if (!graph.ContainsKey(to))
-                {
-                    graph.Add(to, new List<string>());
-                    inDeg.Add(to, 0);
-                }
-
                 inDeg[to]++;
                 graph[from].Add(to);
             }
 
-            var bag = inDeg.Where(it => it.Value == 0).Select(it => it.Key).ToList();
+            var bag = new Queue<string>(inDeg.Where(it => it.Value == 0).Select(it => it.Key));
             var result = new List<string>();
 
             while (bag.Count > 0)
             {
-                var lastIndex = bag.Count - 1;
-                var item = bag[lastIndex];
-                bag.RemoveAt(lastIndex);
+                var item = bag.Dequeue();
                 result.Add(item);
                 
                 foreach (var v in graph[item])
@@ -43,7 +30,7 @@ namespace OpenSkiJumping.Hills
                     inDeg[v]--;
                     if (inDeg[v] == 0)
                     {
-                        bag.Add(v);
+                        bag.Enqueue(v);
                     }
                 }
             }

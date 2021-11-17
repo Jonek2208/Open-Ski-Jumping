@@ -59,6 +59,11 @@ namespace OpenSkiJumping.Data
             return true;
         }
 
+        public HillsMap GetMap(string hillName)
+        {
+            return !_hillsMapping.ContainsKey(hillName) ? null : _hillsMapping[hillName].value;
+        }
+
         public IEnumerable<ProfileData> GetSortedData()
         {
             return hillsMap.SelectMany(it => it.value.profiles).Select(it => it.profileData)

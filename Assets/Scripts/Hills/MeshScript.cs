@@ -13,41 +13,10 @@ using UnityEngine.Serialization;
 namespace OpenSkiJumping.Hills
 {
     [Serializable]
-    public class HillModel
-    {
-        //Hill construction
-        public GameObject gateStairs;
-
-        Mesh gateStairsMesh;
-        public GameObject inrun;
-        public GameObject inrunConstruction;
-
-        Mesh inrunConstructionMesh;
-        Mesh inrunMesh;
-
-        public Vector3 jumperPosition;
-        public Quaternion jumperRotation;
-        public GameObject landingArea;
-        Mesh landingAreaMesh;
-
-        public LineRenderer[] lineRenderers;
-        public GameObject outrun;
-        public GameObject startGate;
-        Mesh startGateMesh;
-
-        //Meshes
-        public GameObject terrain;
-        public Terrain[] terrains;
-    }
-
-
-    [Serializable]
     public class ModelData
     {
         public GameObject gObj;
         public Material[] materials;
-
-        [HideInInspector] public Mesh mesh;
     }
 
     public class MeshScript : MonoBehaviour
@@ -74,7 +43,6 @@ namespace OpenSkiJumping.Hills
         public Hill hill;
 
         /* Hill profile */
-        [Space] [Header("Hill profile")] public HillModel[] hills;
 
         public ModelData inrun;
         public ModelData inrunConstruction;
@@ -105,7 +73,7 @@ namespace OpenSkiJumping.Hills
         public Quaternion jumperRotation;
         public GameObject lampPrefab;
 
-        List<GameObject> lamps;
+        private List<GameObject> lamps;
         public ModelData landingArea;
         public ModelData landingAreaGuardrailL;
         public ModelData landingAreaGuardrailR;
@@ -195,7 +163,7 @@ namespace OpenSkiJumping.Hills
             }
         }
         
-        public void ObjectUpdate(GameObject gameObject, Mesh mesh, Material material, Vector3[] vertices,
+        public void ObjectUpdate(GameObject gObj, Mesh mesh, Material material, Vector3[] vertices,
             int[] triangles, Vector2[] uvs, bool hasCollider)
         {
             mesh.vertices = vertices;
@@ -203,11 +171,11 @@ namespace OpenSkiJumping.Hills
             mesh.uv = uvs;
             mesh.RecalculateNormals();
 
-            gameObject.GetComponent<MeshFilter>().mesh = mesh;
-            gameObject.GetComponent<MeshRenderer>().material = material;
+            gObj.GetComponent<MeshFilter>().mesh = mesh;
+            gObj.GetComponent<MeshRenderer>().material = material;
             if (hasCollider)
             {
-                gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+                gObj.GetComponent<MeshCollider>().sharedMesh = mesh;
             }
         }
         

@@ -21,6 +21,13 @@ namespace OpenSkiJumping.Hills
         public List<Vector3> data;
         public float length;
     }
+    
+    [Serializable]
+    public class RenderedPoint
+    {
+        public string id = "";
+        public SerializableTransform value;
+    }
 
     public class HillsMapGenerator : MonoBehaviour
     {
@@ -34,16 +41,19 @@ namespace OpenSkiJumping.Hills
         [SerializeField] private List<Path3D> propagatedPaths;
         [SerializeField] private List<Path3D> builtInPaths;
         [SerializeField] private List<ReferencePoint> builtInRefPoints;
+        [SerializeField] private List<RenderedPoint> renderedPoints;
+        
         [SerializeField] private int bezierSteps = 10;
 
 
-        private readonly Dictionary<string, SerializableTransform> _propagatedPoints =
-            new Dictionary<string, SerializableTransform>();
+        private Dictionary<string, SerializableTransform> _propagatedPoints;
 
 
         public void RenderPaths()
         {
             propagatedPaths.Clear();
+            renderedPaths.Clear();
+
             foreach (var path in builtInPaths)
             {
                 propagatedPaths.Add(PropagatePath3D(path));
@@ -54,7 +64,6 @@ namespace OpenSkiJumping.Hills
                 propagatedPaths.Add(PropagatePath3D(path));
             }
 
-            renderedPaths.Clear();
             foreach (var path in propagatedPaths)
             {
                 var curvePath = RenderCurvePath(path);
@@ -78,17 +87,36 @@ namespace OpenSkiJumping.Hills
             }
         }
 
+        public static IEnumerable<(string, string)> GetRefDepsFromPoint(ReferencePoint item)
+        {
+            var lastId = item.id;
+            if (!string.IsNullOrEmpty(item.referenceId))
+            {
+                yield return (item.referenceId, item.id);
+                lastId = item.referenceId;
+            }
+
+            if (item.auxiliaryRefs == null) yield break;
+            foreach (var it in item.auxiliaryRefs)
+            {
+                if (string.IsNullOrEmpty(it.referenceId)) continue;
+                yield return (it.referenceId, lastId);
+                lastId = it.referenceId;
+            }
+        }
+
         public static IEnumerable<(string, string)> GetRefDependencies(IEnumerable<ReferencePoint> lst)
         {
-            return lst.Where(it => !string.IsNullOrEmpty(it.referenceId)).Select(it => (it.referenceId, it.id));
+            return lst.SelectMany(GetRefDepsFromPoint);
         }
 
         public void PropagateReferencePoints()
         {
+            _propagatedPoints = new Dictionary<string, SerializableTransform>();
             var hillMap = hillsMapVariable.Value;
             var tmp = builtInRefPoints.Concat(hillMap.referencePoints).ToDictionary(it => it.id, it => it);
-            var sorted = Digraph.TopologicalSort(GetRefDependencies(tmp.Values));
-
+            var sorted = Digraph.TopologicalSort(tmp.Keys, GetRefDependencies(tmp.Values));
+            
             var set = new HashSet<string>(sorted);
             sorted.AddRange(tmp.Keys.Where(id => !string.IsNullOrEmpty(id) && !set.Contains(id)));
 
@@ -97,29 +125,6 @@ namespace OpenSkiJumping.Hills
                 var point = tmp[id];
                 _propagatedPoints[point.id] = PropagateRefPoint(point);
             }
-
-            // //built-in ref points
-            // foreach (var point in builtInRefPoints)
-            // {
-            //     // Debug.Log($"{point.id} / {point.referenceId}");
-            //     var referencePoint = string.IsNullOrEmpty(point.referenceId)
-            //         ? SerializableTransform.Identity
-            //         : _propagatedPoints[point.referenceId];
-            //
-            //     var xd = HillsGeneratorUtils.CalculatePoint(point.value, referencePoint);
-            //     _propagatedPoints[point.id] = xd;
-            // }
-            //
-            // //user defined ref points
-            // foreach (var point in hillMap.referencePoints)
-            // {
-            //     var referencePoint = string.IsNullOrEmpty(point.referenceId)
-            //         ? SerializableTransform.Identity
-            //         : _propagatedPoints[point.referenceId];
-            //
-            //     var xd = HillsGeneratorUtils.CalculatePoint(point.value, referencePoint);
-            //     _propagatedPoints[point.id] = xd;
-            // }
         }
 
         public void AddNode(CurvePath curvePath, PathNode node, SerializableTransform inheritedTransform)
@@ -183,9 +188,7 @@ namespace OpenSkiJumping.Hills
 
         private SerializableTransform GetPropagatedRefPoint(string id)
         {
-            return string.IsNullOrEmpty(id)
-                ? SerializableTransform.Identity
-                : _propagatedPoints[id];
+            return string.IsNullOrEmpty(id) ? SerializableTransform.Identity : _propagatedPoints[id];
         }
 
         public SerializableTransform PropagateRefPoint(ReferencePoint point)
@@ -194,7 +197,7 @@ namespace OpenSkiJumping.Hills
             var result = HillsGeneratorUtils.CalculatePoint(point.value, referencePoint);
             foreach (var pt in point.auxiliaryRefs)
             {
-                referencePoint = GetPropagatedRefPoint(pt.id);
+                referencePoint = PropagateRefPoint(pt);
                 result = HillsGeneratorUtils.CalculatePoint(result, referencePoint);
             }
 
@@ -206,18 +209,6 @@ namespace OpenSkiJumping.Hills
             var calculatedTransform = PropagateRefPoint(point);
             return HillsGeneratorUtils.CalculatePoint(calculatedTransform, globalTransform);
         }
-
-        // public SerializableTransform PropagateRefPoint(ReferencePoint point, ReferencePoint globalRef)
-        // {
-        //     var referencePoint = string.IsNullOrEmpty(point.referenceId)
-        //         ? SerializableTransform.Identity
-        //         : _propagatedPoints[point.referenceId];
-        //
-        //     var globalTransform = PropagateRefPoint(globalRef, SerializableTransform.Identity);
-        //     return HillsGeneratorUtils.CalculatePoint(HillsGeneratorUtils.CalculatePoint(point.value, referencePoint),
-        //         globalTransform);
-        // }
-
 
         public IEnumerable<Mesh> GenerateConstruction(Construction wall)
         {
@@ -376,7 +367,7 @@ namespace OpenSkiJumping.Hills
 
                 if (!Mathf.Approximately(startVal, 1))
                 {
-                    if (startPoint == 0 || startPoint > n - 1) Debug.Log("VAR");
+                    // if (startPoint == 0 || startPoint > n - 1) Debug.Log("VAR");
                     centerFinal.Add(Vector3.Lerp(points[startPoint - 1], points[startPoint], startVal));
                     leftFinal.Add(Vector3.Lerp(leftPos[startPoint - 1], leftPos[startPoint], startVal));
                     rightFinal.Add(Vector3.Lerp(rightPos[startPoint - 1], rightPos[startPoint], startVal));
@@ -475,14 +466,14 @@ namespace OpenSkiJumping.Hills
             var hillMap = hillsMapVariable.Value;
             var meshDict = generatedMeshDatas.ToDictionary(it => it.material, it => new List<Mesh>());
 
-            foreach (var item in hillMap.walls)
-            {
-                meshDict[item.material].AddRange(GenerateWall(item));
-            }
+            // foreach (var item in hillMap.walls)
+            // {
+            //     meshDict[item.material].AddRange(GenerateWall(item));
+            // }
 
             foreach (var item in hillMap.constructions)
             {
-                Debug.Log(item.material);
+                // Debug.Log(item.material);
                 meshDict[item.material].AddRange(GenerateConstruction(item));
             }
 
@@ -501,39 +492,13 @@ namespace OpenSkiJumping.Hills
         {
             builtInRefPoints.Clear();
             builtInPaths.Clear();
+            propagatedPaths.Clear();
+            renderedPaths.Clear();
 
-            for (var i = 0; i < Mathf.Min(hillsList.Count, hillsMapVariable.Value.profiles.Count); i++)
-            {
-                var hill = hillsList[i];
-                hill.gameObject.SetActive(true);
-                var profile = hillsMapVariable.Value.profiles[i];
-                hill.profileData.Value = profile.profileData;
-                var hillName = hillsList[i].profileData.Value.name;
 
-                builtInRefPoints.AddRange(HillsGeneratorUtils.GenerateHillReferencePoints(hillsList[i].hill, hillName));
-                builtInPaths.AddRange(HillsGeneratorUtils.GenerateHillPaths(hillsList[i].hill, hillName));
-                builtInRefPoints.Add(new ReferencePoint
-                {
-                    id = $"{hillName}/origin/anchor",
-                    value = hillsMapVariable.Value.profiles[i].anchor.value,
-                    referenceId = hillsMapVariable.Value.profiles[i].anchor.referenceId
-                });
-                builtInRefPoints.Add(new ReferencePoint
-                {
-                    id = $"{hillName}/origin", value = SerializableTransform.Minus,
-                    referenceId = $"{hillName}/origin/anchor",
-                    auxiliaryRefs = new List<ReferencePoint>
-                    {
-                        new ReferencePoint
-                        {
-                            value = hillsMapVariable.Value.profiles[i].refTransform.value,
-                            referenceId = hillsMapVariable.Value.profiles[i].refTransform.referenceId
-                        }
-                    }
-                });
-            }
-            
+            CalculateHillsTransforms();
             PropagateReferencePoints();
+            renderedPoints = _propagatedPoints.Select(it => new RenderedPoint { id = it.Key, value = it.Value}).ToList();
 
             for (var i = 0; i < Mathf.Min(hillsList.Count, hillsMapVariable.Value.profiles.Count); i++)
             {
@@ -545,21 +510,10 @@ namespace OpenSkiJumping.Hills
                 var hillTransform = hill.transform;
                 var hillName = hillsList[i].profileData.Value.name;
 
-                if (i > 0)
-                {
-                    hillTransform.rotation = Quaternion.Euler(0, profile.azimuth, 0);
-                    hillTransform.position = hillsList[0].transform.position + profile.pos +
-                                             (Vector3) (hillsList[0].hill.U - hill.hill.U);
-                }
-                else
-                {
-                    hillTransform.rotation = Quaternion.identity;
-                    hillTransform.position = Vector3.zero;
-                }
+                var hillOrigin = GetPropagatedRefPoint($"{hillName}/origin");
 
-
-                builtInRefPoints.AddRange(HillsGeneratorUtils.GenerateHillReferencePoints(hillsList[i].hill, hillName));
-                builtInPaths.AddRange(HillsGeneratorUtils.GenerateHillPaths(hillsList[i].hill, hillName));
+                hillTransform.position = hillOrigin.position;
+                hillTransform.rotation = hillOrigin.rotation;
             }
 
             for (var i = hillsMapVariable.Value.profiles.Count; i < hillsList.Count; i++)
@@ -569,6 +523,41 @@ namespace OpenSkiJumping.Hills
 
             RenderPaths();
             GenerateWalls();
+        }
+
+        private void CalculateHillsTransforms()
+        {
+            for (var i = 0; i < Mathf.Min(hillsList.Count, hillsMapVariable.Value.profiles.Count); i++)
+            {
+                var hill = hillsList[i];
+                hill.gameObject.SetActive(true);
+                var profile = hillsMapVariable.Value.profiles[i];
+                hill.profileData.Value = profile.profileData;
+                hill.hill.SetValues(profile.profileData);
+                var hillName = hillsList[i].profileData.Value.name;
+
+
+                builtInRefPoints.AddRange(HillsGeneratorUtils.GenerateHillReferencePoints(hillsList[i].hill, hillName));
+                builtInPaths.AddRange(HillsGeneratorUtils.GenerateHillPaths(hillsList[i].hill, hillName));
+                builtInRefPoints.Add(new ReferencePoint
+                {
+                    id = $"{hillName}/origin",
+                    value = hillsMapVariable.Value.profiles[i].anchor.value,
+                    referenceId = hillsMapVariable.Value.profiles[i].anchor.referenceId,
+                    auxiliaryRefs = new List<ReferencePoint>
+                    {
+                        new ReferencePoint
+                        {
+                            value = SerializableTransform.Minus,
+                        },
+                        new ReferencePoint
+                        {
+                            value = hillsMapVariable.Value.profiles[i].refTransform.value,
+                            referenceId = hillsMapVariable.Value.profiles[i].refTransform.referenceId
+                        }
+                    }
+                });
+            }
         }
 
         public OffsetFunction GetOffsetFromPath(string pathId)

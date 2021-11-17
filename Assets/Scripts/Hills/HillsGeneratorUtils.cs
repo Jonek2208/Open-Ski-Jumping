@@ -149,7 +149,7 @@ namespace OpenSkiJumping.Hills
             foreach (var (id, val) in pointsList)
             {
                 yield return ReferencePoint.FromPos(id, val, "");
-                yield return ReferencePoint.FromPos($"{id}-global", val, $"{hillId}/origin");
+                yield return ReferencePoint.FromPos($"{id}/global", val, $"{hillId}/origin");
             }
         }
 

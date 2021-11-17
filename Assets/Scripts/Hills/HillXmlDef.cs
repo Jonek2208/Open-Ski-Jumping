@@ -92,9 +92,7 @@ namespace OpenSkiJumping.Hills
     {
         [XmlAttribute("id")] public string id;
         [XmlElement("anchor")] public RefPointX anchor = new RefPointX();
-        [XmlElement("ref-point")] public RefPointX refPoint = new RefPointX();
-        [XmlElement("pos")] public Vector3X pos;
-        [XmlElement("rot")] public Vector3X rot;
+        [XmlIgnore] /*[XmlElement("ref-point")]*/ public RefPointX refPoint = new RefPointX();
         [XmlElement("inrun")] public InrunDataX inrun;
         [XmlElement("landing-hill")] public LandingHillX landingHill;
         [XmlElement("outrun")] public OutrunX outrun;
@@ -227,7 +225,7 @@ namespace OpenSkiJumping.Hills
     public class RefPointX : AnonymousRefPointX
     {
         [XmlAttribute("id")] public string id = "";
-        [XmlElement("aux")] public List<AnonymousRefPointX> auxiliaryRefs;
+        [XmlElement("aux")] public List<AnonymousRefPointX> auxiliaryRefs = new List<AnonymousRefPointX>();
     }
 
 

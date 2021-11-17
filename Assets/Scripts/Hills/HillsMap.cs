@@ -43,9 +43,6 @@ namespace OpenSkiJumping.Hills
     {
         public ReferencePoint anchor;
         public ReferencePoint refTransform;
-        public ReferencePoint transform;
-        public Vector3 pos;
-        public float azimuth;
         public ProfileData profileData;
     }
 
