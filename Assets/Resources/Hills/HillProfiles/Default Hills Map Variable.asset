@@ -34,7 +34,75 @@ MonoBehaviour:
       profileData:
         name: Winterberg HS87
         terrainSteepness: 0
-        type: 2
+        type: 0
+        gates: 10
+        w: 81
+        hS: 87
+        h: 38.949512
+        n: 70.560715
+        gamma: 40
+        alpha: 10.65
+        e: 68.2
+        es: 9.2
+        t: 5.3
+        r1: 76.5
+        beta0: 5.9166665
+        betaP: 35.5
+        betaK: 35.5
+        betaL: 31.3
+        s: 2
+        l1: 11
+        l2: 6
+        rL: 165
+        r2L: 120
+        r2: 82
+        a: 100
+        rA: 0
+        betaA: 0
+        b1: 2
+        b2: 10
+        bK: 25
+        bU: 30
+        d: 0
+        q: 0
+        g: 0
+        gateStairsLeft: 1
+        gateStairsRight: 1
+        inrunStairsLeft: 1
+        inrunStairsRight: 1
+        inrunStairsAngle: 0.001
+        inrunData:
+          summerTrack: 0
+          winterTrack: 0
+        landingAreaData:
+          metersLow: 0
+          metersHigh: 0
+          summerLinesSpacing: 0
+          summerLinesLow: 0
+          summerLinesHigh: 0
+          winterLinesSpacing: 0
+          winterLinesLow: 0
+          winterLinesHigh: 0
+    - anchor:
+        id: 
+        referenceId: Winterberg HS88/U
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+          scale: {x: 1, y: 1, z: 1}
+        auxiliaryRefs: []
+      refTransform:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 40, y: -15, z: 60}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+        auxiliaryRefs: []
+      profileData:
+        name: Winterberg HS88
+        terrainSteepness: 0
+        type: 0
         gates: 10
         w: 81
         hS: 87
@@ -84,62 +152,383 @@ MonoBehaviour:
           winterLinesLow: 0
           winterLinesHigh: 0
     referencePoints: []
-    paths: []
-    walls: []
-    constructions:
-    - centerPath:
-        id: Winterberg HS87/inrun
-        shift: 0
-        refPoint:
+    paths:
+    - id: Winterberg HS87/landing-hill/terrain
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+        auxiliaryRefs: []
+      data:
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS87/F
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
           id: 
           referenceId: 
           value:
             position: {x: 0, y: 0, z: 0}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS87/F
+          value:
+            position: {x: 30, y: -60, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS87/K
+          value:
+            position: {x: 0, y: -20, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS87/U
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+    - id: Winterberg HS88/landing-hill/terrain
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+        auxiliaryRefs: []
+      data:
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS88/F
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS88/K
+          value:
+            position: {x: 0, y: -20, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: Winterberg HS88/U
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+    - id: HS87/inrun-left-stairs
+      refPoint:
+        id: 
+        referenceId: 
+        value:
+          position: {x: 0, y: 0, z: 0}
+          rotation: {x: 0, y: 0, z: 0, w: 1}
+          scale: {x: 1, y: 1, z: 1}
+        auxiliaryRefs: []
+      data:
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 9.2, y: 0, z: 4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 15, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+      - nodeType: 0
+        target:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 73.5, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c0:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        c1:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+        pathId: 
+    walls: []
+    constructions:
+    - centerPath:
+        idY: Winterberg HS87/inrun/x
+        idZ: Winterberg HS87/inrun/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
           auxiliaryRefs: []
       bottomLeftPath:
-        id: 
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
         shift: 0
         refPoint:
-          id: 
+          id: Winterberg HS87/inrun
           referenceId: 
           value:
-            position: {x: 0, y: -3, z: 2}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
           auxiliaryRefs: []
       bottomRightPath:
-        id: 
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
         shift: 0
         refPoint:
-          id: 
+          id: Winterberg HS87/inrun
           referenceId: 
           value:
-            position: {x: 0, y: -3, z: -2}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
           auxiliaryRefs: []
       topLeftPath:
-        id: 
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
         shift: 0
         refPoint:
-          id: 
+          id: Winterberg HS87/inrun
           referenceId: 
           value:
-            position: {x: 0, y: 1, z: 2}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            position: {x: 0, y: -0.02, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
           auxiliaryRefs: []
       topRightPath:
-        id: 
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
         shift: 0
         refPoint:
-          id: 
+          id: Winterberg HS87/inrun
           referenceId: 
           value:
-            position: {x: 0, y: 1, z: -2}
-            rotation: {x: 0, y: 0, z: 0, w: 0}
+            position: {x: 0, y: -0.02, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
             scale: {x: 1, y: 1, z: 1}
           auxiliaryRefs: []
       t0: 0
@@ -147,6 +536,680 @@ MonoBehaviour:
       count: 1
       step: 0
       length: 1
-      material: 0
-    stairs: []
+      material: 2
+    - centerPath:
+        idY: Winterberg HS87/inrun/x
+        idZ: Winterberg HS87/inrun/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS87/inrun/terrain
+        idZ: Winterberg HS87/inrun/terrain
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun/terrain
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS87/inrun/terrain
+        idZ: Winterberg HS87/inrun/terrain
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun/terrain
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS87/inrun
+        idZ: Winterberg HS87/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 10
+      step: 0
+      length: 0.03
+      material: 2
+    - centerPath:
+        idY: Winterberg HS87/landing-hill/x
+        idZ: Winterberg HS87/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/landing-hill/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 1
+      step: 0
+      length: 1
+      material: 2
+    - centerPath:
+        idY: Winterberg HS87/landing-hill/x
+        idZ: Winterberg HS87/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS87/landing-hill/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS87/landing-hill/terrain
+        idZ: Winterberg HS87/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS87/landing-hill/terrain
+        idZ: Winterberg HS87/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS87/landing-hill
+        idZ: Winterberg HS87/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 3
+      step: 0
+      length: 0.03
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/landing-hill/x
+        idZ: Winterberg HS88/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/landing-hill/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0.4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5, z: 0.4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 0.6
+      count: 40
+      step: 0
+      length: 0.002
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/landing-hill/x
+        idZ: Winterberg HS88/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/landing-hill/x
+          referenceId: Winterberg HS87/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5, z: 0.4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5.4, z: 0.4}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 5.4, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 0.6
+      count: 40
+      step: 0
+      length: 1
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/inrun/x
+        idZ: Winterberg HS88/inrun/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun/x
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 1
+      step: 0
+      length: 1
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/inrun/x
+        idZ: Winterberg HS88/inrun/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun/x
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/inrun/terrain
+        idZ: Winterberg HS88/inrun/terrain
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun/terrain
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/inrun/terrain
+        idZ: Winterberg HS88/inrun/terrain
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun/terrain
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: -2}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 10
+      step: 0
+      length: 0.03
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/landing-hill/x
+        idZ: Winterberg HS88/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/landing-hill/x
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -0.05, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 1
+      step: 0
+      length: 1
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/landing-hill/x
+        idZ: Winterberg HS88/landing-hill/x
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/landing-hill/x
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomLeftPath:
+        idY: Winterberg HS88/landing-hill/terrain
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      bottomRightPath:
+        idY: Winterberg HS88/landing-hill/terrain
+        idZ: Winterberg HS88/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topLeftPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/left
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      topRightPath:
+        idY: Winterberg HS88/landing-hill
+        idZ: Winterberg HS88/landing-hill/right
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: -2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 1
+      count: 10
+      step: 0
+      length: 0.03
+      material: 2
+    stairs:
+    - centerPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0.2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      leftPath:
+        idY: 
+        idZ: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 3}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      rightPath:
+        idY: 
+        idZ: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: 1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 0.3
+      stepLength: 0.5
+      material: 2
+    - centerPath:
+        idY: Winterberg HS88/inrun
+        idZ: Winterberg HS88/inrun
+        shift: 0
+        refPoint:
+          id: Winterberg HS88/inrun
+          referenceId: Winterberg HS88/origin
+          value:
+            position: {x: 0, y: 0.2, z: 0}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      leftPath:
+        idY: 
+        idZ: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: -1}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      rightPath:
+        idY: 
+        idZ: 
+        shift: 0
+        refPoint:
+          id: 
+          referenceId: 
+          value:
+            position: {x: 0, y: 0, z: -3}
+            rotation: {x: 0, y: 0, z: 0, w: 1}
+            scale: {x: 1, y: 1, z: 1}
+          auxiliaryRefs: []
+      t0: 0
+      t1: 0.9
+      stepLength: 0.5
+      material: 2
     terrainNodes: []

@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/NewUSSFile.uss?fileID=7433441132597879392&amp;guid=1705cd922b2424d78864ae002406e5ce&amp;type=3#NewUSSFile" />
+    <ui:VisualElement name="root" style="flex-grow: 1;">
+        <ui:VisualElement name="tabs" style="left: 240px; top: 60px; width: 1440px; height: 80px; flex-direction: row;">
+            <ui:Button text="PLAY" display-tooltip-when-elided="true" name="Button" class="tabs-btn" />
+            <ui:Button text="EDIT" display-tooltip-when-elided="true" name="Button" class="tabs-btn" />
+            <ui:Button text="CUSTOMISE" display-tooltip-when-elided="true" name="Button" class="tabs-btn" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="menus" style="padding-left: 240px; padding-right: 240px; padding-top: 240px; padding-bottom: 260px; flex-grow: 1;">
+        <ui:VisualElement name="play-menu" style="flex-grow: 1;">
+            <ui:Button text="Button" display-tooltip-when-elided="true" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
