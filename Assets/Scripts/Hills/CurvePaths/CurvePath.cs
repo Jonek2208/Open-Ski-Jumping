@@ -6,9 +6,9 @@ namespace OpenSkiJumping.Hills.CurvePaths
 {
     public class CurvePath
     {
-        private readonly List<ICurvePathSegment> _segments = new List<ICurvePathSegment>();
-        private readonly List<Vector3> _points = new List<Vector3>();
-        private readonly List<float> _lengths = new List<float>();
+        private readonly List<ICurvePathSegment> _segments = new();
+        private readonly List<Vector3> _points = new();
+        private readonly List<float> _lengths = new();
         private bool _started = false;
 
         public void AddStartPoint(Vector3 p)

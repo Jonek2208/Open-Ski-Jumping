@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace OpenSkiJumping.Hills
 {
@@ -14,19 +20,18 @@ namespace OpenSkiJumping.Hills
         public Vector3 EulerAngles => rotation.eulerAngles;
         public Vector3 scale = Vector3.one;
 
-        public static SerializableTransform Identity => new SerializableTransform
+        public static SerializableTransform Identity => new()
             {position = Vector3.zero, rotation = Quaternion.identity, scale = Vector3.one};
-        
-        public static SerializableTransform Minus => new SerializableTransform
+
+        public static SerializableTransform Minus => new()
             {position = Vector3.zero, rotation = Quaternion.identity, scale = -Vector3.one};
 
         public static SerializableTransform FromTransform(Transform transform) =>
-            new SerializableTransform
-                {position = transform.position, rotation = transform.rotation, scale = transform.localScale};
+            new() {position = transform.position, rotation = transform.rotation, scale = transform.localScale};
 
         public SerializableTransform Inverse()
         {
-            return new SerializableTransform {position = -position, rotation = Quaternion.Inverse(rotation), scale = -scale};
+            return new() {position = -position, rotation = Quaternion.Inverse(rotation), scale = -scale};
         }
 
 
@@ -64,19 +69,69 @@ namespace OpenSkiJumping.Hills
     }
 
     [Serializable]
+    public class ReferenceScalar
+    {
+        public float value;
+        public string referenceId = "";
+    }
+
+    [Serializable]
+    public class Length
+    {
+        public ReferenceScalar value = new();
+        public Unit unit = Unit.Percent;
+
+        public enum Unit
+        {
+            Percent,
+            Meter,
+            Centimeter
+        }
+
+        private static readonly Regex MatchRegex = new(@"^([+-]?\d+(?:\.\d+)?)(m|%|cm|)$", RegexOptions.Compiled);
+
+        private void SetValuesFromString(string val)
+        {
+            var match = MatchRegex.Match(val);
+            var valueMatch = match.Groups[1].Value;
+            value.value = float.Parse(valueMatch);
+            var unitMatch = match.Groups[2].Value;
+            unit = unitMatch switch
+            {
+                "m" => Unit.Meter,
+                "" => Unit.Meter,
+                "%" => Unit.Percent,
+                "cm" => Unit.Centimeter,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        [XmlIgnore][JsonIgnore]
+        public string ValUnit
+        {
+            get => $"{value.value.ToString(CultureInfo.InvariantCulture)}{unit switch {Unit.Percent => "%", _ => ""}}";
+            set => SetValuesFromString(value);
+        }
+
+        public static Length Percent() => new() {unit = Unit.Percent};
+        public static Length Meter() => new() {unit = Unit.Meter};
+    }
+
+
+    [Serializable]
     public class ReferencePoint
     {
         public string id = "";
         public string referenceId = "";
         public SerializableTransform value;
-        public List<ReferencePoint> auxiliaryRefs = new List<ReferencePoint>();
+        public List<ReferencePoint> auxiliaryRefs = new();
 
-        public static ReferencePoint Neutral => new ReferencePoint
-            {id = "", referenceId = "", value = SerializableTransform.Identity};
+        public static ReferencePoint Neutral =>
+            new() {id = "", referenceId = "", value = SerializableTransform.Identity};
 
         public static ReferencePoint FromPos(string id, Vector3 pos, string referenceId = "")
         {
-            return new ReferencePoint
+            return new()
             {
                 id = id,
                 value = new SerializableTransform {position = pos},
@@ -86,7 +141,7 @@ namespace OpenSkiJumping.Hills
 
         public static ReferencePoint FromRefId(string referenceId = "")
         {
-            return new ReferencePoint
+            return new()
             {
                 id = "",
                 value = SerializableTransform.Identity,
@@ -96,7 +151,7 @@ namespace OpenSkiJumping.Hills
 
         public static ReferencePoint FromTransform(string id, Transform transform, string referenceId = "")
         {
-            return new ReferencePoint
+            return new()
             {
                 id = id,
                 value = SerializableTransform.FromTransform(transform),
@@ -107,7 +162,7 @@ namespace OpenSkiJumping.Hills
         public static ReferencePoint FromPosRotScale(string id, Vector3 pos, Quaternion rot, Vector3 scale,
             string referenceId = "")
         {
-            return new ReferencePoint
+            return new()
             {
                 id = id,
                 value = new SerializableTransform {position = pos, rotation = rot, scale = scale},
@@ -137,29 +192,27 @@ namespace OpenSkiJumping.Hills
 
         public static PathNode Line(ReferencePoint target)
         {
-            return new PathNode
-                {nodeType = NodeType.Line, target = target};
+            return new() {nodeType = NodeType.Line, target = target};
         }
 
         public static PathNode Arc(ReferencePoint target, ReferencePoint c0)
         {
-            return new PathNode {nodeType = NodeType.Arc, target = target, c0 = c0};
+            return new() {nodeType = NodeType.Arc, target = target, c0 = c0};
         }
 
         public static PathNode Bezier3(ReferencePoint target, ReferencePoint c0, ReferencePoint c1)
         {
-            return new PathNode {nodeType = NodeType.Bezier3, target = target, c0 = c0, c1 = c1};
+            return new() {nodeType = NodeType.Bezier3, target = target, c0 = c0, c1 = c1};
         }
 
         public static PathNode Bezier2(ReferencePoint target, ReferencePoint c0)
         {
-            return new PathNode
-                {nodeType = NodeType.Bezier2, target = target, c0 = c0};
+            return new() {nodeType = NodeType.Bezier2, target = target, c0 = c0};
         }
 
         public static PathNode Path(ReferencePoint target, string id)
         {
-            return new PathNode {nodeType = NodeType.Path, target = target, pathId = id};
+            return new() {nodeType = NodeType.Path, target = target, pathId = id};
         }
 
         public PathNode Clone()
@@ -222,6 +275,7 @@ namespace OpenSkiJumping.Hills
         public ReferencePoint refPoint = ReferencePoint.Neutral;
     }
 
+
     [Serializable]
     public class Construction
     {
@@ -229,24 +283,13 @@ namespace OpenSkiJumping.Hills
         public ConstructionPath bottomLeftPath;
         public ConstructionPath bottomRightPath;
         public ConstructionPath topLeftPath;
-
         public ConstructionPath topRightPath;
 
-        // public string centerPathId = "";
-        // public string bottomLeftPathId = "";
-        // public string bottomRightPathId = "";
-        // public string topLeftPathId = "";
-        // public string topRightPathId = "";
-        // public ReferencePoint centerRefPoint = ReferencePoint.Neutral;
-        // public ReferencePoint bottomLeftRefPoint = ReferencePoint.Neutral;
-        // public ReferencePoint bottomRightRefPoint = ReferencePoint.Neutral;
-        // public ReferencePoint topLeftRefPoint = ReferencePoint.Neutral;
-        // public ReferencePoint topRightRefPoint = ReferencePoint.Neutral;
-        public float t0;
-        public float t1;
+        public Length t0;
+        public Length t1;
         public int count;
-        public float step;
-        public float length;
+        public Length step;
+        public Length length;
         public MaterialType material;
     }
 
@@ -256,6 +299,7 @@ namespace OpenSkiJumping.Hills
         public ConstructionPath centerPath;
         public ConstructionPath leftPath;
         public ConstructionPath rightPath;
+        public ConstructionPath topPath;
 
         // public string centerPathId = "";
         // public ReferencePoint centerRefPoint = ReferencePoint.Neutral;

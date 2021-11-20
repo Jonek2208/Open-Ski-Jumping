@@ -35,60 +35,60 @@ namespace OpenSkiJumping.Competition
 
     public class ResultsManager : IResultsManager
     {
-        private readonly IHillInfo hillInfo;
+        private readonly IHillInfo _hillInfo;
 
-        private SortedList<(decimal points, int bib, int round), int> allRoundResults;
-        private SortedList<(int state, decimal points, int bib), int> finalResults;
-        private SortedList<(decimal points, int bib), int> losersResults;
-        private int[] initGates;
+        private SortedList<(decimal points, int bib, int round), int> _allRoundResults;
+        private SortedList<(int state, decimal points, int bib), int> _finalResults;
+        private SortedList<(decimal points, int bib), int> _losersResults;
+        private readonly int[] _initGates;
 
-        private int competitorsCount;
-        private int[] koState;
-        private int maxBib;
-        private int maxLosers;
-        private int roundsCount;
-        private int subRoundsCount;
+        private int _competitorsCount;
+        private int[] _koState;
+        private int _maxBib;
+        private int _maxLosers;
+        private int _roundsCount;
+        private int _subRoundsCount;
 
         public ResultsManager(EventInfo eventInfo, List<Participant> orderedParticipants, IHillInfo hillInfo)
         {
             EventInfo = eventInfo;
             OrderedParticipants = orderedParticipants;
-            this.hillInfo = hillInfo;
-            initGates = new int[eventInfo.roundInfos.Count];
+            this._hillInfo = hillInfo;
+            _initGates = new int[eventInfo.roundInfos.Count];
 
             InitializeValues();
         }
 
         private void InitializeValues()
         {
-            competitorsCount = OrderedParticipants.Count;
-            Results = new Result[competitorsCount];
-            LastRank = new int[competitorsCount];
-            roundsCount = EventInfo.roundInfos.Count;
-            subRoundsCount = EventInfo.eventType == EventType.Individual ? 1 : 4;
+            _competitorsCount = OrderedParticipants.Count;
+            Results = new Result[_competitorsCount];
+            LastRank = new int[_competitorsCount];
+            _roundsCount = EventInfo.roundInfos.Count;
+            _subRoundsCount = EventInfo.eventType == EventType.Individual ? 1 : 4;
 
             for (var index = 0; index < Results.Length; index++)
             {
                 Results[index] = new Result();
                 var item = Results[index];
-                item.TotalResults = new decimal[subRoundsCount];
-                item.Results = new JumpResults[subRoundsCount];
-                for (var i = 0; i < subRoundsCount; i++) item.Results[i] = new JumpResults();
+                item.TotalResults = new decimal[_subRoundsCount];
+                item.Results = new JumpResults[_subRoundsCount];
+                for (var i = 0; i < _subRoundsCount; i++) item.Results[i] = new JumpResults();
 
-                item.Bibs = new int[roundsCount];
+                item.Bibs = new int[_roundsCount];
             }
 
-            finalResults =
+            _finalResults =
                 new SortedList<(int state, decimal points, int bib), int>(
-                    Comparer<(int state, decimal points, int bib)>.Create(finalResultsComp));
-            allRoundResults =
+                    Comparer<(int state, decimal points, int bib)>.Create(_finalResultsComp));
+            _allRoundResults =
                 new SortedList<(decimal points, int bib, int round), int>(
-                    Comparer<(decimal points, int bib, int round)>.Create(allRoundResultsComp));
-            losersResults =
+                    Comparer<(decimal points, int bib, int round)>.Create(_allRoundResultsComp));
+            _losersResults =
                 new SortedList<(decimal points, int bib), int>(
-                    Comparer<(decimal points, int bib)>.Create(losersResultsComp));
+                    Comparer<(decimal points, int bib)>.Create(_losersResultsComp));
 
-            koState = new int[competitorsCount];
+            _koState = new int[_competitorsCount];
         }
 
         public int StartListIndex { get; private set; }
@@ -110,19 +110,19 @@ namespace OpenSkiJumping.Competition
             //first sub-round
             if (RoundIndex == 0 && SubroundIndex == 0)
             {
-                tmp = Enumerable.Range(0, competitorsCount).Reverse();
+                tmp = Enumerable.Range(0, _competitorsCount).Reverse();
             }
             else
             {
                 tmp = currentRoundInfo.useOrdRank[SubroundIndex]
-                    ? finalResults.Select(item => item.Value).OrderBy(item => item).Reverse()
-                    : finalResults.Select(item => item.Value).Reverse();
+                    ? _finalResults.Select(item => item.Value).OrderBy(item => item).Reverse()
+                    : _finalResults.Select(item => item.Value).Reverse();
             }
 
-            for (var i = 0; i < competitorsCount; i++) koState[i] = 0;
+            for (var i = 0; i < _competitorsCount; i++) _koState[i] = 0;
 
             var tmpList = tmp.ToList();
-            finalResults.Clear();
+            _finalResults.Clear();
 
             if (currentRoundInfo.roundType == RoundType.Normal)
             {
@@ -131,7 +131,7 @@ namespace OpenSkiJumping.Competition
             }
 
             StartList = Enumerable.Range(0, tmpList.Count).Select(it => tmpList[KOIndex(it, tmpList.Count)]).ToList();
-            maxLosers = Math.Max(0, currentRoundInfo.outLimit - (StartList.Count + 1) / 2);
+            _maxLosers = Math.Max(0, currentRoundInfo.outLimit - (StartList.Count + 1) / 2);
         }
 
         public void RoundInit()
@@ -141,27 +141,27 @@ namespace OpenSkiJumping.Competition
             //first round
             if (RoundIndex == 0)
             {
-                for (var i = 0; i < competitorsCount; i++)
-                    Results[i].Bibs[RoundIndex] = currentRoundInfo.reversedBibs ? i + 1 : competitorsCount - i;
+                for (var i = 0; i < _competitorsCount; i++)
+                    Results[i].Bibs[RoundIndex] = currentRoundInfo.reversedBibs ? i + 1 : _competitorsCount - i;
             }
             //reassign bibs
             else if (currentRoundInfo.reassignBibs)
             {
-                for (var i = 0; i < finalResults.Count; i++)
+                for (var i = 0; i < _finalResults.Count; i++)
                 {
-                    var it = finalResults.Values[i];
+                    var it = _finalResults.Values[i];
                     if (currentRoundInfo.reversedBibs)
                         Results[it].Bibs[RoundIndex] = i + 1;
                     else
-                        Results[it].Bibs[RoundIndex] = finalResults.Count - i;
+                        Results[it].Bibs[RoundIndex] = _finalResults.Count - i;
                 }
             }
             //bibs from previous round
             else
             {
-                for (var i = 0; i < finalResults.Count; i++)
+                for (var i = 0; i < _finalResults.Count; i++)
                 {
-                    var id = finalResults.Values[i];
+                    var id = _finalResults.Values[i];
                     var lastRoundBib = Results[id].Bibs[RoundIndex - 1];
                     Results[id].Bibs[RoundIndex] = lastRoundBib;
                 }
@@ -176,12 +176,12 @@ namespace OpenSkiJumping.Competition
 
         public Result GetResultByRank(int rank)
         {
-            return Results[allRoundResults.Values[rank]];
+            return Results[_allRoundResults.Values[rank]];
         }
 
         public int GetIdByRank(int rank)
         {
-            return finalResults.Values[rank];
+            return _finalResults.Values[rank];
         }
 
         public JumpResults GetResultById(int primaryId, int secondaryId)
@@ -199,7 +199,7 @@ namespace OpenSkiJumping.Competition
             LastRank = Results.Select(item => item.Rank).ToArray();
             SubroundIndex++;
             StartListIndex = 0;
-            return SubroundIndex < subRoundsCount;
+            return SubroundIndex < _subRoundsCount;
         }
 
         public bool RoundFinish()
@@ -209,40 +209,40 @@ namespace OpenSkiJumping.Competition
             switch (currentRoundInfo.outLimitType)
             {
                 case LimitType.Normal:
-                    var lastIndex = Math.Min(finalResults.Keys.Count, currentRoundInfo.outLimit) - 1;
+                    var lastIndex = Math.Min(_finalResults.Keys.Count, currentRoundInfo.outLimit) - 1;
                     if (currentRoundInfo.roundType == RoundType.KO)
                     {
-                        var it = Math.Min(currentRoundInfo.outLimit, finalResults.Count);
-                        while (it < finalResults.Count && finalResults.Keys[it].state == 0 &&
-                               finalResults.Keys[it - 1].points == finalResults.Keys[it].points) it++;
+                        var it = Math.Min(currentRoundInfo.outLimit, _finalResults.Count);
+                        while (it < _finalResults.Count && _finalResults.Keys[it].state == 0 &&
+                               _finalResults.Keys[it - 1].points == _finalResults.Keys[it].points) it++;
 
                         var stop = it;
-                        it = finalResults.Count - 1;
+                        it = _finalResults.Count - 1;
                         while (stop <= it)
                         {
-                            finalResults.RemoveAt(it);
+                            _finalResults.RemoveAt(it);
                             it--;
                         }
                     }
                     else
                     {
-                        var minPts = finalResults.Keys[lastIndex].points;
-                        var it = finalResults.Count - 1;
-                        while (finalResults.Keys[it].points < minPts)
-                            finalResults.RemoveAt(it--);
+                        var minPts = _finalResults.Keys[lastIndex].points;
+                        var it = _finalResults.Count - 1;
+                        while (_finalResults.Keys[it].points < minPts)
+                            _finalResults.RemoveAt(it--);
                     }
 
                     break;
                 case LimitType.Exact:
-                    for (var i = finalResults.Count - 1; i >= currentRoundInfo.outLimit; i--)
-                        finalResults.RemoveAt(i);
+                    for (var i = _finalResults.Count - 1; i >= currentRoundInfo.outLimit; i--)
+                        _finalResults.RemoveAt(i);
                     break;
             }
 
 
             RoundIndex++;
             SubroundIndex = 0;
-            return RoundIndex < roundsCount;
+            return RoundIndex < _roundsCount;
         }
 
         public void RegisterJump(IJumpData jumpData)
@@ -256,11 +256,11 @@ namespace OpenSkiJumping.Competition
             //Set init gate for round
             if (StartListIndex == 0 && SubroundIndex == 0)
             {
-                initGates[RoundIndex] = jumpData.Gate;
+                _initGates[RoundIndex] = jumpData.Gate;
                 jumpData.InitGate = jumpData.Gate;
             }
 
-            var jump = EventProcessor.GetJumpResult(jumpData, hillInfo, currentRoundInfo.gateCompensation, currentRoundInfo.windCompensation);
+            var jump = EventProcessor.GetJumpResult(jumpData, _hillInfo, currentRoundInfo.gateCompensation, currentRoundInfo.windCompensation);
             if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();
 
             AddResult(StartList[StartListIndex], SubroundIndex, jump);
@@ -278,13 +278,13 @@ namespace OpenSkiJumping.Competition
 
         public int CompetitorRank(int id)
         {
-            var key = (koState[id], Results[id].TotalPoints, -1);
-            int lo = 0, hi = finalResults.Count;
+            var key = (_koState[id], Results[id].TotalPoints, -1);
+            int lo = 0, hi = _finalResults.Count;
             while (lo < hi)
             {
                 var index = lo + (hi - lo) / 2;
-                var el = finalResults.Keys[index];
-                if (finalResults.Comparer.Compare(el, key) >= 0)
+                var el = _finalResults.Keys[index];
+                if (_finalResults.Comparer.Compare(el, key) >= 0)
                     hi = index;
                 else
                     lo = index + 1;
@@ -303,32 +303,32 @@ namespace OpenSkiJumping.Competition
             {
                 var id = StartList[StartListIndex];
                 var bibCode = GetBibCode(Results[id].Bibs[RoundIndex]);
-                finalResults.Add((0, Results[id].TotalPoints, bibCode), id);
+                _finalResults.Add((0, Results[id].TotalPoints, bibCode), id);
             }
         }
 
         private void AddToAllRoundResults()
         {
             var competitorId = StartList[StartListIndex];
-            var subroundNum = RoundIndex * subRoundsCount + SubroundIndex;
+            var subroundNum = RoundIndex * _subRoundsCount + SubroundIndex;
             var bibCode = GetBibCode(Results[competitorId].Bibs[RoundIndex]);
-            allRoundResults.Add((Results[competitorId].TotalPoints, bibCode, subroundNum), competitorId);
+            _allRoundResults.Add((Results[competitorId].TotalPoints, bibCode, subroundNum), competitorId);
 
             // Update rank
-            for (var i = 0; i < Math.Min(competitorsCount, allRoundResults.Count); i++)
-                if (i > 0 && allRoundResults.Keys[i].points == allRoundResults.Keys[i - 1].points)
-                    Results[allRoundResults.Values[i]].Rank = Results[allRoundResults.Values[i - 1]].Rank;
+            for (var i = 0; i < Math.Min(_competitorsCount, _allRoundResults.Count); i++)
+                if (i > 0 && _allRoundResults.Keys[i].points == _allRoundResults.Keys[i - 1].points)
+                    Results[_allRoundResults.Values[i]].Rank = Results[_allRoundResults.Values[i - 1]].Rank;
                 else
-                    Results[allRoundResults.Values[i]].Rank = i + 1;
+                    Results[_allRoundResults.Values[i]].Rank = i + 1;
         }
 
         private void RemoveFromAllRoundResults()
         {
             var competitorId = StartList[StartListIndex];
-            var subroundNum = RoundIndex * subRoundsCount + SubroundIndex - 1;
+            var subroundNum = RoundIndex * _subRoundsCount + SubroundIndex - 1;
             var bibRoundIndex = SubroundIndex > 0 ? RoundIndex : RoundIndex - 1;
             var bibCode = GetBibCode(Results[competitorId].Bibs[bibRoundIndex]);
-            allRoundResults.Remove((Results[competitorId].TotalPoints, bibCode, subroundNum));
+            _allRoundResults.Remove((Results[competitorId].TotalPoints, bibCode, subroundNum));
         }
 
         private void AddSecondKOJumper()
@@ -340,7 +340,7 @@ namespace OpenSkiJumping.Competition
             var result1 = Results[id1].TotalPoints;
             var result2 = Results[id2].TotalPoints;
 
-            finalResults.Remove((0, result1, bibCode1));
+            _finalResults.Remove((0, result1, bibCode1));
 
             int loserId = id1, winnerId = id2;
             int loserBib = bibCode1, winnerBib = bibCode2;
@@ -353,58 +353,58 @@ namespace OpenSkiJumping.Competition
                 loserBib = bibCode2;
             }
 
-            finalResults.Add((0, Results[winnerId].TotalPoints, winnerBib), winnerId);
+            _finalResults.Add((0, Results[winnerId].TotalPoints, winnerBib), winnerId);
 
             Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
-            losersResults.Add((Results[loserId].TotalPoints, loserBib), loserId);
-            var loserRank = losersResults.IndexOfKey((Results[loserId].TotalPoints, loserBib));
+            _losersResults.Add((Results[loserId].TotalPoints, loserBib), loserId);
+            var loserRank = _losersResults.IndexOfKey((Results[loserId].TotalPoints, loserBib));
 
             //lost
-            if (loserRank >= maxLosers)
+            if (loserRank >= _maxLosers)
             {
-                koState[loserId] = 1;
-                finalResults.Add((1, Results[loserId].TotalPoints, loserBib), loserId);
+                _koState[loserId] = 1;
+                _finalResults.Add((1, Results[loserId].TotalPoints, loserBib), loserId);
             }
             //lucky loser
             else
             {
                 //remove last lucky loser
-                if (losersResults.Count > maxLosers)
+                if (_losersResults.Count > _maxLosers)
                 {
-                    var (lastLoserPoints, lastLoserBib) = losersResults.Keys[maxLosers];
-                    var lastLoserId = losersResults.Values[maxLosers];
-                    koState[lastLoserId] = 1;
+                    var (lastLoserPoints, lastLoserBib) = _losersResults.Keys[_maxLosers];
+                    var lastLoserId = _losersResults.Values[_maxLosers];
+                    _koState[lastLoserId] = 1;
                     Results[loserId].Results[SubroundIndex].results[RoundIndex].state = JumpResultState.KoLoser;
 
-                    finalResults.Remove((0, lastLoserPoints, lastLoserBib));
-                    finalResults.Add((1, lastLoserPoints, lastLoserBib), lastLoserId);
+                    _finalResults.Remove((0, lastLoserPoints, lastLoserBib));
+                    _finalResults.Add((1, lastLoserPoints, lastLoserBib), lastLoserId);
                 }
 
-                finalResults.Add((0, Results[loserId].TotalPoints, loserBib), loserId);
+                _finalResults.Add((0, Results[loserId].TotalPoints, loserBib), loserId);
             }
         }
 
-        private readonly Comparison<(int state, decimal points, int bib)> finalResultsComp = (x, y) =>
+        private readonly Comparison<(int state, decimal points, int bib)> _finalResultsComp = (x, y) =>
             x.state == y.state
                 ? x.points == y.points
                     ? x.bib.CompareTo(y.bib)
                     : y.points.CompareTo(x.points)
                 : x.state.CompareTo(y.state);
 
-        private readonly Comparison<(decimal points, int bib, int round)> allRoundResultsComp = (x, y) =>
+        private readonly Comparison<(decimal points, int bib, int round)> _allRoundResultsComp = (x, y) =>
             x.points == y.points
                 ? x.bib == y.bib
                     ? y.round.CompareTo(x.round)
                     : x.bib.CompareTo(y.bib)
                 : y.points.CompareTo(x.points);
 
-        private readonly Comparison<(decimal points, int bib)> losersResultsComp = (x, y) =>
+        private readonly Comparison<(decimal points, int bib)> _losersResultsComp = (x, y) =>
             x.points == y.points
                 ? x.bib.CompareTo(y.bib)
                 : y.points.CompareTo(x.points);
 
         private int GetBibCode(int bib) =>
-            EventInfo.roundInfos[RoundIndex].reversedBibs ? bib : competitorsCount - bib;
+            EventInfo.roundInfos[RoundIndex].reversedBibs ? bib : _competitorsCount - bib;
 
         private static int KOIndex(int index, int length)
         {
@@ -430,8 +430,8 @@ namespace OpenSkiJumping.Competition
         {
             eventResults.competitorIds = OrderedParticipants.Select(it => it.id).ToList();
             eventResults.results = Results.ToList();
-            eventResults.allroundResults = allRoundResults.Select(it => it.Value).ToList();
-            eventResults.finalResults = finalResults.Select(it => it.Value).ToList();
+            eventResults.allroundResults = _allRoundResults.Select(it => it.Value).ToList();
+            eventResults.finalResults = _finalResults.Select(it => it.Value).ToList();
         }
 
         private IEnumerable<(int, decimal)> GetIndividualPoints(ClassificationInfo classificationInfo)
@@ -460,8 +460,6 @@ namespace OpenSkiJumping.Competition
                 return res;
             res = res.OrderByDescending(it => it.Item2).ToList();
 
-            Result x;
-            
             var indRank = new int[res.Count];
             indRank[0] = 1;
             for (var i = 1; i < indRank.Length; i++)
@@ -471,9 +469,6 @@ namespace OpenSkiJumping.Competition
             }
 
             return res.Select((it, ind) => (it.Item1, PointsUtils.GetPlacePoints(classificationInfo, ind, 0)));
-                // 0 < indRank[ind] && indRank[ind] < classificationInfo.pointsTables[0].value.Length
-                //     ? classificationInfo.pointsTables[0].value[indRank[ind] - 1]
-                //     : 0m));
         }
 
         private IEnumerable<(int, decimal)> GetTeamPoints(ClassificationInfo classificationInfo)

@@ -13,9 +13,9 @@ namespace OpenSkiJumping.Hills.TerrainGenerator
     public class Osm
     {
         [XmlElement("bounds")] public Bounds bounds;
-        [XmlElement("node")] public List<Node> nodes = new List<Node>();
-        [XmlElement("way")] public List<Way> ways = new List<Way>();
-        [XmlElement("relation")] public List<Relation> relations = new List<Relation>();
+        [XmlElement("node")] public List<Node> nodes = new();
+        [XmlElement("way")] public List<Way> ways = new();
+        [XmlElement("relation")] public List<Relation> relations = new();
     }
 
     [Serializable]
@@ -33,7 +33,7 @@ namespace OpenSkiJumping.Hills.TerrainGenerator
         [XmlAttribute("id")] public string id;
         [XmlAttribute("lat")] public float lat;
         [XmlAttribute("lon")] public float lon;
-        [XmlElement("tag")] public List<Tag> tags = new List<Tag>();
+        [XmlElement("tag")] public List<Tag> tags = new();
     }
     
     [Serializable]
@@ -62,16 +62,16 @@ namespace OpenSkiJumping.Hills.TerrainGenerator
     public class Way
     {
         [XmlAttribute("id")] public string id;
-        [XmlElement("nd")] public List<Nd> nodeRefs = new List<Nd>();
-        [XmlElement("tag")] public List<Tag> tags = new List<Tag>();
+        [XmlElement("nd")] public List<Nd> nodeRefs = new();
+        [XmlElement("tag")] public List<Tag> tags = new();
     }
 
     [Serializable]
     public class Relation
     {
         [XmlAttribute("id")] public string id;
-        [XmlElement("member")] public List<Member> members = new List<Member>();
-        [XmlElement("tag")] public List<Tag> tags = new List<Tag>();
+        [XmlElement("member")] public List<Member> members = new();
+        [XmlElement("tag")] public List<Tag> tags = new();
     }
     [CreateAssetMenu(menuName = "ScriptableObjects/OsmReader")]
     public class OsmReader : ScriptableObject

@@ -135,14 +135,14 @@ namespace OpenSkiJumping.Hills
 
         public static Vector2 Noise2D(Vector2 position, float scale, float x0, float x1, float y0, float y1)
         {
-            return new Vector2(2 * Mathf.PerlinNoise(position.x * scale + x0, position.y * scale + y0) - 1,
+            return new(2 * Mathf.PerlinNoise(position.x * scale + x0, position.y * scale + y0) - 1,
                 2 * Mathf.PerlinNoise(position.x * scale + x1, position.y * scale + y1) - 1);
         }
 
         public static Color32 NoiseColor(Vector2 position, float scale, float x0, float x1, float x2, float y0,
             float y1, float y2)
         {
-            return new Color32((byte) (255 * Mathf.PerlinNoise(position.x * scale + x0, position.y * scale + y0)),
+            return new((byte) (255 * Mathf.PerlinNoise(position.x * scale + x0, position.y * scale + y0)),
                 (byte) (255 * Mathf.PerlinNoise(position.x * scale + x1, position.y * scale + y1)),
                 (byte) (255 * Mathf.PerlinNoise(position.x * scale + x2, position.y * scale + y2)), 255);
         }

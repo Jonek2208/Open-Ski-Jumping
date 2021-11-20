@@ -23,7 +23,7 @@ namespace OpenSkiJumping.Hills
             return renderedPath == null ? Zero : new OffsetFunction(renderedPath.data);
         }
 
-        public static OffsetFunction Zero => new OffsetFunction(new[] {Vector3.zero, Vector3.right});
+        public static OffsetFunction Zero => new(new[] {Vector3.zero, Vector3.right});
 
         public static IEnumerable<Vector3> ProjectPathToFunction(IEnumerable<Vector3> points)
         {

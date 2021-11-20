@@ -36,7 +36,7 @@ namespace OpenSkiJumping.Hills
         [SerializeField] private float minHeight = 400;
         [SerializeField] private float power = 2;
         [SerializeField] private AnimationCurve smoothCurve;
-        private List<(OffsetFunction, OffsetFunction)> _hillTerrain = new List<(OffsetFunction, OffsetFunction)>();
+        private List<(OffsetFunction, OffsetFunction)> _hillTerrain = new();
 
 
         private const float Eps = 0.1f;
@@ -143,7 +143,7 @@ namespace OpenSkiJumping.Hills
                             var hill = _hillsList[ii];
                             var pointOnHill = hillTransform.InverseTransformPoint(new Vector3(x, 0, z));
 
-                            var profileData = _hills[ii].profileData.Value;
+                            var profileData = _hills[ii].profileData;
                             // var hillRay = GetHillRay(pointOnHill, hill, terrainY, profileData.terrainSteepness,
                             //     1, hillTransform);                      
                             var hillRay = GetHillRay2(pointOnHill, hill, profileData.terrainSteepness,

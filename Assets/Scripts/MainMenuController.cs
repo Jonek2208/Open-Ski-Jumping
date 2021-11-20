@@ -6,7 +6,7 @@ namespace OpenSkiJumping
     [CreateAssetMenu]
     public class MainMenuController : ScriptableObject
     {
-        public void LoadEditor()
+        public void LoadTraining()
         {
             SceneManager.LoadScene("Scenes/Hills/HillTemplate");
         }

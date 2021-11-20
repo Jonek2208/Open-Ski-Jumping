@@ -12,7 +12,7 @@ namespace OpenSkiJumping.UI.CalendarEditor
 {
     public class CalendarEditorController : MonoBehaviour
     {
-        private Calendar calendar;
+        private Calendar _calendar;
         [SerializeField] private CalendarFactory calendarFactory;
         [SerializeField] private CalendarsMenuView calendarsMenu;
         [SerializeField] private CalendarEditorClassificationsView classificationsMenu;
@@ -42,18 +42,18 @@ namespace OpenSkiJumping.UI.CalendarEditor
         public void LoadCalendarEditor()
         {
             if (calendarsMenu.SelectedCalendar == null) return;
-            calendar = calendarsMenu.SelectedCalendar;
-            LoadCalendar(calendar);
+            _calendar = calendarsMenu.SelectedCalendar;
+            LoadCalendar(_calendar);
             calendarsMenu.gameObject.SetActive(false);
             contentGameObject.SetActive(true);
         }
 
         public void CloseCalendarEditor()
         {
-            if (calendar == null) return;
+            if (_calendar == null) return;
             jumpersMenu.SelectionSave();
 
-            SaveToCalendar(calendar);
+            SaveToCalendar(_calendar);
             contentGameObject.SetActive(false);
             calendarsMenu.gameObject.SetActive(true);
         }

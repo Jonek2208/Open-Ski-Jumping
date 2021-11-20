@@ -15,7 +15,7 @@ namespace OpenSkiJumping.Hills.TerrainGenerator
         [FormerlySerializedAs("path")] [SerializeField]
         public List<DataTile> data;
 
-        private Dictionary<Vector2Int, DataTile> _dataDict = new Dictionary<Vector2Int, DataTile>();
+        private Dictionary<Vector2Int, DataTile> _dataDict = new();
 
         private const int SrtmSize = 1201;
         private const int Resolution = 3;

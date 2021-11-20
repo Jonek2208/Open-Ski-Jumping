@@ -8,7 +8,7 @@ namespace OpenSkiJumping.Hills
     {
         public static SerializableTransform CalculatePoint(SerializableTransform a, SerializableTransform rf)
         {
-            return new SerializableTransform
+            return new()
             {
                 position = rf.position + rf.rotation * Vector3.Scale(rf.scale, a.position),
                 rotation = rf.rotation * a.rotation,
@@ -16,42 +16,19 @@ namespace OpenSkiJumping.Hills
             };
         }
 
-        public static List<Vector3> PathStartEnd(RenderedPath path, float t0, float t1)
-        {
-            var n = path.data.Count - 1;
-            var startPoint = Mathf.CeilToInt(n * t0);
-            var startVal = n * t0 + 1 - startPoint;
-            var endPoint = Mathf.CeilToInt(n * t1);
-            var endVal = n * t1 + 1 - endPoint;
-            var res = new List<Vector3>();
-
-            if (!Mathf.Approximately(startVal, 1))
-            {
-                res.Add(Vector3.Lerp(path.data[startPoint - 1], path.data[startPoint], startVal));
-            }
-
-            for (var i = startPoint; i < endPoint; i++)
-            {
-                res.Add(path.data[i]);
-            }
-
-            if (startPoint <= endPoint)
-                res.Add(Vector3.Lerp(path.data[endPoint - 1], path.data[endPoint], endVal));
-
-
-            return res;
-        }
-
         public static List<Vector3> PathStartEndWithArgs(RenderedPath path, float t0, float t1,
             out List<float> args)
         {
             var n = path.data.Count - 1;
+            var segLen = path.length / n;
             var startPoint = Mathf.CeilToInt(n * t0);
             var startVal = n * t0 + 1 - startPoint;
             var endPoint = Mathf.CeilToInt(n * t1);
             var endVal = n * t1 + 1 - endPoint;
             var res = new List<Vector3>();
             args = new List<float>();
+            
+            
 
             if (!Mathf.Approximately(startVal, 1))
             {
@@ -85,6 +62,14 @@ namespace OpenSkiJumping.Hills
         {
             return transform.rotation * Vector3.Scale(transform.scale, point) + transform.position;
         }
+        
+        public static float GetNormalizedValue(Length len, float full) => len.unit switch
+        {
+            Length.Unit.Percent => len.value.value / 100f,
+            Length.Unit.Meter => len.value.value / full,
+            Length.Unit.Centimeter => len.value.value / 100f / full,
+            _ => 1f
+        };
 
         public static IEnumerable<ReferencePoint> GenerateHillReferencePoints(Hill hill, string hillId)
         {
@@ -236,7 +221,7 @@ namespace OpenSkiJumping.Hills
                 refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
-                    new PathNode
+                    new()
                     {
                         nodeType = NodeType.Path, pathId = $"{hillId}/inrun",
                         target = ReferencePoint.FromPosRotScale("", Vector3.down * hill.s, Quaternion.identity,
@@ -251,7 +236,7 @@ namespace OpenSkiJumping.Hills
                 refPoint = ReferencePoint.Neutral,
                 data = new List<PathNode>
                 {
-                    new PathNode
+                    new()
                     {
                         nodeType = NodeType.Path, pathId = $"{hillId}/landing-hill",
                         target = ReferencePoint.FromPosRotScale("", Vector3.zero, Quaternion.identity,

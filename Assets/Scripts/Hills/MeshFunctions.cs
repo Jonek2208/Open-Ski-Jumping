@@ -136,6 +136,33 @@ namespace OpenSkiJumping.Hills
             return MergeMeshes(meshes);
         }
 
+        public static Mesh GenerateCustomPathMesh(List<Vector3>[] positions, bool[] flags, bool front, bool back)
+        {
+            var n = Mathf.Min(flags.Length, positions.Length);
+            var meshes = new List<Mesh>();
+
+            // if (front)
+            // {
+            //     GeneratePolygon();
+            // }
+            //
+            // if (back)
+            // {
+            //     GeneratePolygon();
+            // }
+
+            for (var i = 0; i < n; i++)
+            {
+                if (flags[i])
+                {
+                    meshes.Add(GeneratePathStrip(positions[i], positions[(i + 1) % n]));
+                }
+            }
+
+            return MergeMeshes(meshes);
+        }
+
+
         public static Mesh GenerateStairs(IList<Vector3> center, IList<Vector3> leftPos, IList<Vector3> rightPos,
             IList<Vector3> normals)
         {

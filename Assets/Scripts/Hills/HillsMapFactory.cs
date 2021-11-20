@@ -126,7 +126,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNode GetPathNodeHelper(LineNodeX item)
         {
-            return new PathNode
+            return new()
             {
                 nodeType = NodeType.Line, target = GetRefPoint(item.target)
             };
@@ -134,7 +134,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNode GetPathNodeHelper(Bezier2NodeX item)
         {
-            return new PathNode
+            return new()
             {
                 nodeType = NodeType.Bezier2, target = GetRefPoint(item.target), c0 = GetRefPoint(item.c0)
             };
@@ -142,7 +142,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNode GetPathNodeHelper(Bezier3NodeX item)
         {
-            return new PathNode
+            return new()
             {
                 nodeType = NodeType.Bezier3, target = GetRefPoint(item.target), c0 = GetRefPoint(item.c0),
                 c1 = GetRefPoint(item.c1)
@@ -151,7 +151,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNode GetPathNodeHelper(ArcNodeX item)
         {
-            return new PathNode
+            return new()
             {
                 nodeType = NodeType.Arc, target = GetRefPoint(item.target), c0 = GetRefPoint(item.c0)
             };
@@ -159,7 +159,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNode GetPathNodeHelper(PathNodeX item)
         {
-            return new PathNode
+            return new()
             {
                 nodeType = NodeType.Path, target = GetRefPoint(item.target), pathId = item.pathId
             };
@@ -167,12 +167,12 @@ namespace OpenSkiJumping.Hills
 
         private static LineNodeX PathNodeToLine(PathNode item)
         {
-            return new LineNodeX {target = ParseRefPoint(item.target)};
+            return new() {target = ParseRefPoint(item.target)};
         }
 
         private static Bezier3NodeX PathNodeToBezier3(PathNode item)
         {
-            return new Bezier3NodeX
+            return new()
             {
                 target = ParseRefPoint(item.target), c0 = ParseRefPoint(item.c0), c1 = ParseRefPoint(item.c1)
             };
@@ -180,7 +180,7 @@ namespace OpenSkiJumping.Hills
 
         private static Bezier2NodeX PathNodeToBezier2(PathNode item)
         {
-            return new Bezier2NodeX
+            return new()
             {
                 target = ParseRefPoint(item.target), c0 = ParseRefPoint(item.c0)
             };
@@ -188,7 +188,7 @@ namespace OpenSkiJumping.Hills
 
         private static ArcNodeX PathNodeToArc(PathNode item)
         {
-            return new ArcNodeX
+            return new()
             {
                 target = ParseRefPoint(item.target), c0 = ParseRefPoint(item.c0)
             };
@@ -196,7 +196,7 @@ namespace OpenSkiJumping.Hills
 
         private static PathNodeX PathNodeToPath(PathNode item)
         {
-            return new PathNodeX
+            return new()
             {
                 target = ParseRefPoint(item.target), pathId = item.pathId
             };
@@ -204,7 +204,7 @@ namespace OpenSkiJumping.Hills
 
         public static HillsMap GetHillsMap(MapX item)
         {
-            return new HillsMap
+            return new()
             {
                 profiles = item.hills.Select(GetMapHillData).ToList(),
                 referencePoints = item.refPoints.Select(GetRefPoint).ToList(),
@@ -217,7 +217,7 @@ namespace OpenSkiJumping.Hills
 
         public static MapX ParseHillsMap(HillsMap item)
         {
-            return new MapX
+            return new()
             {
                 hills = item.profiles.Select(ParseHillData).ToList(),
                 refPoints = item.referencePoints.Select(ParseRefPoint).ToList(),
@@ -261,7 +261,7 @@ namespace OpenSkiJumping.Hills
 
         public static Construction GetConstruction(ConstructionX item)
         {
-            return new Construction
+            return new()
             {
                 centerPath = GetConstructionPath(item.centerPath),
                 bottomLeftPath = GetConstructionPath(item.bottomLeftPath),
@@ -279,7 +279,7 @@ namespace OpenSkiJumping.Hills
 
         public static ConstructionX ParseConstruction(Construction item)
         {
-            return new ConstructionX
+            return new()
             {
                 centerPath = ParseConstructionPath(item.centerPath),
                 bottomLeftPath = ParseConstructionPath(item.bottomLeftPath),
@@ -297,11 +297,12 @@ namespace OpenSkiJumping.Hills
 
         public static Stairs GetStairs(StairsX item)
         {
-            return new Stairs
+            return new()
             {
                 centerPath = GetConstructionPath(item.centerPath),
                 leftPath = GetConstructionPath(item.leftPath),
                 rightPath = GetConstructionPath(item.rightPath),
+                topPath = GetConstructionPath(item.topPath),
                 t0 = item.t0,
                 t1 = item.t1,
                 stepLength = item.stepLength,
@@ -311,11 +312,12 @@ namespace OpenSkiJumping.Hills
 
         public static StairsX ParseStairs(Stairs item)
         {
-            return new StairsX
+            return new()
             {
                 centerPath = ParseConstructionPath(item.centerPath),
                 leftPath = ParseConstructionPath(item.leftPath),
                 rightPath = ParseConstructionPath(item.rightPath),
+                topPath = ParseConstructionPath(item.topPath),
                 t0 = item.t0,
                 t1 = item.t1,
                 stepLength = item.stepLength,
@@ -325,7 +327,7 @@ namespace OpenSkiJumping.Hills
 
         public static MapHillData GetMapHillData(HillX item)
         {
-            return new MapHillData
+            return new()
             {
                 profileData = new ProfileData
                 {
@@ -369,7 +371,7 @@ namespace OpenSkiJumping.Hills
 
         public static HillX ParseHillData(MapHillData item)
         {
-            return new HillX
+            return new()
             {
                 id = item.profileData.name,
                 inrun =

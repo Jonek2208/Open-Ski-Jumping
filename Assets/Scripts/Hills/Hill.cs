@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace OpenSkiJumping.Hills
 {
-    [CreateAssetMenu(menuName = "HillElements/Hill")]
-    public class Hill : ScriptableObject
+    public class Hill : MonoBehaviour
     {
         public ProfileType type;
         public int gates;
@@ -236,16 +235,13 @@ namespace OpenSkiJumping.Hills
 
             if (L.x <= x && x <= U.x)
             {
-                if (type == ProfileType.ICR2008)
-                {
-                    var ksi = (Mathf.Cos(tauR) - Mathf.Sqrt(Mathf.Cos(tauR) * Mathf.Cos(tauR) -
-                                                            4.0f * cO * (x - L.x - cO * aO * aO * Mathf.Sin(tauR) +
-                                                                         aO * Mathf.Cos(tauR)) * Mathf.Sin(tauR))) /
-                              2.0f / cO / Mathf.Sin(tauR);
-                    return L.y - cO * Mathf.Cos(tauR) * (aO * aO - ksi * ksi) - Mathf.Sin(tauR) * (aO - ksi);
-                }
+                if (type != ProfileType.ICR2008) return -Mathf.Sqrt(r2 * r2 - (x - C2.x) * (x - C2.x)) + C2.y;
+                var ksi = (Mathf.Cos(tauR) - Mathf.Sqrt(Mathf.Cos(tauR) * Mathf.Cos(tauR) -
+                                                        4.0f * cO * (x - L.x - cO * aO * aO * Mathf.Sin(tauR) +
+                                                                     aO * Mathf.Cos(tauR)) * Mathf.Sin(tauR))) /
+                          2.0f / cO / Mathf.Sin(tauR);
+                return L.y - cO * Mathf.Cos(tauR) * (aO * aO - ksi * ksi) - Mathf.Sin(tauR) * (aO - ksi);
 
-                return -Mathf.Sqrt(r2 * r2 - (x - C2.x) * (x - C2.x)) + C2.y;
             }
 
             if (U.x < x && x < V.x)
@@ -271,14 +267,7 @@ namespace OpenSkiJumping.Hills
 
                 if (distance + (curr - last).magnitude >= meter)
                 {
-                    if (meter - distance < distance + (curr - last).magnitude - meter)
-                    {
-                        points.Add(curr);
-                    }
-                    else
-                    {
-                        points.Add(last);
-                    }
+                    points.Add(meter - distance < distance + (curr - last).magnitude - meter ? curr : last);
 
                     meter++;
                 }

@@ -40,7 +40,7 @@ namespace OpenSkiJumping.Data
             }
 
             var index = dict[jumperId];
-            data[index] = data[data.Count - 1];
+            data[index] = data[^1];
             dict[data[index].id] = index;
             data.RemoveAt(data.Count - 1);
             dict.Remove(jumperId);
@@ -72,7 +72,7 @@ namespace OpenSkiJumping.Data
             dict.Add(jumperId, index);
         }
 
-        private string GetJumperIdWithoutNum(Competitor comp)
+        private static string GetJumperIdWithoutNum(Competitor comp)
         {
             var gender = (comp.gender == Gender.Male ? "M" : "F");
             var firstName = comp.firstName.Replace(' ', '_');

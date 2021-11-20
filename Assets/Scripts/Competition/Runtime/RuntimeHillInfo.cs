@@ -11,37 +11,39 @@ namespace OpenSkiJumping.Competition.Runtime
 
         public HillInfo Value { get => value; set => this.value = value; }
 
-        private decimal GetPointsPerMeter(decimal val)
+        private static decimal GetPointsPerMeter(decimal val)
         {
-            if (val < 25) return 4.8m;
-            if (val < 30) return 4.4m;
-            if (val < 35) return 4.0m;
-            if (val < 40) return 3.6m;
-            if (val < 50) return 3.2m;
-            if (val < 60) return 2.8m;
-            if (val < 70) return 2.4m;
-            if (val < 80) return 2.2m;
-            if (val < 100) return 2.0m;
-            if (val < 165) return 1.8m;
-            return 1.2m;
+            return val switch
+            {
+                < 25 => 4.8m,
+                < 30 => 4.4m,
+                < 35 => 4.0m,
+                < 40 => 3.6m,
+                < 50 => 3.2m,
+                < 60 => 2.8m,
+                < 70 => 2.4m,
+                < 80 => 2.2m,
+                < 100 => 2.0m,
+                < 165 => 1.8m,
+                _ => 1.2m
+            };
         }
 
         private decimal GetKPointPoints(decimal val)
         {
-            if (val < 165) return 60;
-            return 120;
+            return val < 165 ? 60 : 120;
         }
 
-        public void Init(decimal _kPoint, decimal _hs, decimal _gatePoints = 0, decimal _gatesSpacing = 0, decimal _headWindPoints = 0, decimal _tailWindPoints = 0)
+        public void Init(decimal kPoint, decimal hs, decimal gatePoints = 0, decimal gatesSpacing = 0, decimal headWindPoints = 0, decimal tailWindPoints = 0)
         {
-            value.KPoint = _kPoint;
-            value.Hs = _hs; 
+            value.KPoint = kPoint;
+            value.Hs = hs; 
             value.PointsPerMeter = GetPointsPerMeter(value.KPoint);
             value.KPointPoints = GetKPointPoints(value.KPoint);
-            value.GateFactor = _gatePoints;
-            value.GatesSpacing = _gatesSpacing;
-            value.HeadWindFactor = _headWindPoints;
-            value.TailWindFactor = _tailWindPoints;
+            value.GateFactor = gatePoints;
+            value.GatesSpacing = gatesSpacing;
+            value.HeadWindFactor = headWindPoints;
+            value.TailWindFactor = tailWindPoints;
         }
         public decimal GetDistancePoints(decimal distance) => value.KPointPoints + (distance - value.KPoint) * value.PointsPerMeter;
         public decimal GetWindPoints(decimal wind) => -wind * (wind >= 0 ? value.HeadWindFactor : value.TailWindFactor) * value.PointsPerMeter;

@@ -57,11 +57,11 @@ namespace OpenSkiJumping.Competition
 
     public class EventResultsProcessor : ResultsProcessor
     {
-        private readonly EventResults results;
+        private readonly EventResults _results;
 
         public EventResultsProcessor(EventResults results)
         {
-            this.results = results;
+            _results = results;
         }
 
         public override IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors)
@@ -72,13 +72,13 @@ namespace OpenSkiJumping.Competition
             var selected = new bool[competitorsList.Count];
             var it = 0;
 
-            foreach (var localId in results.allroundResults)
+            foreach (var localId in _results.allroundResults)
             {
-                var globalId = results.competitorIds[localId];
+                var globalId = _results.competitorIds[localId];
                 if (!map.ContainsKey(globalId)) continue;
 
                 selected[map[globalId]] = true;
-                var points = results.results[localId].TotalPoints;
+                var points = _results.results[localId].TotalPoints;
                 tmpList.Add((points, it++, map[globalId]));
             }
 
@@ -91,29 +91,28 @@ namespace OpenSkiJumping.Competition
 
         protected override IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints()
         {
-            return results.finalResults.Select(it => (results.results[it].TotalPoints, results.competitorIds[it]));
+            return _results.finalResults.Select(it => (_results.results[it].TotalPoints, _results.competitorIds[it]));
         }
     }
 
     public class ClassificationResultsProcessor : ResultsProcessor
     {
-        private readonly ClassificationResults results;
+        private readonly ClassificationResults _results;
 
         public ClassificationResultsProcessor(ClassificationResults results)
         {
-            this.results = results;
+            this._results = results;
         }
 
         public override IEnumerable<int> GetFinalResultsWithCompetitorsList(IEnumerable<int> competitors)
         {
             var competitorsList = competitors.ToList();
-            foreach (var it in competitorsList) Debug.Log($"{it}: {results.totalResults[it]}");
-            return competitorsList.OrderByDescending(it => (results.totalResults[it], it));
+            return competitorsList.OrderByDescending(it => (_results.totalResults[it], it));
         }
 
         protected override IEnumerable<(decimal, int)> GetFinalResultsWithTotalPoints()
         {
-            return results.totalSortedResults.Select(it => (results.totalResults[it], it));
+            return _results.totalSortedResults.Select(it => (_results.totalResults[it], it));
         }
     }
 }

@@ -131,7 +131,7 @@ namespace OpenSkiJumping.Competition
 
             resultsManager.Initialize(currentEventInfo, orderedParticipants, _hillInfo);
             SetDefaultJumpData();
-            windGatePanel.Initialize(hill.profileData.Value.gates);
+            windGatePanel.Initialize(hill.profileData.gates);
             onCompetitionStart.Invoke();
             OnRoundStart();
             OnSubroundStart();
@@ -186,15 +186,16 @@ namespace OpenSkiJumping.Competition
         private void HillSetUp(GameSave save, int eventId, EventInfo currentEventInfo)
         {
             var hillId = save.calendar.events[eventId].hillId;
-            hill.profileData.Value = hillsRepository.GetProfileData(hillId);
+            hill.profileData = hillsRepository.GetProfileData(hillId);
             hill.landingAreaSO = hillsFactory.landingAreas[(int) currentEventInfo.hillSurface].Value;
             var track = currentEventInfo.hillSurface == HillSurface.Matting
-                ? hill.profileData.Value.inrunData.summerTrack
-                : hill.profileData.Value.inrunData.winterTrack;
+                ? hill.profileData.inrunData.summerTrack
+                : hill.profileData.inrunData.winterTrack;
             hill.inrunTrackSO = hillsFactory.inrunTracks[(int) track].Value;
             hill.GenerateMesh();
 
             _hillInfo = hillsRepository.GetHillInfo(hillId);
+            compensationsJumpSimulator.SetHill(hill.hill);
             var (head, tail, gate) = compensationsJumpSimulator.GetCompensations();
             _hillInfo.SetCompensations(head, tail, gate);
         }

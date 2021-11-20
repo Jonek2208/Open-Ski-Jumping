@@ -28,7 +28,7 @@ namespace OpenSkiJumping.Hills.CurvePaths
 
         public static Arc FromCenterPoint(Vector3 p0, Vector3 p1, Vector3 c)
         {
-            return new Arc(p0, p1, c);
+            return new(p0, p1, c);
         }
 
         public Vector3 Eval(float t)

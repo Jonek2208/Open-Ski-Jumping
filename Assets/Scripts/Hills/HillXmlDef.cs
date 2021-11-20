@@ -17,16 +17,16 @@ namespace OpenSkiJumping.Hills
 
         public Vector3 ToVector3()
         {
-            return new Vector3(x, y, z);
+            return new(x, y, z);
         }
 
         public static Vector3X FromVector3(Vector3 item)
         {
-            return new Vector3X {x = item.x, y = item.y, z = item.z};
+            return new() {x = item.x, y = item.y, z = item.z};
         }
 
-        public static Vector3X One => new Vector3X {x = 1, y = 1, z = 1};
-        public static Vector3X Zero => new Vector3X {x = 0, y = 0, z = 0};
+        public static Vector3X One => new() {x = 1, y = 1, z = 1};
+        public static Vector3X Zero => new() {x = 0, y = 0, z = 0};
     }
 
     [Serializable]
@@ -92,8 +92,8 @@ namespace OpenSkiJumping.Hills
     public class HillX
     {
         [XmlAttribute("id")] public string id;
-        [XmlElement("anchor")] public RefPointX anchor = new RefPointX();
-        [XmlIgnore] public RefPointX refPoint = new RefPointX();
+        [XmlElement("anchor")] public RefPointX anchor = new();
+        [XmlIgnore] public RefPointX refPoint = new();
         [XmlElement("inrun")] public InrunDataX inrun;
         [XmlElement("landing-hill")] public LandingHillX landingHill;
         [XmlElement("outrun")] public OutrunX outrun;
@@ -234,7 +234,7 @@ namespace OpenSkiJumping.Hills
             set => id = value;
         }
 
-        [XmlElement("aux")] public List<AnonymousRefPointX> auxiliaryRefs = new List<AnonymousRefPointX>();
+        [XmlElement("aux")] public List<AnonymousRefPointX> auxiliaryRefs = new();
     }
 
 
@@ -310,14 +310,14 @@ namespace OpenSkiJumping.Hills
     public class PathX
     {
         [XmlAttribute("id")] public string id;
-        [XmlIgnore] public RefPointX refPoint = new RefPointX();
+        [XmlIgnore] public RefPointX refPoint = new();
 
         [XmlElement("line", typeof(LineNodeX))]
         [XmlElement("bezier3", typeof(Bezier3NodeX))]
         [XmlElement("bezier2", typeof(Bezier2NodeX))]
         [XmlElement("arc", typeof(ArcNodeX))]
         [XmlElement("path", typeof(PathNodeX))]
-        public List<NodeX> nodes = new List<NodeX>();
+        public List<NodeX> nodes = new();
 
         [XmlAttribute("x"), DefaultValue(0)]
         public float X
@@ -441,17 +441,59 @@ namespace OpenSkiJumping.Hills
     [Serializable]
     public class ConstructionX
     {
-        [XmlAttribute("t0")] public float t0;
-        [XmlAttribute("t1")] public float t1;
+        [XmlIgnore] public Length t0 = Length.Percent();
+        [XmlIgnore] public Length t1 = Length.Percent();
         [XmlAttribute("count")] public int count;
-        [XmlAttribute("step")] public float step;
-        [XmlAttribute("length")] public float length;
+        [XmlIgnore] public Length step = Length.Meter();
+        [XmlIgnore] public Length length = Length.Meter();
         [XmlAttribute("material")] public MaterialType material;
-        [XmlElement("center-path")] public ConstructionPathX centerPath = new ConstructionPathX();
-        [XmlElement("bl-path")] public ConstructionPathX bottomLeftPath = new ConstructionPathX();
-        [XmlElement("br-path")] public ConstructionPathX bottomRightPath = new ConstructionPathX();
-        [XmlElement("tl-path")] public ConstructionPathX topLeftPath = new ConstructionPathX();
-        [XmlElement("tr-path")] public ConstructionPathX topRightPath = new ConstructionPathX();
+        [XmlElement("center-path")] public ConstructionPathX centerPath = new();
+        [XmlElement("bl-path")] public ConstructionPathX bottomLeftPath = new();
+        [XmlElement("br-path")] public ConstructionPathX bottomRightPath = new();
+        [XmlElement("tl-path")] public ConstructionPathX topLeftPath = new();
+        [XmlElement("tr-path")] public ConstructionPathX topRightPath = new();
+
+        [XmlAttribute("t0")]
+        public string T0Val
+        {
+            get => t0.ValUnit;
+            set => t0.ValUnit = value;
+        }
+
+        [XmlAttribute("t0-ref")][DefaultValue("")]
+        public string T0Ref
+        {
+            get => t0.value.referenceId;
+            set => t0.value.referenceId = value;
+        }
+
+        [XmlAttribute("t1")]
+        public string T1Val
+        {
+            get => t1.ValUnit;
+            set => t1.ValUnit = value;
+        }
+
+        [XmlAttribute("t1-ref")][DefaultValue("")]
+        public string T1Ref
+        {
+            get => t1.value.referenceId;
+            set => t1.value.referenceId = value;
+        }
+
+        [XmlAttribute("length")]
+        public string LengthVal
+        {
+            get => length.ValUnit;
+            set => length.ValUnit = value;
+        }
+
+        [XmlAttribute("length-ref")][DefaultValue("")]
+        public string LengthRef
+        {
+            get => length.value.referenceId;
+            set => length.value.referenceId = value;
+        }
     }
 
     [Serializable]
@@ -462,21 +504,22 @@ namespace OpenSkiJumping.Hills
         [XmlAttribute("step-length")] public float stepLength;
         [XmlAttribute("material")] public MaterialType material;
 
-        [XmlElement("center-path")] public ConstructionPathX centerPath = new ConstructionPathX();
-        [XmlElement("l-path")] public ConstructionPathX leftPath = new ConstructionPathX();
-        [XmlElement("r-path")] public ConstructionPathX rightPath = new ConstructionPathX();
+        [XmlElement("center-path")] public ConstructionPathX centerPath = new();
+        [XmlElement("l-path")] public ConstructionPathX leftPath = new();
+        [XmlElement("r-path")] public ConstructionPathX rightPath = new();
+        [XmlElement("t-path")] public ConstructionPathX topPath = new();
     }
 
     [Serializable]
     [XmlRoot("map")]
     public class MapX
     {
-        [XmlElement("hill")] public List<HillX> hills = new List<HillX>();
-        [XmlElement("ref-point")] public List<RefPointX> refPoints = new List<RefPointX>();
-        [XmlElement("path")] public List<PathX> paths = new List<PathX>();
+        [XmlElement("hill")] public List<HillX> hills = new();
+        [XmlElement("ref-point")] public List<RefPointX> refPoints = new();
+        [XmlElement("path")] public List<PathX> paths = new();
 
-        [XmlElement("construction")] public List<ConstructionX> constructions = new List<ConstructionX>();
-        [XmlElement("stairs")] public List<StairsX> stairs = new List<StairsX>();
+        [XmlElement("construction")] public List<ConstructionX> constructions = new();
+        [XmlElement("stairs")] public List<StairsX> stairs = new();
 
         [XmlIgnore] public Vector3X pos = Vector3X.Zero;
 

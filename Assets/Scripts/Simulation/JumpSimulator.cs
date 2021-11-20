@@ -17,6 +17,8 @@ namespace OpenSkiJumping.Simulation
 
         private const float Eps = 0.1f;
 
+        public void SetHill(Hill newHill) => hill = newHill;
+
         private Vector2 GetInrunVelocity(Vector2 position)
         {
             var takeOffTableTangent = new Vector2(Mathf.Cos(hill.alphaR), -Mathf.Sin(hill.alphaR));

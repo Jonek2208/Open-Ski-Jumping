@@ -56,7 +56,7 @@ namespace OpenSkiJumping.Competition.Runtime
             speed = 0;
             distance = 0;
             wind = 0;
-            for (int i = 0; i < judgesMarks.Length; i++)
+            for (var i = 0; i < judgesMarks.Length; i++)
             {
                 judgesMarks[i] = 0;
             }
