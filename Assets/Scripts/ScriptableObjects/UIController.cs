@@ -1,4 +1,5 @@
 using System.Linq;
+using OpenSkiJumping.UI.Translations;
 using TMPro;
 using UnityEngine;
 

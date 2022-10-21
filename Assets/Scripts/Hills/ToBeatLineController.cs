@@ -23,7 +23,7 @@ namespace OpenSkiJumping.Hills
         {
             var k = hill.w;
 
-            var judges = resultsManager.Value.EventInfo.roundInfos[resultsManager.Value.RoundIndex].disableJudgesMarks
+            var judges = resultsManager.EventInfo.roundInfos[resultsManager.RoundIndex].disableJudgesMarks
                 ? 0
                 : 54.0f;
 
@@ -77,16 +77,16 @@ namespace OpenSkiJumping.Hills
 
             float leaderPoints = 0;
             float currentJumperPoints = 0;
-            if (resultsManager.Value.RoundIndex > 0 || resultsManager.Value.SubroundIndex > 0 ||
-                resultsManager.Value.StartListIndex > 0)
+            if (resultsManager.RoundIndex > 0 || resultsManager.SubroundIndex > 0 ||
+                resultsManager.StartListIndex > 0)
             {
-                leaderPoints = (float) resultsManager.Value.GetResultByRank(0).TotalPoints;
+                leaderPoints = (float) resultsManager.GetResultByRank(0).TotalPoints;
             }
 
-            if (resultsManager.Value.RoundIndex > 0 || resultsManager.Value.SubroundIndex > 0)
+            if (resultsManager.RoundIndex > 0 || resultsManager.SubroundIndex > 0)
             {
-                var competitorId = resultsManager.Value.StartList[resultsManager.Value.StartListIndex];
-                currentJumperPoints = (float) resultsManager.Value.Results[competitorId].TotalPoints;
+                var competitorId = resultsManager.StartList[resultsManager.StartListIndex];
+                currentJumperPoints = (float) resultsManager.Results[competitorId].TotalPoints;
             }
 
             var toBeatDist = (leaderPoints - currentJumperPoints - judges - p - compensationPoints) / q + k;

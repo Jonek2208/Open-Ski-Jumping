@@ -1,23 +1,20 @@
 using System;
 using System.Collections.Generic;
+using OpenSkiJumping.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Object = System.Object;
 
 namespace OpenSkiJumping.UI
 {
+
     [Serializable]
     public class TransitionData
     {
         public string name;
         public Button button;
         public GameObject viewComponent;
-    }
-
-    [Serializable]
-    public class MenuTransitions
-    {
-        public string name;
-        public List<TransitionData> transitions;
     }
 
     public class MenuNavigation : MonoBehaviour

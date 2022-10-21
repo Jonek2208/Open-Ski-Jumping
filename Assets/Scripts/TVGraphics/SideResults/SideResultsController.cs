@@ -26,9 +26,9 @@ namespace OpenSkiJumping.TVGraphics.SideResults
 
         private void BindListViewItem(int index, SideResultsListItem listItem)
         {
-            var localId = resultsManager.Value.GetIdByRank(index);
-            var globalId = resultsManager.Value.OrderedParticipants[localId].id;
-            var item = resultsManager.Value.Results[localId];
+            var localId = resultsManager.GetIdByRank(index);
+            var globalId = resultsManager.OrderedParticipants[localId].id;
+            var item = resultsManager.Results[localId];
             listItem.rankText.text = $"{item.Rank}";
             listItem.nameText.text = $"{GetNameById(globalId)}";
             listItem.countryFlagText.text = $"{GetCountryCodeById(globalId)}";

@@ -19,12 +19,14 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
 
         [SerializeField] private FlagsData flagsData;
         [SerializeField] private IconsData iconsData;
+        [SerializeField] private ImageCacher imageCache;
+        
         private bool initialized;
 
         private List<Competitor> jumpers;
         [SerializeField] private CompetitorsRuntime jumpersRuntime;
 
-        [SerializeField] private JumpersListView listView;
+        [SerializeField] private CalendarEditorJumpersListView listView;
         private CalendarEditorJumpersPresenter presenter;
 
         private HashSet<Competitor> selectedJumpers = new HashSet<Competitor>();
@@ -76,15 +78,32 @@ namespace OpenSkiJumping.UI.CalendarEditor.Competitors
             listView.Reset();
             allElementsToggle.SetIsOnWithoutNotify(selectedJumpers.Count > 0);
         }
+        
+        private static Action<Sprite, bool> SetJumperImage(Image img)
+        {
+            return (value, succeeded) =>
+            {
+                if (!succeeded)
+                {
+                    img.enabled = false;
+                    return;
+                }
+
+                img.enabled = true;
+                img.sprite = value;
+            };
+        }
 
 
-        private void BindListViewItem(int index, JumpersListItem item)
+        private void BindListViewItem(int index, CalendarEditorJumpersListItem item)
         {
             var competitor = jumpers[index];
             item.nameText.text = TvGraphicsUtils.JumperNameText(competitor);
             item.countryFlagText.text = competitor.countryCode;
             item.countryFlagImage.sprite = flagsData.GetFlag(competitor.countryCode);
             item.genderIconImage.sprite = iconsData.GetGenderIcon(competitor.gender);
+            item.jumperImage.enabled = false;
+            StartCoroutine(imageCache.GetSpriteAsync(competitor.imagePath, SetJumperImage(item.jumperImage)));
             item.toggleExtension.SetElementId(index);
             item.toggleExtension.Toggle.SetIsOnWithoutNotify(selectedJumpers.Contains(competitor));
         }

@@ -5,6 +5,16 @@ using Newtonsoft.Json.Converters;
 namespace OpenSkiJumping.Competition.Persistent
 {
     [Serializable]
+    public class CompetitorSkill
+    {
+        public float inrun;
+        public float takeOff;
+        public float flight;
+        public float landing;
+        public float style;
+    }
+    
+    [Serializable]
     public class Competitor
     {
         public string id = "";
@@ -15,6 +25,7 @@ namespace OpenSkiJumping.Competition.Persistent
         [JsonConverter(typeof(StringEnumConverter))]
         public Gender gender;
 
+        public CompetitorSkill skill;
         public DateTime birthdate = new DateTime(1999, 8, 22);
         public string imagePath = "";
         public string helmetColor = "000000";

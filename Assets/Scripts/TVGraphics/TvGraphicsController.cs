@@ -37,7 +37,7 @@ namespace OpenSkiJumping.TVGraphics
 
         private EventInfo currentEvent;
 
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {

@@ -7,9 +7,10 @@ namespace OpenSkiJumping.ScriptableObjects
     public class GameEvent : ScriptableObject
     {
         private readonly List<GameEventListener> listeners = new List<GameEventListener>();
+
         public void Raise()
         {
-            for (int i = listeners.Count - 1; i >= 0; i--)
+            for (var i = listeners.Count - 1; i >= 0; i--)
             {
                 listeners[i].OnEventRaised();
             }
@@ -18,13 +19,17 @@ namespace OpenSkiJumping.ScriptableObjects
         public void RegisterListener(GameEventListener listener)
         {
             if (!listeners.Contains(listener))
-            { listeners.Add(listener); }
+            {
+                listeners.Add(listener);
+            }
         }
 
         public void UnregisterListener(GameEventListener listener)
         {
             if (listeners.Contains(listener))
-            { listeners.Remove(listener); }
+            {
+                listeners.Remove(listener);
+            }
         }
     }
 }

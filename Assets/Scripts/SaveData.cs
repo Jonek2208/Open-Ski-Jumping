@@ -11,12 +11,12 @@ namespace OpenSkiJumping
     [Serializable]
     public class GameSave
     {
+        public string name;
         public Calendar calendar;
         public List<ClassificationData> classificationsData;
         public List<CompetitorData> competitors;
-        public string name;
-        public ResultsDatabase resultsContainer;
         public List<TeamData> teams;
+        public ResultsDatabase resultsContainer;
 
         public GameSave()
         {
@@ -62,7 +62,7 @@ namespace OpenSkiJumping
                     .ToList()
             }).ToList();
 
-            for (int i = 0; i < calendar.classifications.Count; i++)
+            for (var i = 0; i < calendar.classifications.Count; i++)
             {
                 resultsContainer.classificationResults[i] = new ClassificationResults();
                 var cnt = calendar.classifications[i].eventType == EventType.Individual

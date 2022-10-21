@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
-using UnityEngine;
 
 namespace OpenSkiJumping.Competition
 {

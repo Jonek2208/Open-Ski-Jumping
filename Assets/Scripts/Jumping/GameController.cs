@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
@@ -10,20 +11,17 @@ namespace OpenSkiJumping.Jumping
         public UnityEvent OnJumpRestart;
         public UnityEvent OnPauseMenu;
 
-        void Start()
+        [SerializeField] private GameObject startButton;
+        [SerializeField] private GameObject restartButton;
+        
+
+        public void Start()
         {
-            if (!PlayerPrefs.HasKey("camera"))
-            {
-                camerasController.EnableCamera(0);
-            }
-            else
-            {
-                camerasController.EnableCamera(PlayerPrefs.GetInt("camera"));
-            }
+            camerasController.EnableCamera(!PlayerPrefs.HasKey("camera") ? 0 : PlayerPrefs.GetInt("camera"));
         }
 
-        int reversedCam;
-        int currentCam;
+        private int _reversedCam;
+        private int _currentCam;
 
         public void LoadMainMenu()
         {
@@ -34,8 +32,24 @@ namespace OpenSkiJumping.Jumping
         {
             OnJumpRestart.Invoke();
         }
+        
+        private static IEnumerator ActivateButtonRoutine(float cooldown, GameObject obj)
+        {
+            yield return new WaitForSeconds(cooldown);
+            obj.SetActive(true);
+        }
 
-        void Update()
+        public void ActivateStartButton(float cooldown)
+        {
+            StartCoroutine(ActivateButtonRoutine(cooldown, startButton));
+        }
+
+        public void ActivateRestartButton(float cooldown)
+        {
+            StartCoroutine(ActivateButtonRoutine(cooldown, restartButton));
+        }
+
+        private void Update()
         {
             KeyCode[] keys =
             {
@@ -45,15 +59,15 @@ namespace OpenSkiJumping.Jumping
             for (var i = 0; i < keys.Length; i++)
             {
                 if (!Input.GetKeyDown(keys[i])) continue;
-                camerasController.EnableCamera(2 * i + reversedCam);
-                currentCam = i;
+                camerasController.EnableCamera(2 * i + _reversedCam);
+                _currentCam = i;
             }
             
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                reversedCam = 1 - reversedCam;
-                camerasController.EnableCamera(2 * currentCam + reversedCam);
+                _reversedCam = 1 - _reversedCam;
+                camerasController.EnableCamera(2 * _currentCam + _reversedCam);
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))

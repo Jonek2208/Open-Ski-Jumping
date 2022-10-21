@@ -22,7 +22,7 @@ namespace OpenSkiJumping.Data
 
     public class DatabaseObjectMultipleFiles<T> : DatabaseObject<List<DatabaseObjectFileData<T>>> where T : class
     {
-        protected Dictionary<string, int> _map = new Dictionary<string, int>();
+        protected Dictionary<string, int> _map = new();
 
         private void SetUpDict()
         {
@@ -49,15 +49,15 @@ namespace OpenSkiJumping.Data
                 return false;
             }
 
-            data.Clear();
+            data = new List<DatabaseObjectFileData<T>>();
             var fileEntries = Directory.GetFiles(absolutePath);
             foreach (var fileName in fileEntries)
             {
                 var extension = Path.GetExtension(fileName);
                 if (extension != DatabaseIO.Extensions[(int) dataType]) continue;
-                var tmp = LoadSingleFile(fileName, newObject: out var item);
+                var tmp = LoadSingleFile(fileName, out var item);
                 if (!tmp) continue;
-                data.Add(new DatabaseObjectFileData<T>(item, Path.GetFileName(fileName)));
+                data.Add(new DatabaseObjectFileData<T>(item, Path.GetFileNameWithoutExtension(fileName)));
             }
 
             return true;
@@ -108,10 +108,9 @@ namespace OpenSkiJumping.Data
             var directoryPath = Path.Combine(Application.streamingAssetsPath, path);
             foreach (var it in data)
             {
-                var absolutePath = Path.Combine(directoryPath, it.fileName);
+                var absolutePath = Path.Combine(directoryPath, it.fileName + DatabaseIO.Extensions[(int) dataType]);
                 SaveSingleFile(absolutePath, it.value);
             }
         }
     }
-    
 }

@@ -25,7 +25,7 @@ namespace OpenSkiJumping.TVGraphics
 
         protected Competitor GetCompetitorById(int id, int subround)
         {
-            return competitors.competitors[resultsManager.Value.OrderedParticipants[id].competitors[subround]];
+            return competitors.competitors[resultsManager.OrderedParticipants[id].competitors[subround]];
         }
     }
 
@@ -36,7 +36,7 @@ namespace OpenSkiJumping.TVGraphics
 
         protected void LoadImage()
         {
-            var id = resultsManager.Value.GetCurrentJumperId();
+            var id = resultsManager.GetCurrentJumperId();
             var path = competitors.competitors[id].imagePath;
             StartCoroutine(imageCacher.GetSpriteAsync(path, SetJumperImage));
         }

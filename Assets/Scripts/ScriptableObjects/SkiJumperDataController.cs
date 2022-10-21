@@ -29,7 +29,7 @@ namespace OpenSkiJumping.ScriptableObjects
 
         public void GetValues()
         {
-            var id = resultsManager.Value.GetCurrentJumperId();
+            var id = resultsManager.GetCurrentJumperId();
             competitor = competitors.competitors[id];
         }
 

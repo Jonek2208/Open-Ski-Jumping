@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenSkiJumping.Competition.Persistent;
@@ -39,15 +40,8 @@ namespace OpenSkiJumping.Competition
         public UnityEvent onWindGateChanged;
         [SerializeField] private RuntimeResultsManager resultsManager;
         [SerializeField] private SavesRuntime savesRepository;
-        [SerializeField] private MainMenuController menuController;
 
         private Dictionary<int, Color> _bibColors;
-
-
-        private void Start()
-        {
-            OnCompetitionStart();
-        }
 
         public void OnJumpFinish()
         {
@@ -87,27 +81,30 @@ namespace OpenSkiJumping.Competition
 
         public void OnCompetitionFinish()
         {
-            onCompetitionFinish.Invoke();
-
             UpdateClassifications();
             var save = savesRepository.GetCurrentSave();
             save.resultsContainer.eventIndex++;
             savesRepository.SaveData();
-            menuController.LoadTournamentMenu();
+            onCompetitionFinish.Invoke();
         }
 
         private void UpdateClassifications()
         {
             var save = savesRepository.GetCurrentSave();
+            var eventResults = resultsManager.GetEventResults();
+            UpdateClassificationsForSave(save, eventResults);
+        }
+
+        private void UpdateClassificationsForSave(GameSave save, EventResults eventResults)
+        {
             var eventId = save.resultsContainer.eventIndex;
             var eventInfo = save.calendar.events[eventId];
-            var eventResults = save.resultsContainer.eventResults[eventId];
-            resultsManager.Value.UpdateEventResults(eventResults);
+            save.resultsContainer.eventResults[eventId] = eventResults;
 
             foreach (var it in eventInfo.classifications)
             {
                 var classificationInfo = save.calendar.classifications[it];
-                var resultsUpdate = resultsManager.Value.GetPoints(classificationInfo);
+                var resultsUpdate = resultsManager.GetPoints(classificationInfo);
                 var classificationResults = save.resultsContainer.classificationResults[it];
                 PointsUtils.UpdateClassificationResults(classificationInfo, classificationResults, resultsUpdate);
             }
@@ -128,8 +125,8 @@ namespace OpenSkiJumping.Competition
 
             CalculateBibs(save, orderedParticipants);
             HillSetUp(save, eventId, currentEventInfo);
-
-            resultsManager.Initialize(currentEventInfo, orderedParticipants, _hillInfo);
+            
+            resultsManager.Initialize(new ResultsManager(currentEventInfo, orderedParticipants, _hillInfo));
             SetDefaultJumpData();
             windGatePanel.Initialize(hill.profileData.gates);
             onCompetitionStart.Invoke();
@@ -218,14 +215,14 @@ namespace OpenSkiJumping.Competition
 
         public void OnJumpStart()
         {
-            var id = resultsManager.Value.GetCurrentJumperId();
+            var id = resultsManager.GetCurrentJumperId();
             onNewJumper.Invoke();
             skiJumperDataController.SetValues(_bibColors[id]);
         }
 
         public void UpdateToBeat()
         {
-            if (resultsManager.Value.StartListIndex == 0 && resultsManager.Value.SubroundIndex == 0)
+            if (resultsManager.StartListIndex == 0 && resultsManager.SubroundIndex == 0)
                 jumpData.InitGate = jumpData.Gate;
             toBeatLineController.CompensationPoints =
                 (float) (_hillInfo.GetGatePoints(jumpData.GatesDiff) + _hillInfo.GetWindPoints(jumpData.Wind));

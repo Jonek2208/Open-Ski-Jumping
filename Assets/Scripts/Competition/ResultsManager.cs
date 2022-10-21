@@ -8,10 +8,10 @@ namespace OpenSkiJumping.Competition
 {
     public interface IResultsManager
     {
-        List<Participant> OrderedParticipants { get; }
-        Result[] Results { get; }
-        int[] LastRank { get; }
-        List<int> StartList { get; }
+        IList<Participant> OrderedParticipants { get; }
+        IList<Result> Results { get; }
+        IList<int> LastRank { get; }
+        IList<int> StartList { get; }
         int StartListIndex { get; }
         int SubroundIndex { get; }
         int RoundIndex { get; }
@@ -30,7 +30,127 @@ namespace OpenSkiJumping.Competition
         int CompetitorRank(int id);
         IEnumerable<(int, decimal)> GetPoints(ClassificationInfo classificationInfo);
         EventInfo EventInfo { get; }
-        void UpdateEventResults(EventResults eventResults);
+        EventResults GetEventResults();
+    }
+
+    public class TrainingResultsManager : IResultsManager
+    {
+        public IList<Participant> OrderedParticipants { get; }
+        public IList<Result> Results { get; private set; }
+        public IList<int> LastRank { get; }
+        public IList<int> StartList { get; }
+        public int StartListIndex { get; }
+        public int SubroundIndex => 0;
+        public int RoundIndex => 0;
+
+        public void RegisterJump(IJumpData jumpData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubroundInit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RoundInit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SubroundFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RoundFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool JumpFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Result GetResultByRank(int rank)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIdByRank(int rank)
+        {
+            throw new NotImplementedException();
+        }
+
+        public JumpResults GetResultById(int primaryId, int secondaryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCurrentCompetitorId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCurrentCompetitorLocalId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCurrentJumperId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompetitorRank(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<(int, decimal)> GetPoints(ClassificationInfo classificationInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public EventInfo EventInfo { get; }
+
+        public EventResults GetEventResults()
+        {
+            throw new NotImplementedException();
+        }
+
+        public TrainingResultsManager(IHillInfo hillInfo, IList<Participant> orderedParticipants,
+            bool disableJudgesMarks)
+        {
+            EventInfo = new EventInfo { };
+            OrderedParticipants = orderedParticipants;
+            InitializeValues();
+        }
+
+        private void InitializeValues()
+        {
+            Results = new List<Result>();
+
+            for (var index = 0; index < Results.Count; index++)
+            {
+                Results[index] = new Result();
+                var item = Results[index];
+                item.TotalResults = new decimal[1];
+                item.Results = new JumpResults[] {new()};
+                item.Bibs = new int[1];
+            }
+
+            // _finalResults =
+            //     new SortedList<(int state, decimal points, int bib), int>(
+            //         Comparer<(int state, decimal points, int bib)>.Create(_finalResultsComp));
+            // _allRoundResults =
+            //     new SortedList<(decimal points, int bib, int round), int>(
+            //         Comparer<(decimal points, int bib, int round)>.Create(_allRoundResultsComp));
+            // _losersResults =
+            //     new SortedList<(decimal points, int bib), int>(
+            //         Comparer<(decimal points, int bib)>.Create(_losersResultsComp));
+        }
     }
 
     public class ResultsManager : IResultsManager
@@ -49,11 +169,11 @@ namespace OpenSkiJumping.Competition
         private int _roundsCount;
         private int _subRoundsCount;
 
-        public ResultsManager(EventInfo eventInfo, List<Participant> orderedParticipants, IHillInfo hillInfo)
+        public ResultsManager(EventInfo eventInfo, IList<Participant> orderedParticipants, IHillInfo hillInfo)
         {
             EventInfo = eventInfo;
             OrderedParticipants = orderedParticipants;
-            this._hillInfo = hillInfo;
+            _hillInfo = hillInfo;
             _initGates = new int[eventInfo.roundInfos.Count];
 
             InitializeValues();
@@ -67,7 +187,7 @@ namespace OpenSkiJumping.Competition
             _roundsCount = EventInfo.roundInfos.Count;
             _subRoundsCount = EventInfo.eventType == EventType.Individual ? 1 : 4;
 
-            for (var index = 0; index < Results.Length; index++)
+            for (var index = 0; index < Results.Count; index++)
             {
                 Results[index] = new Result();
                 var item = Results[index];
@@ -95,12 +215,12 @@ namespace OpenSkiJumping.Competition
         public int SubroundIndex { get; private set; }
         public int RoundIndex { get; private set; }
 
-        public List<int> StartList { get; private set; }
-        public List<Participant> OrderedParticipants { get; }
+        public IList<int> StartList { get; private set; }
+        public IList<Participant> OrderedParticipants { get; }
 
-        public Result[] Results { get; private set; }
+        public IList<Result> Results { get; private set; }
 
-        public int[] LastRank { get; private set; }
+        public IList<int> LastRank { get; private set; }
 
         public void SubroundInit()
         {
@@ -260,7 +380,8 @@ namespace OpenSkiJumping.Competition
                 jumpData.InitGate = jumpData.Gate;
             }
 
-            var jump = EventProcessor.GetJumpResult(jumpData, _hillInfo, currentRoundInfo.gateCompensation, currentRoundInfo.windCompensation);
+            var jump = EventProcessor.GetJumpResult(jumpData, _hillInfo, currentRoundInfo.gateCompensation,
+                currentRoundInfo.windCompensation);
             if (RoundIndex > 0 || SubroundIndex > 0) RemoveFromAllRoundResults();
 
             AddResult(StartList[StartListIndex], SubroundIndex, jump);
@@ -426,12 +547,15 @@ namespace OpenSkiJumping.Competition
 
         public EventInfo EventInfo { get; }
 
-        public void UpdateEventResults(EventResults eventResults)
+        public EventResults GetEventResults()
         {
-            eventResults.competitorIds = OrderedParticipants.Select(it => it.id).ToList();
-            eventResults.results = Results.ToList();
-            eventResults.allroundResults = _allRoundResults.Select(it => it.Value).ToList();
-            eventResults.finalResults = _finalResults.Select(it => it.Value).ToList();
+            return new()
+            {
+                competitorIds = OrderedParticipants.Select(it => it.id).ToList(),
+                results = Results.ToList(),
+                allroundResults = _allRoundResults.Select(it => it.Value).ToList(),
+                finalResults = _finalResults.Select(it => it.Value).ToList()
+            };
         }
 
         private IEnumerable<(int, decimal)> GetIndividualPoints(ClassificationInfo classificationInfo)
@@ -447,11 +571,11 @@ namespace OpenSkiJumping.Competition
                 return Results.Select((val, index) =>
                     (OrderedParticipants[index].id, pointsGiver.GetPoints(classificationInfo, val, 0)));
             }
-            
+
             //EventInfo.eventType == EventType.Team
-            
+
             var res = new List<(int, decimal)>();
-            for (var i = 0; i < Results.Length; i++)
+            for (var i = 0; i < Results.Count; i++)
             {
                 res.AddRange(Results[i].TotalResults.Select((t, j) => (OrderedParticipants[i].competitors[j], t)));
             }

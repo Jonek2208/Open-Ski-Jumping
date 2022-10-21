@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using OpenSkiJumping.ScriptableObjects;
+using OpenSkiJumping.UI.Translations;
 using UnityEngine;
 
 namespace OpenSkiJumping.Data

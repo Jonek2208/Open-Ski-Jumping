@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="map">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="hill" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="anchor">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="ry" type="xs:decimal" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="inrun">
+                                <xs:complexType>
+                                    <xs:attribute name="gates" type="xs:integer" use="required" />
+                                    <xs:attribute name="e" type="xs:decimal" use="required" />
+                                    <xs:attribute name="es" type="xs:decimal" use="required" />
+                                    <xs:attribute name="r1" type="xs:decimal" use="required" />
+                                    <xs:attribute name="t" type="xs:decimal" use="required" />
+                                    <xs:attribute name="gamma" type="xs:decimal" use="required" />
+                                    <xs:attribute name="alpha" type="xs:decimal" use="required" />
+                                    <xs:attribute name="b1" type="xs:decimal" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="landing-hill">
+                                <xs:complexType>
+                                    <xs:attribute name="w" type="xs:decimal" use="required" />
+                                    <xs:attribute name="hs" type="xs:decimal" use="required" />
+                                    <xs:attribute name="h" type="xs:decimal" use="required" />
+                                    <xs:attribute name="n" type="xs:decimal" use="required" />
+                                    <xs:attribute name="s" type="xs:decimal" use="required" />
+                                    <xs:attribute name="l1" type="xs:decimal" use="required" />
+                                    <xs:attribute name="l2" type="xs:decimal" use="required" />
+                                    <xs:attribute name="rL" type="xs:decimal" use="required" />
+                                    <xs:attribute name="r2L" type="xs:decimal" use="required" />
+                                    <xs:attribute name="r2" type="xs:decimal" use="required" />
+                                    <xs:attribute name="beta0" type="xs:decimal" use="required" />
+                                    <xs:attribute name="betaP" type="xs:decimal" use="required" />
+                                    <xs:attribute name="betaK" type="xs:decimal" use="required" />
+                                    <xs:attribute name="betaL" type="xs:decimal" use="required" />
+                                    <xs:attribute name="betaU" type="xs:decimal" use="required" />
+                                    <xs:attribute name="b2" type="xs:decimal" use="required" />
+                                    <xs:attribute name="bK" type="xs:decimal" use="required" />
+                                    <xs:attribute name="bU" type="xs:decimal" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="outrun">
+                                <xs:complexType>
+                                    <xs:attribute name="a" type="xs:decimal" use="required" />
+                                    <xs:attribute name="rA" type="xs:decimal" use="required" />
+                                    <xs:attribute name="betaA" type="xs:decimal" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="judges-tower">
+                                <xs:complexType>
+                                    <xs:attribute name="d" type="xs:decimal" use="required" />
+                                    <xs:attribute name="q" type="xs:decimal" use="required" />
+                                    <xs:attribute name="height" type="xs:decimal" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" use="required" />
+                        <xs:attribute name="ref-id" use="required" />
+                        <xs:attribute name="x" type="xs:decimal" use="required" />
+                        <xs:attribute name="y" type="xs:decimal" use="required" />
+                        <xs:attribute name="z" type="xs:decimal" use="required" />
+                        <xs:attribute name="rx" type="xs:decimal" use="required" />
+                        <xs:attribute name="ry" type="xs:decimal" use="required" />
+                        <xs:attribute name="rz" type="xs:decimal" use="required" />
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="path" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="line" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="x" />
+                                    <xs:attribute name="y" type="xs:integer" />
+                                    <xs:attribute name="z" type="xs:integer" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" use="required" />
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="construction" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="center-path">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" use="required" />
+                                    <xs:attribute name="id" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="bl-path">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="y" type="xs:integer" use="required">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:enumeration value="-2" />
+                                                <xs:enumeration value="0" />
+                                                <xs:enumeration value="5" />
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="z" />
+                                    <xs:attribute name="id" />
+                                    <xs:attribute name="id-y" />
+                                    <xs:attribute name="id-z" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="br-path">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="y" type="xs:integer" use="required">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:enumeration value="-2" />
+                                                <xs:enumeration value="0" />
+                                                <xs:enumeration value="5" />
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="z" type="xs:integer" />
+                                    <xs:attribute name="id" />
+                                    <xs:attribute name="id-y" />
+                                    <xs:attribute name="id-z" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="tl-path">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="y" use="required" />
+                                    <xs:attribute name="z" />
+                                    <xs:attribute name="id" />
+                                    <xs:attribute name="id-y" />
+                                    <xs:attribute name="id-z" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="tr-path">
+                                <xs:complexType>
+                                    <xs:attribute name="ref-id" />
+                                    <xs:attribute name="y" use="required" />
+                                    <xs:attribute name="z" type="xs:integer" />
+                                    <xs:attribute name="id" />
+                                    <xs:attribute name="id-y" />
+                                    <xs:attribute name="id-z" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="t0" type="xs:integer" use="required" fixed="0" />
+                        <xs:attribute name="t1" use="required" />
+                        <xs:attribute name="count" type="xs:integer" use="required" />
+                        <xs:attribute name="length" use="required" />
+                        <xs:attribute name="material" use="required" fixed="Concrete" />
+                        <xs:attribute name="length-unit" />
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="stairs" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="center-path">
+                                <xs:complexType>
+                                    <xs:attribute name="y" type="xs:decimal" use="required" />
+                                    <xs:attribute name="ref-id" use="required" />
+                                    <xs:attribute name="id" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="l-path">
+                                <xs:complexType>
+                                    <xs:attribute name="z" type="xs:integer" use="required" />
+                                    <xs:attribute name="id" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="r-path">
+                                <xs:complexType>
+                                    <xs:attribute name="z" type="xs:integer" use="required" />
+                                    <xs:attribute name="id" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="t0" type="xs:integer" use="required" />
+                        <xs:attribute name="t1" use="required" />
+                        <xs:attribute name="step-length" type="xs:decimal" use="required" />
+                        <xs:attribute name="material" use="required" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="lat" type="xs:integer" use="required" />
+            <xs:attribute name="lon" type="xs:integer" use="required" />
+            <xs:attribute name="alt" type="xs:integer" use="required" />
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

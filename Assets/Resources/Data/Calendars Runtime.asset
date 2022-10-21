@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca63c353287d5e612b00f66d7f53a123, type: 3}
   m_Name: Calendars Runtime
   m_EditorClassIdentifier: 
-  fileName: calendars.json
+  path: calendars.json
+  dataType: 0
   data:
   - name: 2017/2018
     competitorsIds:
@@ -32,7 +33,6 @@ MonoBehaviour:
     - AUT-F-Kramer-Marita#0
     - BUL-M-Zografski-Vladimir#0
     - CAN-M-Boyd-clowes-Mackenzie#0
-    - CZE-M-Polasek-Viktor#0
     - CZE-M-Vancura-Tomas#0
     - CZE-M-Stursa-Vojtech#0
     - CZE-M-Kozisek-Cestmir#0
@@ -116,7 +116,160 @@ MonoBehaviour:
     - SUI-M-Ammann-Simon#0
     - USA-M-Larson-Casey#0
     - USA-M-Bickner-Kevin#0
-    teams: []
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+      - AUT-M-Kraft-Stefan#0
+      - AUT-M-Aigner-Clemens#0
+      - AUT-M-Huber-Daniel#0
+      - AUT-M-Schiffner-Markus#0
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Fettner-Manuel#0
+      - AUT-F-Kramer-Marita#0
+    - teamName: Bulgaria
+      countryCode: BUL
+      competitorsIds:
+      - BUL-M-Zografski-Vladimir#0
+    - teamName: Canada
+      countryCode: CAN
+      competitorsIds:
+      - CAN-M-Boyd-clowes-Mackenzie#0
+    - teamName: Czech Republic
+      countryCode: CZE
+      competitorsIds:
+      - CZE-M-Vancura-Tomas#0
+      - CZE-M-Stursa-Vojtech#0
+      - CZE-M-Kozisek-Cestmir#0
+      - CZE-M-Koudelka-Roman#0
+      - CZE-M-Hlava-Lukas#0
+    - teamName: Estonia
+      countryCode: EST
+      competitorsIds:
+      - EST-M-Aigro-Artti#0
+    - teamName: Finland
+      countryCode: FIN
+      competitorsIds:
+      - FIN-M-Kytosaho-Niko#0
+      - FIN-M-Alamommo-Andreas#0
+      - FIN-M-Nousiainen-Eetu#0
+      - FIN-M-Aalto-Antti#0
+      - FIN-M-Maatta-Jarkko#0
+    - teamName: France
+      countryCode: FRA
+      competitorsIds:
+      - FRA-M-Learoyd-Jonathan#0
+    - teamName: Germany
+      countryCode: GER
+      competitorsIds:
+      - GER-M-Schmid-Constantin#0
+      - GER-M-Baer-Moritz#0
+      - GER-M-Siegel-David#0
+      - GER-M-Wellinger-Andreas#0
+      - GER-M-Geiger-Karl#0
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Paschke-Pius#0
+      - GER-M-Freund-Severin#0
+    - teamName: Italy
+      countryCode: ITA
+      competitorsIds:
+      - ITA-M-Insam-Alex#0
+    - teamName: Japan
+      countryCode: JPN
+      competitorsIds:
+      - JPN-M-Iwasa-Yuken#0
+      - JPN-M-Sato-Keiichi#0
+      - JPN-M-Kobayashi-Ryoyu#0
+      - JPN-M-Nakamura-Naoki#0
+      - JPN-M-Sato-Yukiya#0
+      - JPN-M-Kobayashi-Junshiro#0
+      - JPN-M-Tochimoto-Shohei#0
+      - JPN-M-Takeuchi-Taku#0
+      - JPN-M-Ito-Daiki#0
+      - JPN-M-Kasai-Noriaki#0
+    - teamName: Kazakhstan
+      countryCode: KAZ
+      competitorsIds:
+      - KAZ-M-Tkachenko-Sergey#0
+    - teamName: Korea, Republic Of
+      countryCode: KOR
+      competitorsIds:
+      - KOR-M-Choi-Seou#0
+      - KOR-M-Choi-Heung_Chul#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Markeng-Thomas_Aasen#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Pedersen-Robin#0
+      - NOR-M-Buskum-Andreas_Granerud#0
+      - NOR-M-Granerud-Halvor_Egner#0
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Aune-Joakim#0
+      - NOR-M-Fannemel-Anders#0
+      - NOR-M-Johansson-Robert#0
+      - NOR-F-Lundby-Maren#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Niznik-Adam#0
+      - POL-M-Juroszek-Kacper#0
+      - POL-M-Pilch-Tomasz#0
+      - POL-M-Krzak-Jaroslaw#0
+      - POL-M-Wasek-Pawel#0
+      - POL-M-Stekala-Andrzej#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Muranka-Klemens#0
+      - POL-M-Zniszczol-Aleksander#0
+      - POL-M-Kot-Maciej#0
+      - POL-M-Kubacki-Dawid#0
+      - POL-M-Stoch-Kamil#0
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Hula-Stefan#0
+    - teamName: Russian Federation
+      countryCode: RUS
+      competitorsIds:
+      - RUS-M-Nazarov-Mikhail#0
+      - RUS-M-Klimov-Evgeniy#0
+      - RUS-M-Trofimov-Roman_Sergeevich#0
+      - RUS-M-Vassiliev-Dmitriy#0
+    - teamName: Slovenia
+      countryCode: SLO
+      competitorsIds:
+      - SLO-M-Mogel-Zak#0
+      - SLO-M-Zajc-Timi#0
+      - SLO-M-Prevc-Domen#0
+      - SLO-M-Pavlovcic-Bor#0
+      - SLO-M-Jelar-Ziga#0
+      - SLO-M-Bartol-Tilen#0
+      - SLO-M-Lanisek-Anze#0
+      - SLO-M-Semenic-Anze#0
+      - SLO-M-Prevc-Peter#0
+      - SLO-M-Tepes-Jurij#0
+      - SLO-M-Damjan-Jernej#0
+    - teamName: Switzerland
+      countryCode: SUI
+      competitorsIds:
+      - SUI-M-Peter-Dominik#0
+      - SUI-M-Schuler-Andreas#0
+      - SUI-M-Peier-Killian#0
+      - SUI-M-Deschwanden-Gregor#0
+      - SUI-M-Ammann-Simon#0
+    - teamName: United States
+      countryCode: USA
+      competitorsIds:
+      - USA-M-Larson-Casey#0
+      - USA-M-Bickner-Kevin#0
     classifications:
     - name: World Cup
       eventType: 0
@@ -143,29 +296,34 @@ MonoBehaviour:
         value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
       leaderBibColor: ffff00
     events:
-    - id: 0
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 0
       roundInfos:
         name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: -1
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 0
@@ -176,29 +334,34 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 0
-      classifications: 
+    - classifications: 
       eventType: 1
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 1
       roundInfos:
         name: 
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 8
-          useOrdRank: 00000000000000000000000001010101
+          useOrdRank: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101
           disableJudgesMarks: 0
           has95Rule: 0
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: 0
-          useOrdRank: 00000000000000000000000001010100
+          useOrdRank: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010100
           disableJudgesMarks: 0
           has95Rule: 0
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 2
       qualRankType: 0
@@ -209,10 +372,11 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 0
-      classifications: 00000000
+    - classifications: 00000000
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 2
       roundInfos:
         name: 
         roundInfos: []
@@ -226,10 +390,11 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 0
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 3
       roundInfos:
         name: 
         roundInfos: []
@@ -243,10 +408,11 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 0
-      classifications: 00000000
+    - classifications: 00000000
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 4
       roundInfos:
         name: 
         roundInfos: []
@@ -264,39 +430,60 @@ MonoBehaviour:
     competitorsIds:
     - AUT-M-Kraft-Stefan#0
     - GER-M-Geiger-Karl#0
-    - JPN-M-Kobayashi-Ryoyu#0
+    - NOR-M-Forfang-Johann_Andre#0
     - POL-M-Kubacki-Dawid#0
     - POL-M-Stoch-Kamil#0
     - SLO-M-Prevc-Peter#0
     - NOR-M-Tande-Daniel_Andre#0
     - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Hayboeck-Michael#0
+    - AUT-M-Schlierenzauer-Gregor#0
+    - AUT-M-Huber-Daniel#0
+    - GER-M-Leyhe-Stephan#0
+    - GER-M-Eisenbichler-Markus#0
+    - GER-M-Freitag-Richard#0
+    - GER-M-Paschke-Pius#0
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Johansson-Robert#0
+    - POL-M-Zyla-Piotr#0
+    - POL-M-Wolny-Jakub#0
+    - POL-M-Kot-Maciej#0
     teams:
-    - teamName: AUT
+    - teamName: Austria
       countryCode: AUT
       competitorsIds:
       - AUT-M-Kraft-Stefan#0
       - AUT-M-Aschenwald-Philipp#0
-    - teamName: GER
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Huber-Daniel#0
+    - teamName: Germany
       countryCode: GER
       competitorsIds:
       - GER-M-Geiger-Karl#0
-    - teamName: JPN
-      countryCode: JPN
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Paschke-Pius#0
+    - teamName: Norway
+      countryCode: NOR
       competitorsIds:
-      - JPN-M-Kobayashi-Ryoyu#0
-    - teamName: POL
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Johansson-Robert#0
+    - teamName: Poland
       countryCode: POL
       competitorsIds:
       - POL-M-Kubacki-Dawid#0
       - POL-M-Stoch-Kamil#0
-    - teamName: SLO
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Kot-Maciej#0
+    - teamName: Slovenia
       countryCode: SLO
       competitorsIds:
       - SLO-M-Prevc-Peter#0
-    - teamName: NOR
-      countryCode: NOR
-      competitorsIds:
-      - NOR-M-Tande-Daniel_Andre#0
     classifications:
     - name: World Cup
       eventType: 0
@@ -309,22 +496,38 @@ MonoBehaviour:
       - name: Individual
         value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
       leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Team
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffbb00
     events:
-    - id: 0
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 0
       roundInfos:
         name: Qualification
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 50
-          useOrdRank: 0000000000000000
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 0
@@ -335,31 +538,36 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 1
-      classifications: 
+    - classifications: 01000000
       eventType: 1
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 1
       roundInfos:
         name: Team2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 0000000001010101
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000001010101
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
-          outLimitType: 0
-          outLimit: -1
-          useOrdRank: 0000000001010100
+          outLimitType: 1
+          outLimit: 8
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000001010100
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
-      ordRankId: 0
+      ordRankId: 1
       qualRankType: 0
       qualRankId: 0
       inLimitType: 0
@@ -368,29 +576,34 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 2
-      classifications: 00000000
+    - classifications: 00000000
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 2
       roundInfos:
         name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 00000000
+          useOrdRank: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: -1
-          useOrdRank: 00000000
+          useOrdRank: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 1
@@ -401,21 +614,24 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 3
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 3
       roundInfos:
         name: Qualification
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 50
-          useOrdRank: 0000000000000000
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 0
@@ -426,29 +642,34 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 4
-      classifications: 00000000
+    - classifications: 00000000
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 4
       roundInfos:
         name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 0000000000000000
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: -1
-          useOrdRank: 0000000000000000
+          useOrdRank: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 1
@@ -475,6 +696,8 @@ MonoBehaviour:
     - AUT-M-Schlierenzauer-Gregor#0
     - AUT-M-Fettner-Manuel#0
     - AUT-F-Kramer-Marita#0
+    - AUT-F-Hoelzl-Chiara#0
+    - AUT-F-Sorschag-Sophie#0
     - BUL-M-Zografski-Vladimir#0
     - CAN-M-Boyd-clowes-Mackenzie#0
     - CZE-M-Polasek-Viktor#0
@@ -490,6 +713,7 @@ MonoBehaviour:
     - FIN-M-Aalto-Antti#0
     - FIN-M-Maatta-Jarkko#0
     - FRA-M-Learoyd-Jonathan#0
+    - FRA-F-Pagnier-Josephine#0
     - GER-M-Schmid-Constantin#0
     - GER-M-Baer-Moritz#0
     - GER-M-Siegel-David#0
@@ -525,6 +749,7 @@ MonoBehaviour:
     - NOR-M-Fannemel-Anders#0
     - NOR-M-Johansson-Robert#0
     - NOR-F-Lundby-Maren#0
+    - NOR-F-Opseth-Silje#0
     - POL-M-Niznik-Adam#0
     - POL-M-Juroszek-Kacper#0
     - POL-M-Pilch-Tomasz#0
@@ -554,6 +779,8 @@ MonoBehaviour:
     - SLO-M-Prevc-Peter#0
     - SLO-M-Tepes-Jurij#0
     - SLO-M-Damjan-Jernej#0
+    - SLO-F-Kriznar-Nika#0
+    - SLO-F-Klinec-Ema#0
     - SUI-M-Peter-Dominik#0
     - SUI-M-Schuler-Andreas#0
     - SUI-M-Peier-Killian#0
@@ -562,7 +789,7 @@ MonoBehaviour:
     - USA-M-Larson-Casey#0
     - USA-M-Bickner-Kevin#0
     teams:
-    - teamName: AUT
+    - teamName: Austria
       countryCode: AUT
       competitorsIds:
       - AUT-M-Moerth-Claudio#0
@@ -579,15 +806,17 @@ MonoBehaviour:
       - AUT-M-Schlierenzauer-Gregor#0
       - AUT-M-Fettner-Manuel#0
       - AUT-F-Kramer-Marita#0
-    - teamName: BUL
+      - AUT-F-Hoelzl-Chiara#0
+      - AUT-F-Sorschag-Sophie#0
+    - teamName: Bulgaria
       countryCode: BUL
       competitorsIds:
       - BUL-M-Zografski-Vladimir#0
-    - teamName: CAN
+    - teamName: Canada
       countryCode: CAN
       competitorsIds:
       - CAN-M-Boyd-clowes-Mackenzie#0
-    - teamName: CZE
+    - teamName: Czech Republic
       countryCode: CZE
       competitorsIds:
       - CZE-M-Polasek-Viktor#0
@@ -596,11 +825,11 @@ MonoBehaviour:
       - CZE-M-Kozisek-Cestmir#0
       - CZE-M-Koudelka-Roman#0
       - CZE-M-Hlava-Lukas#0
-    - teamName: EST
+    - teamName: Estonia
       countryCode: EST
       competitorsIds:
       - EST-M-Aigro-Artti#0
-    - teamName: FIN
+    - teamName: Finland
       countryCode: FIN
       competitorsIds:
       - FIN-M-Kytosaho-Niko#0
@@ -608,11 +837,12 @@ MonoBehaviour:
       - FIN-M-Nousiainen-Eetu#0
       - FIN-M-Aalto-Antti#0
       - FIN-M-Maatta-Jarkko#0
-    - teamName: FRA
+    - teamName: France
       countryCode: FRA
       competitorsIds:
       - FRA-M-Learoyd-Jonathan#0
-    - teamName: GER
+      - FRA-F-Pagnier-Josephine#0
+    - teamName: Germany
       countryCode: GER
       competitorsIds:
       - GER-M-Schmid-Constantin#0
@@ -625,11 +855,11 @@ MonoBehaviour:
       - GER-M-Eisenbichler-Markus#0
       - GER-M-Paschke-Pius#0
       - GER-M-Freund-Severin#0
-    - teamName: ITA
+    - teamName: Italy
       countryCode: ITA
       competitorsIds:
       - ITA-M-Insam-Alex#0
-    - teamName: JPN
+    - teamName: Japan
       countryCode: JPN
       competitorsIds:
       - JPN-M-Iwasa-Yuken#0
@@ -642,16 +872,16 @@ MonoBehaviour:
       - JPN-M-Takeuchi-Taku#0
       - JPN-M-Ito-Daiki#0
       - JPN-M-Kasai-Noriaki#0
-    - teamName: KAZ
+    - teamName: Kazakhstan
       countryCode: KAZ
       competitorsIds:
       - KAZ-M-Tkachenko-Sergey#0
-    - teamName: KOR
+    - teamName: Korea, Republic Of
       countryCode: KOR
       competitorsIds:
       - KOR-M-Choi-Seou#0
       - KOR-M-Choi-Heung_Chul#0
-    - teamName: NOR
+    - teamName: Norway
       countryCode: NOR
       competitorsIds:
       - NOR-M-Markeng-Thomas_Aasen#0
@@ -665,7 +895,8 @@ MonoBehaviour:
       - NOR-M-Fannemel-Anders#0
       - NOR-M-Johansson-Robert#0
       - NOR-F-Lundby-Maren#0
-    - teamName: POL
+      - NOR-F-Opseth-Silje#0
+    - teamName: Poland
       countryCode: POL
       competitorsIds:
       - POL-M-Niznik-Adam#0
@@ -682,14 +913,14 @@ MonoBehaviour:
       - POL-M-Stoch-Kamil#0
       - POL-M-Zyla-Piotr#0
       - POL-M-Hula-Stefan#0
-    - teamName: RUS
+    - teamName: Russian Federation
       countryCode: RUS
       competitorsIds:
       - RUS-M-Nazarov-Mikhail#0
       - RUS-M-Klimov-Evgeniy#0
       - RUS-M-Trofimov-Roman_Sergeevich#0
       - RUS-M-Vassiliev-Dmitriy#0
-    - teamName: SLO
+    - teamName: Slovenia
       countryCode: SLO
       competitorsIds:
       - SLO-M-Mogel-Zak#0
@@ -703,7 +934,9 @@ MonoBehaviour:
       - SLO-M-Prevc-Peter#0
       - SLO-M-Tepes-Jurij#0
       - SLO-M-Damjan-Jernej#0
-    - teamName: SUI
+      - SLO-F-Kriznar-Nika#0
+      - SLO-F-Klinec-Ema#0
+    - teamName: Switzerland
       countryCode: SUI
       competitorsIds:
       - SUI-M-Peter-Dominik#0
@@ -711,7 +944,7 @@ MonoBehaviour:
       - SUI-M-Peier-Killian#0
       - SUI-M-Deschwanden-Gregor#0
       - SUI-M-Ammann-Simon#0
-    - teamName: USA
+    - teamName: United States
       countryCode: USA
       competitorsIds:
       - USA-M-Larson-Casey#0
@@ -762,21 +995,24 @@ MonoBehaviour:
       pointsTables: []
       leaderBibColor: ffff00
     events:
-    - id: 0
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 0
       roundInfos:
         name: Qualification
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 50
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 0
@@ -787,62 +1023,34 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 1
-      classifications: 02000000
-      eventType: 1
-      hillId: Wisla HS134
-      roundInfos:
-        name: Team2Rounds
-        roundInfos:
-        - roundType: 0
-          outLimitType: 1
-          outLimit: 30
-          useOrdRank: 00000000000000000000000001010101
-          disableJudgesMarks: 0
-          has95Rule: 1
-          reversedBibs: 0
-          reassignBibs: 0
-        - roundType: 0
-          outLimitType: 0
-          outLimit: -1
-          useOrdRank: 00000000000000000000000001010100
-          disableJudgesMarks: 0
-          has95Rule: 1
-          reversedBibs: 0
-          reassignBibs: 0
-      ordRankType: 2
-      ordRankId: 2
-      qualRankType: 0
-      qualRankId: 0
-      inLimitType: 0
-      inLimit: 0
-      preQualRankType: 0
-      preQualRankId: 0
-      preQualLimitType: 0
-      preQualLimit: 0
-    - id: 2
-      classifications: 00000000
+    - classifications: 0000000002000000
       eventType: 0
       hillId: Wisla HS134
+      hillSurface: 0
+      id: 1
       roundInfos:
         name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: -1
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 1
@@ -853,21 +1061,24 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 3
-      classifications: 
+    - classifications: 
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 2
       roundInfos:
         name: Qualification
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 50
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 0
@@ -878,29 +1089,34 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
-    - id: 4
-      classifications: 00000000
+    - classifications: 0000000002000000
       eventType: 0
       hillId: Kuusamo HS142
+      hillSurface: 0
+      id: 3
       roundInfos:
         name: Individual2Rounds
         roundInfos:
         - roundType: 0
           outLimitType: 1
           outLimit: 30
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
         - roundType: 0
           outLimitType: 0
           outLimit: -1
-          useOrdRank: 000000000000000000000000
+          useOrdRank: 00000000
           disableJudgesMarks: 0
           has95Rule: 1
           reversedBibs: 0
           reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
       ordRankType: 2
       ordRankId: 0
       qualRankType: 1
@@ -911,4 +1127,2387 @@ MonoBehaviour:
       preQualRankId: 0
       preQualLimitType: 0
       preQualLimit: 0
+  - name: asd
+    competitorsIds:
+    - AUT-M-Kraft-Stefan#0
+    - NOR-M-Lindvik-Marius#0
+    - POL-M-Hrynko-Jonatan#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Kraft-Stefan#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Lindvik-Marius#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Hrynko-Jonatan#0
+    classifications:
+    - name: WC
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: NC
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Team
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffaa00
+    events:
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Karpacz HS94
+      hillSurface: 1
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Almaty HS66
+      hillSurface: 1
+      id: 1
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Raw Air
+    competitorsIds:
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Granerud-Halvor_Egner#0
+    teams:
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Granerud-Halvor_Egner#0
+    classifications:
+    - name: Raw Air
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: 6666aa
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Individual
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Team
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffaa00
+    - name: Xd
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Worlc Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 010000000200000000000000
+      eventType: 0
+      hillId: Oslo HS134
+      hillSurface: 1
+      id: 0
+      roundInfos:
+        name: Individual2Rounds5
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 5
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 00000000
+      eventType: 0
+      hillId: Zakopane HS140
+      hillSurface: 1
+      id: 1
+      roundInfos:
+        name: Qualification8
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 8
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 1
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 000000000100000002000000
+      eventType: 0
+      hillId: Zakopane HS140
+      hillSurface: 1
+      id: 2
+      roundInfos:
+        name: Individual2Rounds5
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 5
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 1
+      qualRankType: 1
+      qualRankId: 1
+      inLimitType: 1
+      inLimit: 8
+      preQualRankType: 2
+      preQualRankId: 1
+      preQualLimitType: 1
+      preQualLimit: 3
+  - name: Calendar
+    competitorsIds:
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
+    - AUT-M-Kraft-Stefan#0
+    - AUT-M-Aigner-Clemens#0
+    - AUT-M-Huber-Daniel#0
+    - AUT-M-Schiffner-Markus#0
+    - AUT-M-Hayboeck-Michael#0
+    - AUT-M-Schlierenzauer-Gregor#0
+    - AUT-M-Fettner-Manuel#0
+    - AUT-F-Kramer-Marita#0
+    - BUL-M-Zografski-Vladimir#0
+    - CAN-M-Boyd-clowes-Mackenzie#0
+    - CZE-M-Polasek-Viktor#0
+    - CZE-M-Vancura-Tomas#0
+    - CZE-M-Stursa-Vojtech#0
+    - CZE-M-Kozisek-Cestmir#0
+    - CZE-M-Koudelka-Roman#0
+    - CZE-M-Hlava-Lukas#0
+    - EST-M-Aigro-Artti#0
+    - FIN-M-Kytosaho-Niko#0
+    - FIN-M-Alamommo-Andreas#0
+    - FIN-M-Nousiainen-Eetu#0
+    - FIN-M-Aalto-Antti#0
+    - FIN-M-Maatta-Jarkko#0
+    - FRA-M-Learoyd-Jonathan#0
+    - GER-M-Schmid-Constantin#0
+    - GER-M-Baer-Moritz#0
+    - GER-M-Wellinger-Andreas#0
+    - GER-M-Geiger-Karl#0
+    - GER-M-Leyhe-Stephan#0
+    - GER-M-Freitag-Richard#0
+    - GER-M-Eisenbichler-Markus#0
+    - GER-M-Paschke-Pius#0
+    - GER-M-Freund-Severin#0
+    - ITA-M-Insam-Alex#0
+    - JPN-M-Iwasa-Yuken#0
+    - JPN-M-Sato-Keiichi#0
+    - JPN-M-Kobayashi-Ryoyu#0
+    - JPN-M-Nakamura-Naoki#0
+    - JPN-M-Sato-Yukiya#0
+    - JPN-M-Kobayashi-Junshiro#0
+    - JPN-M-Tochimoto-Shohei#0
+    - JPN-M-Takeuchi-Taku#0
+    - JPN-M-Ito-Daiki#0
+    - JPN-M-Kasai-Noriaki#0
+    - KAZ-M-Tkachenko-Sergey#0
+    - KOR-M-Choi-Seou#0
+    - KOR-M-Choi-Heung_Chul#0
+    - NOR-M-Markeng-Thomas_Aasen#0
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Pedersen-Robin#0
+    - NOR-M-Buskum-Andreas_Granerud#0
+    - NOR-M-Granerud-Halvor_Egner#0
+    - NOR-M-Forfang-Johann_Andre#0
+    - NOR-M-Tande-Daniel_Andre#0
+    - NOR-M-Aune-Joakim#0
+    - NOR-M-Fannemel-Anders#0
+    - NOR-M-Johansson-Robert#0
+    - NOR-F-Lundby-Maren#0
+    - POL-M-Niznik-Adam#0
+    - POL-M-Juroszek-Kacper#0
+    - POL-M-Pilch-Tomasz#0
+    - POL-M-Krzak-Jaroslaw#0
+    - POL-M-Wasek-Pawel#0
+    - POL-M-Stekala-Andrzej#0
+    - POL-M-Wolny-Jakub#0
+    - POL-M-Muranka-Klemens#0
+    - POL-M-Zniszczol-Aleksander#0
+    - POL-M-Kot-Maciej#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - POL-M-Zyla-Piotr#0
+    - POL-M-Hula-Stefan#0
+    - RUS-M-Nazarov-Mikhail#0
+    - RUS-M-Klimov-Evgeniy#0
+    - RUS-M-Trofimov-Roman_Sergeevich#0
+    - RUS-M-Vassiliev-Dmitriy#0
+    - SLO-M-Mogel-Zak#0
+    - SLO-M-Zajc-Timi#0
+    - SLO-M-Prevc-Domen#0
+    - SLO-M-Pavlovcic-Bor#0
+    - SLO-M-Jelar-Ziga#0
+    - SLO-M-Bartol-Tilen#0
+    - SLO-M-Lanisek-Anze#0
+    - SLO-M-Semenic-Anze#0
+    - SLO-M-Prevc-Peter#0
+    - SLO-M-Tepes-Jurij#0
+    - SLO-M-Damjan-Jernej#0
+    - SUI-M-Peter-Dominik#0
+    - SUI-M-Schuler-Andreas#0
+    - SUI-M-Peier-Killian#0
+    - SUI-M-Deschwanden-Gregor#0
+    - SUI-M-Ammann-Simon#0
+    - USA-M-Larson-Casey#0
+    - USA-M-Bickner-Kevin#0
+    - AUT-F-Sorschag-Sophie#0
+    - AUT-F-Hoelzl-Chiara#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+      - AUT-M-Kraft-Stefan#0
+      - AUT-M-Aigner-Clemens#0
+      - AUT-M-Huber-Daniel#0
+      - AUT-M-Schiffner-Markus#0
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Fettner-Manuel#0
+      - AUT-F-Kramer-Marita#0
+      - AUT-F-Sorschag-Sophie#0
+      - AUT-F-Hoelzl-Chiara#0
+    - teamName: Bulgaria
+      countryCode: BUL
+      competitorsIds:
+      - BUL-M-Zografski-Vladimir#0
+    - teamName: Canada
+      countryCode: CAN
+      competitorsIds:
+      - CAN-M-Boyd-clowes-Mackenzie#0
+    - teamName: Czech Republic
+      countryCode: CZE
+      competitorsIds:
+      - CZE-M-Polasek-Viktor#0
+      - CZE-M-Vancura-Tomas#0
+      - CZE-M-Stursa-Vojtech#0
+      - CZE-M-Kozisek-Cestmir#0
+      - CZE-M-Koudelka-Roman#0
+      - CZE-M-Hlava-Lukas#0
+    - teamName: Estonia
+      countryCode: EST
+      competitorsIds:
+      - EST-M-Aigro-Artti#0
+    - teamName: Finland
+      countryCode: FIN
+      competitorsIds:
+      - FIN-M-Kytosaho-Niko#0
+      - FIN-M-Alamommo-Andreas#0
+      - FIN-M-Nousiainen-Eetu#0
+      - FIN-M-Aalto-Antti#0
+      - FIN-M-Maatta-Jarkko#0
+    - teamName: France
+      countryCode: FRA
+      competitorsIds:
+      - FRA-M-Learoyd-Jonathan#0
+    - teamName: Germany
+      countryCode: GER
+      competitorsIds:
+      - GER-M-Schmid-Constantin#0
+      - GER-M-Baer-Moritz#0
+      - GER-M-Wellinger-Andreas#0
+      - GER-M-Geiger-Karl#0
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Paschke-Pius#0
+      - GER-M-Freund-Severin#0
+    - teamName: Italy
+      countryCode: ITA
+      competitorsIds:
+      - ITA-M-Insam-Alex#0
+    - teamName: Japan
+      countryCode: JPN
+      competitorsIds:
+      - JPN-M-Iwasa-Yuken#0
+      - JPN-M-Sato-Keiichi#0
+      - JPN-M-Kobayashi-Ryoyu#0
+      - JPN-M-Nakamura-Naoki#0
+      - JPN-M-Sato-Yukiya#0
+      - JPN-M-Kobayashi-Junshiro#0
+      - JPN-M-Tochimoto-Shohei#0
+      - JPN-M-Takeuchi-Taku#0
+      - JPN-M-Ito-Daiki#0
+      - JPN-M-Kasai-Noriaki#0
+    - teamName: Kazakhstan
+      countryCode: KAZ
+      competitorsIds:
+      - KAZ-M-Tkachenko-Sergey#0
+    - teamName: Korea, Republic Of
+      countryCode: KOR
+      competitorsIds:
+      - KOR-M-Choi-Seou#0
+      - KOR-M-Choi-Heung_Chul#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Markeng-Thomas_Aasen#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Pedersen-Robin#0
+      - NOR-M-Buskum-Andreas_Granerud#0
+      - NOR-M-Granerud-Halvor_Egner#0
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Aune-Joakim#0
+      - NOR-M-Fannemel-Anders#0
+      - NOR-M-Johansson-Robert#0
+      - NOR-F-Lundby-Maren#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Niznik-Adam#0
+      - POL-M-Juroszek-Kacper#0
+      - POL-M-Pilch-Tomasz#0
+      - POL-M-Krzak-Jaroslaw#0
+      - POL-M-Wasek-Pawel#0
+      - POL-M-Stekala-Andrzej#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Muranka-Klemens#0
+      - POL-M-Zniszczol-Aleksander#0
+      - POL-M-Kot-Maciej#0
+      - POL-M-Kubacki-Dawid#0
+      - POL-M-Stoch-Kamil#0
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Hula-Stefan#0
+    - teamName: Russian Federation
+      countryCode: RUS
+      competitorsIds:
+      - RUS-M-Nazarov-Mikhail#0
+      - RUS-M-Klimov-Evgeniy#0
+      - RUS-M-Trofimov-Roman_Sergeevich#0
+      - RUS-M-Vassiliev-Dmitriy#0
+    - teamName: Slovenia
+      countryCode: SLO
+      competitorsIds:
+      - SLO-M-Mogel-Zak#0
+      - SLO-M-Zajc-Timi#0
+      - SLO-M-Prevc-Domen#0
+      - SLO-M-Pavlovcic-Bor#0
+      - SLO-M-Jelar-Ziga#0
+      - SLO-M-Bartol-Tilen#0
+      - SLO-M-Lanisek-Anze#0
+      - SLO-M-Semenic-Anze#0
+      - SLO-M-Prevc-Peter#0
+      - SLO-M-Tepes-Jurij#0
+      - SLO-M-Damjan-Jernej#0
+    - teamName: Switzerland
+      countryCode: SUI
+      competitorsIds:
+      - SUI-M-Peter-Dominik#0
+      - SUI-M-Schuler-Andreas#0
+      - SUI-M-Peier-Killian#0
+      - SUI-M-Deschwanden-Gregor#0
+      - SUI-M-Ammann-Simon#0
+    - teamName: United States
+      countryCode: USA
+      competitorsIds:
+      - USA-M-Larson-Casey#0
+      - USA-M-Bickner-Kevin#0
+    classifications:
+    - name: Tournament
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Worlc Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 00000000
+      eventType: 0
+      hillId: Oberstdorf HS235
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 1
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Normal Hill
+    competitorsIds:
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
+    - AUT-M-Kraft-Stefan#0
+    - AUT-M-Aigner-Clemens#0
+    - AUT-M-Huber-Daniel#0
+    - AUT-M-Schiffner-Markus#0
+    - AUT-M-Hayboeck-Michael#0
+    - AUT-M-Schlierenzauer-Gregor#0
+    - AUT-M-Fettner-Manuel#0
+    - AUT-F-Kramer-Marita#0
+    - BUL-M-Zografski-Vladimir#0
+    - CAN-M-Boyd-clowes-Mackenzie#0
+    - CZE-M-Polasek-Viktor#0
+    - CZE-M-Vancura-Tomas#0
+    - CZE-M-Stursa-Vojtech#0
+    - CZE-M-Kozisek-Cestmir#0
+    - CZE-M-Koudelka-Roman#0
+    - CZE-M-Hlava-Lukas#0
+    - EST-M-Aigro-Artti#0
+    - FIN-M-Kytosaho-Niko#0
+    - FIN-M-Alamommo-Andreas#0
+    - FIN-M-Nousiainen-Eetu#0
+    - FIN-M-Aalto-Antti#0
+    - FIN-M-Maatta-Jarkko#0
+    - FRA-M-Learoyd-Jonathan#0
+    - GER-M-Schmid-Constantin#0
+    - GER-M-Baer-Moritz#0
+    - GER-M-Siegel-David#0
+    - GER-M-Wellinger-Andreas#0
+    - GER-M-Geiger-Karl#0
+    - GER-M-Leyhe-Stephan#0
+    - GER-M-Freitag-Richard#0
+    - GER-M-Eisenbichler-Markus#0
+    - GER-M-Paschke-Pius#0
+    - GER-M-Freund-Severin#0
+    - ITA-M-Insam-Alex#0
+    - JPN-M-Iwasa-Yuken#0
+    - JPN-M-Sato-Keiichi#0
+    - JPN-M-Kobayashi-Ryoyu#0
+    - JPN-M-Nakamura-Naoki#0
+    - JPN-M-Sato-Yukiya#0
+    - JPN-M-Kobayashi-Junshiro#0
+    - JPN-M-Tochimoto-Shohei#0
+    - JPN-M-Takeuchi-Taku#0
+    - JPN-M-Ito-Daiki#0
+    - JPN-M-Kasai-Noriaki#0
+    - KAZ-M-Tkachenko-Sergey#0
+    - KOR-M-Choi-Seou#0
+    - KOR-M-Choi-Heung_Chul#0
+    - NOR-M-Markeng-Thomas_Aasen#0
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Pedersen-Robin#0
+    - NOR-M-Buskum-Andreas_Granerud#0
+    - NOR-M-Granerud-Halvor_Egner#0
+    - NOR-M-Forfang-Johann_Andre#0
+    - NOR-M-Tande-Daniel_Andre#0
+    - NOR-M-Aune-Joakim#0
+    - NOR-M-Fannemel-Anders#0
+    - NOR-M-Johansson-Robert#0
+    - NOR-F-Lundby-Maren#0
+    - POL-M-Niznik-Adam#0
+    - POL-M-Juroszek-Kacper#0
+    - POL-M-Pilch-Tomasz#0
+    - POL-M-Krzak-Jaroslaw#0
+    - POL-M-Wasek-Pawel#0
+    - POL-M-Stekala-Andrzej#0
+    - POL-M-Wolny-Jakub#0
+    - POL-M-Muranka-Klemens#0
+    - POL-M-Zniszczol-Aleksander#0
+    - POL-M-Kot-Maciej#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - POL-M-Zyla-Piotr#0
+    - POL-M-Hula-Stefan#0
+    - RUS-M-Nazarov-Mikhail#0
+    - RUS-M-Klimov-Evgeniy#0
+    - RUS-M-Trofimov-Roman_Sergeevich#0
+    - RUS-M-Vassiliev-Dmitriy#0
+    - SLO-M-Mogel-Zak#0
+    - SLO-M-Zajc-Timi#0
+    - SLO-M-Prevc-Domen#0
+    - SLO-M-Pavlovcic-Bor#0
+    - SLO-M-Jelar-Ziga#0
+    - SLO-M-Bartol-Tilen#0
+    - SLO-M-Lanisek-Anze#0
+    - SLO-M-Semenic-Anze#0
+    - SLO-M-Prevc-Peter#0
+    - SLO-M-Tepes-Jurij#0
+    - SLO-M-Damjan-Jernej#0
+    - SUI-M-Peter-Dominik#0
+    - SUI-M-Schuler-Andreas#0
+    - SUI-M-Peier-Killian#0
+    - SUI-M-Deschwanden-Gregor#0
+    - SUI-M-Ammann-Simon#0
+    - USA-M-Larson-Casey#0
+    - USA-M-Bickner-Kevin#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+      - AUT-M-Kraft-Stefan#0
+      - AUT-M-Aigner-Clemens#0
+      - AUT-M-Huber-Daniel#0
+      - AUT-M-Schiffner-Markus#0
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Fettner-Manuel#0
+      - AUT-F-Kramer-Marita#0
+    - teamName: Bulgaria
+      countryCode: BUL
+      competitorsIds:
+      - BUL-M-Zografski-Vladimir#0
+    - teamName: Canada
+      countryCode: CAN
+      competitorsIds:
+      - CAN-M-Boyd-clowes-Mackenzie#0
+    - teamName: Czech Republic
+      countryCode: CZE
+      competitorsIds:
+      - CZE-M-Polasek-Viktor#0
+      - CZE-M-Vancura-Tomas#0
+      - CZE-M-Stursa-Vojtech#0
+      - CZE-M-Kozisek-Cestmir#0
+      - CZE-M-Koudelka-Roman#0
+      - CZE-M-Hlava-Lukas#0
+    - teamName: Estonia
+      countryCode: EST
+      competitorsIds:
+      - EST-M-Aigro-Artti#0
+    - teamName: Finland
+      countryCode: FIN
+      competitorsIds:
+      - FIN-M-Kytosaho-Niko#0
+      - FIN-M-Alamommo-Andreas#0
+      - FIN-M-Nousiainen-Eetu#0
+      - FIN-M-Aalto-Antti#0
+      - FIN-M-Maatta-Jarkko#0
+    - teamName: France
+      countryCode: FRA
+      competitorsIds:
+      - FRA-M-Learoyd-Jonathan#0
+    - teamName: Germany
+      countryCode: GER
+      competitorsIds:
+      - GER-M-Schmid-Constantin#0
+      - GER-M-Baer-Moritz#0
+      - GER-M-Siegel-David#0
+      - GER-M-Wellinger-Andreas#0
+      - GER-M-Geiger-Karl#0
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Paschke-Pius#0
+      - GER-M-Freund-Severin#0
+    - teamName: Italy
+      countryCode: ITA
+      competitorsIds:
+      - ITA-M-Insam-Alex#0
+    - teamName: Japan
+      countryCode: JPN
+      competitorsIds:
+      - JPN-M-Iwasa-Yuken#0
+      - JPN-M-Sato-Keiichi#0
+      - JPN-M-Kobayashi-Ryoyu#0
+      - JPN-M-Nakamura-Naoki#0
+      - JPN-M-Sato-Yukiya#0
+      - JPN-M-Kobayashi-Junshiro#0
+      - JPN-M-Tochimoto-Shohei#0
+      - JPN-M-Takeuchi-Taku#0
+      - JPN-M-Ito-Daiki#0
+      - JPN-M-Kasai-Noriaki#0
+    - teamName: Kazakhstan
+      countryCode: KAZ
+      competitorsIds:
+      - KAZ-M-Tkachenko-Sergey#0
+    - teamName: Korea, Republic Of
+      countryCode: KOR
+      competitorsIds:
+      - KOR-M-Choi-Seou#0
+      - KOR-M-Choi-Heung_Chul#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Markeng-Thomas_Aasen#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Pedersen-Robin#0
+      - NOR-M-Buskum-Andreas_Granerud#0
+      - NOR-M-Granerud-Halvor_Egner#0
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Aune-Joakim#0
+      - NOR-M-Fannemel-Anders#0
+      - NOR-M-Johansson-Robert#0
+      - NOR-F-Lundby-Maren#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Niznik-Adam#0
+      - POL-M-Juroszek-Kacper#0
+      - POL-M-Pilch-Tomasz#0
+      - POL-M-Krzak-Jaroslaw#0
+      - POL-M-Wasek-Pawel#0
+      - POL-M-Stekala-Andrzej#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Muranka-Klemens#0
+      - POL-M-Zniszczol-Aleksander#0
+      - POL-M-Kot-Maciej#0
+      - POL-M-Kubacki-Dawid#0
+      - POL-M-Stoch-Kamil#0
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Hula-Stefan#0
+    - teamName: Russian Federation
+      countryCode: RUS
+      competitorsIds:
+      - RUS-M-Nazarov-Mikhail#0
+      - RUS-M-Klimov-Evgeniy#0
+      - RUS-M-Trofimov-Roman_Sergeevich#0
+      - RUS-M-Vassiliev-Dmitriy#0
+    - teamName: Slovenia
+      countryCode: SLO
+      competitorsIds:
+      - SLO-M-Mogel-Zak#0
+      - SLO-M-Zajc-Timi#0
+      - SLO-M-Prevc-Domen#0
+      - SLO-M-Pavlovcic-Bor#0
+      - SLO-M-Jelar-Ziga#0
+      - SLO-M-Bartol-Tilen#0
+      - SLO-M-Lanisek-Anze#0
+      - SLO-M-Semenic-Anze#0
+      - SLO-M-Prevc-Peter#0
+      - SLO-M-Tepes-Jurij#0
+      - SLO-M-Damjan-Jernej#0
+    - teamName: Switzerland
+      countryCode: SUI
+      competitorsIds:
+      - SUI-M-Peter-Dominik#0
+      - SUI-M-Schuler-Andreas#0
+      - SUI-M-Peier-Killian#0
+      - SUI-M-Deschwanden-Gregor#0
+      - SUI-M-Ammann-Simon#0
+    - teamName: United States
+      countryCode: USA
+      competitorsIds:
+      - USA-M-Larson-Casey#0
+      - USA-M-Bickner-Kevin#0
+    classifications:
+    - name: xddd
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Worlc Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Szczyrk HS104
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Large Hill
+    competitorsIds:
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
+    - AUT-M-Kraft-Stefan#0
+    - AUT-M-Aigner-Clemens#0
+    - AUT-M-Huber-Daniel#0
+    - AUT-M-Schiffner-Markus#0
+    - AUT-M-Hayboeck-Michael#0
+    - AUT-M-Schlierenzauer-Gregor#0
+    - AUT-M-Fettner-Manuel#0
+    - AUT-F-Kramer-Marita#0
+    - BUL-M-Zografski-Vladimir#0
+    - CAN-M-Boyd-clowes-Mackenzie#0
+    - CZE-M-Polasek-Viktor#0
+    - CZE-M-Vancura-Tomas#0
+    - CZE-M-Stursa-Vojtech#0
+    - CZE-M-Kozisek-Cestmir#0
+    - CZE-M-Koudelka-Roman#0
+    - CZE-M-Hlava-Lukas#0
+    - EST-M-Aigro-Artti#0
+    - FIN-M-Kytosaho-Niko#0
+    - FIN-M-Alamommo-Andreas#0
+    - FIN-M-Nousiainen-Eetu#0
+    - FIN-M-Aalto-Antti#0
+    - FIN-M-Maatta-Jarkko#0
+    - FRA-M-Learoyd-Jonathan#0
+    - GER-M-Schmid-Constantin#0
+    - GER-M-Baer-Moritz#0
+    - GER-M-Wellinger-Andreas#0
+    - GER-M-Geiger-Karl#0
+    - GER-M-Leyhe-Stephan#0
+    - GER-M-Freitag-Richard#0
+    - GER-M-Eisenbichler-Markus#0
+    - GER-M-Paschke-Pius#0
+    - GER-M-Freund-Severin#0
+    - ITA-M-Insam-Alex#0
+    - JPN-M-Iwasa-Yuken#0
+    - JPN-M-Sato-Keiichi#0
+    - JPN-M-Kobayashi-Ryoyu#0
+    - JPN-M-Nakamura-Naoki#0
+    - JPN-M-Sato-Yukiya#0
+    - JPN-M-Kobayashi-Junshiro#0
+    - JPN-M-Tochimoto-Shohei#0
+    - JPN-M-Takeuchi-Taku#0
+    - JPN-M-Ito-Daiki#0
+    - JPN-M-Kasai-Noriaki#0
+    - KAZ-M-Tkachenko-Sergey#0
+    - KOR-M-Choi-Seou#0
+    - KOR-M-Choi-Heung_Chul#0
+    - NOR-M-Markeng-Thomas_Aasen#0
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Pedersen-Robin#0
+    - NOR-M-Buskum-Andreas_Granerud#0
+    - NOR-M-Granerud-Halvor_Egner#0
+    - NOR-M-Forfang-Johann_Andre#0
+    - NOR-M-Tande-Daniel_Andre#0
+    - NOR-M-Aune-Joakim#0
+    - NOR-M-Fannemel-Anders#0
+    - NOR-M-Johansson-Robert#0
+    - NOR-F-Lundby-Maren#0
+    - POL-M-Niznik-Adam#0
+    - POL-M-Juroszek-Kacper#0
+    - POL-M-Pilch-Tomasz#0
+    - POL-M-Krzak-Jaroslaw#0
+    - POL-M-Wasek-Pawel#0
+    - POL-M-Stekala-Andrzej#0
+    - POL-M-Wolny-Jakub#0
+    - POL-M-Muranka-Klemens#0
+    - POL-M-Zniszczol-Aleksander#0
+    - POL-M-Kot-Maciej#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - POL-M-Zyla-Piotr#0
+    - POL-M-Hula-Stefan#0
+    - RUS-M-Nazarov-Mikhail#0
+    - RUS-M-Klimov-Evgeniy#0
+    - RUS-M-Trofimov-Roman_Sergeevich#0
+    - RUS-M-Vassiliev-Dmitriy#0
+    - SLO-M-Mogel-Zak#0
+    - SLO-M-Zajc-Timi#0
+    - SLO-M-Prevc-Domen#0
+    - SLO-M-Pavlovcic-Bor#0
+    - SLO-M-Jelar-Ziga#0
+    - SLO-M-Bartol-Tilen#0
+    - SLO-M-Lanisek-Anze#0
+    - SLO-M-Semenic-Anze#0
+    - SLO-M-Prevc-Peter#0
+    - SLO-M-Tepes-Jurij#0
+    - SLO-M-Damjan-Jernej#0
+    - SUI-M-Peter-Dominik#0
+    - SUI-M-Schuler-Andreas#0
+    - SUI-M-Peier-Killian#0
+    - SUI-M-Deschwanden-Gregor#0
+    - SUI-M-Ammann-Simon#0
+    - USA-M-Larson-Casey#0
+    - USA-M-Bickner-Kevin#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+      - AUT-M-Kraft-Stefan#0
+      - AUT-M-Aigner-Clemens#0
+      - AUT-M-Huber-Daniel#0
+      - AUT-M-Schiffner-Markus#0
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Fettner-Manuel#0
+      - AUT-F-Kramer-Marita#0
+    - teamName: Bulgaria
+      countryCode: BUL
+      competitorsIds:
+      - BUL-M-Zografski-Vladimir#0
+    - teamName: Canada
+      countryCode: CAN
+      competitorsIds:
+      - CAN-M-Boyd-clowes-Mackenzie#0
+    - teamName: Czech Republic
+      countryCode: CZE
+      competitorsIds:
+      - CZE-M-Polasek-Viktor#0
+      - CZE-M-Vancura-Tomas#0
+      - CZE-M-Stursa-Vojtech#0
+      - CZE-M-Kozisek-Cestmir#0
+      - CZE-M-Koudelka-Roman#0
+      - CZE-M-Hlava-Lukas#0
+    - teamName: Estonia
+      countryCode: EST
+      competitorsIds:
+      - EST-M-Aigro-Artti#0
+    - teamName: Finland
+      countryCode: FIN
+      competitorsIds:
+      - FIN-M-Kytosaho-Niko#0
+      - FIN-M-Alamommo-Andreas#0
+      - FIN-M-Nousiainen-Eetu#0
+      - FIN-M-Aalto-Antti#0
+      - FIN-M-Maatta-Jarkko#0
+    - teamName: France
+      countryCode: FRA
+      competitorsIds:
+      - FRA-M-Learoyd-Jonathan#0
+    - teamName: Germany
+      countryCode: GER
+      competitorsIds:
+      - GER-M-Schmid-Constantin#0
+      - GER-M-Baer-Moritz#0
+      - GER-M-Wellinger-Andreas#0
+      - GER-M-Geiger-Karl#0
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Paschke-Pius#0
+      - GER-M-Freund-Severin#0
+    - teamName: Italy
+      countryCode: ITA
+      competitorsIds:
+      - ITA-M-Insam-Alex#0
+    - teamName: Japan
+      countryCode: JPN
+      competitorsIds:
+      - JPN-M-Iwasa-Yuken#0
+      - JPN-M-Sato-Keiichi#0
+      - JPN-M-Kobayashi-Ryoyu#0
+      - JPN-M-Nakamura-Naoki#0
+      - JPN-M-Sato-Yukiya#0
+      - JPN-M-Kobayashi-Junshiro#0
+      - JPN-M-Tochimoto-Shohei#0
+      - JPN-M-Takeuchi-Taku#0
+      - JPN-M-Ito-Daiki#0
+      - JPN-M-Kasai-Noriaki#0
+    - teamName: Kazakhstan
+      countryCode: KAZ
+      competitorsIds:
+      - KAZ-M-Tkachenko-Sergey#0
+    - teamName: Korea, Republic Of
+      countryCode: KOR
+      competitorsIds:
+      - KOR-M-Choi-Seou#0
+      - KOR-M-Choi-Heung_Chul#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Markeng-Thomas_Aasen#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Pedersen-Robin#0
+      - NOR-M-Buskum-Andreas_Granerud#0
+      - NOR-M-Granerud-Halvor_Egner#0
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Aune-Joakim#0
+      - NOR-M-Fannemel-Anders#0
+      - NOR-M-Johansson-Robert#0
+      - NOR-F-Lundby-Maren#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Niznik-Adam#0
+      - POL-M-Juroszek-Kacper#0
+      - POL-M-Pilch-Tomasz#0
+      - POL-M-Krzak-Jaroslaw#0
+      - POL-M-Wasek-Pawel#0
+      - POL-M-Stekala-Andrzej#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Muranka-Klemens#0
+      - POL-M-Zniszczol-Aleksander#0
+      - POL-M-Kot-Maciej#0
+      - POL-M-Kubacki-Dawid#0
+      - POL-M-Stoch-Kamil#0
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Hula-Stefan#0
+    - teamName: Russian Federation
+      countryCode: RUS
+      competitorsIds:
+      - RUS-M-Nazarov-Mikhail#0
+      - RUS-M-Klimov-Evgeniy#0
+      - RUS-M-Trofimov-Roman_Sergeevich#0
+      - RUS-M-Vassiliev-Dmitriy#0
+    - teamName: Slovenia
+      countryCode: SLO
+      competitorsIds:
+      - SLO-M-Mogel-Zak#0
+      - SLO-M-Zajc-Timi#0
+      - SLO-M-Prevc-Domen#0
+      - SLO-M-Pavlovcic-Bor#0
+      - SLO-M-Jelar-Ziga#0
+      - SLO-M-Bartol-Tilen#0
+      - SLO-M-Lanisek-Anze#0
+      - SLO-M-Semenic-Anze#0
+      - SLO-M-Prevc-Peter#0
+      - SLO-M-Tepes-Jurij#0
+      - SLO-M-Damjan-Jernej#0
+    - teamName: Switzerland
+      countryCode: SUI
+      competitorsIds:
+      - SUI-M-Peter-Dominik#0
+      - SUI-M-Schuler-Andreas#0
+      - SUI-M-Peier-Killian#0
+      - SUI-M-Deschwanden-Gregor#0
+      - SUI-M-Ammann-Simon#0
+    - teamName: United States
+      countryCode: USA
+      competitorsIds:
+      - USA-M-Larson-Casey#0
+      - USA-M-Bickner-Kevin#0
+    classifications:
+    - name: asdf
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: Worlc Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 00000000
+      eventType: 0
+      hillId: Nizhny Tagil HS134
+      hillSurface: 1
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Ko test
+    competitorsIds:
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Four Hills Tournament
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: 77ccaa
+    events:
+    - classifications: 00000000
+      eventType: 0
+      hillId: Engelberg HS140
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 
+      eventType: 0
+      hillId: Oberstdorf HS137
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: QualificationKO
+        roundInfos:
+        - roundType: 0
+          outLimitType: 2
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0100000000000000
+      eventType: 0
+      hillId: Oberstdorf HS137
+      hillSurface: 0
+      id: 2
+      roundInfos:
+        name: IndividualKO15
+        roundInfos:
+        - roundType: 1
+          outLimitType: 1
+          outLimit: 15
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 1
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 1
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 1
+      ordRankId: 1
+      qualRankType: 1
+      qualRankId: 1
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 
+      eventType: 0
+      hillId: Garmisch-Partenkirchen HS142
+      hillSurface: 0
+      id: 3
+      roundInfos:
+        name: QualificationKO
+        roundInfos:
+        - roundType: 0
+          outLimitType: 2
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0100000000000000
+      eventType: 0
+      hillId: Garmisch-Partenkirchen HS142
+      hillSurface: 0
+      id: 4
+      roundInfos:
+        name: IndividualKO15
+        roundInfos:
+        - roundType: 1
+          outLimitType: 1
+          outLimit: 15
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 1
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 1
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 1
+      ordRankId: 1
+      qualRankType: 1
+      qualRankId: 3
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Qual+Ind+Team
+    competitorsIds: []
+    teams: []
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Nations Cup
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Qualification
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 01000000
+      eventType: 1
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: Team2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 8
+          useOrdRank: 01010101
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 01010100
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 1
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 2
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Qual+Ind
+    competitorsIds:
+    - NOR-M-Johnson-Alexander_Yigermal_Roeshol#0
+    teams:
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Johnson-Alexander_Yigermal_Roeshol#0
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Nations Cup
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Qualification
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Qual+Ind x2
+    competitorsIds: []
+    teams: []
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Nations Cup
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Qualification
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 2
+      roundInfos:
+        name: Qualification
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 50
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 0000000001000000
+      eventType: 0
+      hillId: Almaty HS100
+      hillSurface: 0
+      id: 3
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 0
+      qualRankType: 1
+      qualRankId: 2
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Qual+Ind Fly
+    competitorsIds: []
+    teams: []
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Nations Cup
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    - name: Ski Flying World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Bad Mitterndorf HS235
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: QualificationFlying
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 40
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 2
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 020000000100000000000000
+      eventType: 0
+      hillId: Bad Mitterndorf HS235
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 2
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Qual+Team+Ind Fly
+    competitorsIds: []
+    teams: []
+    classifications:
+    - name: World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    - name: Nations Cup
+      eventType: 1
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      - name: Nations Cup
+        value: 900100005e0100002c010000fa000000c8000000960000006400000032000000
+      leaderBibColor: ffff00
+    - name: Ski Flying World Cup
+      eventType: 0
+      classificationType: 0
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 
+      eventType: 0
+      hillId: Bad Mitterndorf HS235
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: QualificationFlying
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 40
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 2
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 01000000
+      eventType: 1
+      hillId: Bad Mitterndorf HS235
+      hillSurface: 0
+      id: 1
+      roundInfos:
+        name: Team2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 8
+          useOrdRank: 01010101
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 01010100
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 1
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+    - classifications: 000000000100000002000000
+      eventType: 0
+      hillId: Bad Mitterndorf HS235
+      hillSurface: 0
+      id: 2
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 2
+      ordRankId: 2
+      qualRankType: 1
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
+  - name: Bystra
+    competitorsIds:
+    - AUT-M-Moerth-Claudio#0
+    - AUT-M-Leitner-Clemens#0
+    - AUT-M-Hoerl-Jan#0
+    - AUT-M-Aschenwald-Philipp#0
+    - AUT-M-Wohlgenannt-Ulrich#0
+    - AUT-M-Huber-Stefan#0
+    - AUT-M-Kraft-Stefan#0
+    - AUT-M-Aigner-Clemens#0
+    - AUT-M-Huber-Daniel#0
+    - AUT-M-Schiffner-Markus#0
+    - AUT-M-Hayboeck-Michael#0
+    - AUT-M-Schlierenzauer-Gregor#0
+    - AUT-M-Fettner-Manuel#0
+    - AUT-F-Kramer-Marita#0
+    - AUT-F-Hoelzl-Chiara#0
+    - AUT-F-Sorschag-Sophie#0
+    - BUL-M-Zografski-Vladimir#0
+    - CAN-M-Boyd-clowes-Mackenzie#0
+    - CZE-M-Polasek-Viktor#0
+    - CZE-M-Vancura-Tomas#0
+    - CZE-M-Stursa-Vojtech#0
+    - CZE-M-Kozisek-Cestmir#0
+    - CZE-M-Koudelka-Roman#0
+    - CZE-M-Hlava-Lukas#0
+    - EST-M-Aigro-Artti#0
+    - FIN-M-Kytosaho-Niko#0
+    - FIN-M-Alamommo-Andreas#0
+    - FIN-M-Nousiainen-Eetu#0
+    - FIN-M-Aalto-Antti#0
+    - FIN-M-Maatta-Jarkko#0
+    - FRA-M-Learoyd-Jonathan#0
+    - FRA-F-Pagnier-Josephine#0
+    - GER-M-Schmid-Constantin#0
+    - GER-M-Baer-Moritz#0
+    - GER-M-Siegel-David#0
+    - GER-M-Wellinger-Andreas#0
+    - GER-M-Geiger-Karl#0
+    - GER-M-Leyhe-Stephan#0
+    - GER-M-Freitag-Richard#0
+    - GER-M-Eisenbichler-Markus#0
+    - GER-M-Paschke-Pius#0
+    - GER-M-Freund-Severin#0
+    - ITA-M-Insam-Alex#0
+    - JPN-M-Iwasa-Yuken#0
+    - JPN-M-Sato-Keiichi#0
+    - JPN-M-Kobayashi-Ryoyu#0
+    - JPN-M-Nakamura-Naoki#0
+    - JPN-M-Sato-Yukiya#0
+    - JPN-M-Kobayashi-Junshiro#0
+    - JPN-M-Tochimoto-Shohei#0
+    - JPN-M-Takeuchi-Taku#0
+    - JPN-M-Ito-Daiki#0
+    - JPN-M-Kasai-Noriaki#0
+    - KAZ-M-Tkachenko-Sergey#0
+    - KOR-M-Choi-Seou#0
+    - KOR-M-Choi-Heung_Chul#0
+    - NOR-M-Markeng-Thomas_Aasen#0
+    - NOR-M-Lindvik-Marius#0
+    - NOR-M-Pedersen-Robin#0
+    - NOR-M-Buskum-Andreas_Granerud#0
+    - NOR-M-Granerud-Halvor_Egner#0
+    - NOR-M-Forfang-Johann_Andre#0
+    - NOR-M-Tande-Daniel_Andre#0
+    - NOR-M-Aune-Joakim#0
+    - NOR-M-Fannemel-Anders#0
+    - NOR-M-Johansson-Robert#0
+    - NOR-F-Lundby-Maren#0
+    - NOR-F-Opseth-Silje#0
+    - POL-M-Niznik-Adam#0
+    - POL-M-Juroszek-Kacper#0
+    - POL-M-Pilch-Tomasz#0
+    - POL-M-Krzak-Jaroslaw#0
+    - POL-M-Wasek-Pawel#0
+    - POL-M-Stekala-Andrzej#0
+    - POL-M-Wolny-Jakub#0
+    - POL-M-Muranka-Klemens#0
+    - POL-M-Zniszczol-Aleksander#0
+    - POL-M-Kot-Maciej#0
+    - POL-M-Kubacki-Dawid#0
+    - POL-M-Stoch-Kamil#0
+    - POL-M-Zyla-Piotr#0
+    - POL-M-Hula-Stefan#0
+    - RUS-M-Nazarov-Mikhail#0
+    - RUS-M-Klimov-Evgeniy#0
+    - RUS-M-Trofimov-Roman_Sergeevich#0
+    - RUS-M-Vassiliev-Dmitriy#0
+    - SLO-M-Mogel-Zak#0
+    - SLO-M-Zajc-Timi#0
+    - SLO-M-Prevc-Domen#0
+    - SLO-M-Pavlovcic-Bor#0
+    - SLO-M-Jelar-Ziga#0
+    - SLO-M-Bartol-Tilen#0
+    - SLO-M-Lanisek-Anze#0
+    - SLO-M-Semenic-Anze#0
+    - SLO-M-Prevc-Peter#0
+    - SLO-M-Tepes-Jurij#0
+    - SLO-M-Damjan-Jernej#0
+    - SLO-F-Kriznar-Nika#0
+    - SLO-F-Klinec-Ema#0
+    - SUI-M-Peter-Dominik#0
+    - SUI-M-Schuler-Andreas#0
+    - SUI-M-Peier-Killian#0
+    - SUI-M-Deschwanden-Gregor#0
+    - SUI-M-Ammann-Simon#0
+    - USA-M-Larson-Casey#0
+    - USA-M-Bickner-Kevin#0
+    teams:
+    - teamName: Austria
+      countryCode: AUT
+      competitorsIds:
+      - AUT-M-Moerth-Claudio#0
+      - AUT-M-Leitner-Clemens#0
+      - AUT-M-Hoerl-Jan#0
+      - AUT-M-Aschenwald-Philipp#0
+      - AUT-M-Wohlgenannt-Ulrich#0
+      - AUT-M-Huber-Stefan#0
+      - AUT-M-Kraft-Stefan#0
+      - AUT-M-Aigner-Clemens#0
+      - AUT-M-Huber-Daniel#0
+      - AUT-M-Schiffner-Markus#0
+      - AUT-M-Hayboeck-Michael#0
+      - AUT-M-Schlierenzauer-Gregor#0
+      - AUT-M-Fettner-Manuel#0
+      - AUT-F-Kramer-Marita#0
+      - AUT-F-Hoelzl-Chiara#0
+      - AUT-F-Sorschag-Sophie#0
+    - teamName: Bulgaria
+      countryCode: BUL
+      competitorsIds:
+      - BUL-M-Zografski-Vladimir#0
+    - teamName: Canada
+      countryCode: CAN
+      competitorsIds:
+      - CAN-M-Boyd-clowes-Mackenzie#0
+    - teamName: Czech Republic
+      countryCode: CZE
+      competitorsIds:
+      - CZE-M-Polasek-Viktor#0
+      - CZE-M-Vancura-Tomas#0
+      - CZE-M-Stursa-Vojtech#0
+      - CZE-M-Kozisek-Cestmir#0
+      - CZE-M-Koudelka-Roman#0
+      - CZE-M-Hlava-Lukas#0
+    - teamName: Estonia
+      countryCode: EST
+      competitorsIds:
+      - EST-M-Aigro-Artti#0
+    - teamName: Finland
+      countryCode: FIN
+      competitorsIds:
+      - FIN-M-Kytosaho-Niko#0
+      - FIN-M-Alamommo-Andreas#0
+      - FIN-M-Nousiainen-Eetu#0
+      - FIN-M-Aalto-Antti#0
+      - FIN-M-Maatta-Jarkko#0
+    - teamName: France
+      countryCode: FRA
+      competitorsIds:
+      - FRA-M-Learoyd-Jonathan#0
+      - FRA-F-Pagnier-Josephine#0
+    - teamName: Germany
+      countryCode: GER
+      competitorsIds:
+      - GER-M-Schmid-Constantin#0
+      - GER-M-Baer-Moritz#0
+      - GER-M-Siegel-David#0
+      - GER-M-Wellinger-Andreas#0
+      - GER-M-Geiger-Karl#0
+      - GER-M-Leyhe-Stephan#0
+      - GER-M-Freitag-Richard#0
+      - GER-M-Eisenbichler-Markus#0
+      - GER-M-Paschke-Pius#0
+      - GER-M-Freund-Severin#0
+    - teamName: Italy
+      countryCode: ITA
+      competitorsIds:
+      - ITA-M-Insam-Alex#0
+    - teamName: Japan
+      countryCode: JPN
+      competitorsIds:
+      - JPN-M-Iwasa-Yuken#0
+      - JPN-M-Sato-Keiichi#0
+      - JPN-M-Kobayashi-Ryoyu#0
+      - JPN-M-Nakamura-Naoki#0
+      - JPN-M-Sato-Yukiya#0
+      - JPN-M-Kobayashi-Junshiro#0
+      - JPN-M-Tochimoto-Shohei#0
+      - JPN-M-Takeuchi-Taku#0
+      - JPN-M-Ito-Daiki#0
+      - JPN-M-Kasai-Noriaki#0
+    - teamName: Kazakhstan
+      countryCode: KAZ
+      competitorsIds:
+      - KAZ-M-Tkachenko-Sergey#0
+    - teamName: Korea, Republic Of
+      countryCode: KOR
+      competitorsIds:
+      - KOR-M-Choi-Seou#0
+      - KOR-M-Choi-Heung_Chul#0
+    - teamName: Norway
+      countryCode: NOR
+      competitorsIds:
+      - NOR-M-Markeng-Thomas_Aasen#0
+      - NOR-M-Lindvik-Marius#0
+      - NOR-M-Pedersen-Robin#0
+      - NOR-M-Buskum-Andreas_Granerud#0
+      - NOR-M-Granerud-Halvor_Egner#0
+      - NOR-M-Forfang-Johann_Andre#0
+      - NOR-M-Tande-Daniel_Andre#0
+      - NOR-M-Aune-Joakim#0
+      - NOR-M-Fannemel-Anders#0
+      - NOR-M-Johansson-Robert#0
+      - NOR-F-Lundby-Maren#0
+      - NOR-F-Opseth-Silje#0
+    - teamName: Poland
+      countryCode: POL
+      competitorsIds:
+      - POL-M-Niznik-Adam#0
+      - POL-M-Juroszek-Kacper#0
+      - POL-M-Pilch-Tomasz#0
+      - POL-M-Krzak-Jaroslaw#0
+      - POL-M-Wasek-Pawel#0
+      - POL-M-Stekala-Andrzej#0
+      - POL-M-Wolny-Jakub#0
+      - POL-M-Muranka-Klemens#0
+      - POL-M-Zniszczol-Aleksander#0
+      - POL-M-Kot-Maciej#0
+      - POL-M-Kubacki-Dawid#0
+      - POL-M-Stoch-Kamil#0
+      - POL-M-Zyla-Piotr#0
+      - POL-M-Hula-Stefan#0
+    - teamName: Russian Federation
+      countryCode: RUS
+      competitorsIds:
+      - RUS-M-Nazarov-Mikhail#0
+      - RUS-M-Klimov-Evgeniy#0
+      - RUS-M-Trofimov-Roman_Sergeevich#0
+      - RUS-M-Vassiliev-Dmitriy#0
+    - teamName: Slovenia
+      countryCode: SLO
+      competitorsIds:
+      - SLO-M-Mogel-Zak#0
+      - SLO-M-Zajc-Timi#0
+      - SLO-M-Prevc-Domen#0
+      - SLO-M-Pavlovcic-Bor#0
+      - SLO-M-Jelar-Ziga#0
+      - SLO-M-Bartol-Tilen#0
+      - SLO-M-Lanisek-Anze#0
+      - SLO-M-Semenic-Anze#0
+      - SLO-M-Prevc-Peter#0
+      - SLO-M-Tepes-Jurij#0
+      - SLO-M-Damjan-Jernej#0
+      - SLO-F-Kriznar-Nika#0
+      - SLO-F-Klinec-Ema#0
+    - teamName: Switzerland
+      countryCode: SUI
+      competitorsIds:
+      - SUI-M-Peter-Dominik#0
+      - SUI-M-Schuler-Andreas#0
+      - SUI-M-Peier-Killian#0
+      - SUI-M-Deschwanden-Gregor#0
+      - SUI-M-Ammann-Simon#0
+    - teamName: United States
+      countryCode: USA
+      competitorsIds:
+      - USA-M-Larson-Casey#0
+      - USA-M-Bickner-Kevin#0
+    classifications:
+    - name: Cup
+      eventType: 0
+      classificationType: 1
+      teamClassificationLimitType: 0
+      teamCompetitorsLimit: 0
+      medalPlaces: 0
+      events: 
+      pointsTables:
+      - name: World Cup
+        value: 64000000500000003c000000320000002d0000002800000024000000200000001d0000001a00000018000000160000001400000012000000100000000f0000000e0000000d0000000c0000000b0000000a000000090000000800000007000000060000000500000004000000030000000200000001000000
+      leaderBibColor: ffff00
+    events:
+    - classifications: 00000000
+      eventType: 0
+      hillId: Bystra HS31
+      hillSurface: 0
+      id: 0
+      roundInfos:
+        name: Individual2Rounds
+        roundInfos:
+        - roundType: 0
+          outLimitType: 1
+          outLimit: 30
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+        - roundType: 0
+          outLimitType: 0
+          outLimit: -1
+          useOrdRank: 00000000
+          disableJudgesMarks: 0
+          has95Rule: 1
+          reversedBibs: 0
+          reassignBibs: 0
+          gateCompensation: 1
+          windCompensation: 1
+      ordRankType: 0
+      ordRankId: 0
+      qualRankType: 0
+      qualRankId: 0
+      inLimitType: 0
+      inLimit: 0
+      preQualRankType: 0
+      preQualRankId: 0
+      preQualLimitType: 0
+      preQualLimit: 0
   loaded: 1
+  prettyPrint: 0

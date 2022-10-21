@@ -1,15 +1,38 @@
 VisualElement {
 }
 
+Button {
+    -unity-font-definition: none;
+    -unity-font: url('project://database/Assets/Arts/Fonts/Roboto/Roboto-Regular.ttf?fileID=12800000&guid=b079d14eaa902d2c483c5470c0354aeb&type=3#Roboto-Regular');
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgba(255, 255, 255, 255);
+}
+
 .tabs-btn {
     width: 33.33333%;
-    background-color: rgba(31, 32, 36, 255);
-    color: rgba(255, 255, 255, 255);
+    background-color: rgb(31, 32, 36);
+    color: rgb(255, 255, 255);
     font-size: 32px;
-    border-left-color: rgba(0, 0, 0, 255);
-    border-right-color: rgba(0, 0, 0, 255);
-    border-top-color: rgba(0, 0, 0, 255);
-    border-bottom-color: rgba(0, 0, 0, 255);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
@@ -25,9 +48,28 @@ VisualElement {
 }
 
 .tabs-btn:hover {
-    background-color: rgba(48, 50, 56, 255);
+    background-color: rgb(48, 50, 56);
 }
 
 .tabs-btn:active {
-    background-color: rgba(66, 68, 76, 255);
+    background-color: rgb(66, 68, 76);
+}
+
+.menu-btn {
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+Button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+Button:active {
+    background-color: rgba(255, 255, 255, 0.24);
+}
+
+#material-btn {
+    background-color: rgba(0, 0, 0, 0);
 }

@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="BackButton" src="project://database/Assets/UI/BackButton.uxml?fileID=9197481963319205126&amp;guid=0d98e0f3501130fc4a36e2d5c230b1cd&amp;type=3#BackButton" />
+    <Style src="project://database/Assets/UI/NewUSSFile.uss?fileID=7433441132597879392&amp;guid=1705cd922b2424d78864ae002406e5ce&amp;type=3#NewUSSFile" />
+    <ui:VisualElement name="root" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Arts/ewg-background-www-scaled.jpg?fileID=2800000&amp;guid=be8e80605842d6ca2a624ef1227b1ab1&amp;type=3#ewg-background-www-scaled&apos;); -unity-background-image-tint-color: rgb(44, 32, 77);">
+        <ui:VisualElement name="top" style="align-items: center; height: 100px; min-height: 100px;">
+            <ui:Label text="JUMPERS" display-tooltip-when-elided="true" style="font-size: 30px; -unity-font: url(&apos;project://database/Assets/Arts/Fonts/Roboto/Roboto-Regular.ttf?fileID=12800000&amp;guid=b079d14eaa902d2c483c5470c0354aeb&amp;type=3#Roboto-Regular&apos;); color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="list-container" picking-mode="Ignore" style="flex-grow: 1; padding-left: 100px; padding-right: 100px;">
+            <ui:ListView focusable="true" fixed-item-height="100" style="flex-grow: 1; height: 100%; max-height: 100%;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="footer" style="height: 100px; min-height: 100px;">
+            <ui:Instance template="BackButton" name="BackButton" style="width: 300px; align-items: stretch;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
